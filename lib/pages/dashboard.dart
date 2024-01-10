@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
@@ -183,8 +184,8 @@ class Dashboard extends StatelessWidget {
       ],
     ),
   );
-  List<Container> makeDateWidgets(List<String> dates) {
-    List<Container> dateWidgets = [];
+  List<Widget> makeDateWidgets(List<String> dates) {
+    List<Widget> dateWidgets = [];
     for (String date in dates) {
       dateWidgets.add(
         Container(
@@ -214,31 +215,81 @@ class Dashboard extends StatelessWidget {
           ),
         ),
       );
-      dateWidgets.add(Container(child: const SizedBox(width: 10)));
+      dateWidgets.add(const SizedBox(width: 10));
     }
     return dateWidgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    final sheetData = {
-      'subjectCode': 'CSAI2036',
-      'subjectName': 'Machine Learning',
-      'dueDate': '2024-01-20',
-      'batches': [
-        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
-        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
-      ]
-    };
-    final dueDate = DateTime.parse(sheetData['dueDate'].toString());
-    final currentDate = DateTime.now();
-    final difference = dueDate.difference(currentDate).inDays;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(
           children: [
-            Container(
-              height: 200,
+            Column(
+              children: [
+                SizedBox(
+                  height: 130,
+                  child: PreferredSize(
+                    preferredSize: const Size.fromHeight(kToolbarHeight),
+                    child: AppBar(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.account_circle, color: Colors.white),
+                              SizedBox(width: 10),
+                              Text(
+                                'Hi, Aarav',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            icon:
+                                const Icon(Icons.qr_code, color: Colors.white),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const StartInvigilation()),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('9/10 Sheets Checked',
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: SizedBox(
+                          height: 8,
+                          child: LinearProgressIndicator(
+                            value: 9 / 10,
+                            backgroundColor: Colors.grey[200],
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.orange),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
             Expanded(
               child: Container(

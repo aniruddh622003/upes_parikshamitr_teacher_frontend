@@ -1,9 +1,5 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
 
 void main() {
   runApp(const MyApp());

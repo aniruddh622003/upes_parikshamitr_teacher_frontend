@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
 
 class StartInvigilation extends StatelessWidget {
   const StartInvigilation({super.key});
@@ -21,7 +22,7 @@ class StartInvigilation extends StatelessWidget {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                 onPressed: () {
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -51,10 +52,11 @@ class StartInvigilation extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const Dashboard()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const InvigilationDetails()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

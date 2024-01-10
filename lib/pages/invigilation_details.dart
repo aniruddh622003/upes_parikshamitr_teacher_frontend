@@ -11,7 +11,7 @@ class InvigilationDetails extends StatelessWidget {
           children: [
             AppBar(
               title: const Text(
-                'Scan QR Code',
+                'Details',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -21,7 +21,7 @@ class InvigilationDetails extends StatelessWidget {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                 onPressed: () {
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
