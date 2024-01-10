@@ -79,7 +79,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 0, 64, 255),
+        backgroundColor: Theme.of(context).primaryColor,
         body: Column(
           children: [
             Container(
