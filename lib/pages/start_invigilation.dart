@@ -1,11 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class StartInvigilation extends StatelessWidget {
   const StartInvigilation({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final qrKey = GlobalKey(debugLabel: 'QR');
+    void _onQRViewCreated(QRViewController controller) {
+      controller.scannedDataStream.listen((scanData) {
+        controller.pauseCamera();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Scan Successful'),
+              content: Text(scanData.code.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Scan Again'),
+                  onPressed: () {
+                    controller.resumeCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Continue'),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => InvigilationDetails()),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
+
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(
@@ -27,7 +62,7 @@ class StartInvigilation extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               height: 80,
               child: const Center(
                 child: Text(
@@ -40,13 +75,17 @@ class StartInvigilation extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                  ),
+                ),
               ),
-              margin: const EdgeInsets.all(20),
-            )),
+            ),
             Container(
               margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               width: MediaQuery.of(context).size.width * 1,
