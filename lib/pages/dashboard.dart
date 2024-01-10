@@ -2,6 +2,45 @@ import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
+
+  final sheetsData = [
+    {
+      'subjectCode': 'CSAI2036',
+      'subjectName': 'Machine Learning',
+      'dueDate': '2024-01-20',
+      'batches': [
+        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
+        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
+      ]
+    },
+    {
+      'subjectCode': 'CSAI2036',
+      'subjectName': 'Machine Learning',
+      'dueDate': '2024-01-20',
+      'batches': [
+        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
+        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
+      ]
+    },
+    {
+      'subjectCode': 'CSAI2036',
+      'subjectName': 'Machine Learning',
+      'dueDate': '2024-01-20',
+      'batches': [
+        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
+        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
+      ]
+    }
+  ];
+
+  List<Widget> makeSheetCards(List<Map<String, dynamic>> sheetsData) {
+    List<Widget> sheetCards = [];
+    for (var sheetData in sheetsData) {
+      sheetCards.add();
+    }
+    return sheetCards;
+  }
+
   final Widget notificationButton = Container(
     height: 45,
     decoration: BoxDecoration(
@@ -78,6 +117,18 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sheetData = {
+      'subjectCode': 'CSAI2036',
+      'subjectName': 'Machine Learning',
+      'dueDate': '2024-01-20',
+      'batches': [
+        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
+        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
+      ]
+    };
+    final dueDate = DateTime.parse(sheetData['dueDate'].toString());
+    final currentDate = DateTime.now();
+    final difference = dueDate.difference(currentDate).inDays;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(
@@ -159,31 +210,160 @@ class Dashboard extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Container(
                             padding: const EdgeInsets.all(10),
-                            height: 140,
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 231, 233, 249),
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            child: Column(children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(sheetData['subjectCode'].toString()),
+                                      Text(
+                                        sheetData['subjectName'].toString(),
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text('Submission in $difference days'),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 35, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: const Text(
+                                      '5/10',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const Divider(color: Colors.grey),
+                              Column(
+                                children: [
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Batch 1',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '2/5',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    child: SizedBox(
+                                      height: 8,
+                                      child: LinearProgressIndicator(
+                                        value: 2 / 5,
+                                        backgroundColor: Colors.grey[200],
+                                        valueColor:
+                                            const AlwaysStoppedAnimation<Color>(
+                                                Colors.blue),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Batch 1',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '2/5',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    child: SizedBox(
+                                      height: 8,
+                                      child: LinearProgressIndicator(
+                                        value: 2 / 5,
+                                        backgroundColor: Colors.grey[200],
+                                        valueColor:
+                                            const AlwaysStoppedAnimation<Color>(
+                                                Colors.blue),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Batch 1',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '2/5',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    child: SizedBox(
+                                      height: 8,
+                                      child: LinearProgressIndicator(
+                                        value: 2 / 5,
+                                        backgroundColor: Colors.grey[200],
+                                        valueColor:
+                                            const AlwaysStoppedAnimation<Color>(
+                                                Colors.blue),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]),
                           ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            height: 140,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 233, 249),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            height: 140,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 233, 249),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
                         ],
                       ),
                     ],
