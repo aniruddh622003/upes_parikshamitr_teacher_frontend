@@ -115,7 +115,10 @@ class Dashboard extends StatelessWidget {
                                 '1-Jan',
                                 '2-Jan',
                                 '3-Jan',
-                                '4-Jan'
+                                '4-Jan',
+                                '5-Jan',
+                                '6-Jan',
+                                '7-Jan',
                               ]),
                             ),
                           ),
