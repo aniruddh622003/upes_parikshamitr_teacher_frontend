@@ -13,7 +13,7 @@ class Test extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: ResizableContainers(),
+                  child: Schedule(),
                 ),
               ],
             ),

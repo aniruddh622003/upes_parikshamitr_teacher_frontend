@@ -203,104 +203,43 @@ class Dashboard extends StatelessWidget {
     ),
   );
 
-  List<Widget> makeDateWidgets(List<String> dates) {
-    List<Widget> dateWidgets = [];
-    for (String date in dates) {
-      Color backgroundColor;
-      Color textColor;
-      DateTime now = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      DateTime dateD = DateTime.parse(date);
-      String monthName = DateFormat('MMM').format(DateTime(
-          int.parse(date.split('-')[0]), int.parse(date.split('-')[1])));
-      if (dateD.isBefore(now)) {
-        backgroundColor = const Color(0xffE7F9E7);
-        textColor = const Color(0xffF2692E);
-      } else if (dateD.isAfter(now)) {
-        backgroundColor = const Color(0xffE7E9F9);
-        textColor = const Color(0xffF2692E);
-      } else {
-        backgroundColor = const Color(0xffF2692E);
-        textColor = Colors.white;
-      }
-      dateWidgets.add(
-        Container(
-          width: 65,
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                date.split('-')[2],
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 25,
-                ),
-              ),
-              Text(
-                monthName,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      dateWidgets.add(const SizedBox(width: 10));
-    }
-    return dateWidgets;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.account_circle, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text(
+                    'Hi, Aarav',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              IconButton(
+                icon: const Icon(Icons.qr_code, color: Colors.white),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StartInvigilation()),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         body: Column(
           children: [
             Column(
               children: [
-                SizedBox(
-                  height: 130,
-                  child: PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: AppBar(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(Icons.account_circle, color: Colors.white),
-                              SizedBox(width: 10),
-                              Text(
-                                'Hi, Aarav',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            icon:
-                                const Icon(Icons.qr_code, color: Colors.white),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const StartInvigilation()),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -332,7 +271,7 @@ class Dashboard extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -344,67 +283,7 @@ class Dashboard extends StatelessWidget {
                     children: [
                       notificationButton,
                       const SizedBox(height: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "View Invigilation Schedule",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 100,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: makeDateWidgets([
-                                '2024-01-09',
-                                '2024-01-10',
-                                '2024-01-11',
-                                '2024-01-12',
-                                '2024-01-13',
-                                '2024-01-14',
-                                '2024-01-15',
-                                '2024-01-16',
-                              ]),
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              // const Expanded(child: ResizableContainers()),
-                              // ResizableContainers(),
-                              const SizedBox(height: 10),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                height: 130,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 231, 233, 249),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 231, 233, 249),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 231, 233, 249),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      const Schedule(),
                       const SizedBox(height: 10),
                       makeSheetMain(sheetsData),
                     ],
