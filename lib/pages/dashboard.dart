@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/resizeable_containers.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
 
 class Dashboard extends StatelessWidget {
@@ -78,6 +80,22 @@ class Dashboard extends StatelessWidget {
       ]
     }
   ];
+
+  List<int> calcSheets(List<Map<String, dynamic>> sheetsData) {
+    List<int> totalSheets = [];
+    int total = 0;
+    int checked = 0;
+    for (Map<String, dynamic> sheetData in sheetsData) {
+      for (var batch in sheetData['batches'] as List<Map<String, dynamic>>) {
+        checked += batch['sheetsEvaluated'] as int;
+        total += batch['totalSheets'] as int;
+      }
+    }
+    totalSheets.add(checked);
+    totalSheets.add(total);
+    return totalSheets;
+  }
+
   List<Widget> makeSheetCards(List<Map<String, dynamic>> sheetsData) {
     List<Widget> sheetCards = [];
     sheetCards.add(const Text("Evaluate Answer Sheets",
@@ -184,30 +202,48 @@ class Dashboard extends StatelessWidget {
       ],
     ),
   );
+
   List<Widget> makeDateWidgets(List<String> dates) {
     List<Widget> dateWidgets = [];
     for (String date in dates) {
+      Color backgroundColor;
+      Color textColor;
+      DateTime now = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime dateD = DateTime.parse(date);
+      String monthName = DateFormat('MMM').format(DateTime(
+          int.parse(date.split('-')[0]), int.parse(date.split('-')[1])));
+      if (dateD.isBefore(now)) {
+        backgroundColor = const Color(0xffE7F9E7);
+        textColor = const Color(0xffF2692E);
+      } else if (dateD.isAfter(now)) {
+        backgroundColor = const Color(0xffE7E9F9);
+        textColor = const Color(0xffF2692E);
+      } else {
+        backgroundColor = const Color(0xffF2692E);
+        textColor = Colors.white;
+      }
       dateWidgets.add(
         Container(
           width: 65,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 231, 233, 249),
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                date.split('-')[0],
-                style: const TextStyle(
-                  color: Colors.orange,
-                  fontSize: 20,
+                date.split('-')[2],
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 25,
                 ),
               ),
               Text(
-                date.split('-')[1],
-                style: const TextStyle(
-                  color: Colors.orange,
+                monthName,
+                style: TextStyle(
+                  color: textColor,
                   fontSize: 20,
                 ),
               ),
@@ -271,15 +307,18 @@ class Dashboard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('9/10 Sheets Checked',
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                      Text(
+                          '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16)),
                       ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         child: SizedBox(
                           height: 8,
                           child: LinearProgressIndicator(
-                            value: 9 / 10,
+                            value: calcSheets(sheetsData)[0] /
+                                calcSheets(sheetsData)[1],
                             backgroundColor: Colors.grey[200],
                             valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.orange),
@@ -317,43 +356,52 @@ class Dashboard extends StatelessWidget {
                             child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: makeDateWidgets([
-                                '31-Dec',
-                                '1-Jan',
-                                '2-Jan',
-                                '3-Jan',
-                                '4-Jan',
-                                '5-Jan',
-                                '6-Jan',
-                                '7-Jan',
+                                '2024-01-09',
+                                '2024-01-10',
+                                '2024-01-11',
+                                '2024-01-12',
+                                '2024-01-13',
+                                '2024-01-14',
+                                '2024-01-15',
+                                '2024-01-16',
                               ]),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            height: 130,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 233, 249),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 233, 249),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 233, 249),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          Column(
+                            children: [
+                              // const Expanded(child: ResizableContainers()),
+                              // ResizableContainers(),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                height: 130,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 231, 233, 249),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 231, 233, 249),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 231, 233, 249),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

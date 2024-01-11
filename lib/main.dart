@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/resizeable_containers.dart';
 
 void main() {
   runApp(const MyApp());

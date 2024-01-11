@@ -8,29 +8,29 @@ class StartInvigilation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final qrKey = GlobalKey(debugLabel: 'QR');
-    void _onQRViewCreated(QRViewController controller) {
+    void onQRViewCreated(QRViewController controller) {
       controller.scannedDataStream.listen((scanData) {
         controller.pauseCamera();
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Scan Successful'),
+              title: const Text('Scan Successful'),
               content: Text(scanData.code.toString()),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Scan Again'),
+                  child: const Text('Scan Again'),
                   onPressed: () {
                     controller.resumeCamera();
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Continue'),
+                  child: const Text('Continue'),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => InvigilationDetails()),
+                          builder: (context) => const InvigilationDetails()),
                     );
                   },
                 ),
@@ -81,7 +81,7 @@ class StartInvigilation extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: QRView(
                     key: qrKey,
-                    onQRViewCreated: _onQRViewCreated,
+                    onQRViewCreated: onQRViewCreated,
                   ),
                 ),
               ),
