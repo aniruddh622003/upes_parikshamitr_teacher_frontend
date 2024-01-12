@@ -47,7 +47,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 child: const Text('Continue'),
                 onPressed: () {
                   controller.dispose();
-                  // Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => InvigilationDetails()),
