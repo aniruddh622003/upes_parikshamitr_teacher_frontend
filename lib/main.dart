@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
 
 void main() {
   runApp(const MyApp());

@@ -11,11 +11,11 @@ class StartInvigilation extends StatefulWidget {
 
 class _StartInvigilationState extends State<StartInvigilation> {
   final qrKey = GlobalKey(debugLabel: 'QR');
-  late QRViewController controller;
+  QRViewController? controller;
 
   @override
   void dispose() {
-    controller.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -33,14 +33,21 @@ class _StartInvigilationState extends State<StartInvigilation> {
               TextButton(
                 child: const Text('Scan Again'),
                 onPressed: () {
-                  controller.resumeCamera();
                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StartInvigilation()),
+                  );
+                  // controller.resumeCamera();
                 },
               ),
               TextButton(
                 child: const Text('Continue'),
                 onPressed: () {
                   controller.dispose();
+                  // Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => InvigilationDetails()),
@@ -106,7 +113,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  controller.dispose();
+                  controller?.dispose();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
