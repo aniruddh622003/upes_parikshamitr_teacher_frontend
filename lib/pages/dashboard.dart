@@ -164,41 +164,55 @@ class Dashboard extends StatelessWidget {
   }
 
   final Widget notificationButton = Container(
-    height: 45,
     decoration: BoxDecoration(
-      color: Colors.blue,
+      color: const Color.fromARGB(255, 20, 55, 229),
       borderRadius: BorderRadius.circular(10),
     ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text(
-            'View Notification',
-            style: TextStyle(color: Colors.white),
+    child: ElevatedButton(
+      onPressed: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const Notifications()),
+        // );
+      },
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5),
-          decoration: const BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
+          padding: const EdgeInsets.all(0)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              'View Notification',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-          child: const Text(
-            '3',
-            style: TextStyle(color: Colors.white),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: const BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: const Text(
+              '3',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-        ),
-        const Spacer(),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.white,
+          const Spacer(),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 
@@ -240,8 +254,7 @@ class Dashboard extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -268,6 +281,7 @@ class Dashboard extends StatelessWidget {
                 )
               ],
             ),
+            const SizedBox(height: 10),
             Expanded(
               child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 10),

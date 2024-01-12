@@ -42,28 +42,27 @@ class StartInvigilation extends StatelessWidget {
     }
 
     return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Scan QR Code',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(
           children: [
-            AppBar(
-              title: const Text(
-                'Scan QR Code',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Theme.of(context).primaryColor,
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              height: 80,
               child: const Center(
                 child: Text(
                   'Scan QR Code in Controller Room to get your invigilation details and proceed.',
@@ -74,6 +73,7 @@ class StartInvigilation extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 15),
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
