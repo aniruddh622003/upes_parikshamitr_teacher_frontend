@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
 
 class InvigilationDetails extends StatelessWidget {
-  const InvigilationDetails({super.key});
-
+  InvigilationDetails({super.key});
+  final List<bool> isSelected = [false, false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,26 +48,64 @@ class InvigilationDetails extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Confirm Invigilation'),
-                        content: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('Your request has been sent for approval.'),
-                            Text('Your request has been sent for approval.'),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            child: const Center(
-                              child: Text('Confirm and Start Invigilation'),
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                for (int i = 0; i < 3; i++)
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isSelected[i] = !isSelected[i];
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      margin: const EdgeInsets.all(5),
+                                      color: isSelected[i]
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: isSelected.contains(false)
+                                          ? null
+                                          : () {
+                                              // Handle button press
+                                            },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                isSelected.contains(false)
+                                                    ? Colors.grey
+                                                    : Colors.blue),
+                                      ),
+                                      child: const Text('Button'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.blue),
+                                      ),
+                                      child: const Text('Back'),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(); // Goes one page back in the stack
-                            },
-                          ),
-                        ],
+                          );
+                        },
                       );
                     },
                   );

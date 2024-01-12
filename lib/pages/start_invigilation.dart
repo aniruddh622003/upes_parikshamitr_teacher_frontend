@@ -30,7 +30,7 @@ class StartInvigilation extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => const InvigilationDetails()),
+                          builder: (context) => InvigilationDetails()),
                     );
                   },
                 ),
@@ -94,7 +94,7 @@ class StartInvigilation extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const InvigilationDetails()),
+                        builder: (context) => InvigilationDetails()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
