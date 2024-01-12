@@ -2,45 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class StartInvigilation extends StatelessWidget {
+class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final qrKey = GlobalKey(debugLabel: 'QR');
-    void onQRViewCreated(QRViewController controller) {
-      controller.scannedDataStream.listen((scanData) {
-        controller.pauseCamera();
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Scan Successful'),
-              content: Text(scanData.code.toString()),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Scan Again'),
-                  onPressed: () {
-                    controller.resumeCamera();
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: const Text('Continue'),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => InvigilationDetails()),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      });
-    }
+  State<StartInvigilation> createState() => _StartInvigilationState();
+}
 
+class _StartInvigilationState extends State<StartInvigilation> {
+  final qrKey = GlobalKey(debugLabel: 'QR');
+  late QRViewController controller;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      controller.pauseCamera();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Scan Successful'),
+            content: Text(scanData.code.toString()),
+            actions: [
+              TextButton(
+                child: const Text('Scan Again'),
+                onPressed: () {
+                  controller.resumeCamera();
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Continue'),
+                onPressed: () {
+                  controller.dispose();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => InvigilationDetails()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ).then((_) => controller.dispose());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -91,6 +106,7 @@ class StartInvigilation extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
+                  controller.dispose();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
