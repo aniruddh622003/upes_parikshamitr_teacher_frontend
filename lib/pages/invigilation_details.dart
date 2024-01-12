@@ -50,59 +50,188 @@ class InvigilationDetails extends StatelessWidget {
                     builder: (BuildContext context) {
                       return StatefulBuilder(
                         builder: (context, setState) {
-                          return AlertDialog(
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                for (int i = 0; i < 3; i++)
+                          return Dialog(
+                            insetPadding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Confirm Invigilation',
+                                    style: TextStyle(
+                                        color: Colors.blue[800],
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    'Please ensure that you have the following:',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
                                   GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        isSelected[i] = !isSelected[i];
+                                        isSelected[0] = !isSelected[0];
                                       });
                                     },
                                     child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.all(5),
-                                      color: isSelected[i]
-                                          ? Colors.green
-                                          : Colors.red,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: isSelected[0]
+                                            ? const Color.fromARGB(
+                                                255, 153, 229, 161)
+                                            : Colors.blue[200],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Answer Sheets',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '24 Nos.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: isSelected.contains(false)
-                                          ? null
-                                          : () {
-                                              // Handle button press
-                                            },
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                isSelected.contains(false)
-                                                    ? Colors.grey
-                                                    : Colors.blue),
+                                  const SizedBox(height: 10),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isSelected[1] = !isSelected[1];
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: isSelected[1]
+                                            ? const Color.fromARGB(
+                                                255, 153, 229, 161)
+                                            : Colors.blue[200],
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: const Text('Button'),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.blue),
+                                      child: const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Neural Network Question Papers',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '12 Nos.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      child: const Text('Back'),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isSelected[2] = !isSelected[2];
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: isSelected[2]
+                                            ? const Color.fromARGB(
+                                                255, 153, 229, 161)
+                                            : Colors.blue[200],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Containerization and Virtualization Technologies Question Papers',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            '10 Nos.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: isSelected.contains(false)
+                                        ? null
+                                        : () {
+                                            // Handle button press
+                                          },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              isSelected.contains(false)
+                                                  ? Colors.grey
+                                                  : Colors.orange[500]),
+                                    ),
+                                    child: const Text(
+                                      'Confirm and Start Invigilation',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.orange[500]),
+                                    ),
+                                    child: const Text(
+                                      'Back',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
