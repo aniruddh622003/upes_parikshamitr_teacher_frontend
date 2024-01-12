@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
 
 class InvigilationDetails extends StatelessWidget {
   const InvigilationDetails({super.key});
@@ -6,28 +7,27 @@ class InvigilationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Column(
-          children: [
-            AppBar(
-              title: const Text(
-                'Details',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Theme.of(context).primaryColor,
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+        appBar: AppBar(
+          title: const Text(
+            'Details',
+            style: TextStyle(
+              color: Colors.white,
             ),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: ListView(
+          children: [
             Container(
-              padding: const EdgeInsets.all(20),
-              height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -39,14 +39,7 @@ class InvigilationDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-                child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            )),
+            const InvigilationDetailsCard(),
             Container(
               margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
               width: MediaQuery.of(context).size.width * 1,

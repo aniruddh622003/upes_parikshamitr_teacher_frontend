@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/resizeable_containers.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
 
