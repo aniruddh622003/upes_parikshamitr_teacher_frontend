@@ -251,6 +251,15 @@ class Dashboard extends StatelessWidget {
         ),
         body: Column(
           children: [
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Text('Start Invigilation   ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  )),
+            ),
+            const SizedBox(height: 40),
             Column(
               children: [
                 Container(
