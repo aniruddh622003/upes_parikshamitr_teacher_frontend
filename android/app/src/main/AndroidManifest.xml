@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="upes_parikshamitr_teacher_frontend"
+        android:label="UPES ParikshaMitr Teacher"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
