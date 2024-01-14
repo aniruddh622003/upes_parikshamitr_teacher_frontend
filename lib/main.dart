@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+// import 'pages/loginPage.dart';
+// import 'pages/signIn.dart';
+import 'pages/homeActivity.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      // home: SignIn(),
+      // home: LoginPage(),
+      home: HomeActivity(),
+    );
   }
 }
