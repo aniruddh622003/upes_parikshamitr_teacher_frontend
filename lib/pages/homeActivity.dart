@@ -17,112 +17,133 @@ class _HomeActivityState extends State<HomeActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
-      body: ListView(
-        children: [
-          CarouselSlider(
-            items: [
-              Container(
-                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
-                child: SvgPicture.asset('android/assets/carousel1.svg'),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
-                child: SvgPicture.asset('android/assets/carousel2.svg'),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
-                child: SvgPicture.asset('android/assets/carousel3.svg'),
-              ),
-            ],
-            options: CarouselOptions(
-              height: 350,
-              enlargeCenterPage: true,
-              autoPlay: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 0, 25, 79),
-            child: RichText(
-              text: TextSpan(
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Flexible(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
                 children: [
-                  TextSpan(
-                      text: _currentIndex == 0
-                          ? 'Track Evaluation Progress in '
-                          : ''),
-                  TextSpan(
-                    text: _currentIndex == 0 ? 'Real-Time' : '',
-                    style: TextStyle(
-                        color:
-                            _currentIndex == 0 ? Colors.orange : Colors.white,
-                        fontWeight: FontWeight.bold),
+                  CarouselSlider(
+                    items: [
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
+                        child: SvgPicture.asset('android/assets/carousel1.svg'),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
+                        child: SvgPicture.asset('android/assets/carousel2.svg'),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
+                        child: SvgPicture.asset('android/assets/carousel3.svg'),
+                      ),
+                    ],
+                    options: CarouselOptions(
+                      height: 350,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                    ),
                   ),
-                  TextSpan(
-                      text: _currentIndex == 1
-                          ? 'View Schedule and Timelines\n'
-                          : ''),
-                  TextSpan(
-                    text: _currentIndex == 1 ? 'On-The-Go' : '',
-                    style: TextStyle(
-                        color:
-                            _currentIndex == 1 ? Colors.orange : Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text: _currentIndex == 2
-                          ? 'Track, Verify and Invigilate Students during '
-                          : ''),
-                  TextSpan(
-                    text: _currentIndex == 2 ? 'Examinations' : '',
-                    style: TextStyle(
-                        color:
-                            _currentIndex == 2 ? Colors.orange : Colors.white,
-                        fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: _currentIndex == 0
+                                  ? 'Track Evaluation Progress in '
+                                  : ''),
+                          TextSpan(
+                            text: _currentIndex == 0 ? 'Real-Time' : '',
+                            style: TextStyle(
+                                color: _currentIndex == 0
+                                    ? Colors.orange
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                              text: _currentIndex == 1
+                                  ? 'View Schedule and Timelines\n'
+                                  : ''),
+                          TextSpan(
+                            text: _currentIndex == 1 ? 'On-The-Go' : '',
+                            style: TextStyle(
+                                color: _currentIndex == 1
+                                    ? Colors.orange
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                              text: _currentIndex == 2
+                                  ? 'Track, Verify and Invigilate Students during '
+                                  : ''),
+                          TextSpan(
+                            text: _currentIndex == 2 ? 'Examinations' : '',
+                            style: TextStyle(
+                                color: _currentIndex == 2
+                                    ? Colors.orange
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 50, 25, 60),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                minimumSize: const Size(310, 40),
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(310, 40),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
+                },
+                child: const Text(
+                  'Get Started',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800),
                 ),
               ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-              child: const Text(
-                'Get Started',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Text(
+                "UPES ParikshaMitr",
+                style: TextStyle(fontSize: 14, color: Colors.white),
               ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(115, 0, 115, 30),
-            child: Text(
-              "UPES Pariksha Mitr",
-              style: TextStyle(fontSize: 14, color: Colors.white),
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
