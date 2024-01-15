@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-// import 'pages/loginPage.dart';
-// import 'pages/signIn.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/signIn.dart';
 import 'pages/homeActivity.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // home: SignIn(),
-      // home: LoginPage(),
+    return const MaterialApp(
       home: HomeActivity(),
+      // isSignedIn ? Dashboard() : const HomeActivity(),
     );
   }
 }

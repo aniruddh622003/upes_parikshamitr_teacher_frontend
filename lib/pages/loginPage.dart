@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/signIn.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'UPES Pariksha Mitr- Teachers',
           style: TextStyle(
             fontSize: 18.0,
@@ -15,10 +20,10 @@ class LoginPage extends StatelessWidget {
         ),
         backgroundColor: Colors.blue[800],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
             child: Text(
               "Welcome to",
@@ -28,7 +33,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 17, 12),
+            padding: const EdgeInsets.fromLTRB(15, 0, 17, 12),
             child: Text(
               "Pariksha Mitr",
               style: TextStyle(
@@ -41,10 +46,10 @@ class LoginPage extends StatelessWidget {
             height: 2,
             width: 330,
             color: Colors.blue[700],
-            margin: EdgeInsets.symmetric(horizontal: 15),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 11, 16, 30),
+            padding: const EdgeInsets.fromLTRB(15, 11, 16, 30),
             child: Text(
               "Let's help you manage examinations.",
               style: TextStyle(
@@ -54,34 +59,39 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
             child: CustomTextField(label: 'Enter your name'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
-            child: CustomTextField(label: 'Enter your sap ID'),
+            child: CustomTextField(label: 'Enter your SAP ID'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
-            child: CustomTextField(label: 'Enter your password'),
+            child: PasswordField(label: 'Password'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-            child: CustomTextField(label: 'Re-enter your password'),
+            child: PasswordField(label: 'Re-type Password'),
           ),
           Padding(
-              padding: EdgeInsets.fromLTRB(25, 60, 25, 10),
+              padding: const EdgeInsets.fromLTRB(25, 60, 25, 10),
               child: TextButton(
                 style: TextButton.styleFrom(
-                  minimumSize: Size(310, 40),
+                  minimumSize: const Size(310, 40),
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                onPressed: () {},
-                child: Text(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Dashboard()));
+                },
+                child: const Text(
                   'Register',
                   style: TextStyle(
                       color: Colors.white,
@@ -90,21 +100,25 @@ class LoginPage extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 30),
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
             child: TextButton(
               style: TextButton.styleFrom(
-                minimumSize: Size(310, 40),
+                minimumSize: const Size(310, 40),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.orange,
                     width: 1.0,
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignIn()));
+              },
               child: RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
@@ -122,33 +136,6 @@ class LoginPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String label;
-
-  const CustomTextField({Key? key, required this.label}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      style: TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color: Colors.black),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 2.0),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        filled: true,
-        fillColor: Colors.blue[50],
       ),
     );
   }

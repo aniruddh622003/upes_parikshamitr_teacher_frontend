@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/loginPage.dart';
 
 class HomeActivity extends StatefulWidget {
+  const HomeActivity({super.key});
+
   @override
   _HomeActivityState createState() => _HomeActivityState();
 }
@@ -19,15 +22,15 @@ class _HomeActivityState extends State<HomeActivity> {
           CarouselSlider(
             items: [
               Container(
-                margin: EdgeInsets.fromLTRB(50, 80, 26, 20),
+                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
                 child: SvgPicture.asset('android/assets/carousel1.svg'),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(50, 80, 26, 20),
+                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
                 child: SvgPicture.asset('android/assets/carousel2.svg'),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(50, 80, 26, 20),
+                margin: const EdgeInsets.fromLTRB(50, 80, 26, 20),
                 child: SvgPicture.asset('android/assets/carousel3.svg'),
               ),
             ],
@@ -43,10 +46,10 @@ class _HomeActivityState extends State<HomeActivity> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 79),
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 79),
             child: RichText(
               text: TextSpan(
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -90,17 +93,20 @@ class _HomeActivityState extends State<HomeActivity> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(25, 50, 25, 60),
+            padding: const EdgeInsets.fromLTRB(25, 50, 25, 60),
             child: TextButton(
               style: TextButton.styleFrom(
-                minimumSize: Size(310, 40),
-                backgroundColor: Colors.grey[400],
+                minimumSize: const Size(310, 40),
+                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              onPressed: () {},
-              child: Text(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+              child: const Text(
                 'Get Started',
                 style: TextStyle(
                     color: Colors.black,
@@ -109,7 +115,7 @@ class _HomeActivityState extends State<HomeActivity> {
               ),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(115, 0, 115, 30),
             child: Text(
               "UPES Pariksha Mitr",

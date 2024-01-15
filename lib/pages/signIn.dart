@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/loginPage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
 
 class SignIn extends StatelessWidget {
+  const SignIn({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'UPES Pariksha Mitr- Teachers',
           style: TextStyle(
             fontSize: 18.0,
@@ -16,10 +22,10 @@ class SignIn extends StatelessWidget {
         ),
         backgroundColor: Colors.blue[800],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
             child: Text(
               "Welcome Back.",
@@ -29,7 +35,7 @@ class SignIn extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 6, 16, 10),
+            padding: const EdgeInsets.fromLTRB(15, 6, 16, 10),
             child: Text(
               "We are happy to assist you again.",
               style: TextStyle(
@@ -40,18 +46,18 @@ class SignIn extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 90),
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 90),
             child: SvgPicture.asset('android/assets/signinpage.svg'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
             child: CustomTextField(label: 'Enter your sap ID'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
-            child: CustomTextField(label: 'Enter your password'),
+            child: PasswordField(label: 'Enter your password'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(214, 0, 29, 30),
             child: Text(
               'Forgot Password',
@@ -59,17 +65,22 @@ class SignIn extends StatelessWidget {
             ),
           ),
           Padding(
-              padding: EdgeInsets.fromLTRB(25, 15, 25, 10),
+              padding: const EdgeInsets.fromLTRB(25, 15, 25, 10),
               child: TextButton(
                 style: TextButton.styleFrom(
-                  minimumSize: Size(310, 40),
+                  minimumSize: const Size(310, 40),
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                onPressed: () {},
-                child: Text(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Dashboard()));
+                },
+                child: const Text(
                   'Sign In',
                   style: TextStyle(
                       color: Colors.white,
@@ -78,21 +89,25 @@ class SignIn extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 30),
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
             child: TextButton(
               style: TextButton.styleFrom(
-                minimumSize: Size(310, 40),
+                minimumSize: const Size(310, 40),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.orange,
                     width: 1.0,
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              },
               child: RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
@@ -110,33 +125,6 @@ class SignIn extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String label;
-
-  const CustomTextField({Key? key, required this.label}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      style: TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color: Colors.black),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 2.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        filled: true,
-        fillColor: Colors.blue[50],
       ),
     );
   }
