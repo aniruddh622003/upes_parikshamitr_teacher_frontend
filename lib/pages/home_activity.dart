@@ -1,7 +1,9 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/loginPage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
 
 class HomeActivity extends StatefulWidget {
   const HomeActivity({super.key});
@@ -118,7 +120,7 @@ class _HomeActivityState extends State<HomeActivity> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
+                          builder: (context) => const LogInPage()));
                 },
                 child: const Text(
                   'Get Started',

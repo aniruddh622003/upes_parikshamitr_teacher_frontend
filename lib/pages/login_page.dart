@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/loginPage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({super.key});
-
+class LogInPage extends StatelessWidget {
+  const LogInPage({super.key});
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
@@ -44,16 +42,32 @@ class SignIn extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
-                        "Welcome Back.",
+                        "Welcome to",
                         style: TextStyle(
                           fontSize: 32,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 6, 16, 10),
+                      padding: const EdgeInsets.fromLTRB(15, 0, 17, 12),
                       child: Text(
-                        "We are happy to assist you again.",
+                        "Pariksha Mitr",
+                        style: TextStyle(
+                            color: Colors.blue[800],
+                            fontSize: 32,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Container(
+                      height: 2,
+                      width: 330,
+                      color: Colors.blue[700],
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 11, 16, 20),
+                      child: Text(
+                        "Let's help you manage examinations.",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontSize: 18,
@@ -61,25 +75,21 @@ class SignIn extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 90),
-                      child: SvgPicture.asset('android/assets/signinpage.svg'),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(label: 'Enter your name'),
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your sap ID'),
+                      child: CustomTextField(label: 'Enter your SAP ID'),
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: PasswordField(label: 'Enter your password'),
+                      child: PasswordField(label: 'Password'),
                     ),
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(214, 0, 29, 0),
-                      child: Text(
-                        'Forgot Password',
-                        style: TextStyle(color: Colors.orange, fontSize: 14),
-                      ),
+                      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                      child: PasswordField(label: 'Re-type Password'),
                     ),
                   ],
                 ),
@@ -104,7 +114,7 @@ class SignIn extends StatelessWidget {
                                     builder: (context) => Dashboard()));
                           },
                           child: const Text(
-                            'Sign In',
+                            'Register',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -129,7 +139,7 @@ class SignIn extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                                  builder: (context) => const SignInPage()));
                         },
                         child: RichText(
                           text: const TextSpan(
@@ -138,9 +148,9 @@ class SignIn extends StatelessWidget {
                               fontSize: 14,
                             ),
                             children: [
-                              TextSpan(text: 'Don\'t have an account? '),
+                              TextSpan(text: 'Already a User? '),
                               TextSpan(
-                                text: 'Sign Up',
+                                text: 'Sign In',
                                 style: TextStyle(
                                     color: Colors.orange,
                                     fontWeight: FontWeight.w600),
@@ -154,7 +164,7 @@ class SignIn extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

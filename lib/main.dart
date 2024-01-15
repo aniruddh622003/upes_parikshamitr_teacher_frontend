@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/signIn.dart';
-import 'pages/homeActivity.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
+import 'pages/home_activity.dart';
 
 void main() {
   runApp(const MyApp());
