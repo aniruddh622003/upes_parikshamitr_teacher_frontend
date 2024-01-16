@@ -3,6 +3,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class LogInPage extends StatelessWidget {
   const LogInPage({super.key});
@@ -17,14 +18,14 @@ class LogInPage extends StatelessWidget {
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: fontMedium,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: white,
           ),
         ),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: blue,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -44,33 +45,33 @@ class LogInPage extends StatelessWidget {
                       child: Text(
                         "Welcome to",
                         style: TextStyle(
-                          fontSize: 32,
+                          fontSize: fontXLarge,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 17, 12),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 17, 12),
                       child: Text(
                         "Pariksha Mitr",
                         style: TextStyle(
-                            color: Colors.blue[800],
-                            fontSize: 32,
+                            color: blue,
+                            fontSize: fontXLarge,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
                     Container(
                       height: 2,
                       width: 330,
-                      color: Colors.blue[700],
+                      color: blue,
                       margin: const EdgeInsets.symmetric(horizontal: 15),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 11, 16, 20),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 11, 16, 20),
                       child: Text(
                         "Let's help you manage examinations.",
                         style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 18,
+                          color: grayDark,
+                          fontSize: fontMedium,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -100,7 +101,7 @@ class LogInPage extends StatelessWidget {
                         child: TextButton(
                           style: TextButton.styleFrom(
                             minimumSize: const Size(310, 40),
-                            backgroundColor: Colors.blue,
+                            backgroundColor: blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -116,8 +117,8 @@ class LogInPage extends StatelessWidget {
                           child: const Text(
                             'Register',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                                color: white,
+                                fontSize: fontMedium,
                                 fontWeight: FontWeight.w800),
                           ),
                         )),
@@ -129,7 +130,7 @@ class LogInPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: const BorderSide(
-                              color: Colors.orange,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),
@@ -144,16 +145,15 @@ class LogInPage extends StatelessWidget {
                         child: RichText(
                           text: const TextSpan(
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
+                              color: black,
+                              fontSize: fontSmall,
                             ),
                             children: [
                               TextSpan(text: 'Already a User? '),
                               TextSpan(
                                 text: 'Sign In',
                                 style: TextStyle(
-                                    color: Colors.orange,
-                                    fontWeight: FontWeight.w600),
+                                    color: orange, fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetailsCard extends StatelessWidget {
   const InvigilationDetailsCard({super.key});
@@ -10,31 +11,32 @@ class InvigilationDetailsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
+        color: white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Invigilation Details:',
+          const Text('Invigilation Details:',
               style: TextStyle(
-                  fontSize: 25,
+                  fontSize: fontLarge,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue[600])),
+                  color: blue)),
           const SizedBox(height: 20),
-          const Center(child: Text('Room No.', style: TextStyle(fontSize: 20))),
+          const Center(
+              child: Text('Room No.', style: TextStyle(fontSize: fontMedium))),
           Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
               decoration: BoxDecoration(
-                color: Colors.orange[600],
+                color: orange,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: const Text(
                 '4002',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: fontMedium,
                 ),
               ),
             ),
@@ -45,7 +47,7 @@ class InvigilationDetailsCard extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.blue[50],
+              color: blueXLight,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,32 +55,32 @@ class InvigilationDetailsCard extends StatelessWidget {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
                       top: Radius.circular(15),
                     ),
-                    color: Colors.blue[700],
+                    color: blue,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         'B.Tech CSE AIML 2nd Year',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: white, fontSize: fontSmall),
                       ),
                       Container(
                         width: 25,
                         height: 25,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: white,
                           shape: BoxShape.circle,
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '12',
                             style: TextStyle(
-                              color: Colors.blue[700],
-                              fontSize: 15,
+                              color: blue,
+                              fontSize: fontSmall,
                             ),
                           ),
                         ),
@@ -89,10 +91,10 @@ class InvigilationDetailsCard extends StatelessWidget {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text('Neural Networks',
+                  child: const Text('Neural Networks',
                       style: TextStyle(
-                        color: Colors.blue[500],
-                        fontSize: 22,
+                        color: blue,
+                        fontSize: fontMedium,
                       )),
                 ),
               ],
@@ -102,7 +104,7 @@ class InvigilationDetailsCard extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.blue[50],
+              color: blueXLight,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,32 +112,32 @@ class InvigilationDetailsCard extends StatelessWidget {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
                       top: Radius.circular(15),
                     ),
-                    color: Colors.blue[700],
+                    color: blue,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         'BCA AIML 3rd Year',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: white, fontSize: fontSmall),
                       ),
                       Container(
                         width: 25,
                         height: 25,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: white,
                           shape: BoxShape.circle,
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '10',
                             style: TextStyle(
-                              color: Colors.blue[700],
-                              fontSize: 15,
+                              color: blue,
+                              fontSize: fontSmall,
                             ),
                           ),
                         ),
@@ -147,10 +149,10 @@ class InvigilationDetailsCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child:
-                      Text('Containerization and Virtualization Technologies',
+                      const Text('Containerization and Virtualization Technologies',
                           style: TextStyle(
-                            color: Colors.blue[500],
-                            fontSize: 22,
+                            color: blue,
+                            fontSize: fontMedium,
                           )),
                 ),
               ],
@@ -158,10 +160,10 @@ class InvigilationDetailsCard extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Text('Co-Invigilator'),
-          Text('Dr. Aryan Sharma',
+          const Text('Dr. Aryan Sharma',
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.orange[500],
+                fontSize: fontMedium,
+                color: orange,
               )),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,18 +172,18 @@ class InvigilationDetailsCard extends StatelessWidget {
               Text('Debarred Students'),
             ],
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('22',
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.orange[500],
+                    fontSize: fontMedium,
+                    color: orange,
                   )),
               Text('3',
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.orange[500],
+                    fontSize: fontMedium,
+                    color: orange,
                   )),
             ],
           ),

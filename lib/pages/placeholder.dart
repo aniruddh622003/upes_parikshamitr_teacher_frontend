@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/resizeable_containers.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/schedule.dart';
 
 class Test extends StatelessWidget {
   const Test({super.key});

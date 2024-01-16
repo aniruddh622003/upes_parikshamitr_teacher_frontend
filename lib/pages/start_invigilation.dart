@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
@@ -69,19 +70,19 @@ class _StartInvigilationState extends State<StartInvigilation> {
           title: const Text(
             'Scan QR Code',
             style: TextStyle(
-              color: Colors.white,
+              color: white,
             ),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: blue,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios, color: white),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: blue,
         body: Column(
           children: [
             Container(
@@ -90,8 +91,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 child: Text(
                   'Scan QR Code in Controller Room to get your invigilation details and proceed.',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+                    color: white,
+                    fontSize: fontSmall,
                   ),
                 ),
               ),
@@ -131,11 +132,11 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   children: [
                     Text(
                       'Can\'t Scan Code? ',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(fontSize: fontMedium, color: black),
                     ),
                     Text(
                       'Type Code.',
-                      style: TextStyle(fontSize: 18, color: Colors.orange),
+                      style: TextStyle(fontSize: fontMedium, color: orange),
                     ),
                   ],
                 ),

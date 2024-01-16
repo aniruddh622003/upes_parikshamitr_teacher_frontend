@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Schedule extends StatefulWidget {
   const Schedule({super.key});
@@ -78,7 +79,7 @@ class _Schedule extends State<Schedule> {
             'Go to the cafeteria and have your lunch. You can also have a cup of coffee'
       }
     ],
-    '2024-01-13': [
+    '2024-01-16': [
       {
         'timeSlot': '9 AM - 12 PM',
         'task': 'Invigilation Duty',
@@ -101,7 +102,7 @@ class _Schedule extends State<Schedule> {
             'Go to the cafeteria and have your lunch. You can also have a cup of coffee'
       }
     ],
-    '2024-01-14': [
+    '2024-01-17': [
       {
         'timeSlot': '9 AM - 12 PM',
         'task': 'Invigilation Duty',
@@ -133,14 +134,14 @@ class _Schedule extends State<Schedule> {
       String monthName = DateFormat('MMM').format(DateTime(
           int.parse(date.split('-')[0]), int.parse(date.split('-')[1])));
       if (dateD.isBefore(now)) {
-        backgroundColor = const Color(0xffE7F9E7);
-        textColor = const Color(0xffF2692E);
+        backgroundColor = greenXLight;
+        textColor = orange;
       } else if (dateD.isAfter(now)) {
-        backgroundColor = const Color(0xffE7E9F9);
-        textColor = const Color(0xffF2692E);
+        backgroundColor = blueXLight;
+        textColor = orange;
       } else {
-        backgroundColor = const Color(0xffF2692E);
-        textColor = Colors.white;
+        backgroundColor = orange;
+        textColor = white;
       }
       dateWidgets.add(
         GestureDetector(
@@ -157,7 +158,7 @@ class _Schedule extends State<Schedule> {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: selectedDate == date ? Colors.grey : Colors.transparent,
+                color: selectedDate == date ? blue : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -168,14 +169,14 @@ class _Schedule extends State<Schedule> {
                   date.split('-')[2],
                   style: TextStyle(
                     color: textColor,
-                    fontSize: 25,
+                    fontSize: fontLarge,
                   ),
                 ),
                 Text(
                   monthName,
                   style: TextStyle(
                     color: textColor,
-                    fontSize: 20,
+                    fontSize: fontMedium,
                   ),
                 ),
               ],
@@ -208,10 +209,10 @@ class _Schedule extends State<Schedule> {
           children: List<Widget>.generate(
             data.length, // Replace with your number of containers
             (index) {
-              Color selectedColorBG = const Color(0xff6E83DB);
-              Color baseColorBG = const Color(0xffC2C9F0);
-              Color selectedColorText = const Color(0xffffffff);
-              Color baseColorText = const Color(0xff000000);
+              Color selectedColorBG = purple;
+              Color baseColorBG = purpleLight;
+              Color selectedColorText = white;
+              Color baseColorText = black;
               Color bgColor = (selectedContainerIndex == index)
                   ? selectedColorBG
                   : baseColorBG;
@@ -232,14 +233,14 @@ class _Schedule extends State<Schedule> {
                                 data[index]['timeSlot'],
                                 style: TextStyle(
                                   color: textColor,
-                                  fontSize: 18,
+                                  fontSize: fontSmall,
                                 ),
                               ),
                               Text(
                                 data[index]['room'],
                                 style: TextStyle(
                                   color: textColor,
-                                  fontSize: 18,
+                                  fontSize: fontSmall,
                                 ),
                               ),
                             ],
@@ -248,7 +249,7 @@ class _Schedule extends State<Schedule> {
                             data[index]['task'],
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 22,
+                              fontSize: fontMedium,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -256,7 +257,7 @@ class _Schedule extends State<Schedule> {
                             '${data[index]['message']}',
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 18,
+                              fontSize: fontSmall,
                             ),
                           ),
                         ],
@@ -272,14 +273,14 @@ class _Schedule extends State<Schedule> {
                             data[index]['timeSlot'],
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 18,
+                              fontSize: fontMedium,
                             ),
                           ),
                           Text(
                             data[index]['task'],
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 18,
+                              fontSize: fontMedium,
                             ),
                           ),
                         ],

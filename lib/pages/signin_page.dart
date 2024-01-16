@@ -4,6 +4,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart'
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -19,14 +20,14 @@ class SignInPage extends StatelessWidget {
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: fontMedium,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: white,
           ),
         ),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: blue,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,17 +47,17 @@ class SignInPage extends StatelessWidget {
                       child: Text(
                         "Welcome Back.",
                         style: TextStyle(
-                          fontSize: 32,
+                          fontSize: fontXLarge,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 6, 16, 10),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 6, 16, 10),
                       child: Text(
                         "We are happy to assist you again.",
                         style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 18,
+                          color: grayDark,
+                          fontSize: fontMedium,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -78,7 +79,7 @@ class SignInPage extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(214, 0, 29, 0),
                       child: Text(
                         'Forgot Password',
-                        style: TextStyle(color: Colors.orange, fontSize: 14),
+                        style: TextStyle(color: orange, fontSize: fontSmall),
                       ),
                     ),
                   ],
@@ -90,7 +91,7 @@ class SignInPage extends StatelessWidget {
                         child: TextButton(
                           style: TextButton.styleFrom(
                             minimumSize: const Size(310, 40),
-                            backgroundColor: Colors.blue,
+                            backgroundColor: blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -106,8 +107,8 @@ class SignInPage extends StatelessWidget {
                           child: const Text(
                             'Sign In',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                                color: white,
+                                fontSize: fontMedium,
                                 fontWeight: FontWeight.w800),
                           ),
                         )),
@@ -119,7 +120,7 @@ class SignInPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: const BorderSide(
-                              color: Colors.orange,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),
@@ -134,16 +135,15 @@ class SignInPage extends StatelessWidget {
                         child: RichText(
                           text: const TextSpan(
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
+                              color: black,
+                              fontSize: fontSmall,
                             ),
                             children: [
                               TextSpan(text: 'Don\'t have an account? '),
                               TextSpan(
                                 text: 'Sign Up',
                                 style: TextStyle(
-                                    color: Colors.orange,
-                                    fontWeight: FontWeight.w600),
+                                    color: orange, fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
