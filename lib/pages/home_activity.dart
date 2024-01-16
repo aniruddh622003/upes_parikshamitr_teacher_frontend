@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class HomeActivity extends StatefulWidget {
   const HomeActivity({super.key});
@@ -18,7 +19,7 @@ class _HomeActivityState extends State<HomeActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900],
+      backgroundColor: blue,
       body: Flexible(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,8 +59,8 @@ class _HomeActivityState extends State<HomeActivity> {
                     child: RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
+                          color: white,
+                          fontSize: fontXLarge,
                           fontWeight: FontWeight.bold,
                         ),
                         children: [
@@ -70,9 +71,7 @@ class _HomeActivityState extends State<HomeActivity> {
                           TextSpan(
                             text: _currentIndex == 0 ? 'Real-Time' : '',
                             style: TextStyle(
-                                color: _currentIndex == 0
-                                    ? Colors.orange
-                                    : Colors.white,
+                                color: _currentIndex == 0 ? orange : white,
                                 fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
@@ -82,9 +81,7 @@ class _HomeActivityState extends State<HomeActivity> {
                           TextSpan(
                             text: _currentIndex == 1 ? 'On-The-Go' : '',
                             style: TextStyle(
-                                color: _currentIndex == 1
-                                    ? Colors.orange
-                                    : Colors.white,
+                                color: _currentIndex == 1 ? orange : white,
                                 fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
@@ -94,9 +91,7 @@ class _HomeActivityState extends State<HomeActivity> {
                           TextSpan(
                             text: _currentIndex == 2 ? 'Examinations' : '',
                             style: TextStyle(
-                                color: _currentIndex == 2
-                                    ? Colors.orange
-                                    : Colors.white,
+                                color: _currentIndex == 2 ? orange : white,
                                 fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -111,7 +106,7 @@ class _HomeActivityState extends State<HomeActivity> {
               child: TextButton(
                 style: TextButton.styleFrom(
                   minimumSize: const Size(310, 40),
-                  backgroundColor: Colors.white,
+                  backgroundColor: white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -125,8 +120,8 @@ class _HomeActivityState extends State<HomeActivity> {
                 child: const Text(
                   'Get Started',
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+                      color: black,
+                      fontSize: fontMedium,
                       fontWeight: FontWeight.w800),
                 ),
               ),
@@ -138,7 +133,7 @@ class _HomeActivityState extends State<HomeActivity> {
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 "UPES ParikshaMitr",
-                style: TextStyle(fontSize: 14, color: Colors.white),
+                style: TextStyle(fontSize: fontSmall, color: white),
               ),
             ),
             const SizedBox(

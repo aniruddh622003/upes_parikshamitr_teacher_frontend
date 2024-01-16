@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -9,17 +10,17 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.black),
+        labelStyle: const TextStyle(color: black),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+          borderSide: const BorderSide(color: gray, width: 2.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: const BorderSide(color: blue, width: 2.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         filled: true,
-        fillColor: Colors.blue[50],
+        fillColor: blueXLight,
       ),
     );
   }

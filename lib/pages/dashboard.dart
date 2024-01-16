@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/resizeable_containers.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
@@ -17,14 +18,14 @@ class Dashboard extends StatelessWidget {
                 Text(
                   '${batch['name']}',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: fontMedium,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   '${batch['sheetsEvaluated'].toString()}/${batch['totalSheets'].toString()}',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: fontMedium,
                   ),
                 )
               ],
@@ -35,8 +36,8 @@ class Dashboard extends StatelessWidget {
                 height: 8,
                 child: LinearProgressIndicator(
                   value: batch['sheetsEvaluated'] / batch['totalSheets'],
-                  backgroundColor: Colors.grey[200],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  backgroundColor: grayLight,
+                  valueColor: const AlwaysStoppedAnimation<Color>(orange),
                 ),
               ),
             ),
@@ -112,7 +113,7 @@ class Dashboard extends StatelessWidget {
       sheetCards.add(Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 231, 233, 249),
+          color: purpleXLight,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
@@ -126,7 +127,7 @@ class Dashboard extends StatelessWidget {
                   Text(
                     sheetData['subjectName'].toString(),
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                        fontSize: fontMedium, fontWeight: FontWeight.bold),
                   ),
                   Text('Submission in $daysRemaining days'),
                 ],
@@ -135,17 +136,17 @@ class Dashboard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: orange,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '$sheetsEvaluated/$totalSheets',
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: white),
                 ),
               )
             ],
           ),
-          const Divider(color: Colors.grey),
+          const Divider(color: gray),
           Column(
               children: makeBatchwiseBars(
                   sheetData['batches'] as List<Map<String, dynamic>>)),
@@ -165,7 +166,7 @@ class Dashboard extends StatelessWidget {
 
   final Widget notificationButton = Container(
     decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 20, 55, 229),
+      color: blue,
       borderRadius: BorderRadius.circular(10),
     ),
     child: ElevatedButton(
@@ -189,18 +190,18 @@ class Dashboard extends StatelessWidget {
             padding: EdgeInsets.all(10.0),
             child: Text(
               'View Notification',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: white),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(5),
             decoration: const BoxDecoration(
-              color: Colors.red,
+              color: red,
               shape: BoxShape.circle,
             ),
             child: const Text(
               '3',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: white),
             ),
           ),
           const Spacer(),
@@ -208,7 +209,7 @@ class Dashboard extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Icon(
               Icons.arrow_forward_ios,
-              color: Colors.white,
+              color: white,
             ),
           ),
         ],
@@ -219,7 +220,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: blue,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -228,16 +229,16 @@ class Dashboard extends StatelessWidget {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.account_circle, color: Colors.white),
+                  Icon(Icons.account_circle, color: white),
                   SizedBox(width: 10),
                   Text(
                     'Hi, Aarav',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: white),
                   ),
                 ],
               ),
               IconButton(
-                icon: const Icon(Icons.qr_code, color: Colors.white),
+                icon: const Icon(Icons.qr_code, color: white),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -255,8 +256,8 @@ class Dashboard extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text('Start Invigilation   ',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                    color: white,
+                    fontSize: fontMedium,
                   )),
             ),
             const SizedBox(height: 40),
@@ -270,7 +271,7 @@ class Dashboard extends StatelessWidget {
                       Text(
                           '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 16)),
+                              color: white, fontSize: fontSmall)),
                       ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
@@ -279,9 +280,9 @@ class Dashboard extends StatelessWidget {
                           child: LinearProgressIndicator(
                             value: calcSheets(sheetsData)[0] /
                                 calcSheets(sheetsData)[1],
-                            backgroundColor: Colors.grey[200],
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                Colors.orange),
+                            backgroundColor: grayLight,
+                            valueColor:
+                                const AlwaysStoppedAnimation<Color>(orange),
                           ),
                         ),
                       ),
@@ -295,7 +296,7 @@ class Dashboard extends StatelessWidget {
               child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),

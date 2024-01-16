@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class PasswordField extends StatefulWidget {
   final String label;
@@ -17,23 +18,23 @@ class _PasswordFieldState extends State<PasswordField> {
     return TextField(
       obscureText: _obscureText,
       decoration: InputDecoration(
-        labelStyle: const TextStyle(color: Colors.black),
+        labelStyle: const TextStyle(color: black),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+          borderSide: const BorderSide(color: gray, width: 2.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: const BorderSide(color: blue, width: 2.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         filled: true,
-        fillColor: Colors.blue[50],
+        fillColor: blueXLight,
         labelText: widget.label,
         suffixIcon: IconButton(
           icon: Icon(
             // Based on passwordVisible state choose the icon
             _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Theme.of(context).primaryColorDark,
+            color: blue,
           ),
           onPressed: () {
             // Update the state i.e. toogle the state of passwordVisible variable

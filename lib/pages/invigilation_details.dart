@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetails extends StatelessWidget {
   InvigilationDetails({super.key});
@@ -11,19 +12,19 @@ class InvigilationDetails extends StatelessWidget {
           title: const Text(
             'Details',
             style: TextStyle(
-              color: Colors.white,
+              color: white,
             ),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: blue,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios, color: white),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: blue,
         body: ListView(
           children: [
             Container(
@@ -33,8 +34,8 @@ class InvigilationDetails extends StatelessWidget {
                 child: Text(
                   'Welcome, <username>',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                    color: white,
+                    fontSize: fontMedium,
                   ),
                 ),
               ),
@@ -62,19 +63,19 @@ class InvigilationDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Confirm Invigilation',
                                     style: TextStyle(
-                                        color: Colors.blue[800],
-                                        fontSize: 25,
+                                        color: blue,
+                                        fontSize: fontLarge,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(height: 10),
                                   const Text(
                                     'Please ensure that you have the following:',
                                     style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
+                                      color: black,
+                                      fontSize: fontMedium,
                                     ),
                                   ),
                                   const SizedBox(height: 10),
@@ -88,9 +89,8 @@ class InvigilationDetails extends StatelessWidget {
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: isSelected[0]
-                                            ? const Color.fromARGB(
-                                                255, 153, 229, 161)
-                                            : Colors.blue[200],
+                                            ? greenLight
+                                            : blueLight,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const Column(
@@ -100,16 +100,16 @@ class InvigilationDetails extends StatelessWidget {
                                           Text(
                                             'Answer Sheets',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           Text(
                                             '24 Nos.',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -128,9 +128,8 @@ class InvigilationDetails extends StatelessWidget {
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: isSelected[1]
-                                            ? const Color.fromARGB(
-                                                255, 153, 229, 161)
-                                            : Colors.blue[200],
+                                            ? greenLight
+                                            : blueLight,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const Column(
@@ -140,16 +139,16 @@ class InvigilationDetails extends StatelessWidget {
                                           Text(
                                             'Neural Network Question Papers',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           Text(
                                             '12 Nos.',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -168,9 +167,8 @@ class InvigilationDetails extends StatelessWidget {
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: isSelected[2]
-                                            ? const Color.fromARGB(
-                                                255, 153, 229, 161)
-                                            : Colors.blue[200],
+                                            ? greenLight
+                                            : blueLight,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const Column(
@@ -180,16 +178,16 @@ class InvigilationDetails extends StatelessWidget {
                                           Text(
                                             'Containerization and Virtualization Technologies Question Papers',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           Text(
                                             '10 Nos.',
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
+                                              color: white,
+                                              fontSize: fontMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -208,12 +206,12 @@ class InvigilationDetails extends StatelessWidget {
                                       backgroundColor:
                                           MaterialStateProperty.all(
                                               isSelected.contains(false)
-                                                  ? Colors.grey
-                                                  : Colors.orange[500]),
+                                                  ? gray
+                                                  : orange),
                                     ),
                                     child: const Text(
                                       'Confirm and Start Invigilation',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: white),
                                     ),
                                   ),
                                   ElevatedButton(
@@ -222,12 +220,11 @@ class InvigilationDetails extends StatelessWidget {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.orange[500]),
+                                          MaterialStateProperty.all(orange),
                                     ),
                                     child: const Text(
                                       'Back',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: white),
                                     ),
                                   ),
                                 ],
@@ -240,8 +237,8 @@ class InvigilationDetails extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange, // Background color
-                  foregroundColor: Colors.white, // Text color
+                  backgroundColor: orange, // Background color
+                  foregroundColor: white, // Text color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -251,7 +248,7 @@ class InvigilationDetails extends StatelessWidget {
                   children: [
                     Text(
                       'Request for Approval',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: fontMedium),
                     ),
                   ],
                 ),
@@ -269,9 +266,9 @@ class InvigilationDetails extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent, // Background color
-                  foregroundColor: Colors.white, // Text color
+                  foregroundColor: white, // Text color
                   side: const BorderSide(
-                      color: Colors.white, width: 2), // Border color and width
+                      color: white, width: 2), // Border color and width
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -281,7 +278,7 @@ class InvigilationDetails extends StatelessWidget {
                   children: [
                     Text(
                       'Change Invigilation (3 left)',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: fontMedium),
                     )
                   ],
                 ),
