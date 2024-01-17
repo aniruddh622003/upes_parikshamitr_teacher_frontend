@@ -107,7 +107,7 @@ class SeatingArrangement extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Text(text),
+                            child: Text(text, style: const TextStyle(color: white)),
                           ),
                         );
                       },
@@ -126,7 +126,7 @@ class SeatingArrangement extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 5),
-                            Text('Seat Allocated'),
+                            const Text('Seat Allocated'),
                           ],
                         ),
                         Row(
@@ -140,7 +140,7 @@ class SeatingArrangement extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 5),
-                            Text('Seat Debarred'),
+                            const Text('Seat Debarred'),
                           ],
                         ),
                       ],
@@ -160,7 +160,7 @@ class SeatingArrangement extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 5),
-                            Text('Navigation'),
+                            const Text('Navigation'),
                           ],
                         ),
                         Row(
@@ -174,7 +174,7 @@ class SeatingArrangement extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 5),
-                            Text('Seat Financial Hold'),
+                            const Text('Seat Financial Hold'),
                           ],
                         )
                       ],
