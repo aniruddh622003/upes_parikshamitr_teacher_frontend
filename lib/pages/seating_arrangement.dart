@@ -66,12 +66,14 @@ class SeatingArrangement extends StatelessWidget {
                   children: [
                     GridView.builder(
                       shrinkWrap: true,
-                      padding: const EdgeInsets.all(10),
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
                       itemCount: classSizeW * classSizeH,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: classSizeW,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         int totalRows = classSizeH;
@@ -107,7 +109,8 @@ class SeatingArrangement extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Text(text, style: const TextStyle(color: white)),
+                            child: Text(text,
+                                style: const TextStyle(color: white)),
                           ),
                         );
                       },
@@ -118,8 +121,8 @@ class SeatingArrangement extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 20,
-                              height: 20,
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 color: blue,
                                 borderRadius: BorderRadius.circular(5),
@@ -132,8 +135,8 @@ class SeatingArrangement extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 20,
-                              height: 20,
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 color: red,
                                 borderRadius: BorderRadius.circular(5),
@@ -152,8 +155,8 @@ class SeatingArrangement extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 20,
-                              height: 20,
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 color: orange,
                                 borderRadius: BorderRadius.circular(5),
@@ -166,8 +169,8 @@ class SeatingArrangement extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              width: 20,
-                              height: 20,
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 color: Colors.yellow,
                                 borderRadius: BorderRadius.circular(5),
@@ -179,6 +182,7 @@ class SeatingArrangement extends StatelessWidget {
                         )
                       ],
                     ),
+                    const SizedBox(height: 10),
                   ],
                 )),
           ),
