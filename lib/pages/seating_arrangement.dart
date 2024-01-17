@@ -85,7 +85,7 @@ class SeatingArrangement extends StatelessWidget {
                           color = Colors.transparent;
                         } else if (index % classSizeW == 0 ||
                             currentRow == totalRows) {
-                          color = orange;
+                          color = Colors.transparent;
                           if (index % classSizeW == 0) {
                             text = String.fromCharCode(
                                 64 + index ~/ classSizeW + 1);
@@ -110,11 +110,13 @@ class SeatingArrangement extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(text,
-                                style: const TextStyle(color: white)),
+                                style: const TextStyle(
+                                    color: black, fontSize: fontMedium)),
                           ),
                         );
                       },
                     ),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
