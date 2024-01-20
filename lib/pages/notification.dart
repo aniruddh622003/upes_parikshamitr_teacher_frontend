@@ -44,8 +44,13 @@ class NotificationScreen extends StatelessWidget {
                           {
                             "name": "Aniruddh Upadhyay",
                             "subject": "Meeting",
-                            "msg":
-                                "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you."
+                            "msg": "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.",
                           },
                           {
                             "name": "Khushi Gupta",
@@ -205,8 +210,26 @@ class _NotificationBoxState extends State<NotificationBox> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isRead ? Colors.blue[500] : Colors.blue[200],
+          color: isRead ? Color(0xFF4A67D4) : Color(0xFF6E83DB),
+          border: isRead
+              ? Border.all(
+                  color: Color(0xFF4A67D4),
+                  width: 1,
+                )
+              : Border.all(
+                  color: Color(0xFFBDBDBD),
+                  width: 1,
+                ),
           borderRadius: BorderRadius.circular(10),
+          boxShadow: isRead
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 5,
+                    offset: Offset(0, 0),
+                  ),
+                ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,11 +237,12 @@ class _NotificationBoxState extends State<NotificationBox> {
             LayoutBuilder(
               builder: (context, constraints) {
                 int maxLines = 2;
+
                 TextPainter textPainter = TextPainter(
                   text: TextSpan(
                     text: widget.msg,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -235,16 +259,16 @@ class _NotificationBoxState extends State<NotificationBox> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.black,
+                          // text color white when isRead is false, else black
+                          color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const Text(
                         "Read more",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ],
@@ -253,7 +277,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                   return Text(
                     "${widget.msg}",
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 2,
@@ -278,14 +302,26 @@ class _NotificationBoxState extends State<NotificationBox> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
+                "${widget.subject}",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Text(
                 "${widget.name}",
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(
-                "${widget.subject}",
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text("${widget.msg}"),
+              const SizedBox(height: 10),
+              Container(
+                constraints: BoxConstraints(maxHeight: 500),
+                child: SingleChildScrollView(
+                  child: Text(
+                    "${widget.msg}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         );
