@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/seating_arrangement.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/home_activity.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/notification.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       // debugShowCheckedModeBanner: false,
-      home: NotificationScreen(),
+      home: HomeActivity(),
       // isSignedIn ? Dashboard() : const HomeActivity(),
     );
   }

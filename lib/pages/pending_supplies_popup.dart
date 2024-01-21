@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-void seatingPlanPopup(
-    BuildContext context, Map<String, Object> studentDetails) {
-  Color eligibleColor;
-  String eligibleText = "";
-  if (studentDetails['eligible'] == 'YES') {
-    eligibleColor = green;
-    eligibleText = "YES";
-  } else if (studentDetails['eligible'] == 'F_HOLD') {
-    eligibleColor = yellow;
-    eligibleText = "NO (FINANCIAL HOLD)";
-  } else if (studentDetails['eligible'] == 'DEBARRED') {
-    eligibleColor = red;
-    eligibleText = "NO (Debarred)";
-  } else {
-    eligibleColor = grayDark;
-    eligibleText = "NO";
-  }
+void pendingSuppliesPopup(
+    BuildContext context, Map<dynamic, dynamic> supplyDetails) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -38,7 +23,7 @@ void seatingPlanPopup(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Student Details',
+                    const Text('Pending Supplies Detail',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -51,12 +36,12 @@ void seatingPlanPopup(
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('SAP ID',
+                    Text('Supplies Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
                             fontWeight: FontWeight.bold)),
-                    Text('Seat No.',
+                    Text('Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
@@ -67,18 +52,20 @@ void seatingPlanPopup(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(studentDetails['sap_id'] as String,
+                    Text(supplyDetails['name'] as String,
                         style: const TextStyle(fontSize: fontMedium)),
                     Container(
                       width: 35,
                       height: 35,
                       decoration: const BoxDecoration(
-                        color: blue,
+                        color: orange,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(
-                          studentDetails['seat_no'] as String,
+                          (supplyDetails['required'] -
+                                  supplyDetails['received'])
+                              .toString(),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -88,68 +75,54 @@ void seatingPlanPopup(
                     )
                   ],
                 ),
-                const Text('Roll No.',
+                const Text('Total Needed',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['roll_no'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Name',
+                Text(supplyDetails['required'].toString(),
+                    style: const TextStyle(fontSize: fontMedium)),
+                const Text('Total Received',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['student_name'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Subject Name',
+                Text(supplyDetails['received'].toString(),
+                    style: const TextStyle(fontSize: fontMedium)),
+                const Text('Update Total Received',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['subject'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Subject Code',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(studentDetails['subject_code'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Course',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(studentDetails['course'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Examination Type',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(studentDetails['exam_type'] as String,
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
-                const Text('Eligible',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(eligibleText,
-                    style:
-                        TextStyle(fontSize: fontMedium, color: eligibleColor)),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: blueXLight,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const TextField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Type here',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: blue,
+                      foregroundColor: white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text('Confirm Update',
+                        style: TextStyle(fontSize: fontSmall)),
+                  ),
+                ),
               ],
             ),
           ),
