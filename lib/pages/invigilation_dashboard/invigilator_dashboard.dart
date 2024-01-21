@@ -38,7 +38,7 @@ class InvigilatorDashboard extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 35),
                       child: Column(
                         children: [
-                          CurrentTimeWidget(),
+                          const CurrentTimeWidget(),
                           getPhaseText(),
                         ],
                       ),

@@ -25,7 +25,7 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
       currentTime = _getCurrentTime();
       testTime = _calculateTestTime();
     });
-    Future.delayed(Duration(seconds: 1), _updateCurrentTime);
+    Future.delayed(const Duration(seconds: 1), _updateCurrentTime);
   }
 
   String _getCurrentTime() {
@@ -49,12 +49,12 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('$currentTime',
-            style: TextStyle(fontSize: fontXLarge, color: Colors.white)),
-        SizedBox(height: 10),
+        Text(currentTime,
+            style: const TextStyle(fontSize: fontXLarge, color: Colors.white)),
+        const SizedBox(height: 10),
         Text(
           'Test Time: $testTime',
-          style: TextStyle(fontSize: fontMedium, color: Colors.white),
+          style: const TextStyle(fontSize: fontMedium, color: Colors.white),
         ),
       ],
     );

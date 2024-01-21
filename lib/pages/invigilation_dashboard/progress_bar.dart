@@ -29,7 +29,7 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
     endTime = startTime.add(const Duration(hours: 3));
 
     setTime();
-    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       setTime();
     });
   }

@@ -134,7 +134,7 @@ Widget getStatusBoxWithButton(
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                     const EdgeInsets.symmetric(horizontal: 30),
                   ),
-                  minimumSize: MaterialStateProperty.all<Size>(Size(0, 40)),
+                  minimumSize: MaterialStateProperty.all<Size>(const Size(0, 40)),
                   backgroundColor:
                       MaterialStateProperty.all<Color>(secondaryColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(

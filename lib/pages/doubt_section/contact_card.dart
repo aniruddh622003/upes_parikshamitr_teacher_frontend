@@ -30,29 +30,80 @@ class ContactCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.blue[50],
-        margin: EdgeInsets.all(6),
-        child: ListTile(
-          title: Text(
-            name,
-            style: TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          color: Colors.white,
+          elevation: 0,
+          margin: const EdgeInsets.all(0),
+          child: Row(
             children: [
               Expanded(
-                child: Text(
-                  designation,
-                  style: TextStyle(fontSize: fontSmall),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                  fontSize: fontMedium,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              designation,
+                              style: const TextStyle(fontSize: fontSmall),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed:
+                            // onMessagePressed,
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatScreen(
+                                personName: name,
+                                designation: designation,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          'android/assets/msg.svg',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SvgPicture.asset(
-                'android/assets/msg.svg',
-              ),
             ],
+          )
+
+          // ListTile(
+          //   title: Text(
+          //     name,
+          //     style: TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold),
+          //   ),
+          //   subtitle: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Expanded(
+          //         child: Text(
+          //           designation,
+          //           style: TextStyle(fontSize: fontSmall),
+          //         ),
+          //       ),
+          //       SvgPicture.asset(
+          //         'android/assets/msg.svg',
+          //       ),
+          //     ],
+          //   ),
+          // ),
           ),
-        ),
-      ),
     );
   }
 }

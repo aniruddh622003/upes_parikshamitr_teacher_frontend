@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/contact_card.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/current_testTime.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/current_test_time.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class DoubtSection extends StatelessWidget {
@@ -12,22 +13,26 @@ class DoubtSection extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         toolbarHeight: 175,
         flexibleSpace: Container(
           color: primaryColor,
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(10, 50.0, 101, 2),
+                padding: const EdgeInsets.fromLTRB(10, 60.0, 101, 2),
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: white),
+                      icon: const Icon(Icons.arrow_back, color: white),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
-                    Text(
+                    const Text(
                       'Doubt Section',
                       style: TextStyle(
                         fontSize: fontMedium,
@@ -48,11 +53,11 @@ class DoubtSection extends StatelessWidget {
                       children: [
                         Text(
                           "Room: $roomNumber",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: fontXLarge, color: Colors.white),
                         ),
-                        SizedBox(height: 2),
-                        CurrentTestTime(),
+                        const SizedBox(height: 2),
+                        const CurrentTestTime(),
                       ],
                     ),
                   ),
@@ -62,9 +67,13 @@ class DoubtSection extends StatelessWidget {
           ),
         ),
       ),
+      // Make the body cover the entire screen
       body: SingleChildScrollView(
           child: Container(
         width: double.infinity,
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height - 175,
+        ),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -75,7 +84,7 @@ class DoubtSection extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 17, top: 15, bottom: 20),
               child: Align(
                 alignment: Alignment.centerLeft,

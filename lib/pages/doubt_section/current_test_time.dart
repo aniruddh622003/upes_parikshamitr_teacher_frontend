@@ -21,7 +21,7 @@ class _CurrentTestTimeState extends State<CurrentTestTime> {
     setState(() {
       testTime = _calculateTestTime();
     });
-    Future.delayed(Duration(seconds: 1), _updateCurrentTime);
+    Future.delayed(const Duration(seconds: 1), _updateCurrentTime);
   }
 
   String _calculateTestTime() {
