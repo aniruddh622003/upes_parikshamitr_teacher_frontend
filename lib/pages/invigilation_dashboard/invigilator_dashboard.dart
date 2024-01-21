@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_squad.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/status_box.dart';
@@ -14,6 +15,10 @@ class InvigilatorDashboard extends StatelessWidget {
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
           toolbarHeight: 220,
           flexibleSpace: Container(
             color: primaryColor,

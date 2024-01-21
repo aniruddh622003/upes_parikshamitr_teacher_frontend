@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/schedule.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/pending_supplies_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
 class Test extends StatelessWidget {
   const Test({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: gray,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Schedule(),
-                ),
-              ],
+          const SizedBox(height: 50),
+          GestureDetector(
+            onTap: () => pendingSuppliesPopup(context, pendingSupplies[0]),
+            child: Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ],
@@ -23,6 +29,3 @@ class Test extends StatelessWidget {
     );
   }
 }
-
-
-// Col, col, lv, ex, cont, col

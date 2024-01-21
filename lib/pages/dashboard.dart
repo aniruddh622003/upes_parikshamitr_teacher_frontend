@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -222,6 +223,10 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
         backgroundColor: blue,
         appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
