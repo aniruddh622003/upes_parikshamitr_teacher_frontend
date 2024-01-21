@@ -9,7 +9,7 @@ class FlyingSquad extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-      width: 345,
+      width: double.infinity,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
         decoration: const BoxDecoration(

@@ -68,6 +68,7 @@ class InvigilatorDashboard extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
+            padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -80,46 +81,49 @@ class InvigilatorDashboard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 27, top: 20, right: 38),
+                    Expanded(
                       child: SvgPicture.asset('android/assets/ufm.svg'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, right: 28),
+                    Expanded(
                       child:
                           SvgPicture.asset('android/assets/supplementary.svg'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
-                      ),
+                    Expanded(
                       child: SvgPicture.asset('android/assets/controller.svg'),
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const DoubtSection(roomNumber: "1101"))),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, top: 20, right: 20),
-                          child: SvgPicture.asset('android/assets/doubt.svg'),
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, right: 30),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
+                      child: SvgPicture.asset('android/assets/doubt.svg'),
+                    )),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
                       child: SvgPicture.asset('android/assets/qr.svg'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                    )),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
                       child: SvgPicture.asset('android/assets/seatingplan.svg'),
-                    ),
+                    )),
                   ],
                 ),
                 Center(
