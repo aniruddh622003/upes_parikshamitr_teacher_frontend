@@ -12,49 +12,48 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-        child: Scaffold(
-            appBar: AppBar(
-              systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarColor: white,
-                statusBarIconBrightness: Brightness.dark,
-              ),
-              shadowColor: black,
-              elevation: 2,
-              toolbarHeight: 75,
-              backgroundColor: primaryColor,
-              iconTheme: const IconThemeData(color: Colors.white),
-              title: Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      personName,
-                      style: const TextStyle(
-                        fontSize: fontMedium,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      designation,
-                      style: const TextStyle(
-                          fontSize: fontSmall, color: Colors.white),
-                    ),
-                  ],
+    return Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+          shadowColor: black,
+          elevation: 2,
+          toolbarHeight: 75,
+          backgroundColor: primaryColor,
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  personName,
+                  style: const TextStyle(
+                    fontSize: fontMedium,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                Text(
+                  designation,
+                  style:
+                      const TextStyle(fontSize: fontSmall, color: Colors.white),
+                ),
+              ],
             ),
-            body: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                color: Colors.white,
-              ),
-              child: const ChatBody(),
-            )));
+          ),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            color: Colors.white,
+          ),
+          child: const ChatBody(),
+        ));
   }
 }
 

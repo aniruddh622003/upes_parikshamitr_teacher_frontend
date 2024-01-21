@@ -54,12 +54,14 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 248),
-          child: Text(
-            "$remainingHours hr $remainingMinutesPart min",
-            style: const TextStyle(color: Colors.white),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              "$remainingHours hr $remainingMinutesPart min left",
+              style: const TextStyle(color: Colors.white),
+            )
+          ],
         ),
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(10)),

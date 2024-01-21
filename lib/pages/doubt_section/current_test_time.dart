@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
@@ -9,11 +11,15 @@ class CurrentTestTime extends StatefulWidget {
 }
 
 class _CurrentTestTimeState extends State<CurrentTestTime> {
+  late Timer _timer;
   late String testTime;
   @override
   void initState() {
     super.initState();
     _updateCurrentTime();
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      _updateCurrentTime();
+    });
   }
 
   // Should use Timer.periodic here as Future.delayed se bohot saare recursive calls add hore h system memory m.
@@ -21,7 +27,12 @@ class _CurrentTestTimeState extends State<CurrentTestTime> {
     setState(() {
       testTime = _calculateTestTime();
     });
-    Future.delayed(const Duration(seconds: 1), _updateCurrentTime);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   String _calculateTestTime() {

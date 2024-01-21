@@ -17,13 +17,16 @@ class DoubtSection extends StatelessWidget {
           statusBarColor: white,
           statusBarIconBrightness: Brightness.dark,
         ),
-        toolbarHeight: 175,
+        toolbarHeight: 200,
+        leading: null,
+        automaticallyImplyLeading: false,
         flexibleSpace: Container(
           color: primaryColor,
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 60.0, 101, 2),
+                padding: EdgeInsets.fromLTRB(
+                    0, MediaQuery.of(context).padding.top + 10, 0, 20),
                 child: Row(
                   children: [
                     IconButton(

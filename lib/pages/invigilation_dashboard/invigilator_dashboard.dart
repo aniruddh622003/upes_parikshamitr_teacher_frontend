@@ -13,6 +13,7 @@ class InvigilatorDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double paddingTop = MediaQuery.of(context).padding.top.toDouble();
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
@@ -20,39 +21,44 @@ class InvigilatorDashboard extends StatelessWidget {
             statusBarColor: white,
             statusBarIconBrightness: Brightness.dark,
           ),
-          toolbarHeight: 220,
+          toolbarHeight: 250,
           flexibleSpace: Container(
             color: primaryColor,
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 58.0, 101, 20),
-                  child: Text(
-                    'Invigilation Dashboard',
-                    style: TextStyle(
-                      fontSize: fontMedium,
-                      fontWeight: FontWeight.bold,
-                      color: white,
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, paddingTop + 15, 0, 20),
+                      child: const Text(
+                        'Invigilation Dashboard',
+                        style: TextStyle(
+                          fontSize: fontMedium,
+                          fontWeight: FontWeight.bold,
+                          color: white,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 35),
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
                       child: Column(
                         children: [
                           const CurrentTimeWidget(),
                           getPhaseText(),
                         ],
                       ),
-                    ),
+                    )),
                   ],
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 14),
                   child: InvigilatorProgress(),
                 ),
               ],
