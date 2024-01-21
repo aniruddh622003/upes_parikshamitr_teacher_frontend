@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:intl/intl.dart';
 
-class CurrentTimeWidget extends StatefulWidget {
-  const CurrentTimeWidget({super.key});
+class CurrentTestTime extends StatefulWidget {
+  const CurrentTestTime({super.key});
 
   @override
-  _CurrentTimeWidgetState createState() => _CurrentTimeWidgetState();
+  _CurrentTestTimeState createState() => _CurrentTestTimeState();
 }
 
-class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
-  String currentTime = '';
+class _CurrentTestTimeState extends State<CurrentTestTime> {
   late String testTime;
-
   @override
   void initState() {
     super.initState();
@@ -22,16 +19,9 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
   // Should use Timer.periodic here as Future.delayed se bohot saare recursive calls add hore h system memory m.
   void _updateCurrentTime() {
     setState(() {
-      currentTime = _getCurrentTime();
       testTime = _calculateTestTime();
     });
     Future.delayed(Duration(seconds: 1), _updateCurrentTime);
-  }
-
-  String _getCurrentTime() {
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('hh:mm a').format(now);
-    return formattedTime;
   }
 
   String _calculateTestTime() {
@@ -47,16 +37,9 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('$currentTime',
-            style: TextStyle(fontSize: fontXLarge, color: Colors.white)),
-        SizedBox(height: 10),
-        Text(
-          'Test Time: $testTime',
-          style: TextStyle(fontSize: fontMedium, color: Colors.white),
-        ),
-      ],
+    return Text(
+      testTime,
+      style: const TextStyle(fontSize: fontMedium, color: Colors.white),
     );
   }
 }
