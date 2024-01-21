@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -13,21 +14,27 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 70,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+          toolbarHeight: 75,
           backgroundColor: primaryColor,
           iconTheme: const IconThemeData(color: Colors.white),
           title: Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            padding: const EdgeInsets.only(top: 15, bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   personName,
-                  style: const TextStyle(fontSize: fontMedium, color: Colors.white),
+                  style: const TextStyle(
+                      fontSize: fontMedium, color: Colors.white),
                 ),
                 Text(
                   designation,
-                  style: const TextStyle(fontSize: fontSmall, color: Colors.white),
+                  style:
+                      const TextStyle(fontSize: fontSmall, color: Colors.white),
                 ),
               ],
             ),

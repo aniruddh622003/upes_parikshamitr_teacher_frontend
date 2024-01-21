@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/seating_arrangement.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
-=======
 import 'package:upes_parikshamitr_teacher_frontend/pages/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/notification.dart';
->>>>>>> origin/main
 
 void main() {
   runApp(const MyApp());
