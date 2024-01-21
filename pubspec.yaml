@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.5
   carousel_slider: ^4.0.0
-  flutter_native_splash: ^2.3.9
+  # flutter_native_splash: ^2.3.9
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +67,14 @@ flutter:
     - android/assets/carousel1.svg
     - android/assets/carousel2.svg
     - android/assets/carousel3.svg
+    - android/assets/ufm.svg
+    - android/assets/controller.svg
+    - android/assets/supplementary.svg
+    - android/assets/doubt.svg
+    - android/assets/qr.svg
+    - android/assets/refresh.svg
+    - android/assets/sheetsubmit.svg
+    - android/assets/seatingplan.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
