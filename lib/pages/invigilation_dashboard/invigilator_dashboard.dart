@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_squad.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/status_box.dart';
@@ -94,11 +95,17 @@ class InvigilatorDashboard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, top: 20, right: 20),
-                      child: SvgPicture.asset('android/assets/doubt.svg'),
-                    ),
+                    GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const DoubtSection(roomNumber: "1101"))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 20, right: 20),
+                          child: SvgPicture.asset('android/assets/doubt.svg'),
+                        )),
                     Padding(
                       padding: const EdgeInsets.only(top: 20, right: 30),
                       child: SvgPicture.asset('android/assets/qr.svg'),

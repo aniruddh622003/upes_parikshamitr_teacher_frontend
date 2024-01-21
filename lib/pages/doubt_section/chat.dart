@@ -12,44 +12,49 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: white,
-            statusBarIconBrightness: Brightness.dark,
-          ),
-          toolbarHeight: 75,
-          backgroundColor: primaryColor,
-          iconTheme: const IconThemeData(color: Colors.white),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  personName,
-                  style: const TextStyle(
-                      fontSize: fontMedium, color: Colors.white),
+    return PopScope(
+        child: Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: white,
+                statusBarIconBrightness: Brightness.dark,
+              ),
+              shadowColor: black,
+              elevation: 2,
+              toolbarHeight: 75,
+              backgroundColor: primaryColor,
+              iconTheme: const IconThemeData(color: Colors.white),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      personName,
+                      style: const TextStyle(
+                        fontSize: fontMedium,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      designation,
+                      style: const TextStyle(
+                          fontSize: fontSmall, color: Colors.white),
+                    ),
+                  ],
                 ),
-                Text(
-                  designation,
-                  style:
-                      const TextStyle(fontSize: fontSmall, color: Colors.white),
+              ),
+            ),
+            body: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
-              ],
-            ),
-          ),
-        ),
-        body: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            color: Colors.white,
-          ),
-          child: const ChatBody(),
-        ));
+                color: Colors.white,
+              ),
+              child: const ChatBody(),
+            )));
   }
 }
 
@@ -57,10 +62,10 @@ class ChatBody extends StatefulWidget {
   const ChatBody({super.key});
 
   @override
-  _ChatBodyState createState() => _ChatBodyState();
+  ChatBodyState createState() => ChatBodyState();
 }
 
-class _ChatBodyState extends State<ChatBody> {
+class ChatBodyState extends State<ChatBody> {
   TextEditingController messageController = TextEditingController();
   List<ChatMessage> messages = [];
 
@@ -69,13 +74,16 @@ class _ChatBodyState extends State<ChatBody> {
     return Column(
       children: [
         Expanded(
-          child: ListView.builder(
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              return ChatBubble(
-                message: messages[index],
-              );
-            },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                return ChatBubble(
+                  message: messages[index],
+                );
+              },
+            ),
           ),
         ),
         _buildMessageInputField(),
@@ -85,31 +93,32 @@ class _ChatBodyState extends State<ChatBody> {
 
   Widget _buildMessageInputField() {
     return Container(
-      height: 45,
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 10),
+      height: 50,
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       color: Colors.blue[50],
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(right: 8),
-              child: TextField(
-                controller: messageController,
-                decoration: const InputDecoration(
-                  hintText: 'Type to ask doubt',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
+              child: Container(
+            padding: const EdgeInsets.only(right: 8),
+            child: TextField(
+              controller: messageController,
+              decoration: const InputDecoration(
+                hintText: 'Type to ask doubt',
+                contentPadding: EdgeInsets.all(8),
+                border: InputBorder.none,
               ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.send, color: secondaryColor),
-            onPressed: () {
-              _sendMessage();
-            },
-          ),
+          )),
+          Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: IconButton(
+                icon: const Icon(Icons.send, color: secondaryColor),
+                onPressed: () {
+                  _sendMessage();
+                },
+              ))
         ],
       ),
     );
@@ -153,14 +162,20 @@ class ChatBubble extends StatelessWidget {
             ? Alignment.centerRight
             : Alignment.centerLeft,
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 14),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.75,
+          ),
           decoration: BoxDecoration(
-            color: message.sender == 'user' ? Colors.grey : primaryColor,
+            color: message.sender == 'user' ? ChatBubbleGrey : primaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
             message.text,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(
+                color: message.sender != 'user' ? Colors.white : black,
+                fontSize: 14,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),
