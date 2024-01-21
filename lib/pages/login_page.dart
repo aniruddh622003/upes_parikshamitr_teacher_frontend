@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
@@ -15,6 +16,10 @@ class LogInPage extends StatelessWidget {
     final double minHeight = screenHeight - appBarHeight - statusBarHeight;
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(

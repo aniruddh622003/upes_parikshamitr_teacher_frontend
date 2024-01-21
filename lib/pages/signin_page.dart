@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
@@ -17,6 +18,10 @@ class SignInPage extends StatelessWidget {
     final double minHeight = screenHeight - appBarHeight - statusBarHeight;
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(
