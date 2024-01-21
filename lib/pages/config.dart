@@ -1,23 +1,5 @@
 bool isSignedIn = false;
 
-int classSizeW = 7;
-int classSizeH = 10;
-
-List<int> debar = [13, 39, 40, 53];
-List<int> financial = [50, 59];
-
-Map<String, String> studentDetails = {
-  "SAPID": "500076928",
-  "SeatNo": "A1",
-  "RollNo": "R2142201678",
-  "Name": "Rishi Madan",
-  "SubjectName": "Software Engineering and Project Management",
-  "SubjectCode": "CSEG 2020",
-  "Course": "B.Tech CSE AI-ML SEM V",
-  "ExaminationType": "Supplementary Examination",
-  "Eligible": "NO (Debarred)"
-};
-
 Map seatingPlan = {
   "message": "Seating Plan",
   "data": {
@@ -64,3 +46,9 @@ Map seatingPlan = {
     ]
   }
 };
+
+List<Map> pendingSupplies = [
+  {"name": "B Sheets", "required": 15, "received": 5},
+  {"name": "Threads", "required": 10, "received": 5},
+  {"name": "A Sheets", "required": 10, "received": 5},
+];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/seating_plan_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
@@ -14,7 +14,7 @@ class Test extends StatelessWidget {
         children: [
           const SizedBox(height: 50),
           GestureDetector(
-            onTap: () => seatingPlanPopup(context, studentDetails),
+            onTap: () => pendingSuppliesPopup(context, pendingSupplies[0]),
             child: Container(
               height: 100,
               width: 100,
