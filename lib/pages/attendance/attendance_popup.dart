@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
 void attendancePopup(BuildContext context) {
   final qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-
   void onQRViewCreated(QRViewController controller) {
-    controller = controller;
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       showDialog(
@@ -28,18 +26,49 @@ void attendancePopup(BuildContext context) {
               TextButton(
                 child: const Text('Continue'),
                 onPressed: () {
-                  controller.dispose();
                   Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const AttendancePage()),
-                  );
+                  int indexData = seatingPlan['data']['seating_plan']
+                      .indexWhere((student) =>
+                          student['sap_id'] == scanData.code.toString());
+                  if (indexData == -1) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: Text(
+                              "${scanData.code.toString()} student not found in room!"),
+                          actions: [
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                controller.resumeCamera();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    int indexData = seatingPlan['data']['seating_plan']
+                        .indexWhere((student) =>
+                            student['sap_id'] == scanData.code.toString());
+                    controller.dispose();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => AttendancePage(
+                              studentDetails: seatingPlan['data']
+                                  ['seating_plan'][indexData])),
+                    );
+                  }
                 },
               ),
             ],
           );
         },
-      ).then((_) => controller.dispose());
+      );
     });
   }
 

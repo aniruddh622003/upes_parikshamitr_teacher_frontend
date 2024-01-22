@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show seatingPlan, studentDetails;
 import 'package:upes_parikshamitr_teacher_frontend/pages/seating_plan_popup.dart';
 
 class AttendancePage extends StatelessWidget {
-  const AttendancePage({super.key});
+  final Map<dynamic, dynamic> studentDetails;
+  const AttendancePage({Key? key, required this.studentDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
