@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/steps/step_1_email.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/steps/step_2_code.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/steps/step_3_password.dart';
 
 class ForgotPasswordProgressTrack extends StatefulWidget {
   const ForgotPasswordProgressTrack({super.key});
@@ -28,6 +29,8 @@ class _ForgotPasswordProgressTrackState
       );
     } else if (_currentStep == 1) {
       return Step2Code(changeStep: _changeStep);
+    } else if (_currentStep == 2) {
+      return Step3Pass(changeStep: _changeStep);
     } else {
       return const Placeholder();
     }
