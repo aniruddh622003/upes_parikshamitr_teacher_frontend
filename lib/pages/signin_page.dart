@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -80,13 +81,22 @@ class SignInPage extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                       child: PasswordField(label: 'Enter your password'),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(214, 0, 29, 0),
-                      child: Text(
-                        'Forgot Password',
-                        style: TextStyle(color: orange, fontSize: fontSmall),
-                      ),
-                    ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword()));
+                          },
+                          child: const Text(
+                            'Forgot Password',
+                            style:
+                                TextStyle(color: orange, fontSize: fontSmall),
+                          ),
+                        )),
                   ],
                 ),
                 Column(
