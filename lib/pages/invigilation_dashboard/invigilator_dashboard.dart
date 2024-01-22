@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_squad.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/status_box.dart';
@@ -12,6 +13,7 @@ class InvigilatorDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double paddingTop = MediaQuery.of(context).padding.top.toDouble();
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
@@ -19,39 +21,44 @@ class InvigilatorDashboard extends StatelessWidget {
             statusBarColor: white,
             statusBarIconBrightness: Brightness.dark,
           ),
-          toolbarHeight: 220,
+          toolbarHeight: 250,
           flexibleSpace: Container(
             color: primaryColor,
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 58.0, 101, 20),
-                  child: Text(
-                    'Invigilation Dashboard',
-                    style: TextStyle(
-                      fontSize: fontMedium,
-                      fontWeight: FontWeight.bold,
-                      color: white,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
+                Row(
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 35),
-                      child: Column(
-                        children: [
-                          CurrentTimeWidget(),
-                          getPhaseText(),
-                        ],
+                      padding: EdgeInsets.fromLTRB(15, paddingTop + 15, 0, 20),
+                      child: const Text(
+                        'Invigilation Dashboard',
+                        style: TextStyle(
+                          fontSize: fontMedium,
+                          fontWeight: FontWeight.bold,
+                          color: white,
+                        ),
                       ),
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Column(
+                        children: [
+                          const CurrentTimeWidget(),
+                          getPhaseText(),
+                        ],
+                      ),
+                    )),
+                  ],
+                ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 14),
                   child: InvigilatorProgress(),
                 ),
               ],
@@ -61,6 +68,7 @@ class InvigilatorDashboard extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
+            padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -73,40 +81,49 @@ class InvigilatorDashboard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 27, top: 20, right: 38),
+                    Expanded(
                       child: SvgPicture.asset('android/assets/ufm.svg'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, right: 28),
+                    Expanded(
                       child:
                           SvgPicture.asset('android/assets/supplementary.svg'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
-                      ),
+                    Expanded(
                       child: SvgPicture.asset('android/assets/controller.svg'),
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, top: 20, right: 20),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
                       child: SvgPicture.asset('android/assets/doubt.svg'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, right: 30),
+                    )),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
                       child: SvgPicture.asset('android/assets/qr.svg'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                    )),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoubtSection(roomNumber: "1101"))),
                       child: SvgPicture.asset('android/assets/seatingplan.svg'),
-                    ),
+                    )),
                   ],
                 ),
                 Center(

@@ -29,7 +29,7 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
     endTime = startTime.add(const Duration(hours: 3));
 
     setTime();
-    _timer = Timer.periodic(new Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       setTime();
     });
   }
@@ -54,12 +54,14 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 248),
-          child: Text(
-            "$remainingHours hr $remainingMinutesPart min",
-            style: const TextStyle(color: Colors.white),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              "$remainingHours hr $remainingMinutesPart min left",
+              style: const TextStyle(color: Colors.white),
+            )
+          ],
         ),
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(10)),

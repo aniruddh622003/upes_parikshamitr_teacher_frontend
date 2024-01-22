@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/home_activity.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/notification.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeActivity(),
-      // isSignedIn ? Dashboard() : const HomeActivity(),
-    );
+        debugShowCheckedModeBanner: false, home: InvigilatorDashboard()
+        // isSignedIn ? Dashboard() : const HomeActivity(),
+        );
   }
 }
