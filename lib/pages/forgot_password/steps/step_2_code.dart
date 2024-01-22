@@ -1,35 +1,33 @@
-import 'dart:developer' as developer;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'dart:developer' as developer;
+
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class Step1Email extends StatefulWidget {
+class Step2Code extends StatefulWidget {
   final void Function(int) changeStep;
-  const Step1Email({super.key, required this.changeStep});
+  const Step2Code({super.key, required this.changeStep});
 
   @override
-  State<Step1Email> createState() => _Step1EmailState();
+  State<Step2Code> createState() => _Step2CodeState();
 }
 
-class _Step1EmailState extends State<Step1Email> {
-  final emailController = TextEditingController();
+class _Step2CodeState extends State<Step2Code> {
+  final codeController = TextEditingController();
 
   _validateEmail() {
-    developer.log(emailController.text);
-    widget.changeStep(1);
+    developer.log(codeController.text);
+    widget.changeStep(2);
   }
 
   @override
   void dispose() {
-    emailController.dispose();
+    codeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return TextButton(
-    //     onPressed: () => widget.changeStep(1), child: const Text('Next'));
     return Container(
         constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height,
@@ -44,7 +42,7 @@ class _Step1EmailState extends State<Step1Email> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
-                    "Forgot your Password?",
+                    "Please Verify yourself.",
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -53,7 +51,7 @@ class _Step1EmailState extends State<Step1Email> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
-                    "We are here to help.",
+                    "You are almost there.",
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -76,7 +74,7 @@ class _Step1EmailState extends State<Step1Email> {
                 const Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
-                      "Enter Your Email Address.",
+                      "Enter Verification Code.",
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -86,7 +84,8 @@ class _Step1EmailState extends State<Step1Email> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                   child: TextFormField(
-                    controller: emailController,
+                    controller: codeController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: blue50,
@@ -99,7 +98,7 @@ class _Step1EmailState extends State<Step1Email> {
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: const BorderSide(color: blue50),
                       ),
-                      hintText: 'Enter your email address',
+                      hintText: 'Please enter the verification code',
                       hintStyle: const TextStyle(
                         color: black,
                         fontSize: fontSmall,
@@ -122,7 +121,7 @@ class _Step1EmailState extends State<Step1Email> {
                       _validateEmail();
                     },
                     child: const Text(
-                      'Send Verification Code',
+                      'Verify',
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,
