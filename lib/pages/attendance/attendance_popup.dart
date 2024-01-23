@@ -150,7 +150,12 @@ void attendancePopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              AttendancePage(studentDetails: studentDetails)));
+                    },
                     child: const Text('Mark Attendance',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
