@@ -11,6 +11,7 @@ const purpleXLight = Color(0xffE7E9F9);
 const orangeLight = Color(0xffF7B096);
 const orange = Color(0xffF2692E);
 // Blues
+const blue50 = Color(0xffE7E9F9);
 const blue = Color(0xff1A4BCB);
 const blueLight = Color(0xff90caf9);
 const blueXLight = Color(0xffE7E9F9);
@@ -30,6 +31,8 @@ const gray = Color(0xffA0A0A0);
 const grayLight = Color(0xffE5E5E5);
 const white = Color(0xffFFFFFF);
 const black = Color(0xff000000);
+
+const ChatBubbleGrey = Color(0xFFD9D9D9);
 
 // Font Size
 const fontXSmall = 10.0;
