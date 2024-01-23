@@ -47,6 +47,18 @@ Map seatingPlan = {
   }
 };
 
+Map studentDetails = {
+  "sap_id": "500086123",
+  "roll_no": "R2142202233",
+  "student_name": "Aarav Sharma",
+  "course": "B.Tech CSE AIML 4th Yr",
+  "subject": "Big Data",
+  "subject_code": "CSAI 2101",
+  "seat_no": "G5",
+  "eligible": "F_HOLD",
+  "exam_type": "Supplementary Examination"
+};
+
 List<Map> pendingSupplies = [
   {"name": "B Sheets", "required": 15, "received": 5},
   {"name": "Threads", "required": 10, "received": 5},
