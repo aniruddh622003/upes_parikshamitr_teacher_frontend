@@ -103,7 +103,7 @@ void attendancePopup(BuildContext context) {
                 const Text('Align the QR code within the frame to scan'),
                 const SizedBox(height: 10),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     height: 300,
                     width: 300,
                     child: ClipRRect(

@@ -37,7 +37,7 @@ class ForgotPassword extends StatelessWidget {
         ),
         body: SingleChildScrollView(
             // physics: ClampingScrollPhysics(),
-            child: Container(
+            child: SizedBox(
                 height: minHeight,
                 child: Row(
                   children: [
