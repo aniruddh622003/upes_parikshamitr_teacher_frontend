@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetails extends StatelessWidget {

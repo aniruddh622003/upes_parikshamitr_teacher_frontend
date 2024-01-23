@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_status_widget.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class ForgotPassword extends StatelessWidget {

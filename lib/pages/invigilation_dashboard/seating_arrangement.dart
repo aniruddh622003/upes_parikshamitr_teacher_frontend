@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show seatingPlan;
-import 'package:upes_parikshamitr_teacher_frontend/pages/seating_plan_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_plan_popup.dart';
 
 class SeatingArrangement extends StatelessWidget {
   const SeatingArrangement({super.key});

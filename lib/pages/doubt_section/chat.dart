@@ -166,7 +166,7 @@ class ChatBubble extends StatelessWidget {
             maxWidth: MediaQuery.of(context).size.width * 0.75,
           ),
           decoration: BoxDecoration(
-            color: message.sender == 'user' ? ChatBubbleGrey : primaryColor,
+            color: message.sender == 'user' ? chatBubbleGrey : primaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(

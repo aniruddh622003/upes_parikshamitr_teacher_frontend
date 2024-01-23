@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/login_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class HomeActivity extends StatefulWidget {

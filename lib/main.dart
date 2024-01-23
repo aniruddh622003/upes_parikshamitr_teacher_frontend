@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Test(),
+      home: HomeActivity(),
       // isSignedIn ? Dashboard() : const HomeActivity(),
     );
   }
