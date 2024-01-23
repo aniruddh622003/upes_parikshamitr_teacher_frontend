@@ -1,5 +1,3 @@
-bool isSignedIn = false;
-
 Map seatingPlan = {
   "message": "Seating Plan",
   "data": {

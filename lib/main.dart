@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeActivity(),
-      // isSignedIn ? Dashboard() : const HomeActivity(),
     );
   }
 }
