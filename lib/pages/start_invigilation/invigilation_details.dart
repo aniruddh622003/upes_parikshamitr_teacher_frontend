@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details_card.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetails extends StatelessWidget {
@@ -205,7 +206,15 @@ class InvigilationDetails extends StatelessWidget {
                                     onPressed: isSelected.contains(false)
                                         ? null
                                         : () {
-                                            // Handle button press
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const InvigilatorDashboard()),
+                                            );
                                           },
                                     style: ButtonStyle(
                                       backgroundColor:

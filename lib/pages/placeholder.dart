@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
 class Test extends StatelessWidget {
   const Test({super.key});

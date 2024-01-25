@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/password_field.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/signin_page.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/custom_text_field.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class LogInPage extends StatelessWidget {
-  const LogInPage({super.key});
+class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
@@ -48,32 +51,16 @@ class LogInPage extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
-                        "Welcome to",
+                        "Welcome Back.",
                         style: TextStyle(
                           fontSize: fontXLarge,
                         ),
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(15, 0, 17, 12),
+                      padding: EdgeInsets.fromLTRB(15, 6, 16, 10),
                       child: Text(
-                        "Pariksha Mitr",
-                        style: TextStyle(
-                            color: blue,
-                            fontSize: fontXLarge,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      width: 330,
-                      color: blue,
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(15, 11, 16, 20),
-                      child: Text(
-                        "Let's help you manage examinations.",
+                        "We are happy to assist you again.",
                         style: TextStyle(
                           color: grayDark,
                           fontSize: fontMedium,
@@ -81,22 +68,35 @@ class LogInPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your name'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 90),
+                      child: SvgPicture.asset('android/assets/signinpage.svg'),
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your SAP ID'),
+                      child: CustomTextField(label: 'Enter your sap ID'),
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: PasswordField(label: 'Password'),
+                      child: PasswordField(label: 'Enter your password'),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-                      child: PasswordField(label: 'Re-type Password'),
-                    ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword()));
+                          },
+                          child: const Text(
+                            'Forgot Password',
+                            style:
+                                TextStyle(color: orange, fontSize: fontSmall),
+                          ),
+                        )),
                   ],
                 ),
                 Column(
@@ -120,7 +120,7 @@ class LogInPage extends StatelessWidget {
                                     builder: (context) => Dashboard()));
                           },
                           child: const Text(
-                            'Register',
+                            'Sign In',
                             style: TextStyle(
                                 color: white,
                                 fontSize: fontMedium,
@@ -145,7 +145,7 @@ class LogInPage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInPage()));
+                                  builder: (context) => const LogInPage()));
                         },
                         child: RichText(
                           text: const TextSpan(
@@ -154,9 +154,9 @@ class LogInPage extends StatelessWidget {
                               fontSize: fontSmall,
                             ),
                             children: [
-                              TextSpan(text: 'Already a User? '),
+                              TextSpan(text: 'Don\'t have an account? '),
                               TextSpan(
-                                text: 'Sign In',
+                                text: 'Sign Up',
                                 style: TextStyle(
                                     color: orange, fontWeight: FontWeight.w600),
                               ),
@@ -169,7 +169,7 @@ class LogInPage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );

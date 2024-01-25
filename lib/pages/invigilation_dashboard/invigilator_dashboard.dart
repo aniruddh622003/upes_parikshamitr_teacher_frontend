@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_squad.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/status_box.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/current_time.dart';
@@ -68,7 +70,7 @@ class InvigilatorDashboard extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
+            padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -108,11 +110,7 @@ class InvigilatorDashboard extends StatelessWidget {
                     )),
                     Expanded(
                         child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const DoubtSection(roomNumber: "1101"))),
+                      onTap: () => attendancePopup(context),
                       child: SvgPicture.asset('android/assets/qr.svg'),
                     )),
                     Expanded(
@@ -121,7 +119,7 @@ class InvigilatorDashboard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const DoubtSection(roomNumber: "1101"))),
+                                  const SeatingArrangement())),
                       child: SvgPicture.asset('android/assets/seatingplan.svg'),
                     )),
                   ],

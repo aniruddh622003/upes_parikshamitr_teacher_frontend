@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_details.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
@@ -13,16 +13,8 @@ class StartInvigilation extends StatefulWidget {
 
 class _StartInvigilationState extends State<StartInvigilation> {
   final qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
 
   void onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       showDialog(
@@ -36,13 +28,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 child: const Text('Scan Again'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StartInvigilation()),
-                  );
-                  // controller.resumeCamera();
+                  controller.resumeCamera();
                 },
               ),
               TextButton(
@@ -60,7 +46,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
             ],
           );
         },
-      ).then((_) => controller.dispose());
+      );
     });
   }
 
@@ -120,7 +106,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  controller?.dispose();
+                  Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(

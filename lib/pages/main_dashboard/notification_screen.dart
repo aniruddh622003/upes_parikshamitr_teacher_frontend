@@ -23,14 +23,12 @@ class NotificationScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          leading: Container(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ),
         body: const Padding(
@@ -49,13 +47,8 @@ class NotificationScreen extends StatelessWidget {
                           {
                             "name": "Aniruddh Upadhyay",
                             "subject": "Meeting",
-                            "msg": "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl." +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Extra text",
+                            "msg":
+                                "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Extra text",
                           },
                           {
                             "name": "Khushi Gupta",
@@ -215,14 +208,14 @@ class _NotificationBoxState extends State<NotificationBox> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isRead ? Color(0xFF4A67D4) : Color(0xFF6E83DB),
+          color: isRead ? const Color(0xFF4A67D4) : const Color(0xFF6E83DB),
           border: isRead
               ? Border.all(
-                  color: Color(0xFF4A67D4),
+                  color: const Color(0xFF4A67D4),
                   width: 1,
                 )
               : Border.all(
-                  color: Color(0xFFBDBDBD),
+                  color: const Color(0xFFBDBDBD),
                   width: 1,
                 ),
           borderRadius: BorderRadius.circular(10),
@@ -232,7 +225,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.25),
                     blurRadius: 5,
-                    offset: Offset(0, 0),
+                    offset: const Offset(0, 0),
                   ),
                 ],
         ),
@@ -280,7 +273,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                   );
                 } else {
                   return Text(
-                    "${widget.msg}",
+                    widget.msg,
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -307,20 +300,20 @@ class _NotificationBoxState extends State<NotificationBox> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "${widget.subject}",
+                widget.subject,
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
-                "${widget.name}",
+                widget.name,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
-                constraints: BoxConstraints(maxHeight: 500),
+                constraints: const BoxConstraints(maxHeight: 500),
                 child: SingleChildScrollView(
                   child: Text(
-                    "${widget.msg}",
+                    widget.msg,
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),

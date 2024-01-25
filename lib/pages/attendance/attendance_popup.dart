@@ -103,7 +103,7 @@ void attendancePopup(BuildContext context) {
                 const Text('Align the QR code within the frame to scan'),
                 const SizedBox(height: 10),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     height: 300,
                     width: 300,
                     child: ClipRRect(
@@ -150,7 +150,12 @@ void attendancePopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              AttendancePage(studentDetails: studentDetails)));
+                    },
                     child: const Text('Mark Attendance',
                         style: TextStyle(fontSize: fontSmall)),
                   ),

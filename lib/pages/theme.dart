@@ -32,7 +32,7 @@ const grayLight = Color(0xffE5E5E5);
 const white = Color(0xffFFFFFF);
 const black = Color(0xff000000);
 
-const ChatBubbleGrey = Color(0xFFD9D9D9);
+const chatBubbleGrey = Color(0xFFD9D9D9);
 
 // Font Size
 const fontXSmall = 10.0;

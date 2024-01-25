@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/seating_plan_popup.dart';
 
 class AttendancePage extends StatelessWidget {
   final Map<dynamic, dynamic> studentDetails;
@@ -216,7 +216,10 @@ class AttendancePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                              attendancePopup(context);
+                            },
                             child: const Text('Mark Attendance',
                                 style: TextStyle(fontSize: fontSmall)),
                           ),
