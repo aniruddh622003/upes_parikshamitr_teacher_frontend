@@ -5,9 +5,28 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.d
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LogInPage extends StatelessWidget {
+class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
+  late SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+      // Use sharedPreferences here or in your build method for read/write operations
+      // For example: sharedPreferences.setString('key', 'value');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
@@ -112,6 +131,7 @@ class LogInPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            sharedPreferences.setBool('isLoggedIn', true);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             Navigator.push(
