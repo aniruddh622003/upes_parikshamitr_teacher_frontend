@@ -118,8 +118,9 @@ class InvigilatorDashboard extends StatelessWidget {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const SeatingArrangement())),
+                              builder: (context) => const SeatingArrangement(
+                                    roomId: "65b2757805449484d0350967",
+                                  ))),
                       child: SvgPicture.asset('android/assets/seatingplan.svg'),
                     )),
                   ],
