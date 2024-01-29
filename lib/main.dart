@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? Dashboard() : const HomeActivity(),
+      home: isLoggedIn ? const Dashboard() : const HomeActivity(),
     );
   }
 }

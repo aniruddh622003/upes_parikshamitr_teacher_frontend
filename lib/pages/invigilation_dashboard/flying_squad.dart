@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class FlyingSquad extends StatelessWidget {
   final String title;
-  const FlyingSquad({Key? key, required this.title}) : super(key: key);
+  const FlyingSquad({super.key, required this.title});
   @override
   Widget build(BuildContext context) {
     return Container(

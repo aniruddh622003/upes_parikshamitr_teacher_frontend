@@ -3,7 +3,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  const CustomTextField({Key? key, required this.label}) : super(key: key);
+  const CustomTextField({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {

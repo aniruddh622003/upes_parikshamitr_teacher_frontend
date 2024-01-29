@@ -39,7 +39,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (context) => InvigilationDetails()),
+                        builder: (context) => const InvigilationDetails()),
                   );
                 },
               ),
@@ -134,7 +134,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        InvigilationDetails()),
+                                        const InvigilationDetails()),
                               );
                             },
                           ),

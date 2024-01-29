@@ -6,7 +6,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class DoubtSection extends StatelessWidget {
   final String roomNumber;
-  const DoubtSection({Key? key, required this.roomNumber}) : super(key: key);
+  const DoubtSection({super.key, required this.roomNumber});
 
   @override
   Widget build(BuildContext context) {

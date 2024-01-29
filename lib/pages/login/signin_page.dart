@@ -117,7 +117,7 @@ class SignInPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Dashboard()));
+                                    builder: (context) => const Dashboard()));
                           },
                           child: const Text(
                             'Sign In',

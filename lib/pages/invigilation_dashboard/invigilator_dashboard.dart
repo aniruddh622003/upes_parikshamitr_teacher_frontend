@@ -11,7 +11,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:flutter_svg/flutter_svg.dart';
 
 class InvigilatorDashboard extends StatelessWidget {
-  const InvigilatorDashboard({Key? key}) : super(key: key);
+  const InvigilatorDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {

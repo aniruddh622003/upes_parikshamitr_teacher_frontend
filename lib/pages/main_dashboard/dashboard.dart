@@ -6,7 +6,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/star
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Dashboard extends StatefulWidget {
-  Dashboard({super.key});
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();

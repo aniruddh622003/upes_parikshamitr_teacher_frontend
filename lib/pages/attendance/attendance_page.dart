@@ -5,8 +5,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class AttendancePage extends StatelessWidget {
   final Map<dynamic, dynamic> studentDetails;
-  const AttendancePage({Key? key, required this.studentDetails})
-      : super(key: key);
+  const AttendancePage({super.key, required this.studentDetails});
 
   @override
   Widget build(BuildContext context) {
