@@ -12,6 +12,7 @@ const orangeLight = Color(0xffF7B096);
 const orange = Color(0xffF2692E);
 // Blues
 const blue50 = Color(0xffE7E9F9);
+const blue300 = Color(0xff6E83DB);
 const blue = Color(0xff1A4BCB);
 const blueLight = Color(0xff90caf9);
 const blueXLight = Color(0xffE7E9F9);

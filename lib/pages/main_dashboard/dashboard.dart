@@ -5,9 +5,14 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   Dashboard({super.key});
 
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   List<Widget> makeBatchwiseBars(List<Map<String, dynamic>> batches) {
     List<Widget> batchwiseBars = [];
     for (Map<String, dynamic> batch in batches) {
@@ -171,6 +176,7 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
         backgroundColor: blue,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: white),
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: white,
             statusBarIconBrightness: Brightness.dark,
@@ -180,15 +186,9 @@ class Dashboard extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.account_circle, color: white),
-                  SizedBox(width: 10),
-                  Text(
-                    'Hi, Aarav',
-                    style: TextStyle(color: white),
-                  ),
-                ],
+              const Text(
+                'Dashboard',
+                style: TextStyle(color: white),
               ),
               IconButton(
                 icon: const Icon(Icons.qr_code, color: white),
@@ -203,47 +203,71 @@ class Dashboard extends StatelessWidget {
             ],
           ),
         ),
+        drawer: Drawer(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+            children: [
+              ListTile(
+                tileColor: gray,
+                title: const Text('Sign Out',
+                    style: TextStyle(color: white, fontSize: fontMedium)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Text('Start Invigilation   ',
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontMedium,
-                  )),
+            const Padding(
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                'Hi, Aarav',
+                style: TextStyle(color: white, fontSize: fontLarge),
+              ),
             ),
-            const SizedBox(height: 40),
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
-                          style: const TextStyle(
-                              color: white, fontSize: fontSmall)),
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: SizedBox(
-                          height: 8,
-                          child: LinearProgressIndicator(
-                            value: calcSheets(sheetsData)[0] /
-                                calcSheets(sheetsData)[1],
-                            backgroundColor: grayLight,
-                            valueColor:
-                                const AlwaysStoppedAnimation<Color>(orange),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+            const SizedBox(height: 10),
+            // Column(
+            //   children: [
+            //     Container(
+            //       padding: const EdgeInsets.symmetric(horizontal: 15),
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Text(
+            //               '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
+            //               style: const TextStyle(
+            //                   color: white, fontSize: fontSmall)),
+            //           ClipRRect(
+            //             borderRadius:
+            //                 const BorderRadius.all(Radius.circular(10)),
+            //             child: SizedBox(
+            //               height: 8,
+            //               child: LinearProgressIndicator(
+            //                 value: calcSheets(sheetsData)[0] /
+            //                     calcSheets(sheetsData)[1],
+            //                 backgroundColor: grayLight,
+            //                 valueColor:
+            //                     const AlwaysStoppedAnimation<Color>(orange),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     )
+            //   ],
+            // ),
             const SizedBox(height: 10),
             Expanded(
               child: Container(
@@ -314,7 +338,7 @@ class Dashboard extends StatelessWidget {
                       const SizedBox(height: 10),
                       const Schedule(),
                       const SizedBox(height: 10),
-                      makeSheetMain(sheetsData),
+                      // makeSheetMain(sheetsData),
                     ],
                   )),
             ),

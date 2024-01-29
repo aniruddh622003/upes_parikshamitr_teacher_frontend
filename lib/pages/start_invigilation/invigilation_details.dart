@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/confirm_invigilation_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetails extends StatelessWidget {
-  InvigilationDetails({super.key});
-  final List<bool> isSelected = [false, false, false];
+  const InvigilationDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,203 +52,7 @@ class InvigilationDetails extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(
-                        builder: (context, setState) {
-                          return Dialog(
-                            insetPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                    'Confirm Invigilation',
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontSize: fontLarge,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Text(
-                                    'Please ensure that you have the following:',
-                                    style: TextStyle(
-                                      color: black,
-                                      fontSize: fontMedium,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        isSelected[0] = !isSelected[0];
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: isSelected[0]
-                                            ? greenLight
-                                            : blueLight,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Answer Sheets',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '24 Nos.',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        isSelected[1] = !isSelected[1];
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: isSelected[1]
-                                            ? greenLight
-                                            : blueLight,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Neural Network Question Papers',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '12 Nos.',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        isSelected[2] = !isSelected[2];
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: isSelected[2]
-                                            ? greenLight
-                                            : blueLight,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Containerization and Virtualization Technologies Question Papers',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '10 Nos.',
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: fontMedium,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ElevatedButton(
-                                    onPressed: isSelected.contains(false)
-                                        ? null
-                                        : () {
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const InvigilatorDashboard()),
-                                            );
-                                          },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              isSelected.contains(false)
-                                                  ? gray
-                                                  : orange),
-                                    ),
-                                    child: const Text(
-                                      'Confirm and Start Invigilation',
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(orange),
-                                    ),
-                                    child: const Text(
-                                      'Back',
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
+                  confirmInvigilationCard(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: orange, // Background color
@@ -268,36 +72,36 @@ class InvigilationDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-              width: MediaQuery.of(context).size.width * 1,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const Dashboard()),
-                  // );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent, // Background color
-                  foregroundColor: white, // Text color
-                  side: const BorderSide(
-                      color: white, width: 2), // Border color and width
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Change Invigilation (3 left)',
-                      style: TextStyle(fontSize: fontMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+            //   width: MediaQuery.of(context).size.width * 1,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       // Navigator.push(
+            //       //   context,
+            //       //   MaterialPageRoute(builder: (context) => const Dashboard()),
+            //       // );
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: Colors.transparent, // Background color
+            //       foregroundColor: white, // Text color
+            //       side: const BorderSide(
+            //           color: white, width: 2), // Border color and width
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //     ),
+            //     child: const Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Text(
+            //           'Change Invigilation (3 left)',
+            //           style: TextStyle(fontSize: fontMedium),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ));
   }
