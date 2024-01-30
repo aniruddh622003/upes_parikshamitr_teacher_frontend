@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class HomeActivity extends StatefulWidget {
@@ -115,7 +115,7 @@ class _HomeActivityState extends State<HomeActivity> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LogInPage()));
+                          builder: (context) => const SignInPage()));
                 },
                 child: const Text(
                   'Get Started',

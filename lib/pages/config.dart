@@ -71,3 +71,5 @@ List<Map> requiredSupplies = [
   {"name": "Big Data Question Papers", "required": 20},
   {"name": "Pink Slips", "required": 10},
 ];
+
+String serverUrl = "https://exambackend.aniruddhremote.online";

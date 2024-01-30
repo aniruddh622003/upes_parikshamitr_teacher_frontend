@@ -1,11 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class PasswordField extends StatefulWidget {
   final String label;
-  const PasswordField({super.key, required this.label});
+  final TextEditingController controller;
+  const PasswordField(
+      {super.key, required this.label, required this.controller});
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
 }
@@ -16,6 +16,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       obscureText: _obscureText,
       decoration: InputDecoration(
         labelStyle: const TextStyle(color: black),

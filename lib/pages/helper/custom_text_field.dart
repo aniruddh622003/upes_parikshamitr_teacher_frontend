@@ -3,11 +3,14 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  const CustomTextField({super.key, required this.label});
+  final TextEditingController controller;
+  const CustomTextField(
+      {super.key, required this.label, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: black),

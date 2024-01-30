@@ -1,11 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/valid_email_checker.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -15,20 +21,81 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  late SharedPreferences sharedPreferences;
-
-  @override
-  void initState() {
-    super.initState();
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      sharedPreferences = sp;
-      // Use sharedPreferences here or in your build method for read/write operations
-      // For example: sharedPreferences.setString('key', 'value');
-    });
-  }
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPass1 = TextEditingController();
+  final TextEditingController controllerPass2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Future<void> sendPostRequest(Map<String, dynamic> data) async {
+      var url = Uri.parse('$serverUrl/teacher');
+      try {
+        var response = await http.post(
+          url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(data),
+        );
+
+        if (response.statusCode == 201) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return Dialog(
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Info",
+                              style: TextStyle(
+                                  fontSize: fontLarge,
+                                  fontWeight: FontWeight.bold)),
+                          Text(
+                              "${jsonDecode(response.body)['message']}. Please continue to LogIn.",
+                              style: const TextStyle(fontSize: fontMedium)),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignInPage()));
+                                // Navigator.pop(context);
+                              },
+                              child: const Text("OK"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        } else {
+          errorDialog(context,
+              'Registration Failed! ${jsonDecode(response.body)['message']}');
+        }
+      } catch (e) {
+        errorDialog(context, 'Registration Failed! $e');
+      }
+    }
+
     final double appBarHeight = AppBar().preferredSize.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -100,21 +167,33 @@ class _LogInPageState extends State<LogInPage> {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your name'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your name',
+                        controller: controllerName,
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your SAP ID'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your SAP ID',
+                        controller: controllerEmail,
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: PasswordField(label: 'Password'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: PasswordField(
+                        label: 'Password',
+                        controller: controllerPass1,
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-                      child: PasswordField(label: 'Re-type Password'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                      child: PasswordField(
+                        label: 'Re-type Password',
+                        controller: controllerPass2,
+                      ),
                     ),
                   ],
                 ),
@@ -131,13 +210,41 @@ class _LogInPageState extends State<LogInPage> {
                             ),
                           ),
                           onPressed: () {
-                            sharedPreferences.setBool('isLoggedIn', true);
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Dashboard()));
+                            if (controllerName.text.isEmpty ||
+                                controllerEmail.text.isEmpty ||
+                                controllerPass1.text.isEmpty ||
+                                controllerPass2.text.isEmpty) {
+                              errorDialog(
+                                  context, 'Please fill all the fields.');
+                            }
+                            // else if (!isValidEmail(controllerEmail.text)) {
+                            //   errorDialog(
+                            //       context, 'Please enter a valid email.');
+                            // }
+                            else if (controllerPass1.text.length < 8) {
+                              errorDialog(context,
+                                  'Password must be atleast 8 characters long.');
+                            } else if (controllerPass1.text.contains(' ')) {
+                              errorDialog(
+                                  context, 'Password cannot contain spaces.');
+                            } else if (controllerPass1.text !=
+                                controllerPass2.text) {
+                              errorDialog(context, 'Passwords do not match.');
+                            } else {
+                              // send data to server
+                              Map<String, dynamic> data = {
+                                'sap_id': int.parse(controllerEmail.text),
+                                'name': controllerName.text,
+                                'password': controllerPass1.text,
+                              };
+                              sendPostRequest(data);
+                              // Navigator.pop(context);
+                              // Navigator.pop(context);
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const Dashboard()));
+                            }
                           },
                           child: const Text(
                             'Register',

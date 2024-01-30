@@ -1,15 +1,94 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:http/http.dart' as http;
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  Future<void> sendPostRequest(Map<String, dynamic> data) async {
+    var url = Uri.parse('$serverUrl/teacher/login');
+    try {
+      var response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 201) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return Dialog(
+                  insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Info",
+                            style: TextStyle(
+                                fontSize: fontLarge,
+                                fontWeight: FontWeight.bold)),
+                        Text("${jsonDecode(response.body)['token']}",
+                            style: const TextStyle(fontSize: fontMedium)),
+                        const SizedBox(height: 10),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Dashboard()));
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      } else {
+        errorDialog(
+            context, 'Registration Failed! ${jsonDecode(response.body)}');
+      }
+    } catch (e) {
+      errorDialog(context, 'Registration Failed! $e');
+    }
+  }
+
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +152,19 @@ class SignInPage extends StatelessWidget {
                           vertical: 30, horizontal: 90),
                       child: SvgPicture.asset('android/assets/signinpage.svg'),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your sap ID'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your SAP ID',
+                        controller: controllerEmail,
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: PasswordField(label: 'Enter your password'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: PasswordField(
+                        label: 'Enter your password',
+                        controller: controllerPass,
+                      ),
                     ),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
@@ -112,12 +197,17 @@ class SignInPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Dashboard()));
+                            if (controllerEmail.text.isEmpty ||
+                                controllerPass.text.isEmpty) {
+                              errorDialog(
+                                  context, 'Please fill all the fields.');
+                            } else {
+                              Map<String, dynamic> data = {
+                                'sap_id': int.parse(controllerEmail.text),
+                                'password': controllerPass.text,
+                              };
+                              sendPostRequest(data);
+                            }
                           },
                           child: const Text(
                             'Sign In',
