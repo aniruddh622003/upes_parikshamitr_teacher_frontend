@@ -123,7 +123,6 @@ void confirmInvigilationCard(BuildContext context) {
                             });
                           }
                         }
-                        print(pendingSupplies);
                         if (pendingSupplies.isNotEmpty) {}
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
