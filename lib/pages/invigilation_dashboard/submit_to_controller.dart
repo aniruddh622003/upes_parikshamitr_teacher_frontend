@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/pending_req.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 

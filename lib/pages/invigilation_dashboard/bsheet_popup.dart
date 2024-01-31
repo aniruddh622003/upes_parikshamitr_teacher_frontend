@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
 void bsheetPopup(BuildContext context) {
   TextEditingController controllerSAP = TextEditingController();
@@ -75,7 +73,7 @@ void bsheetPopup(BuildContext context) {
                   child: TextField(
                     controller: controllerSAP,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Type here',
                     ),

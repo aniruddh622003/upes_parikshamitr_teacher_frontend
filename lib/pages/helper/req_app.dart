@@ -30,9 +30,9 @@ void reqApp(BuildContext context) {
                             color: white,
                             fontSize: fontLarge,
                             fontWeight: FontWeight.bold)),
-                    Text(
+                    const Text(
                         'Your submission has been authenticated by the controller. You can exit this screen!',
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: white, fontSize: fontMedium)),
                     const SizedBox(height: 10),
                     Center(

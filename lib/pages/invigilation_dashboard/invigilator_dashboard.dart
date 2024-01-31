@@ -3,11 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/bsheet_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_squad.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/status_box.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submit_to_controller.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/current_time.dart';
@@ -243,7 +241,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SubmitToController()))
+                                            const SubmitToController()))
                               },
                           child: SvgPicture.asset(
                               'android/assets/controller.svg')),
@@ -301,9 +299,9 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ),
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               'Flying Squad',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: white,
                                 fontSize: fontSmall,
                                 fontWeight: FontWeight.normal,

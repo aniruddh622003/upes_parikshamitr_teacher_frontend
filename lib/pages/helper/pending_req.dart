@@ -29,9 +29,9 @@ void pendingReq(BuildContext context) {
                             color: white,
                             fontSize: fontLarge,
                             fontWeight: FontWeight.bold)),
-                    Text(
+                    const Text(
                         'Your submission has been sent for authentication to the controller. Kindly wait!',
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: white, fontSize: fontMedium)),
                     const SizedBox(height: 10),
                     Center(
