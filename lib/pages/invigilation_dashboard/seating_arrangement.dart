@@ -200,7 +200,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                   }
                                   if (seatingPlan?['data']['seating_plan']
                                           [indexData]['attendance'] ==
-                                      false) {
+                                      true) {
                                     text = 'P';
                                     fontColor = white;
                                   }

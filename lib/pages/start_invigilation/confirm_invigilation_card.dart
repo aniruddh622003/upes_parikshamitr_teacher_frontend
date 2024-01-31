@@ -4,6 +4,19 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show requiredSupplies;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
+
+void savePenddingSupplies({required List<Map> requiredSupplies}) async {
+  const storage = FlutterSecureStorage();
+  String jsonString = jsonEncode(requiredSupplies);
+  await storage.write(
+    key: 'pendingSupplies',
+    value: jsonString,
+  );
+  // List<dynamic> jsonList = jsonDecode(jsonString) as List;
+  // print(jsonList.map((item) => item as Map).toList());
+}
 
 void confirmInvigilationCard(BuildContext context) {
   final List<TextEditingController> controllers = List.generate(
@@ -123,7 +136,8 @@ void confirmInvigilationCard(BuildContext context) {
                             });
                           }
                         }
-                        if (pendingSupplies.isNotEmpty) {}
+                        savePenddingSupplies(requiredSupplies: pendingSupplies);
+
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();

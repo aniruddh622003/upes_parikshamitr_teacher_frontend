@@ -4,71 +4,13 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_p
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 
-void attendancePopup(BuildContext context) {
+void bsheetPopup(BuildContext context) {
+  TextEditingController controllerSAP = TextEditingController();
   final qrKey = GlobalKey(debugLabel: 'QR');
   void onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Scan Successful'),
-            content: Text(scanData.code.toString()),
-            actions: [
-              TextButton(
-                child: const Text('Scan Again'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  controller.resumeCamera();
-                },
-              ),
-              TextButton(
-                child: const Text('Continue'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  int indexData = seatingPlan['data']['seating_plan']
-                      .indexWhere((student) =>
-                          student['sap_id'] == scanData.code.toString());
-                  if (indexData == -1) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Error'),
-                          content: Text(
-                              "${scanData.code.toString()} student not found in room!"),
-                          actions: [
-                            TextButton(
-                              child: const Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                controller.resumeCamera();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    int indexData = seatingPlan['data']['seating_plan']
-                        .indexWhere((student) =>
-                            student['sap_id'] == scanData.code.toString());
-                    controller.dispose();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => AttendancePage(
-                              studentDetails: seatingPlan['data']
-                                  ['seating_plan'][indexData])),
-                    );
-                  }
-                },
-              ),
-            ],
-          );
-        },
-      );
+      controllerSAP.text = scanData.code.toString();
     });
   }
 
@@ -90,7 +32,7 @@ void attendancePopup(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Mark Attendance',
+                    const Text('Give B-Sheet',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -130,7 +72,8 @@ void attendancePopup(BuildContext context) {
                     color: blueXLight,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: controllerSAP,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -152,11 +95,8 @@ void attendancePopup(BuildContext context) {
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              AttendancePage(studentDetails: studentDetails)));
                     },
-                    child: const Text('Mark Attendance',
+                    child: const Text('Give B-Sheet',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

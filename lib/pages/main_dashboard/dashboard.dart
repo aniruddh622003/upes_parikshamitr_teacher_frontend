@@ -261,23 +261,23 @@ class _DashboardState extends State<Dashboard> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   children: [
-                    ListTile(
-                      tileColor: gray,
-                      title: const Text('Sign Out',
-                          style: TextStyle(color: white, fontSize: fontMedium)),
-                      onTap: () {
-                        signOut();
-                      },
-                    ),
-                    ListTile(
-                      title: const Text('Item 2'),
-                      onTap: () {
-                        // Update the state of the app
-                        // ...
-                        // Then close the drawer
-                        Navigator.pop(context);
-                      },
-                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: blue,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListTile(
+                        tileColor: Colors.transparent,
+                        title: const Center(
+                          child: Text('Sign Out',
+                              style: TextStyle(
+                                  color: white, fontSize: fontMedium)),
+                        ),
+                        onTap: () {
+                          signOut();
+                        },
+                      ),
+                    )
                   ],
                 ),
               ),
