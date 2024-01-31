@@ -13,6 +13,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -22,6 +23,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final storage = const FlutterSecureStorage();
   Future<void> sendPostRequest(Map<String, dynamic> data) async {
     var url = Uri.parse('$serverUrl/teacher/login');
     try {
@@ -34,53 +36,18 @@ class _SignInPageState extends State<SignInPage> {
       );
 
       if (response.statusCode == 201) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StatefulBuilder(
-              builder: (context, setState) {
-                return Dialog(
-                  insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Info",
-                            style: TextStyle(
-                                fontSize: fontLarge,
-                                fontWeight: FontWeight.bold)),
-                        Text("${jsonDecode(response.body)['token']}",
-                            style: const TextStyle(fontSize: fontMedium)),
-                        const SizedBox(height: 10),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Dashboard()));
-                            },
-                            child: const Text("OK"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
+        await storage.write(
+            key: 'jwt', value: jsonDecode(response.body)['token']);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Dashboard(jwt: jsonDecode(response.body)['token'])));
       } else {
-        errorDialog(
-            context, 'Registration Failed! ${jsonDecode(response.body)}');
+        errorDialog(context,
+            '${jsonDecode(response.body)['message']}. Please try again.');
       }
     } catch (e) {
       errorDialog(context, 'Registration Failed! $e');
@@ -89,6 +56,8 @@ class _SignInPageState extends State<SignInPage> {
 
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPass = TextEditingController();
+
+  Future<void>? _futurePostRequest;
 
   @override
   Widget build(BuildContext context) {
@@ -206,15 +175,30 @@ class _SignInPageState extends State<SignInPage> {
                                 'sap_id': int.parse(controllerEmail.text),
                                 'password': controllerPass.text,
                               };
-                              sendPostRequest(data);
+                              setState(() {
+                                _futurePostRequest = sendPostRequest(data);
+                              });
                             }
                           },
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(
-                                color: white,
-                                fontSize: fontMedium,
-                                fontWeight: FontWeight.w800),
+                          child: FutureBuilder<void>(
+                            future: _futurePostRequest,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<void> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator(
+                                  color: white,
+                                );
+                              } else {
+                                return const Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: fontMedium,
+                                      fontWeight: FontWeight.w800),
+                                );
+                              }
+                            },
                           ),
                         )),
                     Padding(

@@ -24,76 +24,79 @@ class _LogInPageState extends State<LogInPage> {
   final TextEditingController controllerPass1 = TextEditingController();
   final TextEditingController controllerPass2 = TextEditingController();
 
+  Future<bool> _registerFuture = Future.value(false);
+  Future<bool> sendPostRequest(Map<String, dynamic> data) async {
+    var url = Uri.parse('$serverUrl/teacher');
+    try {
+      var response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 201) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return Dialog(
+                  insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Info",
+                            style: TextStyle(
+                                fontSize: fontLarge,
+                                fontWeight: FontWeight.bold)),
+                        Text(
+                            "${jsonDecode(response.body)['message']}. Please continue to LogIn.",
+                            style: const TextStyle(fontSize: fontMedium)),
+                        const SizedBox(height: 10),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignInPage()));
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+        return true;
+      } else {
+        errorDialog(context,
+            'Registration Failed! ${jsonDecode(response.body)['message']}');
+        return false;
+      }
+    } catch (e) {
+      errorDialog(context, 'Registration Failed! $e');
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future<void> sendPostRequest(Map<String, dynamic> data) async {
-      var url = Uri.parse('$serverUrl/teacher');
-      try {
-        var response = await http.post(
-          url,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(data),
-        );
-
-        if (response.statusCode == 201) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StatefulBuilder(
-                builder: (context, setState) {
-                  return Dialog(
-                    insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Info",
-                              style: TextStyle(
-                                  fontSize: fontLarge,
-                                  fontWeight: FontWeight.bold)),
-                          Text(
-                              "${jsonDecode(response.body)['message']}. Please continue to LogIn.",
-                              style: const TextStyle(fontSize: fontMedium)),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignInPage()));
-                                // Navigator.pop(context);
-                              },
-                              child: const Text("OK"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          );
-        } else {
-          errorDialog(context,
-              'Registration Failed! ${jsonDecode(response.body)['message']}');
-        }
-      } catch (e) {
-        errorDialog(context, 'Registration Failed! $e');
-      }
-    }
-
     final double appBarHeight = AppBar().preferredSize.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -214,12 +217,7 @@ class _LogInPageState extends State<LogInPage> {
                                 controllerPass2.text.isEmpty) {
                               errorDialog(
                                   context, 'Please fill all the fields.');
-                            }
-                            // else if (!isValidEmail(controllerEmail.text)) {
-                            //   errorDialog(
-                            //       context, 'Please enter a valid email.');
-                            // }
-                            else if (controllerPass1.text.length < 8) {
+                            } else if (controllerPass1.text.length < 8) {
                               errorDialog(context,
                                   'Password must be atleast 8 characters long.');
                             } else if (controllerPass1.text.contains(' ')) {
@@ -235,21 +233,30 @@ class _LogInPageState extends State<LogInPage> {
                                 'name': controllerName.text,
                                 'password': controllerPass1.text,
                               };
-                              sendPostRequest(data);
-                              // Navigator.pop(context);
-                              // Navigator.pop(context);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const Dashboard()));
+                              setState(() {
+                                _registerFuture = sendPostRequest(data);
+                              });
                             }
                           },
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(
-                                color: white,
-                                fontSize: fontMedium,
-                                fontWeight: FontWeight.w800),
+                          child: FutureBuilder<bool>(
+                            future: _registerFuture,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<bool> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator(
+                                  color: white,
+                                );
+                              } else {
+                                return const Text(
+                                  'Register',
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: fontMedium,
+                                      fontWeight: FontWeight.w800),
+                                );
+                              }
+                            },
                           ),
                         )),
                     Padding(
