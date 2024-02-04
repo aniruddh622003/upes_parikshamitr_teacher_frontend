@@ -12,7 +12,6 @@ void main() async {
   bool verified = false;
 
   Future<void> verifyToken({required String token}) async {
-    print(token);
     var response = await http.get(
       Uri.parse('$serverUrl/teacher/verifyLogin'),
       headers: {
@@ -28,7 +27,6 @@ void main() async {
 
   const storage = FlutterSecureStorage();
   String? jwt = await storage.read(key: 'jwt');
-  print(jwt);
   if (jwt != null) {
     await verifyToken(token: jwt);
   }
@@ -45,7 +43,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home:
-          jwt != null && verified ? Dashboard(jwt: jwt) : HomeActivity(jwt: jwt, verified: verified),
+          jwt != null && verified ? Dashboard(jwt: jwt) : const HomeActivity(),
     );
   }
 }

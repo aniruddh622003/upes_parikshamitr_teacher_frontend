@@ -16,92 +16,92 @@ void bsheetPopup(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Give B-Sheet',
-                        style: TextStyle(
-                            fontSize: fontMedium, fontWeight: FontWeight.bold)),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.close),
-                    ),
-                  ],
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
                 ),
-                const SizedBox(height: 10),
-                const Text('Align the QR code within the frame to scan'),
-                const SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ListView(
+                    shrinkWrap        : true,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Give B-Sheet',
+                              style: TextStyle(
+                                  fontSize: fontMedium, fontWeight: FontWeight.bold)),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(Icons.close),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Center(
-                    child: Text('OR',
-                        style: TextStyle(
-                            fontSize: fontMedium,
-                            fontWeight: FontWeight.bold))),
-                const SizedBox(height: 10),
-                const Center(child: Text('Enter Student’s SAP ID Below')),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: blueXLight,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: controllerSAP,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Type here',
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 45,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: orange,
-                      foregroundColor: white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      const SizedBox(height: 10),
+                      const Text('Align the QR code within the frame to scan'),
+                      const SizedBox(height: 10),
+                      Center(
+                        child: SizedBox(
+                          height: 300,
+                          width: 300,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: QRView(
+                              key: qrKey,
+                              onQRViewCreated: onQRViewCreated,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Give B-Sheet',
-                        style: TextStyle(fontSize: fontSmall)),
+                      const SizedBox(height: 10),
+                      const Center(
+                          child: Text('OR',
+                              style: TextStyle(
+                                  fontSize: fontMedium,
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(height: 10),
+                      const Center(child: Text('Enter Student’s SAP ID Below')),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: blueXLight,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextField(
+                          controller: controllerSAP,
+                          textAlign: TextAlign.center,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Type here',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: orange,
+                            foregroundColor: white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Give B-Sheet',
+                              style: TextStyle(fontSize: fontSmall)),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       );
     },
   );

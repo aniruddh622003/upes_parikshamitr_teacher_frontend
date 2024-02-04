@@ -157,35 +157,26 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    double paddingTop = MediaQuery.of(context).padding.top.toDouble();
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: white,
-            statusBarIconBrightness: Brightness.dark,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        title: const Text(
+          'Invigilation Dashboard',
+          style: TextStyle(
+            fontSize: fontMedium,
+            fontWeight: FontWeight.bold,
+            color: white,
           ),
-          toolbarHeight: 250,
-          flexibleSpace: Container(
-            color: primaryColor,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, paddingTop + 15, 0, 20),
-                      child: const Text(
-                        'Invigilation Dashboard',
-                        style: TextStyle(
-                          fontSize: fontMedium,
-                          fontWeight: FontWeight.bold,
-                          color: white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
+        ),
+        backgroundColor: blue,
+      ),
+        body: Column(
+          children: [
+            Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -205,241 +196,240 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 14),
                   child: InvigilatorProgress(),
                 ),
-              ],
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+            Expanded(
+              child: Container(
+                // width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: SvgPicture.asset('android/assets/ufm.svg'),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                              onTap: () => bsheetPopup(context),
+                              child: SvgPicture.asset(
+                                  'android/assets/supplementary.svg')),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                              onTap: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SubmitToController()))
+                                  },
+                              child: SvgPicture.asset(
+                                  'android/assets/controller.svg')),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DoubtSection(roomNumber: "1101"))),
+                          child: SvgPicture.asset('android/assets/doubt.svg'),
+                        )),
+                        Expanded(
+                            child: GestureDetector(
+                          onTap: () => attendancePopup(context),
+                          child: SvgPicture.asset('android/assets/qr.svg'),
+                        )),
+                        Expanded(
+                            child: GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SeatingArrangement(
+                                        roomId: "65ba84665bfb4b58d77d0184",
+                                      ))),
+                          child: SvgPicture.asset('android/assets/seatingplan.svg'),
+                        )),
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 20, left: 20, top: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: grayLight,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: const BoxDecoration(
+                              color: blue,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                            ),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'Flying Squad',
+                                  style: TextStyle(
+                                    color: white,
+                                    fontSize: fontSmall,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  padding: const EdgeInsets.only(right: 7),
+                                  child: SvgPicture.asset(
+                                      'android/assets/refresh.svg'),
+                                ),
+                                const Text(
+                                  "Refresh",
+                                  style: TextStyle(
+                                      fontSize: fontXSmall, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              border: const Border(
+                                bottom: BorderSide(
+                                  color: gray,
+                                ),
+                              ),
+                              color: grayLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Dr. Rajat Gupta',
+                                    style: TextStyle(
+                                      fontSize: fontSmall,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              border: const Border(
+                                bottom: BorderSide(
+                                  color: gray,
+                                ),
+                              ),
+                              color: grayLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Dr. Anil Kumar',
+                                    style: TextStyle(
+                                      fontSize: fontSmall,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              border: const Border(
+                                bottom: BorderSide(
+                                  color: gray,
+                                ),
+                              ),
+                              color: grayLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Dr. Atul Kumar',
+                                    style: TextStyle(
+                                      fontSize: fontSmall,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    // Container(
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 10),
+                    //         decoration: const BoxDecoration(
+                    //           color: blue,
+                    //           borderRadius: BorderRadius.only(
+                    //               topLeft: Radius.circular(10),
+                    //               topRight: Radius.circular(10)),
+                    //         ),
+                    //         child: const Text(
+                    //           'Check Supplies',
+                    //           style: TextStyle(color: white),
+                    //         ),
+                    //       ),
+                    //       // const FlyingSquad(title: 'Flying Squad'),
+                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
+                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
+                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: true),
+                    //     ],
+                    //   ),
+                    // ),
+                    FutureBuilder<Widget>(
+                      future: makePendingItems(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator(); // or some other widget while waiting
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return snapshot.data!;
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: SvgPicture.asset('android/assets/ufm.svg'),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                          onTap: () => bsheetPopup(context),
-                          child: SvgPicture.asset(
-                              'android/assets/supplementary.svg')),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                          onTap: () => {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SubmitToController()))
-                              },
-                          child: SvgPicture.asset(
-                              'android/assets/controller.svg')),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const DoubtSection(roomNumber: "1101"))),
-                      child: SvgPicture.asset('android/assets/doubt.svg'),
-                    )),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => attendancePopup(context),
-                      child: SvgPicture.asset('android/assets/qr.svg'),
-                    )),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SeatingArrangement(
-                                    roomId: "65ba84665bfb4b58d77d0184",
-                                  ))),
-                      child: SvgPicture.asset('android/assets/seatingplan.svg'),
-                    )),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 20, left: 20, top: 10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: grayLight,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        decoration: const BoxDecoration(
-                          color: blue,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10)),
-                        ),
-                        child: Row(
-                          children: [
-                            const Text(
-                              'Flying Squad',
-                              style: TextStyle(
-                                color: white,
-                                fontSize: fontSmall,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.only(right: 7),
-                              child: SvgPicture.asset(
-                                  'android/assets/refresh.svg'),
-                            ),
-                            const Text(
-                              "Refresh",
-                              style: TextStyle(
-                                  fontSize: fontXSmall, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          border: const Border(
-                            bottom: BorderSide(
-                              color: gray,
-                            ),
-                          ),
-                          color: grayLight,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Dr. Rajat Gupta',
-                                style: TextStyle(
-                                  fontSize: fontSmall,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          border: const Border(
-                            bottom: BorderSide(
-                              color: gray,
-                            ),
-                          ),
-                          color: grayLight,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Dr. Anil Kumar',
-                                style: TextStyle(
-                                  fontSize: fontSmall,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          border: const Border(
-                            bottom: BorderSide(
-                              color: gray,
-                            ),
-                          ),
-                          color: grayLight,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Dr. Atul Kumar',
-                                style: TextStyle(
-                                  fontSize: fontSmall,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                // Container(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       Container(
-                //         padding: const EdgeInsets.symmetric(
-                //             horizontal: 10, vertical: 10),
-                //         decoration: const BoxDecoration(
-                //           color: blue,
-                //           borderRadius: BorderRadius.only(
-                //               topLeft: Radius.circular(10),
-                //               topRight: Radius.circular(10)),
-                //         ),
-                //         child: const Text(
-                //           'Check Supplies',
-                //           style: TextStyle(color: white),
-                //         ),
-                //       ),
-                //       // const FlyingSquad(title: 'Flying Squad'),
-                //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
-                //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
-                //       // getStatusBox("Dr. Rishi Madan", roundedBorder: true),
-                //     ],
-                //   ),
-                // ),
-                FutureBuilder<Widget>(
-                  future: makePendingItems(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // or some other widget while waiting
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return snapshot.data!;
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+          ],
         ));
   }
 
