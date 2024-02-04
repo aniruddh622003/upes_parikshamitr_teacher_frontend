@@ -33,18 +33,8 @@ class InvigilationDetails extends StatelessWidget {
         backgroundColor: blue,
         body: ListView(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Welcome, <username>',
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontMedium,
-                  ),
-                ),
-              ),
+            const SizedBox(
+              height: 20,
             ),
             const InvigilationDetailsCard(),
             Container(
@@ -72,36 +62,6 @@ class InvigilationDetails extends StatelessWidget {
                 ),
               ),
             ),
-            // Container(
-            //   margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-            //   width: MediaQuery.of(context).size.width * 1,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       // Navigator.push(
-            //       //   context,
-            //       //   MaterialPageRoute(builder: (context) => const Dashboard()),
-            //       // );
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: Colors.transparent, // Background color
-            //       foregroundColor: white, // Text color
-            //       side: const BorderSide(
-            //           color: white, width: 2), // Border color and width
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //     ),
-            //     child: const Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Text(
-            //           'Change Invigilation (3 left)',
-            //           style: TextStyle(fontSize: fontMedium),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ));
   }

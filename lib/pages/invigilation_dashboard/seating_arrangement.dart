@@ -97,13 +97,13 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
             ),
             body: RefreshIndicator(
               onRefresh: fetchData,
-              child: Column(
-                children: [
-                  Center(
-                    child: Text("Room: ${seatingPlan?['data']['room_no']}",
-                        style: const TextStyle(
-                          color: white,
-                          fontSize: fontXLarge,
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text("Room: ${seatingPlan?['data']['room_no']}",
+                          style: const TextStyle(
+                            color: white,
+                            fontSize: fontXLarge,
                         )),
                   ),
                   const Center(

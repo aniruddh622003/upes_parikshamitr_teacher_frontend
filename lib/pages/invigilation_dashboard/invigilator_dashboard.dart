@@ -7,6 +7,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submit_to_controller.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/current_time.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -160,42 +161,42 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: white,
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        title: const Text(
-          'Invigilation Dashboard',
-          style: TextStyle(
-            fontSize: fontMedium,
-            fontWeight: FontWeight.bold,
-            color: white,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: white,
+            statusBarIconBrightness: Brightness.dark,
           ),
+          title: const Text(
+            'Invigilation Dashboard',
+            style: TextStyle(
+              fontSize: fontMedium,
+              fontWeight: FontWeight.bold,
+              color: white,
+            ),
+          ),
+          backgroundColor: blue,
         ),
-        backgroundColor: blue,
-      ),
         body: Column(
           children: [
             Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        children: [
-                          const CurrentTimeWidget(),
-                          getPhaseText(),
-                        ],
-                      ),
-                    )),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 14),
-                  child: InvigilatorProgress(),
-                ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Column(
+                    children: [
+                      const CurrentTimeWidget(),
+                      getPhaseText(),
+                    ],
+                  ),
+                )),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 14),
+              child: InvigilatorProgress(),
+            ),
             Expanded(
               child: Container(
                 // width: double.infinity,
@@ -214,7 +215,10 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: SvgPicture.asset('android/assets/ufm.svg'),
+                          child: GestureDetector(
+                              onTap: () => ufmPopup(context),
+                              child:
+                                  SvgPicture.asset('android/assets/ufm.svg')),
                         ),
                         Expanded(
                           child: GestureDetector(
@@ -259,15 +263,18 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SeatingArrangement(
+                                  builder: (context) =>
+                                      const SeatingArrangement(
                                         roomId: "65ba84665bfb4b58d77d0184",
                                       ))),
-                          child: SvgPicture.asset('android/assets/seatingplan.svg'),
+                          child: SvgPicture.asset(
+                              'android/assets/seatingplan.svg'),
                         )),
                       ],
                     ),
                     Container(
-                      margin: const EdgeInsets.only(right: 20, left: 20, top: 10),
+                      margin:
+                          const EdgeInsets.only(right: 20, left: 20, top: 10),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: grayLight,
@@ -304,7 +311,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                 const Text(
                                   "Refresh",
                                   style: TextStyle(
-                                      fontSize: fontXSmall, color: Colors.white),
+                                      fontSize: fontXSmall,
+                                      color: Colors.white),
                                 ),
                               ],
                             ),
@@ -414,9 +422,10 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                     // ),
                     FutureBuilder<Widget>(
                       future: makePendingItems(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Widget> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const CircularProgressIndicator(); // or some other widget while waiting
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');

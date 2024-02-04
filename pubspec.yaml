@@ -79,6 +79,8 @@ flutter:
     - android/assets/refresh.svg
     - android/assets/sheetsubmit.svg
     - android/assets/seatingplan.svg
+    - assets/upes_logo.svg
+    - assets/upes_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
