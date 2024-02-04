@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_plan_popup.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +30,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
 
   Future<Map> fetchData() async {
     response = await http.get(Uri.parse(
-        'http://10.0.2.2:3000/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
+        '$serverUrl/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
