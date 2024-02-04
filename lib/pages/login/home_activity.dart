@@ -7,7 +7,9 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart'
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class HomeActivity extends StatefulWidget {
-  const HomeActivity({super.key});
+  final String? jwt;
+  final bool verified;
+  const HomeActivity({super.key, required this.jwt, required this.verified});
 
   @override
   _HomeActivityState createState() => _HomeActivityState();
@@ -28,6 +30,8 @@ class _HomeActivityState extends State<HomeActivity> {
               child: ListView(
                 shrinkWrap: true,
                 children: [
+                  Text(widget.jwt.toString()),
+                  Text(widget.verified.toString()),
                   CarouselSlider(
                     items: [
                       Container(

@@ -72,4 +72,4 @@ List<Map> requiredSupplies = [
   // {"name": "Pink Slips", "required": 10},
 ];
 
-String serverUrl = "https://exambackend.aniruddhremote.online";
+String serverUrl = "http://35.154.53.88:3000";

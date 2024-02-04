@@ -208,10 +208,10 @@ class _DashboardState extends State<Dashboard> {
   void signOut() async {
     await storage.delete(key: 'jwt');
     Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeActivity()),
-    );
+    // Navigator.push(
+    //   context,
+    //   // MaterialPageRoute(builder: (context) => const HomeActivity(jwt: jwt,)),
+    // );
   }
 
   @override
