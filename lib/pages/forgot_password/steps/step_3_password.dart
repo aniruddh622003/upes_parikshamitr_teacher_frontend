@@ -29,9 +29,9 @@ class _Step3PassState extends State<Step3Pass> {
         constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height,
             minWidth: MediaQuery.of(context).size.width),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,

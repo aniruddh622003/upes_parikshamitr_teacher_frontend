@@ -58,7 +58,7 @@ class _HomeActivityState extends State<HomeActivity> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
-              "UPES ParikshaMitr",
+              "UPES ParikshaMitr - Teachers",
               style: TextStyle(fontSize: fontSmall, color: white),
             ),
           ),
