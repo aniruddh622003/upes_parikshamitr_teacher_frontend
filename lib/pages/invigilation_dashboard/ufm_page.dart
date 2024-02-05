@@ -11,6 +11,7 @@ class UFMPage extends StatefulWidget {
 
 class _UFMPageState extends State<UFMPage> {
   int _counter = 0;
+  bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,47 +151,298 @@ class _UFMPageState extends State<UFMPage> {
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          // const SizedBox(height: 20),
-                          Container(
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                          const Text(
+                              'Details of incriminating material recovered',
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('No. of printed pages',
+                                    style: TextStyle(fontSize: fontMedium)),
                                 Container(
-                                  decoration: const BoxDecoration(
-                                    color: blue,
-                                    shape: BoxShape.circle,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_counter > 0) _counter--;
-                                      });
-                                    },
-                                    icon:
-                                        const Icon(Icons.remove, color: white),
-                                    padding: const EdgeInsets.all(0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_counter > 0) _counter--;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.remove,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                      Text('$_counter',
+                                          style: const TextStyle(fontSize: 20)),
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _counter++;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.add,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text('$_counter',
-                                    style: const TextStyle(fontSize: 20)),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('No. of torn pages',
+                                    style: TextStyle(fontSize: fontMedium)),
                                 Container(
-                                  decoration: const BoxDecoration(
-                                    color: blue,
-                                    shape: BoxShape.circle,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _counter++;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.add, color: white),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_counter > 0) _counter--;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.remove,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                      Text('$_counter',
+                                          style: const TextStyle(fontSize: 20)),
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _counter++;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.add,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Communication device',
+                                    style: TextStyle(fontSize: fontMedium)),
+                                Container(
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_counter > 0) _counter--;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.remove,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                      Text('$_counter',
+                                          style: const TextStyle(fontSize: 20)),
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _counter++;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.add,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Text(
+                              'Material recovered under reference as below',
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("In student's hand",
+                                    style: TextStyle(fontSize: fontMedium)),
+                                SizedBox(
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Padding(
                                     padding: const EdgeInsets.all(0),
+                                    child: Checkbox(
+                                      value: _isChecked,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _isChecked = value!;
+                                        });
+                                      },
+                                      activeColor: blue,
+                                      checkColor: white,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("In student's shoes or socks",
+                                    style: TextStyle(fontSize: fontMedium)),
+                                SizedBox(
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Checkbox(
+                                      value: _isChecked,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _isChecked = value!;
+                                        });
+                                      },
+                                      activeColor: blue,
+                                      checkColor: white,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: const Text(
+                                      'Near his seat at distance of',
+                                      style: TextStyle(fontSize: fontMedium)),
+                                ),
+                                Container(
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (_counter > 0) _counter--;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.remove,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                      Text('${_counter}m',
+                                          style: const TextStyle(fontSize: 20)),
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          color: blue,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _counter++;
+                                            });
+                                          },
+                                          icon: const Icon(Icons.add,
+                                              color: white),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

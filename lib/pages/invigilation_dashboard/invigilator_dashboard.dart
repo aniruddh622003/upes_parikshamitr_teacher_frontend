@@ -395,31 +395,6 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       Container(
-                    //         padding: const EdgeInsets.symmetric(
-                    //             horizontal: 10, vertical: 10),
-                    //         decoration: const BoxDecoration(
-                    //           color: blue,
-                    //           borderRadius: BorderRadius.only(
-                    //               topLeft: Radius.circular(10),
-                    //               topRight: Radius.circular(10)),
-                    //         ),
-                    //         child: const Text(
-                    //           'Check Supplies',
-                    //           style: TextStyle(color: white),
-                    //         ),
-                    //       ),
-                    //       // const FlyingSquad(title: 'Flying Squad'),
-                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
-                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: false),
-                    //       // getStatusBox("Dr. Rishi Madan", roundedBorder: true),
-                    //     ],
-                    //   ),
-                    // ),
                     FutureBuilder<Widget>(
                       future: makePendingItems(),
                       builder: (BuildContext context,

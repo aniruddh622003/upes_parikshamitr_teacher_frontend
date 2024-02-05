@@ -65,8 +65,8 @@ List<Map> pendingSupplies = [
 
 List<Map> requiredSupplies = [
   {"name": "B Sheets", "required": 100},
-  {"name": "Threads", "required": 100},
-  {"name": "A Sheets", "required": 50},
+  // {"name": "Threads", "required": 100},
+  // {"name": "A Sheets", "required": 50},
   // {"name": "Neural Network Question Papers", "required": 30},
   // {"name": "Big Data Question Papers", "required": 20},
   // {"name": "Pink Slips", "required": 10},
