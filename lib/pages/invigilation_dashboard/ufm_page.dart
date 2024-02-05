@@ -10,8 +10,12 @@ class UFMPage extends StatefulWidget {
 }
 
 class _UFMPageState extends State<UFMPage> {
-  int _counter = 0;
-  bool _isChecked = false;
+  int _counter1 = 0;
+  int _counter2 = 0;
+  int _counter3 = 0;
+  int _counter4 = 0;
+  bool _isChecked1 = false;
+  bool _isChecked2 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,7 +185,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (_counter > 0) _counter--;
+                                              if (_counter1 > 0) _counter1--;
                                             });
                                           },
                                           icon: const Icon(Icons.remove,
@@ -189,7 +193,7 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text('$_counter',
+                                      Text('$_counter1',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -199,7 +203,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              _counter++;
+                                              _counter1++;
                                             });
                                           },
                                           icon: const Icon(Icons.add,
@@ -237,7 +241,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (_counter > 0) _counter--;
+                                              if (_counter2 > 0) _counter2--;
                                             });
                                           },
                                           icon: const Icon(Icons.remove,
@@ -245,7 +249,7 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text('$_counter',
+                                      Text('$_counter2',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -255,7 +259,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              _counter++;
+                                              _counter2++;
                                             });
                                           },
                                           icon: const Icon(Icons.add,
@@ -293,7 +297,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (_counter > 0) _counter--;
+                                              if (_counter3 > 0) _counter3--;
                                             });
                                           },
                                           icon: const Icon(Icons.remove,
@@ -301,7 +305,7 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text('$_counter',
+                                      Text('$_counter3',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -311,7 +315,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              _counter++;
+                                              _counter3++;
                                             });
                                           },
                                           icon: const Icon(Icons.add,
@@ -344,10 +348,10 @@ class _UFMPageState extends State<UFMPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(0),
                                     child: Checkbox(
-                                      value: _isChecked,
+                                      value: _isChecked1,
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          _isChecked = value!;
+                                          _isChecked1 = value!;
                                         });
                                       },
                                       activeColor: blue,
@@ -373,10 +377,10 @@ class _UFMPageState extends State<UFMPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(0),
                                     child: Checkbox(
-                                      value: _isChecked,
+                                      value: _isChecked2,
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          _isChecked = value!;
+                                          _isChecked2 = value!;
                                         });
                                       },
                                       activeColor: blue,
@@ -394,9 +398,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: const Text(
-                                      'Near his seat at distance of',
+                                const Flexible(
+                                  child: Text('Near his seat at distance of',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -416,7 +419,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (_counter > 0) _counter--;
+                                              if (_counter4 > 0) _counter4--;
                                             });
                                           },
                                           icon: const Icon(Icons.remove,
@@ -424,7 +427,7 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text('${_counter}m',
+                                      Text('${_counter4}m',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -434,7 +437,7 @@ class _UFMPageState extends State<UFMPage> {
                                         child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              _counter++;
+                                              _counter4++;
                                             });
                                           },
                                           icon: const Icon(Icons.add,
