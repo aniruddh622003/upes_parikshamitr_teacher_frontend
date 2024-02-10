@@ -171,9 +171,10 @@ class _UFMPageState extends State<UFMPage> {
                               color: blueXLight,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const TextField(
+                            child:  TextField(
+                              controller: controllerFName,
                               textAlign: TextAlign.center,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Type here',
                               ),
@@ -190,9 +191,10 @@ class _UFMPageState extends State<UFMPage> {
                               color: blueXLight,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const TextField(
+                            child:  TextField(
+                              controller: controllerFMobile,
                               textAlign: TextAlign.center,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Type here',
                               ),
