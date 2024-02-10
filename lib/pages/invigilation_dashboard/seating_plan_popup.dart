@@ -142,6 +142,27 @@ void seatingPlanPopup(
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
+                const Text('A Sheet Number',
+                    style: TextStyle(
+                        fontSize: fontSmall,
+                        color: blue,
+                        fontWeight: FontWeight.bold)),
+                Text(
+                    studentDetails['ans_sheet_number'].toString() == 'null'
+                        ? 'Not Allotted'
+                        : studentDetails['ans_sheet_number'].toString(),
+                    style: const TextStyle(
+                      fontSize: fontMedium,
+                    )),
+                const Text('B Sheet Count',
+                    style: TextStyle(
+                        fontSize: fontSmall,
+                        color: blue,
+                        fontWeight: FontWeight.bold)),
+                Text(studentDetails['b_sheet_count'].toString(),
+                    style: const TextStyle(
+                      fontSize: fontMedium,
+                    )),
                 const Text('Eligible',
                     style: TextStyle(
                         fontSize: fontSmall,
