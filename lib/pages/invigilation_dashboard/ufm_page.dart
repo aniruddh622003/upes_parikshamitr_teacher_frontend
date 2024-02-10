@@ -14,6 +14,8 @@ class _UFMPageState extends State<UFMPage> {
   int _counter2 = 0;
   int _counter3 = 0;
   int _counter4 = 0;
+  TextEditingController controllerFName = TextEditingController();
+  TextEditingController controllerFMobile = TextEditingController();
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   @override
@@ -155,6 +157,47 @@ class _UFMPageState extends State<UFMPage> {
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
+
+                          // here two text field with father name and contact number
+
+                          const Text('Father\'s Name',
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: blueXLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here',
+                              ),
+                            ),
+                          ),
+                          const Text('Father\'s Contact Number',
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: blueXLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here',
+                              ),
+                            ),
+                          ),
                           const Text(
                               'Details of incriminating material recovered',
                               style: TextStyle(
