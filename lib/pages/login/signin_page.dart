@@ -1,15 +1,63 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final storage = const FlutterSecureStorage();
+  Future<void> sendPostRequest(Map<String, dynamic> data) async {
+    var url = Uri.parse('$serverUrl/teacher/login');
+    try {
+      var response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 201) {
+        await storage.write(
+            key: 'jwt', value: jsonDecode(response.body)['token']);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Dashboard(jwt: jsonDecode(response.body)['token'])));
+      } else {
+        errorDialog(context,
+            '${jsonDecode(response.body)['message']}. Please try again.');
+      }
+    } catch (e) {
+      errorDialog(context, 'Registration Failed! $e');
+    }
+  }
+
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPass = TextEditingController();
+
+  Future<void>? _futurePostRequest;
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +121,19 @@ class SignInPage extends StatelessWidget {
                           vertical: 30, horizontal: 90),
                       child: SvgPicture.asset('android/assets/signinpage.svg'),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: CustomTextField(label: 'Enter your sap ID'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your SAP ID',
+                        controller: controllerEmail,
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                      child: PasswordField(label: 'Enter your password'),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: PasswordField(
+                        label: 'Enter your password',
+                        controller: controllerPass,
+                      ),
                     ),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
@@ -112,19 +166,39 @@ class SignInPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Dashboard()));
+                            if (controllerEmail.text.isEmpty ||
+                                controllerPass.text.isEmpty) {
+                              errorDialog(
+                                  context, 'Please fill all the fields.');
+                            } else {
+                              Map<String, dynamic> data = {
+                                'sap_id': int.parse(controllerEmail.text),
+                                'password': controllerPass.text,
+                              };
+                              setState(() {
+                                _futurePostRequest = sendPostRequest(data);
+                              });
+                            }
                           },
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(
-                                color: white,
-                                fontSize: fontMedium,
-                                fontWeight: FontWeight.w800),
+                          child: FutureBuilder<void>(
+                            future: _futurePostRequest,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<void> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator(
+                                  color: white,
+                                );
+                              } else {
+                                return const Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: fontMedium,
+                                      fontWeight: FontWeight.w800),
+                                );
+                              }
+                            },
                           ),
                         )),
                     Padding(

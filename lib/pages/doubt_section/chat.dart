@@ -7,8 +7,7 @@ class ChatScreen extends StatelessWidget {
   final String designation;
 
   const ChatScreen(
-      {Key? key, required this.personName, required this.designation})
-      : super(key: key);
+      {super.key, required this.personName, required this.designation});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +149,7 @@ class ChatMessage {
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
 
-  const ChatBubble({Key? key, required this.message}) : super(key: key);
+  const ChatBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

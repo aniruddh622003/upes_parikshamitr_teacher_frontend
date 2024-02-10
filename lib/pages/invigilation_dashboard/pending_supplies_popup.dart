@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-void pendingSuppliesPopup(
-    BuildContext context, Map<dynamic, dynamic> supplyDetails) {
+void pendingSuppliesPopup(BuildContext context,
+    Map<dynamic, dynamic> supplyDetails, List<dynamic> pendingSuppliesList) {
+  int index = pendingSuppliesList.indexOf(supplyDetails);
+  TextEditingController controller = TextEditingController();
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -100,9 +106,11 @@ void pendingSuppliesPopup(
                     color: blueXLight,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: controller,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Type here',
                     ),
@@ -118,7 +126,17 @@ void pendingSuppliesPopup(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      const storage = FlutterSecureStorage();
+                      pendingSuppliesList[index]['received'] =
+                          int.parse(controller.text);
+
+                      // Save the updated list to secure storage
+                      await storage.write(
+                          key: 'pendingSupplies',
+                          value: jsonEncode(pendingSuppliesList));
+                      Navigator.pop(context);
+                    },
                     child: const Text('Confirm Update',
                         style: TextStyle(fontSize: fontSmall)),
                   ),

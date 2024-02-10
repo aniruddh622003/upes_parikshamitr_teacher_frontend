@@ -1,9 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +130,11 @@ class NotificationCategoryBox extends StatelessWidget {
   final List<bool> read;
 
   const NotificationCategoryBox({
-    Key? key,
+    super.key,
     required this.title,
     required this.notifications,
     required this.read,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +159,7 @@ class NotificationCategoryBox extends StatelessWidget {
             isRead: read[index],
             onTap: () {},
           ),
-        ).expand((widget) => [widget, const SizedBox(height: 10)]).toList(),
+        ).expand((widget) => [widget, const SizedBox(height: 10)]),
       ],
     );
   }
@@ -171,13 +173,13 @@ class NotificationBox extends StatefulWidget {
   final Function onTap;
 
   const NotificationBox({
-    Key? key,
+    super.key,
     required this.name,
     required this.subject,
     required this.msg,
     required this.isRead,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   _NotificationBoxState createState() => _NotificationBoxState();

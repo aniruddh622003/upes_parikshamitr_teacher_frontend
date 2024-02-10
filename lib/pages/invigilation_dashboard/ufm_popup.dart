@@ -1,33 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show serverUrl;
-import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-void attendancePopup(BuildContext context) async {
-  late dynamic response;
+void ufmPopup(BuildContext context) {
+  TextEditingController controllerSAP = TextEditingController();
   final qrKey = GlobalKey(debugLabel: 'QR');
-  final controllerSAP = TextEditingController();
   void onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       controllerSAP.text = scanData.code.toString();
     });
-  }
-
-  Future<Map> fetchData() async {
-    response = await http.get(Uri.parse(
-        '$serverUrl/teacher/invigilation/seating-plan?room_id=65ba84665bfb4b58d77d0184'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
-    }
   }
 
   showDialog(
@@ -48,7 +31,7 @@ void attendancePopup(BuildContext context) async {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Mark Attendance',
+                    const Text('Issue UFM',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -109,37 +92,14 @@ void attendancePopup(BuildContext context) async {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      Map data = await fetchData();
-                      int indexData = data['data']['seating_plan'].indexWhere(
-                          (student) =>
-                              student['sap_id'] ==
-                              int.parse(controllerSAP.text));
-                      if (indexData != -1) {
-                        if (data['data']['seating_plan'][indexData]
-                                ['eligible'] ==
-                            'YES') {
-                          Map<dynamic, dynamic> studentDetails =
-                              data['data']['seating_plan'][indexData];
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AttendancePage(
-                                  studentDetails: studentDetails)));
-                        } else if (data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'F_HOLD' ||
-                            data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'DEBARRED') {
-                          Navigator.of(context).pop();
-                          attendanceErrorDialog(context);
-                        }
-                      } else {
-                        errorDialog(context, 'Student not found!');
-                      }
-                      // consider case for debarred by checkng the studentDetails['eligible'] value
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UFMPage()));
                     },
-                    child: const Text('Mark Attendance',
+                    child: const Text('Report Candidate',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

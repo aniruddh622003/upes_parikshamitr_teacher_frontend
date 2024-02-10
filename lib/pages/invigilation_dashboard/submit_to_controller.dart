@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/pending_req.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class StartInvigilation extends StatefulWidget {
-  const StartInvigilation({super.key});
+class SubmitToController extends StatefulWidget {
+  const SubmitToController({super.key});
 
   @override
-  State<StartInvigilation> createState() => _StartInvigilationState();
+  State<SubmitToController> createState() => _SubmitToControllerState();
 }
 
-class _StartInvigilationState extends State<StartInvigilation> {
+class _SubmitToControllerState extends State<SubmitToController> {
   final qrKey = GlobalKey(debugLabel: 'QR');
 
   void onQRViewCreated(QRViewController controller) {
@@ -36,11 +36,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 onPressed: () {
                   controller.dispose();
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const InvigilationDetails()),
-                  );
+                  pendingReq(context);
                 },
               ),
             ],
@@ -80,7 +76,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
-                  'Scan QR Code in Controller Room to get your invigilation details and proceed.',
+                  'Scan QR Code in Controlllllller Room to get your invigilation details and proceed.',
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
@@ -129,13 +125,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                             child: const Text('Confirm'),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const InvigilationDetails()),
-                              );
+                              pendingReq(context);
                             },
                           ),
                         ],

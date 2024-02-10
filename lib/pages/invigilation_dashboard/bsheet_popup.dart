@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show serverUrl;
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void attendancePopup(BuildContext context) async {
+void bsheetPopup(BuildContext context) async {
   late dynamic response;
+  late dynamic response2;
   final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
   void onQRViewCreated(QRViewController controller) {
@@ -28,6 +30,25 @@ void attendancePopup(BuildContext context) async {
     } else {
       throw Exception('Failed to load data');
     }
+  }
+
+  Future<void> issueBSheet(Map data) async {
+    const storage = FlutterSecureStorage();
+    final String? jwt = await storage.read(key: 'jwt');
+    print('here');
+    response2 = await http.patch(
+      Uri.parse('$serverUrl/teacher/invigilation/issue-b-sheet'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $jwt',
+      },
+      body: jsonEncode(data),
+    );
+    // if (response.statusCode == 200) {
+    //   print('Request successful');
+    // } else {
+    //   print('Failed to send request');
+    // }
   }
 
   showDialog(
@@ -48,7 +69,7 @@ void attendancePopup(BuildContext context) async {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Mark Attendance',
+                    const Text('Issue B-Sheet',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -116,30 +137,27 @@ void attendancePopup(BuildContext context) async {
                               student['sap_id'] ==
                               int.parse(controllerSAP.text));
                       if (indexData != -1) {
-                        if (data['data']['seating_plan'][indexData]
-                                ['eligible'] ==
-                            'YES') {
-                          Map<dynamic, dynamic> studentDetails =
-                              data['data']['seating_plan'][indexData];
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AttendancePage(
-                                  studentDetails: studentDetails)));
-                        } else if (data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'F_HOLD' ||
-                            data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'DEBARRED') {
-                          Navigator.of(context).pop();
-                          attendanceErrorDialog(context);
-                        }
+                        String seatNo =
+                            data['data']['seating_plan'][indexData]['seat_no'];
+
+                        Map<String, dynamic> dataStu = {
+                          'room_id': '65ba84665bfb4b58d77d0184',
+                          'seat_no': seatNo.toString(),
+                          'count': 1,
+                        };
+
+                        await issueBSheet(dataStu);
+
+                        Navigator.of(context).pop();
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => AttendancePage(
+                        //         studentDetails: studentDetails)));
                       } else {
                         errorDialog(context, 'Student not found!');
                       }
                       // consider case for debarred by checkng the studentDetails['eligible'] value
                     },
-                    child: const Text('Mark Attendance',
+                    child: const Text('Issue B-Sheet',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

@@ -1,12 +1,49 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:http/http.dart' as http;
 
-class Dashboard extends StatelessWidget {
-  Dashboard({super.key});
+class Dashboard extends StatefulWidget {
+  final String? jwt;
+  const Dashboard({super.key, required this.jwt});
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  late Map data;
+
+  Future<Map> getDetails({token}) async {
+    var response = await http.get(
+      Uri.parse('$serverUrl/teacher/getDetails'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body)['data'];
+    }
+    return {};
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDetails(token: widget.jwt);
+  }
 
   List<Widget> makeBatchwiseBars(List<Map<String, dynamic>> batches) {
     List<Widget> batchwiseBars = [];
@@ -166,159 +203,204 @@ class Dashboard extends StatelessWidget {
     );
   }
 
+  final storage = const FlutterSecureStorage();
+
+  void signOut() async {
+    await storage.delete(key: 'jwt');
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeActivity()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: blue,
-        appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: white,
-            statusBarIconBrightness: Brightness.dark,
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Row(
-                children: [
-                  Icon(Icons.account_circle, color: white),
-                  SizedBox(width: 10),
-                  Text(
-                    'Hi, Aarav',
-                    style: TextStyle(color: white),
-                  ),
-                ],
+    return FutureBuilder(
+      future: getDetails(token: widget.jwt),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
+        } else if (snapshot.hasError) {
+          return Scaffold(
+              body: Center(child: Text('Error: ${snapshot.error}')));
+        } else {
+          return Scaffold(
+              backgroundColor: blue,
+              appBar: AppBar(
+                iconTheme: const IconThemeData(color: white),
+                systemOverlayStyle: const SystemUiOverlayStyle(
+                  statusBarColor: white,
+                  statusBarIconBrightness: Brightness.dark,
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Dashboard',
+                      style: TextStyle(color: white),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.qr_code, color: white),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const StartInvigilation()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.qr_code, color: white),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StartInvigilation()),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        body: Column(
-          children: [
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Text('Start Invigilation   ',
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontMedium,
-                  )),
-            ),
-            const SizedBox(height: 40),
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
-                          style: const TextStyle(
-                              color: white, fontSize: fontSmall)),
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: SizedBox(
-                          height: 8,
-                          child: LinearProgressIndicator(
-                            value: calcSheets(sheetsData)[0] /
-                                calcSheets(sheetsData)[1],
-                            backgroundColor: grayLight,
-                            valueColor:
-                                const AlwaysStoppedAnimation<Color>(orange),
-                          ),
-                        ),
+              drawer: Drawer(
+                child: ListView(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: blue,
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Container(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  decoration: const BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                      child: ListTile(
+                        tileColor: Colors.transparent,
+                        title: const Center(
+                          child: Text('Sign Out',
+                              style: TextStyle(
+                                  color: white, fontSize: fontMedium)),
+                        ),
+                        onTap: () {
+                          signOut();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'Hi, ${data['name']}!',
+                      style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
                   ),
-                  child: ListView(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: blue,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NotificationScreen()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.all(0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                  'View Notification',
-                                  style: TextStyle(color: white),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: const BoxDecoration(
-                                  color: red,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Text(
-                                  '3',
-                                  style: TextStyle(color: white),
-                                ),
-                              ),
-                              const Spacer(),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: white,
-                                ),
-                              ),
-                            ],
+                  const SizedBox(height: 10),
+                  // Column(
+                  //   children: [
+                  //     Container(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //               '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
+                  //               style: const TextStyle(
+                  //                   color: white, fontSize: fontSmall)),
+                  //           ClipRRect(
+                  //             borderRadius:
+                  //                 const BorderRadius.all(Radius.circular(10)),
+                  //             child: SizedBox(
+                  //               height: 8,
+                  //               child: LinearProgressIndicator(
+                  //                 value: calcSheets(sheetsData)[0] /
+                  //                     calcSheets(sheetsData)[1],
+                  //                 backgroundColor: grayLight,
+                  //                 valueColor:
+                  //                     const AlwaysStoppedAnimation<Color>(orange),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: Container(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 10),
+                        decoration: const BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Schedule(),
-                      const SizedBox(height: 10),
-                      makeSheetMain(sheetsData),
-                    ],
-                  )),
-            ),
-          ],
-        ));
+                        child: ListView(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: blue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NotificationScreen()),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.all(0)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Text(
+                                        'View Notification',
+                                        style: TextStyle(color: white),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
+                                        color: red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Text(
+                                        '3',
+                                        style: TextStyle(color: white),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Schedule(),
+                            const SizedBox(height: 10),
+                            // makeSheetMain(sheetsData),
+                          ],
+                        )),
+                  ),
+                ],
+              ));
+        }
+      },
+    );
   }
 }

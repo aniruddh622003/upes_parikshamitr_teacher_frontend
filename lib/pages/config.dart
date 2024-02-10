@@ -62,3 +62,14 @@ List<Map> pendingSupplies = [
   {"name": "Threads", "required": 10, "received": 5},
   {"name": "A Sheets", "required": 10, "received": 5},
 ];
+
+List<Map> requiredSupplies = [
+  {"name": "B Sheets", "required": 100},
+  // {"name": "Threads", "required": 100},
+  // {"name": "A Sheets", "required": 50},
+  // {"name": "Neural Network Question Papers", "required": 30},
+  // {"name": "Big Data Question Papers", "required": 20},
+  // {"name": "Pink Slips", "required": 10},
+];
+
+String serverUrl = "http://144.24.135.11:3000";

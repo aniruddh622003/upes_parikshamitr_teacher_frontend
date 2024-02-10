@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void seatingPlanPopup(
-    BuildContext context, Map<String, Object> studentDetails) {
+    BuildContext context, Map<String, dynamic> studentDetails) {
   Color eligibleColor;
   String eligibleText = "";
   if (studentDetails['eligible'] == 'YES') {
@@ -67,7 +67,7 @@ void seatingPlanPopup(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(studentDetails['sap_id'] as String,
+                    Text(studentDetails['sap_id'].toString(),
                         style: const TextStyle(fontSize: fontMedium)),
                     Container(
                       width: 35,
@@ -78,7 +78,7 @@ void seatingPlanPopup(
                       ),
                       child: Center(
                         child: Text(
-                          studentDetails['seat_no'] as String,
+                          studentDetails['seat_no'].toString(),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -93,7 +93,7 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['roll_no'] as String,
+                Text(studentDetails['roll_no'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
@@ -102,7 +102,7 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['student_name'] as String,
+                Text(studentDetails['student_name'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
@@ -111,7 +111,7 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['subject'] as String,
+                Text(studentDetails['subject'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
@@ -120,7 +120,7 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['subject_code'] as String,
+                Text(studentDetails['subject_code'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
@@ -129,7 +129,7 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['course'] as String,
+                Text(studentDetails['course'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
@@ -138,7 +138,28 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(studentDetails['exam_type'] as String,
+                Text(studentDetails['exam_type'].toString(),
+                    style: const TextStyle(
+                      fontSize: fontMedium,
+                    )),
+                const Text('A Sheet Number',
+                    style: TextStyle(
+                        fontSize: fontSmall,
+                        color: blue,
+                        fontWeight: FontWeight.bold)),
+                Text(
+                    studentDetails['ans_sheet_number'].toString() == 'null'
+                        ? 'Not Allotted'
+                        : studentDetails['ans_sheet_number'].toString(),
+                    style: const TextStyle(
+                      fontSize: fontMedium,
+                    )),
+                const Text('B Sheet Count',
+                    style: TextStyle(
+                        fontSize: fontSmall,
+                        color: blue,
+                        fontWeight: FontWeight.bold)),
+                Text(studentDetails['b_sheet_count'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),

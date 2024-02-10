@@ -12,6 +12,7 @@ const orangeLight = Color(0xffF7B096);
 const orange = Color(0xffF2692E);
 // Blues
 const blue50 = Color(0xffE7E9F9);
+const blue300 = Color(0xff6E83DB);
 const blue = Color(0xff1A4BCB);
 const blueLight = Color(0xff90caf9);
 const blueXLight = Color(0xffE7E9F9);
@@ -20,7 +21,7 @@ const green = Color(0xff009706);
 const greenLight = Color(0xff99E5A1);
 const greenXLight = Color(0xffE7F9E7);
 // Reds
-const red = Color(0xffFF0D2A);
+const red = Color.fromARGB(255, 236, 8, 8);
 const redLight = Color.fromARGB(255, 255, 133, 148);
 
 // Yellows

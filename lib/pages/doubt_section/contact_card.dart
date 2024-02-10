@@ -9,11 +9,11 @@ class ContactCard extends StatelessWidget {
   final VoidCallback onMessagePressed;
 
   const ContactCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.designation,
     required this.onMessagePressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
