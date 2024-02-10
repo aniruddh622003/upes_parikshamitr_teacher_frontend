@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show serverUrl;
@@ -115,12 +116,24 @@ void attendancePopup(BuildContext context) async {
                               student['sap_id'] ==
                               int.parse(controllerSAP.text));
                       if (indexData != -1) {
-                        Map<dynamic, dynamic> studentDetails =
-                            data['data']['seating_plan'][indexData];
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AttendancePage(
-                                studentDetails: studentDetails)));
+                        if (data['data']['seating_plan'][indexData]
+                                ['eligible'] ==
+                            'YES') {
+                          Map<dynamic, dynamic> studentDetails =
+                              data['data']['seating_plan'][indexData];
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AttendancePage(
+                                  studentDetails: studentDetails)));
+                        } else if (data['data']['seating_plan'][indexData]
+                                    ['eligible'] ==
+                                'F_HOLD' ||
+                            data['data']['seating_plan'][indexData]
+                                    ['eligible'] ==
+                                'DEBARRED') {
+                          Navigator.of(context).pop();
+                          attendanceErrorDialog(context);
+                        }
                       } else {
                         errorDialog(context, 'Student not found!');
                       }
