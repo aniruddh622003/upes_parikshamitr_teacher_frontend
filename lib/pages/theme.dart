@@ -21,7 +21,7 @@ const green = Color(0xff009706);
 const greenLight = Color(0xff99E5A1);
 const greenXLight = Color(0xffE7F9E7);
 // Reds
-const red = Color(0xffFF0D2A);
+const red = Color.fromARGB(255, 236, 8, 8);
 const redLight = Color.fromARGB(255, 255, 133, 148);
 
 // Yellows

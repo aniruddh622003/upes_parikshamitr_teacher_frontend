@@ -6,6 +6,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dar
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:http/http.dart' as http;
+import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
