@@ -1,75 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
+    show serverUrl;
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-void attendancePopup(BuildContext context) {
+void attendancePopup(BuildContext context) async {
+  late dynamic response;
   final qrKey = GlobalKey(debugLabel: 'QR');
+  final controllerSAP = TextEditingController();
   void onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Scan Successful'),
-            content: Text(scanData.code.toString()),
-            actions: [
-              TextButton(
-                child: const Text('Scan Again'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  controller.resumeCamera();
-                },
-              ),
-              TextButton(
-                child: const Text('Continue'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  int indexData = seatingPlan['data']['seating_plan']
-                      .indexWhere((student) =>
-                          student['sap_id'] == scanData.code.toString());
-                  if (indexData == -1) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Error'),
-                          content: Text(
-                              "${scanData.code.toString()} student not found in room!"),
-                          actions: [
-                            TextButton(
-                              child: const Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                controller.resumeCamera();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    int indexData = seatingPlan['data']['seating_plan']
-                        .indexWhere((student) =>
-                            student['sap_id'] == scanData.code.toString());
-                    controller.dispose();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => AttendancePage(
-                              studentDetails: seatingPlan['data']
-                                  ['seating_plan'][indexData])),
-                    );
-                  }
-                },
-              ),
-            ],
-          );
-        },
-      );
+      controllerSAP.text = scanData.code.toString();
     });
+  }
+
+  Future<Map> fetchData() async {
+    response = await http.get(Uri.parse(
+        '$serverUrl/teacher/invigilation/seating-plan?room_id=65ba84665bfb4b58d77d0184'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   showDialog(
@@ -130,9 +87,10 @@ void attendancePopup(BuildContext context) {
                     color: blueXLight,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: controllerSAP,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Type here',
                     ),
@@ -150,11 +108,23 @@ void attendancePopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              AttendancePage(studentDetails: studentDetails)));
+                    onPressed: () async {
+                      Map data = await fetchData();
+                      int indexData = data['data']['seating_plan'].indexWhere(
+                          (student) =>
+                              student['sap_id'] ==
+                              int.parse(controllerSAP.text));
+                      if (indexData != -1) {
+                        Map<dynamic, dynamic> studentDetails =
+                            data['data']['seating_plan'][indexData];
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => AttendancePage(
+                                studentDetails: studentDetails)));
+                      } else {
+                        errorDialog(context, 'Student not found!');
+                      }
+                      // consider case for debarred by checkng the studentDetails['eligible'] value
                     },
                     child: const Text('Mark Attendance',
                         style: TextStyle(fontSize: fontSmall)),
