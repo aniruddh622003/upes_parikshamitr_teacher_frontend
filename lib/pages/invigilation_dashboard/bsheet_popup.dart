@@ -103,42 +103,49 @@ void bsheetPopup(BuildContext context) async {
                       ),
                     ),
                     onPressed: () async {
-                      dynamic data = await getRoomDetails(roomId);
-                      if (data.statusCode == 200) {
-                        Map roomData = jsonDecode(data.body);
-                        int indexData = roomData['data']['seating_plan']
-                            .indexWhere((student) =>
-                                student['sap_id'] ==
-                                int.parse(controllerSAP.text));
-                        if (indexData != -1) {
-                          String seatNo = roomData['data']['seating_plan']
-                              [indexData]['seat_no'];
+                      try {
+                        dynamic data = await getRoomDetails(roomId);
+                        if (data.statusCode == 200) {
+                          Map roomData = jsonDecode(data.body);
+                          int indexData = roomData['data']['seating_plan']
+                              .indexWhere((student) =>
+                                  student['sap_id'] ==
+                                  int.parse(controllerSAP.text));
+                          if (indexData != -1) {
+                            String seatNo = roomData['data']['seating_plan']
+                                [indexData]['seat_no'];
 
-                          Map<String, dynamic> dataStu = {
-                            'room_id': '65ba84665bfb4b58d77d0184',
-                            'seat_no': seatNo.toString(),
-                            'count': 1,
-                          };
-                          dynamic dataBSheet = await issueBSheet(dataStu);
-                          if (dataBSheet.statusCode == 200) {
-                            Navigator.of(context).pop();
-                            Fluttertoast.showToast(
-                                msg: "B Sheet issued successfully!",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.grey,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            Map<String, dynamic> dataStu = {
+                              'room_id': '65ba84665bfb4b58d77d0184',
+                              'seat_no': seatNo.toString(),
+                              'count': 1,
+                            };
+                            dynamic dataBSheet = await issueBSheet(dataStu);
+                            if (dataBSheet.statusCode == 200) {
+                              Navigator.of(context).pop();
+                              Fluttertoast.showToast(
+                                  msg: "B Sheet issued successfully!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.grey,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } else {
+                              Navigator.of(context).pop();
+                              errorDialog(context, 'Error issuing B-Sheet');
+                            }
                           } else {
-                            Navigator.of(context).pop();
-                            errorDialog(context, 'Error issuing B-Sheet');
+                            Navigator.pop(context);
+                            errorDialog(context, 'Student not found!');
                           }
                         } else {
-                          errorDialog(context, 'Student not found!');
+                          Navigator.pop(context);
+                          errorDialog(context, 'Error fetching data');
                         }
-                      } else {
-                        errorDialog(context, 'Error fetching data');
+                      } catch (e) {
+                        Navigator.pop(context);
+                        errorDialog(context, e.toString());
                       }
                     },
                     child: const Text('Issue B-Sheet',

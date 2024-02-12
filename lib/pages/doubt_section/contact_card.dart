@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/chat.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactCard extends StatelessWidget {
   final String name;
@@ -18,16 +20,18 @@ class ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatScreen(
-              personName: name,
-              designation: designation,
-            ),
-          ),
-        );
+      onTap: () async {
+        try {
+          const phoneNumber = '9406803371';
+          final telUrl = Uri.parse('tel:$phoneNumber');
+          if (await canLaunchUrl(telUrl)) {
+            await launchUrl(telUrl);
+          } else {
+            // throw 'Could not launch $telUrl';
+          }
+        } catch (e) {
+          errorDialog(context, e.toString());
+        }
       },
       child: Card(
           color: Colors.white,
@@ -59,23 +63,41 @@ class ContactCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed:
-                            // onMessagePressed,
-                            () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatScreen(
-                                personName: name,
-                                designation: designation,
-                              ),
-                            ),
-                          );
+                        onPressed: () async {
+                          try {
+                            const phoneNumber = '9406803371';
+                            final telUrl = Uri.parse('tel:$phoneNumber');
+                            if (await canLaunchUrl(telUrl)) {
+                              await launchUrl(telUrl);
+                            } else {
+                              // throw 'Could not launch $telUrl';
+                            }
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
                         },
                         icon: SvgPicture.asset(
-                          'android/assets/msg.svg',
+                          'android/assets/call.svg',
                         ),
                       ),
+                      // IconButton(
+                      //   onPressed:
+                      //       // onMessagePressed,
+                      //       () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => ChatScreen(
+                      //           personName: name,
+                      //           designation: designation,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   icon: SvgPicture.asset(
+                      //     'android/assets/msg.svg',
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
