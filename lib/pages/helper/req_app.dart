@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -32,8 +34,7 @@ void reqApp(BuildContext context) {
                             fontWeight: FontWeight.bold)),
                     const Text(
                         'Your submission has been authenticated by the controller. You can exit this screen!',
-                        style: TextStyle(
-                            color: white, fontSize: fontMedium)),
+                        style: TextStyle(color: white, fontSize: fontMedium)),
                     const SizedBox(height: 10),
                     Center(
                       child: ElevatedButton(

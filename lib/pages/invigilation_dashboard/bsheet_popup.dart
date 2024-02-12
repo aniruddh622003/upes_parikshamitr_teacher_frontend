@@ -1,18 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show serverUrl;
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'dart:convert';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/issue_bsheet.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
+    show roomId;
+import 'package:fluttertoast/fluttertoast.dart';
 
 void bsheetPopup(BuildContext context) async {
-  late dynamic response;
-  late dynamic response2;
   final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
   void onQRViewCreated(QRViewController controller) {
@@ -22,35 +23,6 @@ void bsheetPopup(BuildContext context) async {
     });
   }
 
-  Future<Map> fetchData() async {
-    response = await http.get(Uri.parse(
-        '$serverUrl/teacher/invigilation/seating-plan?room_id=65ba84665bfb4b58d77d0184'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
-
-  Future<void> issueBSheet(Map data) async {
-    const storage = FlutterSecureStorage();
-    final String? jwt = await storage.read(key: 'jwt');
-    print('here');
-    response2 = await http.patch(
-      Uri.parse('$serverUrl/teacher/invigilation/issue-b-sheet'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $jwt',
-      },
-      body: jsonEncode(data),
-    );
-    // if (response.statusCode == 200) {
-    //   print('Request successful');
-    // } else {
-    //   print('Failed to send request');
-    // }
-  }
-
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -58,7 +30,7 @@ void bsheetPopup(BuildContext context) async {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+            color: white,
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -131,31 +103,43 @@ void bsheetPopup(BuildContext context) async {
                       ),
                     ),
                     onPressed: () async {
-                      Map data = await fetchData();
-                      int indexData = data['data']['seating_plan'].indexWhere(
-                          (student) =>
-                              student['sap_id'] ==
-                              int.parse(controllerSAP.text));
-                      if (indexData != -1) {
-                        String seatNo =
-                            data['data']['seating_plan'][indexData]['seat_no'];
+                      dynamic data = await getRoomDetails(roomId);
+                      if (data.statusCode == 200) {
+                        Map roomData = jsonDecode(data.body);
+                        int indexData = roomData['data']['seating_plan']
+                            .indexWhere((student) =>
+                                student['sap_id'] ==
+                                int.parse(controllerSAP.text));
+                        if (indexData != -1) {
+                          String seatNo = roomData['data']['seating_plan']
+                              [indexData]['seat_no'];
 
-                        Map<String, dynamic> dataStu = {
-                          'room_id': '65ba84665bfb4b58d77d0184',
-                          'seat_no': seatNo.toString(),
-                          'count': 1,
-                        };
-
-                        await issueBSheet(dataStu);
-
-                        Navigator.of(context).pop();
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => AttendancePage(
-                        //         studentDetails: studentDetails)));
+                          Map<String, dynamic> dataStu = {
+                            'room_id': '65ba84665bfb4b58d77d0184',
+                            'seat_no': seatNo.toString(),
+                            'count': 1,
+                          };
+                          dynamic dataBSheet = await issueBSheet(dataStu);
+                          if (dataBSheet.statusCode == 200) {
+                            Navigator.of(context).pop();
+                            Fluttertoast.showToast(
+                                msg: "B Sheet issued successfully!",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.grey,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } else {
+                            Navigator.of(context).pop();
+                            errorDialog(context, 'Error issuing B-Sheet');
+                          }
+                        } else {
+                          errorDialog(context, 'Student not found!');
+                        }
                       } else {
-                        errorDialog(context, 'Student not found!');
+                        errorDialog(context, 'Error fetching data');
                       }
-                      // consider case for debarred by checkng the studentDetails['eligible'] value
                     },
                     child: const Text('Issue B-Sheet',
                         style: TextStyle(fontSize: fontSmall)),
