@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';

@@ -268,8 +268,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: const Text('No. of printed pages',
+                                const Flexible(
+                                  child: Text('No. of printed pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -326,8 +326,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: const Text('No. of torn pages',
+                                const Flexible(
+                                  child: Text('No. of torn pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -384,8 +384,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: const Text('Communication device',
+                                const Flexible(
+                                  child: Text('Communication device',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -442,8 +442,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: const Text(
+                                const Flexible(
+                                  child: Text(
                                       'Number of handwritten pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
@@ -867,7 +867,7 @@ class _UFMPageState extends State<UFMPage> {
                             child: TextField(
                               controller: controllerOtherRemarks,
                               textAlign: TextAlign.center,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Type here',
                               ),
