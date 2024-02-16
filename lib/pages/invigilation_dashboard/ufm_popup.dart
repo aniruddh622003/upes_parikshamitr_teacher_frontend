@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
+    show roomId;
+import 'dart:convert';
 
 void ufmPopup(BuildContext context) {
   TextEditingController controllerSAP = TextEditingController();
@@ -92,12 +99,52 @@ void ufmPopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UFMPage()));
+                    onPressed: () async {
+                      try {
+                        dynamic data = await getRoomDetails(roomId);
+                        if (data != null) {
+                          if (data.statusCode == 200) {
+                            Map roomDetails = jsonDecode(data.body);
+                            int indexData = roomDetails['data']['seating_plan']
+                                .indexWhere((student) =>
+                                    student['sap_id'] ==
+                                    int.parse(controllerSAP.text));
+                            if (indexData != -1) {
+                              if (roomDetails['data']['seating_plan'][indexData]
+                                      ['eligible'] ==
+                                  'YES') {
+                                Map<dynamic, dynamic> studentDetails =
+                                    roomDetails['data']['seating_plan']
+                                        [indexData];
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => UFMPage(
+                                        studentDetails: studentDetails)));
+                              } else if (roomDetails['data']['seating_plan']
+                                          [indexData]['eligible'] ==
+                                      'F_HOLD' ||
+                                  roomDetails['data']['seating_plan'][indexData]
+                                          ['eligible'] ==
+                                      'DEBARRED') {
+                                Navigator.of(context).pop();
+                                attendanceErrorDialog(context);
+                              }
+                            } else {
+                              Navigator.pop(context);
+                              errorDialog(context, 'Student not found!');
+                            }
+                          } else {
+                            Navigator.pop(context);
+                            errorDialog(context, "An error occured!");
+                          }
+                        } else {
+                          Navigator.pop(context);
+                          errorDialog(context, "An error occured!");
+                        }
+                      } catch (e) {
+                        Navigator.pop(context);
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text('Report Candidate',
                         style: TextStyle(fontSize: fontSmall)),
