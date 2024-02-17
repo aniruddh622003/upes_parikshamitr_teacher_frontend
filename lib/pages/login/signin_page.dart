@@ -102,6 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                         "Welcome Back.",
                         style: TextStyle(
                           fontSize: fontXLarge,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -112,7 +113,7 @@ class _SignInPageState extends State<SignInPage> {
                         style: TextStyle(
                           color: grayDark,
                           fontSize: fontMedium,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),

@@ -138,6 +138,7 @@ class _LogInPageState extends State<LogInPage> {
                         "Welcome to",
                         style: TextStyle(
                           fontSize: fontXLarge,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -148,7 +149,7 @@ class _LogInPageState extends State<LogInPage> {
                         style: TextStyle(
                             color: blue,
                             fontSize: fontXLarge,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                     Container(
@@ -164,7 +165,7 @@ class _LogInPageState extends State<LogInPage> {
                         style: TextStyle(
                           color: grayDark,
                           fontSize: fontMedium,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),

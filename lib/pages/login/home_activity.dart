@@ -20,10 +20,31 @@ class _HomeActivityState extends State<HomeActivity> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/upes_logo.png'),
-          const Text('ParikshaMitr',
-              style: TextStyle(
-                  fontSize: 40, color: white, fontWeight: FontWeight.w400)),
+          Padding(
+            padding: EdgeInsets.only(top: 80), // adjust the value as needed
+            child: Image.asset('assets/home_art.png'),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 16.0), // adjust the value as needed
+            child: Center(
+              child: const Text('UPES ParikshaMitr',
+                  style: TextStyle(
+                      fontSize: 32,
+                      color: orange,
+                      fontWeight: FontWeight.w700)),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 40.0), // adjust the value as needed
+            child: Center(
+              child: const Text('Teacher\'s Portal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 32, color: white, fontWeight: FontWeight.w700)),
+            ),
+          ),
           Expanded(
             child: Container(),
           ),
@@ -55,11 +76,12 @@ class _HomeActivityState extends State<HomeActivity> {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Text(
-              "UPES ParikshaMitr - Teachers",
-              style: TextStyle(fontSize: fontSmall, color: white),
+            child: Image.asset(
+              'assets/upes_logo.png',
+              width: 150,
+              height: 80.5,
             ),
           ),
           const SizedBox(
