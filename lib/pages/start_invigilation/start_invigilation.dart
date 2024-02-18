@@ -36,29 +36,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
 
       // Check if the request was successful
       if (response.statusCode == 201) {
-        // If server returns a OK response, parse the text key
-        var responseBody = jsonDecode(response.body);
-        String textKey = responseBody[
-            'text_key']; // Adjust this line based on the actual response structure
-
-        // Show a dialog with the unique code and the response from the API
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Unique Code'),
-              content: Text('Unique Code: ${uniqueCode}\nText Key: $textKey'),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  InvigilationDetails(data: jsonDecode(response.body)['data']),
+            ));
       } else {
         // If that response was not OK, throw an error.
         // throw Exception('Failed to load text key');
@@ -163,13 +147,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
                             child: const Text('Confirm'),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const InvigilationDetails()),
-                              );
+                              // Navigator.of(context).pop();
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           const InvigilationDetails()),
+                              // );
                             },
                           ),
                         ],

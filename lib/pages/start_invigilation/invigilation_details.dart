@@ -5,7 +5,8 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invi
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class InvigilationDetails extends StatelessWidget {
-  const InvigilationDetails({super.key});
+  final Map<dynamic, dynamic> data;
+  const InvigilationDetails({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class InvigilationDetails extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const InvigilationDetailsCard(),
+            InvigilationDetailsCard(data: data),
             Container(
               margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
               width: MediaQuery.of(context).size.width * 1,
