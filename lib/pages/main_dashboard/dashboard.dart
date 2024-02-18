@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
@@ -35,14 +36,21 @@ class _DashboardState extends State<Dashboard> {
 
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+    } else {
+      errorDialog(context, 'Error occurred! Please try again later');
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeActivity()),
+      );
     }
     return {};
   }
 
   @override
   void initState() {
-    super.initState();
     getDetails(token: widget.jwt);
+    super.initState();
   }
 
   List<Widget> makeBatchwiseBars(List<Map<String, dynamic>> batches) {
