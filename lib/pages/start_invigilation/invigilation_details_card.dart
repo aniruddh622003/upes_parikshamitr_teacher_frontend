@@ -13,7 +13,6 @@ class InvigilationDetailsCard extends StatelessWidget {
 
     for (var student in data['room']['students']) {
       if (!(student['eligible'] == 'YES')) {
-        print(student['eligible']);
         debarredCount++;
       }
       if (!subjectCounts.containsKey(student['subject'])) {

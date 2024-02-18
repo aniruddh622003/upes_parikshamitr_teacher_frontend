@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/mark_ufm.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_dialog.dart';
