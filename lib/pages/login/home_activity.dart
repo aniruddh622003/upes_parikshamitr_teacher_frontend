@@ -21,25 +21,25 @@ class _HomeActivityState extends State<HomeActivity> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 80), // adjust the value as needed
+            padding: const EdgeInsets.only(top: 80), // adjust the value as needed
             child: Image.asset('assets/home_art.png'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 16.0), // adjust the value as needed
             child: Center(
-              child: const Text('UPES ParikshaMitr',
+              child: Text('UPES ParikshaMitr',
                   style: TextStyle(
                       fontSize: 32,
                       color: orange,
                       fontWeight: FontWeight.w700)),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 40.0), // adjust the value as needed
             child: Center(
-              child: const Text('Teacher\'s Portal',
+              child: Text('Teacher\'s Portal',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 32, color: white, fontWeight: FontWeight.w700)),
@@ -77,7 +77,7 @@ class _HomeActivityState extends State<HomeActivity> {
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Image.asset(
               'assets/upes_logo.png',
               width: 150,

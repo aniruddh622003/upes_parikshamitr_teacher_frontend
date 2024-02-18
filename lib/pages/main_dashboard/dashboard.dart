@@ -217,15 +217,15 @@ class _DashboardState extends State<Dashboard> {
     final confirm = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Confirm Sign Out'),
-        content: Text('Are you sure you want to sign out?'),
+        title: const Text('Confirm Sign Out'),
+        content: const Text('Are you sure you want to sign out?'),
         actions: [
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(false),
           ),
           TextButton(
-            child: Text('Sign Out'),
+            child: const Text('Sign Out'),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ],

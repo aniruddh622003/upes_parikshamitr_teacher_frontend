@@ -35,13 +35,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
       var response = await assignInvigilator(data);
 
       // Check if the request was successful
+
       if (response.statusCode == 201) {
         Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  InvigilationDetails(data: jsonDecode(response.body)['data']),
+              builder: (context) => InvigilationDetails(data: response['data']),
             ));
       } else {
         // If that response was not OK, throw an error.
@@ -52,7 +52,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Unique Code'),
-              content: Text('Unique Code: ${uniqueCode}\nError: $body'),
+              content: Text('Unique Code: $uniqueCode\nError: $body'),
               actions: [
                 TextButton(
                   child: const Text('OK'),
@@ -147,13 +147,237 @@ class _StartInvigilationState extends State<StartInvigilation> {
                             child: const Text('Confirm'),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              // Navigator.of(context).pop();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           const InvigilationDetails()),
-                              // );
+                              Map response = {
+                                "message": "Invigilator assigned",
+                                "data": {
+                                  "room": {
+                                    "_id": "65d1f93c8a6b780f6b36ef32",
+                                    "room_no": 3001,
+                                    "block": "BLOCK-III",
+                                    "floor": 0,
+                                    "room_invigilator_id":
+                                        "65d1f93c8a6b780f6b36ef33",
+                                    "students": [
+                                      {
+                                        "sap_id": 500086111,
+                                        "roll_no": "R2142201111",
+                                        "student_name": "Test Student 1",
+                                        "course": "B.Sc. (Computer Science)",
+                                        "subject": "Compiler Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A1",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "YES",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "B.Sc. (Computer Science)",
+                                        "subject": "Compiler Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086113,
+                                        "roll_no": "R2142201113",
+                                        "student_name": "Test Student 3",
+                                        "course": "B.Sc. (Computer Science)",
+                                        "subject": "Compiler Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A3",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "F_HOLD",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "B.Sc. (Computer Science)",
+                                        "subject": "Compiler Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                      {
+                                        "sap_id": 500086112,
+                                        "roll_no": "R2142201112",
+                                        "student_name": "Test Student 2",
+                                        "course": "MTech (Computer Science)",
+                                        "subject": "Neural Design",
+                                        "subject_code": "CSAI 2020",
+                                        "seat_no": "A2",
+                                        "exam_type": "MIDSEM",
+                                        "eligible": "DEBARRED",
+                                        "ans_sheet_number": null,
+                                        "b_sheet_count": 0,
+                                        "attendance": false,
+                                        "attendance_time": null,
+                                        "attendance_by": null,
+                                        "UFM": null,
+                                        "UFM_by": null
+                                      },
+                                    ],
+                                    "createdAt": "2024-02-18T12:34:04.702Z",
+                                    "updatedAt": "2024-02-18T12:34:04.794Z",
+                                    "__v": 1
+                                  },
+                                  "invigilator1": {
+                                    "sap_id": 500086707,
+                                    "name": "Aniruddh Dev Upadhyay"
+                                  }
+                                }
+                              };
+                              if (true
+                                  // response.statusCode == 201
+                                  ) {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InvigilationDetails(
+                                          data: response['data']),
+                                    ));
+                              }
                             },
                           ),
                         ],
