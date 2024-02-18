@@ -206,12 +206,32 @@ class _DashboardState extends State<Dashboard> {
   final storage = const FlutterSecureStorage();
 
   void signOut() async {
-    await storage.delete(key: 'jwt');
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeActivity()),
+    final confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirm Sign Out'),
+        content: Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          TextButton(
+            child: Text('Sign Out'),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
     );
+
+    if (confirm) {
+      await storage.delete(key: 'jwt');
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeActivity()),
+      );
+    }
   }
 
   @override

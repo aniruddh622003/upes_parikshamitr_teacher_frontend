@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
+import 'dart:convert';
 
 class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
@@ -15,38 +17,70 @@ class _StartInvigilationState extends State<StartInvigilation> {
   final qrKey = GlobalKey(debugLabel: 'QR');
 
   void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
+    String? uniqueCode;
+    controller.scannedDataStream.listen((scanData) async {
+      // Make the function async
       controller.pauseCamera();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Scan Successful'),
-            content: Text(scanData.code.toString()),
-            actions: [
-              TextButton(
-                child: const Text('Scan Again'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  controller.resumeCamera();
-                },
-              ),
-              TextButton(
-                child: const Text('Continue'),
-                onPressed: () {
-                  controller.dispose();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const InvigilationDetails()),
-                  );
-                },
-              ),
-            ],
-          );
-        },
-      );
+
+      // Assign the scanned code to the controllerSAP
+      uniqueCode = scanData.code.toString();
+
+      // Prepare the data to send to the API
+      Map data = {
+        'unique_code': uniqueCode.toString(),
+        // Add other data if needed
+      };
+
+      // Call the API function
+      var response = await assignInvigilator(data);
+
+      // Check if the request was successful
+      if (response.statusCode == 201) {
+        // If server returns a OK response, parse the text key
+        var responseBody = jsonDecode(response.body);
+        String textKey = responseBody[
+            'text_key']; // Adjust this line based on the actual response structure
+
+        // Show a dialog with the unique code and the response from the API
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unique Code'),
+              content: Text('Unique Code: ${uniqueCode}\nText Key: $textKey'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // If that response was not OK, throw an error.
+        // throw Exception('Failed to load text key');
+        var body = jsonDecode(response.body);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unique Code'),
+              content: Text('Unique Code: ${uniqueCode}\nError: $body'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
   }
 
