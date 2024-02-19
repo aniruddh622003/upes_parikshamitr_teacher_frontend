@@ -267,9 +267,19 @@ class _DashboardState extends State<Dashboard> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Dashboard',
-                      style: TextStyle(color: white),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.logout, color: white),
+                          onPressed: () {
+                            signOut();
+                          },
+                        ),
+                        const Text(
+                          'Dashboard',
+                          style: TextStyle(color: white),
+                        ),
+                      ],
                     ),
                     IconButton(
                       icon: const Icon(Icons.qr_code, color: white),
@@ -281,31 +291,6 @@ class _DashboardState extends State<Dashboard> {
                         );
                       },
                     ),
-                  ],
-                ),
-              ),
-              drawer: Drawer(
-                child: ListView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: blue,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: ListTile(
-                        tileColor: Colors.transparent,
-                        title: const Center(
-                          child: Text('Sign Out',
-                              style: TextStyle(
-                                  color: white, fontSize: fontMedium)),
-                        ),
-                        onTap: () {
-                          signOut();
-                        },
-                      ),
-                    )
                   ],
                 ),
               ),
