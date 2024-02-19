@@ -6,15 +6,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'dart:convert';
-
-// void savePenddingSupplies({required List<Map> requiredSupplies}) async {
-//   const storage = FlutterSecureStorage();
-//   String jsonString = jsonEncode(requiredSupplies);
-//   await storage.write(
-//     key: 'pendingSupplies',
-//     value: jsonString,
-//   );
-// }
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void confirmInvigilationCard(
     BuildContext context, List supplies, String roomId) {
@@ -114,14 +106,9 @@ void confirmInvigilationCard(
                   ElevatedButton(
                     onPressed: () async {
                       int i = 0;
-                      print(supplies);
                       List<Map> pendingSupplies = [];
                       try {
-                        // print(supplies);
                         for (i = 0; i < controllers.length; i++) {
-                          print(supplies[i]['type']);
-                          print(supplies[i]['quantity']);
-                          print(int.parse(controllers[i].text) < 0);
                           if (controllers[i].text.isEmpty) {
                             throw Exception(
                                 'Invalid value for ${supplies[i]['type']}. Field cannot be empty.');
@@ -138,7 +125,6 @@ void confirmInvigilationCard(
                               "quantity": supplies[i]['quantity'] -
                                   int.parse(controllers[i].text)
                             });
-                            print(pendingSupplies);
                           }
                         }
                         // savePenddingSupplies(requiredSupplies: pendingSupplies);
@@ -146,10 +132,10 @@ void confirmInvigilationCard(
                           "roomId": roomId,
                           "pending_supplies": pendingSupplies,
                         };
-                        print(dataApproveInvigilator);
                         dynamic responseApproveInvigilator =
                             await approveInvigilator(dataApproveInvigilator);
                         if (responseApproveInvigilator.statusCode == 201) {
+                          await const FlutterSecureStorage().write(key: 'pendingSupplies', value: jsonEncode(pendingSupplies));
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();

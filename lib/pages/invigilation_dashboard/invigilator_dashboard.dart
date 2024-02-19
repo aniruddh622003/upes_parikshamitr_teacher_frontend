@@ -83,7 +83,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             children: [
               Expanded(
                 child: Text(
-                  item['name'],
+                  item['type'],
                   style: const TextStyle(
                     fontSize: fontSmall,
                     fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                 height: 30,
                 width: 120,
                 child: ElevatedButton(
-                  onPressed: item['received'] < item['required']
+                  onPressed: item['quantity'] > 0
                       ? () {
                           pendingSuppliesPopup(context, item, suppliesList);
                         }
@@ -106,7 +106,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                           return Colors
                               .transparent; // Use the same background color when the button is disabled
                         }
-                        return item['received'] < item['required']
+                        return item['quantity'] > 0
                             ? Colors.orange
                             : Colors.transparent;
                       },
@@ -128,7 +128,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                     ),
                   ),
                   child: Text(
-                    "${item['received']} / ${item['required']}",
+                    "Pending: ${item['quantity']}",
                     style: const TextStyle(
                       fontSize: fontSmall,
                       fontWeight: FontWeight.bold,

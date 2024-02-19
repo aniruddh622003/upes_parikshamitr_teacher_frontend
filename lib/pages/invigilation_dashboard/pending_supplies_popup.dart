@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void pendingSuppliesPopup(BuildContext context,
@@ -58,7 +60,7 @@ void pendingSuppliesPopup(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(supplyDetails['name'] as String,
+                    Text(supplyDetails['type'] as String,
                         style: const TextStyle(fontSize: fontMedium)),
                     Container(
                       width: 35,
@@ -69,9 +71,7 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                       child: Center(
                         child: Text(
-                          (supplyDetails['required'] -
-                                  supplyDetails['received'])
-                              .toString(),
+                          (supplyDetails['quantity']).toString(),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -81,21 +81,7 @@ void pendingSuppliesPopup(BuildContext context,
                     )
                   ],
                 ),
-                const Text('Total Needed',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(supplyDetails['required'].toString(),
-                    style: const TextStyle(fontSize: fontMedium)),
-                const Text('Total Received',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(supplyDetails['received'].toString(),
-                    style: const TextStyle(fontSize: fontMedium)),
-                const Text('Update Total Received',
+                const Text('Update newly received quantity:',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
@@ -127,15 +113,34 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                     ),
                     onPressed: () async {
-                      const storage = FlutterSecureStorage();
-                      pendingSuppliesList[index]['received'] =
-                          int.parse(controller.text);
-
-                      // Save the updated list to secure storage
-                      await storage.write(
-                          key: 'pendingSupplies',
-                          value: jsonEncode(pendingSuppliesList));
-                      Navigator.pop(context);
+                      try {
+                        if (controller.text.isEmpty) {
+                          throw 'Please enter the quantity';
+                        } else if (int.parse(controller.text) >
+                            supplyDetails['quantity']) {
+                          throw 'Quantity cannot be more than the pending quantity';
+                        } else if (int.parse(controller.text) < 0) {
+                          throw 'Quantity cannot be negative';
+                        } else {
+                          const storage = FlutterSecureStorage();
+                          pendingSuppliesList[index]['quantity'] =
+                              pendingSuppliesList[index]['quantity'] -
+                                  int.parse(controller.text);
+                          // Save the updated list to secure storage
+                          await storage.write(
+                              key: 'pendingSupplies',
+                              value: jsonEncode(pendingSuppliesList));
+                          dynamic response =
+                              await updateSupplies(pendingSuppliesList);
+                          if (response.statusCode == 200) {
+                            Navigator.pop(context);
+                          } else {
+                            throw 'Failed to update supplies';
+                          }
+                        }
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text('Confirm Update',
                         style: TextStyle(fontSize: fontSmall)),
