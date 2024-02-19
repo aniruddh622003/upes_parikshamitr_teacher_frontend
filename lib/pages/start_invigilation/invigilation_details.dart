@@ -50,8 +50,11 @@ class InvigilationDetails extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   dynamic response = await getSupplies();
-                  if (response['status'] == 200) {
-                    confirmInvigilationCard(context, jsonDecode(response.body)['data'], data['room']['_id']);
+                  // print(
+                  //     "${jsonDecode(response.body)['data']}, ${data['room']['_id']}");
+                  if (response.statusCode == 200) {
+                    confirmInvigilationCard(context,
+                        jsonDecode(response.body)['data'], data['room']['_id']);
                   } else {
                     errorDialog(context,
                         'Please wait for controller to approve your request.');

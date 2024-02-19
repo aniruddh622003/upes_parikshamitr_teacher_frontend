@@ -5,9 +5,6 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/approve_invigilator
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show requiredSupplies;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
 // void savePenddingSupplies({required List<Map> requiredSupplies}) async {
@@ -22,7 +19,7 @@ import 'dart:convert';
 void confirmInvigilationCard(
     BuildContext context, List supplies, String roomId) {
   final List<TextEditingController> controllers = List.generate(
-    requiredSupplies.length,
+    supplies.length,
     (index) => TextEditingController(),
   );
   showDialog(
@@ -76,14 +73,12 @@ void confirmInvigilationCard(
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
-                                      child: Text(
-                                          requiredSupplies[index]['type'],
+                                      child: Text(supplies[index]['type'],
                                           style: const TextStyle(
                                               color: white,
                                               fontSize: fontMedium)),
                                     ),
-                                    Text(
-                                        "${requiredSupplies[index]['quantity']} Nos.",
+                                    Text("${supplies[index]['quantity']} Nos.",
                                         style: const TextStyle(
                                             color: white,
                                             fontSize: fontMedium)),
@@ -119,30 +114,39 @@ void confirmInvigilationCard(
                   ElevatedButton(
                     onPressed: () async {
                       int i = 0;
+                      print(supplies);
                       List<Map> pendingSupplies = [];
                       try {
+                        // print(supplies);
                         for (i = 0; i < controllers.length; i++) {
+                          print(supplies[i]['type']);
+                          print(supplies[i]['quantity']);
+                          print(int.parse(controllers[i].text) < 0);
                           if (controllers[i].text.isEmpty) {
                             throw Exception(
                                 'Invalid value for ${supplies[i]['type']}. Field cannot be empty.');
                           } else if (int.parse(controllers[i].text) < 0) {
                             throw Exception(
                                 'Invalid value for ${supplies[i]['type']}. Value must be a non-negative integer.');
-                          }
-                          if (int.parse(controllers[i].text) <
+                          } else if (int.parse(controllers[i].text) >
                               supplies[i]['quantity']) {
+                            throw Exception(
+                                'Invalid value for ${supplies[i]['type']}. Value must be smaller than the total amount allocated.');
+                          } else {
                             pendingSupplies.add({
                               "type": supplies[i]['type'],
-                              "pending": supplies[i]['quantity'] -
+                              "quantity": supplies[i]['quantity'] -
                                   int.parse(controllers[i].text)
                             });
+                            print(pendingSupplies);
                           }
                         }
                         // savePenddingSupplies(requiredSupplies: pendingSupplies);
                         Map<String, dynamic> dataApproveInvigilator = {
                           "roomId": roomId,
-                          "supplies": pendingSupplies,
+                          "pending_supplies": pendingSupplies,
                         };
+                        print(dataApproveInvigilator);
                         dynamic responseApproveInvigilator =
                             await approveInvigilator(dataApproveInvigilator);
                         if (responseApproveInvigilator.statusCode == 201) {
@@ -157,16 +161,10 @@ void confirmInvigilationCard(
                           );
                         } else {
                           errorDialog(context,
-                              'An Error occurred while Approving Invigilator. Please try again.');
+                              jsonDecode(responseApproveInvigilator.body));
                         }
                       } catch (e) {
-                        if (e ==
-                            'Invalid value for ${requiredSupplies[i]['name']}. Field cannot be empty.') {
-                          errorDialog(context, e.toString());
-                        } else {
-                          errorDialog(context,
-                              'Invalid value for ${requiredSupplies[i]['name']}. Value must be a non-negative integer.');
-                        }
+                        errorDialog(context, e.toString());
                       }
                     },
                     style: ButtonStyle(
