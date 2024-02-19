@@ -19,7 +19,8 @@ import 'dart:convert';
 //   );
 // }
 
-void confirmInvigilationCard(BuildContext context, List supplies) {
+void confirmInvigilationCard(
+    BuildContext context, List supplies, String roomId) {
   final List<TextEditingController> controllers = List.generate(
     requiredSupplies.length,
     (index) => TextEditingController(),
@@ -138,19 +139,26 @@ void confirmInvigilationCard(BuildContext context, List supplies) {
                           }
                         }
                         // savePenddingSupplies(requiredSupplies: pendingSupplies);
-                        await approveInvigilator({
+                        Map<String, dynamic> dataApproveInvigilator = {
+                          "roomId": roomId,
                           "supplies": pendingSupplies,
-                        });
-
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const InvigilatorDashboard()),
-                        );
+                        };
+                        dynamic responseApproveInvigilator =
+                            await approveInvigilator(dataApproveInvigilator);
+                        if (responseApproveInvigilator.statusCode == 201) {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const InvigilatorDashboard()),
+                          );
+                        } else {
+                          errorDialog(context,
+                              'An Error occurred while Approving Invigilator. Please try again.');
+                        }
                       } catch (e) {
                         if (e ==
                             'Invalid value for ${requiredSupplies[i]['name']}. Field cannot be empty.') {

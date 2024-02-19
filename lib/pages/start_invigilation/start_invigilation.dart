@@ -8,6 +8,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
@@ -41,6 +42,18 @@ class _StartInvigilationState extends State<StartInvigilation> {
 
       if (response.statusCode == 201) {
         try {
+          Map data = jsonDecode(response.body)['data'];
+          List roomData = [
+            {
+              'room_id': data['room']['_id'],
+              'room_no': data['room']['room_no'],
+              'block': data['room']['block'],
+              'floor': data['room']['floor'],
+              'room_invigilator_id': data['room']['room_invigilator_id'],
+            }
+          ];
+          const storage = FlutterSecureStorage();
+          await storage.write(key: 'room_data', value: jsonEncode(roomData));
           Navigator.pop(context);
           Navigator.push(
               context,
