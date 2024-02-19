@@ -131,10 +131,7 @@ class InvigilationDetailsCard extends StatelessWidget {
           ...makeSubjectList(),
           const SizedBox(height: 20),
           const Text('Co-Invigilator'),
-          Text(
-              data['invigilator'].runtimeType == String
-                  ? 'Not Assigned'
-                  : data['invigilator1']['name'],
+          Text(data['invigilator1']['name'] ?? 'Not Assigned',
               style: const TextStyle(
                 fontSize: fontMedium,
                 color: orange,

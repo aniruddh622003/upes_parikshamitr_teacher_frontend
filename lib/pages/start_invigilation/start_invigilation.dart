@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -39,12 +40,17 @@ class _StartInvigilationState extends State<StartInvigilation> {
       // Check if the request was successful
 
       if (response.statusCode == 201) {
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InvigilationDetails(data: response['data']),
-            ));
+        try {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InvigilationDetails(
+                    data: jsonDecode(response.body)['data']),
+              ));
+        } catch (e) {
+          errorDialog(context, '${e.toString()}, ${jsonDecode(response.body)}');
+        }
       } else {
         // If that response was not OK, throw an error.
         // throw Exception('Failed to load text key');
