@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/approve_invigilator.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -7,18 +10,16 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
-void savePenddingSupplies({required List<Map> requiredSupplies}) async {
-  const storage = FlutterSecureStorage();
-  String jsonString = jsonEncode(requiredSupplies);
-  await storage.write(
-    key: 'pendingSupplies',
-    value: jsonString,
-  );
-  // List<dynamic> jsonList = jsonDecode(jsonString) as List;
-  // print(jsonList.map((item) => item as Map).toList());
-}
+// void savePenddingSupplies({required List<Map> requiredSupplies}) async {
+//   const storage = FlutterSecureStorage();
+//   String jsonString = jsonEncode(requiredSupplies);
+//   await storage.write(
+//     key: 'pendingSupplies',
+//     value: jsonString,
+//   );
+// }
 
-void confirmInvigilationCard(BuildContext context) {
+void confirmInvigilationCard(BuildContext context, List supplies) {
   final List<TextEditingController> controllers = List.generate(
     requiredSupplies.length,
     (index) => TextEditingController(),
@@ -59,7 +60,7 @@ void confirmInvigilationCard(BuildContext context) {
                     height: 400,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: requiredSupplies.length,
+                      itemCount: supplies.length,
                       itemBuilder: (context, index) {
                         return Card(
                           color: blue300,
@@ -75,13 +76,13 @@ void confirmInvigilationCard(BuildContext context) {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                          requiredSupplies[index]['name'],
+                                          requiredSupplies[index]['type'],
                                           style: const TextStyle(
                                               color: white,
                                               fontSize: fontMedium)),
                                     ),
                                     Text(
-                                        "${requiredSupplies[index]['required']} Nos.",
+                                        "${requiredSupplies[index]['quantity']} Nos.",
                                         style: const TextStyle(
                                             color: white,
                                             fontSize: fontMedium)),
@@ -115,28 +116,31 @@ void confirmInvigilationCard(BuildContext context) {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       int i = 0;
                       List<Map> pendingSupplies = [];
                       try {
                         for (i = 0; i < controllers.length; i++) {
                           if (controllers[i].text.isEmpty) {
                             throw Exception(
-                                'Invalid value for ${requiredSupplies[i]['name']}. Field cannot be empty.');
+                                'Invalid value for ${supplies[i]['type']}. Field cannot be empty.');
                           } else if (int.parse(controllers[i].text) < 0) {
                             throw Exception(
-                                'Invalid value for ${requiredSupplies[i]['name']}. Value must be a non-negative integer.');
+                                'Invalid value for ${supplies[i]['type']}. Value must be a non-negative integer.');
                           }
                           if (int.parse(controllers[i].text) <
-                              requiredSupplies[i]['required']) {
+                              supplies[i]['quantity']) {
                             pendingSupplies.add({
-                              "name": requiredSupplies[i]['name'],
-                              "required": requiredSupplies[i]['required'],
-                              "received": int.parse(controllers[i].text),
+                              "type": supplies[i]['type'],
+                              "pending": supplies[i]['quantity'] -
+                                  int.parse(controllers[i].text)
                             });
                           }
                         }
-                        savePenddingSupplies(requiredSupplies: pendingSupplies);
+                        // savePenddingSupplies(requiredSupplies: pendingSupplies);
+                        await approveInvigilator({
+                          "supplies": pendingSupplies,
+                        });
 
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();

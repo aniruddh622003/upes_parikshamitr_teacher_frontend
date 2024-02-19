@@ -1,5 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/confirm_invigilation_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -42,8 +48,15 @@ class InvigilationDetails extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
-                onPressed: () {
-                  confirmInvigilationCard(context);
+                onPressed: () async {
+                  dynamic response = await getSupplies();
+                  if (response['status'] == 200) {
+                    confirmInvigilationCard(context, jsonDecode(response.body)['data']);
+                  } else {
+                    errorDialog(context,
+                        'Please wait for controller to approve your request.');
+                  }
+                  // ;
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: orange, // Background color
