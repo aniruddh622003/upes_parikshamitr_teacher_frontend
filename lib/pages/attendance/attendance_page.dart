@@ -14,7 +14,7 @@ class AttendancePage extends StatelessWidget {
 
   AttendancePage({super.key, required this.studentDetails});
 
-  Future<void> markAttendance() async {
+  Future<void> markAttendance(String roomId) async {
     const storage = FlutterSecureStorage();
     final String? jwt = await storage.read(key: 'jwt');
 
@@ -25,7 +25,7 @@ class AttendancePage extends StatelessWidget {
         'Authorization': 'Bearer $jwt',
       },
       body: jsonEncode(<String, dynamic>{
-        'room_id': '65ba84665bfb4b58d77d0184',
+        'room_id': roomId,
         'sap_id': studentDetails['sap_id'],
         'ans_sheet_number': int.parse(controllerSheetNo.text),
       }),
@@ -253,7 +253,11 @@ class AttendancePage extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              markAttendance();
+                              const storage = FlutterSecureStorage();
+                              dynamic room_data =
+                                  await storage.read(key: 'room_data');
+                              markAttendance(jsonDecode(room_data.toString())[0]
+                                  ['room_id']);
                               Navigator.pop(context);
                               attendancePopup(context);
                             },

@@ -53,8 +53,10 @@ class InvigilationDetails extends StatelessWidget {
                   // print(
                   //     "${jsonDecode(response.body)['data']}, ${data['room']['_id']}");
                   if (response.statusCode == 200) {
-                    confirmInvigilationCard(context,
-                        jsonDecode(response.body)['data'], data['room']['_id']);
+                    confirmInvigilationCard(
+                        context,
+                        jsonDecode(response.body)['data'],
+                        data['room']['room_id']);
                   } else {
                     showDialog(
                       context: context,

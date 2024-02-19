@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/bsheet_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
@@ -92,7 +93,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
               ),
               SizedBox(
                 height: 30,
-                width: 120,
+                width: 150,
                 child: ElevatedButton(
                   onPressed: item['quantity'] > 0
                       ? () {
@@ -260,13 +261,23 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         )),
                         Expanded(
                             child: GestureDetector(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SeatingArrangement(
-                                        roomId: "65ba84665bfb4b58d77d0184",
-                                      ))),
+                          onTap: () async {
+                            try {
+                              const storage = FlutterSecureStorage();
+                              dynamic room_data =
+                                  await storage.read(key: 'room_data');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SeatingArrangement(
+                                            roomId: jsonDecode(
+                                                    room_data.toString())[0]
+                                                ['room_id'],
+                                          )));
+                            } catch (e) {
+                              errorDialog(context, e.toString());
+                            }
+                          },
                           child: SvgPicture.asset(
                               'android/assets/seatingplan.svg'),
                         )),

@@ -123,13 +123,6 @@ void pendingSuppliesPopup(BuildContext context,
                           throw 'Quantity cannot be negative';
                         } else {
                           const storage = FlutterSecureStorage();
-                          pendingSuppliesList[index]['quantity'] =
-                              pendingSuppliesList[index]['quantity'] -
-                                  int.parse(controller.text);
-                          // Save the updated list to secure storage
-                          await storage.write(
-                              key: 'pendingSupplies',
-                              value: jsonEncode(pendingSuppliesList));
                           dynamic response =
                               await updateSupplies(pendingSuppliesList);
                           if (response.statusCode == 200) {
@@ -137,6 +130,13 @@ void pendingSuppliesPopup(BuildContext context,
                           } else {
                             throw 'Failed to update supplies';
                           }
+                          pendingSuppliesList[index]['quantity'] =
+                              pendingSuppliesList[index]['quantity'] -
+                                  int.parse(controller.text);
+                          // Save the updated list to secure storage
+                          await storage.write(
+                              key: 'pendingSupplies',
+                              value: jsonEncode(pendingSuppliesList));
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());

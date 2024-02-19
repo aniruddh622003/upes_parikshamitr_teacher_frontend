@@ -3,14 +3,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 // import 'dart:convert';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/issue_bsheet.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show roomId;
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 void bsheetPopup(BuildContext context) async {
@@ -104,7 +104,11 @@ void bsheetPopup(BuildContext context) async {
                     ),
                     onPressed: () async {
                       try {
-                        dynamic data = await getRoomDetails(roomId);
+                        const storage = FlutterSecureStorage();
+                        dynamic room_data =
+                            await storage.read(key: 'room_data');
+                        dynamic data = await getRoomDetails(
+                            jsonDecode(room_data.toString())[0]['room_id']);
                         if (data.statusCode == 200) {
                           Map roomData = jsonDecode(data.body);
                           int indexData = roomData['data']['seating_plan']

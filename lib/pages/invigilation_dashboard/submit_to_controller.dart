@@ -76,7 +76,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
-                  'Scan QR Code in Controlllllller Room to get your invigilation details and proceed.',
+                  'Scan QR Code in Controller Room to get your invigilation details and proceed.',
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
