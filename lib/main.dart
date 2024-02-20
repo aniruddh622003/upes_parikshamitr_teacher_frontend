@@ -29,7 +29,6 @@ void main() async {
   const storage = FlutterSecureStorage();
   String? jwt = await storage.read(key: 'jwt');
   String? invigilationState = await storage.read(key: 'invigilation_state');
-  print(invigilationState);
   if (jwt != null) {
     await verifyToken(token: jwt);
   }

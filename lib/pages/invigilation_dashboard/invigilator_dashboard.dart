@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -24,9 +27,10 @@ class InvigilatorDashboard extends StatefulWidget {
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   Future<Widget> makePendingItems() async {
-    const storage = FlutterSecureStorage();
-    String? pendingSupplies = await storage.read(key: 'pendingSupplies');
-
+    // const storage = FlutterSecureStorage();
+    // String? pendingSupplies = await storage.read(key: 'pendingSupplies');
+    dynamic response = await getSupplies();
+    List pendingSupplies = jsonDecode(response.body)['data'];
     List<Widget> items = [
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -41,7 +45,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
         ),
       )
     ];
-    List<dynamic> suppliesList = jsonDecode(pendingSupplies.toString());
+    List<dynamic> suppliesList = pendingSupplies;
     if (suppliesList.isEmpty) {
       items.add(Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -69,78 +73,109 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
       ));
     } else {
       for (Map item in suppliesList) {
-        items.add(Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            border: const Border(
-              bottom: BorderSide(
-                color: gray,
-              ),
-            ),
-            color: grayLight,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  item['type'],
-                  style: const TextStyle(
-                    fontSize: fontSmall,
-                    fontWeight: FontWeight.bold,
-                  ),
+        if (item['quantity'] == 0) {
+          continue;
+        } else {
+          items.add(Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              border: const Border(
+                bottom: BorderSide(
+                  color: gray,
                 ),
               ),
-              SizedBox(
-                height: 30,
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: item['quantity'] > 0
-                      ? () {
-                          pendingSuppliesPopup(context, item, suppliesList);
-                        }
-                      : null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors
-                              .transparent; // Use the same background color when the button is disabled
-                        }
-                        return item['quantity'] > 0
-                            ? Colors.orange
-                            : Colors.transparent;
-                      },
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors
-                              .green; // Use the same text color when the button is disabled
-                        }
-                        return Colors.white;
-                      },
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Change this to your desired border radius
-                      ),
-                    ),
-                  ),
+              color: grayLight,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Expanded(
                   child: Text(
-                    "Pending: ${item['quantity']}",
+                    item['type'],
                     style: const TextStyle(
                       fontSize: fontSmall,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
-        ));
+                SizedBox(
+                  height: 30,
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: item['quantity'] > 0
+                        ? () {
+                            pendingSuppliesPopup(context, item, suppliesList);
+                          }
+                        : null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors
+                                .transparent; // Use the same background color when the button is disabled
+                          }
+                          return item['quantity'] > 0
+                              ? Colors.orange
+                              : Colors.transparent;
+                        },
+                      ),
+                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors
+                                .green; // Use the same text color when the button is disabled
+                          }
+                          return Colors.white;
+                        },
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Change this to your desired border radius
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      "Pending: ${item['quantity']}",
+                      style: const TextStyle(
+                        fontSize: fontSmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ));
+        }
       }
+    }
+
+    if (items.length == 1) {
+      items.add(Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          border: const Border(
+            bottom: BorderSide(
+              color: gray,
+            ),
+          ),
+          color: grayLight,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Row(
+          children: [
+            Expanded(
+              child: Text(
+                'No pending supplies',
+                style: TextStyle(
+                  fontSize: fontSmall,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ));
     }
 
     return Container(
@@ -175,6 +210,17 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             ),
           ),
           backgroundColor: blue,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.refresh,
+                color: white,
+              ),
+              onPressed: () {
+                setState(() {});
+              },
+            ),
+          ],
         ),
         body: Column(
           children: [
@@ -433,7 +479,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
     int currentHour = currentTime.hour;
     String period = currentHour >= 12 ? 'PM' : 'AM';
 
-    if (currentHour >= 10 && currentHour < 13 && period == 'AM') {
+    if (currentHour >= 8 && currentHour < 13 && period == 'AM') {
       return const Text(
         '(Phase I)',
         style: TextStyle(

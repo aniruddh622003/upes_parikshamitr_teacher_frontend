@@ -14,6 +14,5 @@ Future<dynamic> approveInvigilator(Map data) async {
         'Authorization': 'Bearer $jwt',
       },
       body: jsonEncode(data));
-  print(jsonDecode(response.body));
   return response;
 }
