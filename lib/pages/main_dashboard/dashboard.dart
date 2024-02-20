@@ -17,7 +17,8 @@ import 'package:http/http.dart' as http;
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
-  const Dashboard({super.key, required this.jwt});
+  int unreadNotificationsCount = 0;
+  Dashboard({super.key, required this.jwt});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -48,9 +49,27 @@ class _DashboardState extends State<Dashboard> {
     return {};
   }
 
+  Future<void> getUnreadNotificationsCount() async {
+    String? notifcationsData =
+        await const FlutterSecureStorage().read(key: 'notifications');
+    if (notifcationsData != null) {
+      List<dynamic> notifications = jsonDecode(notifcationsData);
+      int count = 0;
+      for (var notification in notifications) {
+        if (!notification[1]) {
+          count++;
+        }
+      }
+      widget.unreadNotificationsCount = count;
+    } else {
+      widget.unreadNotificationsCount = 0;
+    }
+  }
+
   @override
   void initState() {
     getDetails(token: widget.jwt);
+    getUnreadNotificationsCount();
     super.initState();
   }
 
@@ -486,12 +505,15 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     Container(
                                       padding: const EdgeInsets.all(5),
-                                      decoration: const BoxDecoration(
-                                        color: red,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            widget.unreadNotificationsCount > 0
+                                                ? orange
+                                                : Colors.transparent,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Text(
-                                        '3',
+                                      child: Text(
+                                        "${widget.unreadNotificationsCount > 0 ? widget.unreadNotificationsCount : ''}",
                                         style: TextStyle(color: white),
                                       ),
                                     ),

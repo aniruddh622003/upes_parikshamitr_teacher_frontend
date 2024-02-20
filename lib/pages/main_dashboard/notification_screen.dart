@@ -1,10 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -120,6 +119,7 @@ class NotificationCategoryBox extends StatelessWidget {
         ...List.generate(
           notifications.length,
           (index) => NotificationBox(
+            id: notifications[index]['_id'].toString(),
             name: notifications[index]['sender'].toString(),
             subject: notifications[index]['title'].toString(),
             msg: notifications[index]['message'].toString(),
@@ -133,6 +133,7 @@ class NotificationCategoryBox extends StatelessWidget {
 }
 
 class NotificationBox extends StatefulWidget {
+  final String id;
   final String name;
   final String subject;
   final String msg;
@@ -141,6 +142,7 @@ class NotificationBox extends StatefulWidget {
 
   const NotificationBox({
     super.key,
+    required this.id,
     required this.name,
     required this.subject,
     required this.msg,
@@ -164,9 +166,20 @@ class _NotificationBoxState extends State<NotificationBox> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (!isRead) {
           widget.onTap();
+          String? notifcationsData =
+              await const FlutterSecureStorage().read(key: 'notifications');
+          List<dynamic> notifications = jsonDecode(notifcationsData!);
+          for (int i = 0; i < notifications.length; i++) {
+            if (notifications[i][0]['_id'] == widget.id) {
+              notifications[i][1] = true;
+              break;
+            }
+          }
+          await const FlutterSecureStorage()
+              .write(key: 'notifications', value: jsonEncode(notifications));
           setState(() {
             isRead = true;
           });
