@@ -264,14 +264,14 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                           onTap: () async {
                             try {
                               const storage = FlutterSecureStorage();
-                              dynamic room_data =
+                              dynamic roomData =
                                   await storage.read(key: 'room_data');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SeatingArrangement(
                                             roomId: jsonDecode(
-                                                    room_data.toString())[0]
+                                                    roomData.toString())[0]
                                                 ['room_id'],
                                           )));
                             } catch (e) {

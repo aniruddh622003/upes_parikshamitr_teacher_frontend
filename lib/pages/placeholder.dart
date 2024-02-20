@@ -6,10 +6,10 @@ class PlaceholderTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
           height: 800,
           child: Column(children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
                 childAspectRatio: 2.5,
@@ -31,7 +31,7 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Flexible(child: const Text('Seat Allocated')),
+                          const Flexible(child: Text('Seat Allocated')),
                         ],
                       ),
                     ),
@@ -51,7 +51,7 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Flexible(child: const Text('Seat Unallocated')),
+                          const Flexible(child: Text('Seat Unallocated')),
                         ],
                       ),
                     ),
@@ -91,7 +91,7 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Flexible(child: const Text('Seat Debarred')),
+                          const Flexible(child: Text('Seat Debarred')),
                         ],
                       ),
                     ),
@@ -131,7 +131,7 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Flexible(child: const Text('Seat Registration Hold')),
+                          const Flexible(child: Text('Seat Registration Hold')),
                         ],
                       ),
                     ),

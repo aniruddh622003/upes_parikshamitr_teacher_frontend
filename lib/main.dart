@@ -28,13 +28,13 @@ void main() async {
 
   const storage = FlutterSecureStorage();
   String? jwt = await storage.read(key: 'jwt');
-  String? invigilation_state = await storage.read(key: 'invigilation_state');
-  print(invigilation_state);
+  String? invigilationState = await storage.read(key: 'invigilation_state');
+  print(invigilationState);
   if (jwt != null) {
     await verifyToken(token: jwt);
   }
   runApp(MyApp(
-      jwt: jwt, verified: verified, invigilation_state: invigilation_state));
+      jwt: jwt, verified: verified, invigilation_state: invigilationState));
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: jwt != null && verified
           ? invigilation_state != null
-              ? InvigilatorDashboard()
+              ? const InvigilatorDashboard()
               : Dashboard(jwt: jwt)
           : const HomeActivity(),
     );

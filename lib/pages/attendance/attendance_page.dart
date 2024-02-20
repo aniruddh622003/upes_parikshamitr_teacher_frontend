@@ -254,9 +254,9 @@ class AttendancePage extends StatelessWidget {
                             ),
                             onPressed: () async {
                               const storage = FlutterSecureStorage();
-                              dynamic room_data =
+                              dynamic roomData =
                                   await storage.read(key: 'room_data');
-                              markAttendance(jsonDecode(room_data.toString())[0]
+                              markAttendance(jsonDecode(roomData.toString())[0]
                                   ['room_id']);
                               Navigator.pop(context);
                               attendancePopup(context);

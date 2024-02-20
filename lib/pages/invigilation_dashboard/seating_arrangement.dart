@@ -250,8 +250,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
-                                        child: const Text('Seat Allocated')),
+                                    const Flexible(
+                                        child: Text('Seat Allocated')),
                                   ],
                                 ),
                               ),
@@ -271,8 +271,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
-                                        child: const Text('Seat Unallocated')),
+                                    const Flexible(
+                                        child: Text('Seat Unallocated')),
                                   ],
                                 ),
                               ),
@@ -292,8 +292,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
-                                        child: const Text('Student Present')),
+                                    const Flexible(
+                                        child: Text('Student Present')),
                                   ],
                                 ),
                               ),
@@ -313,10 +313,10 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
+                                    const Flexible(
                                         child: Flexible(
                                             child:
-                                                const Text('Seat Debarred'))),
+                                                Text('Seat Debarred'))),
                                   ],
                                 ),
                               ),
@@ -336,9 +336,9 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
+                                    const Flexible(
                                         child:
-                                            const Text('Seat Financial Hold')),
+                                            Text('Seat Financial Hold')),
                                   ],
                                 ),
                               ),
@@ -358,8 +358,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    Flexible(
-                                        child: const Text(
+                                    const Flexible(
+                                        child: Text(
                                             'Seat Registration Hold')),
                                   ],
                                 ),
