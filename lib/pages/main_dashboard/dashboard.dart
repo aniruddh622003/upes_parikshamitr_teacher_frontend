@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
@@ -355,13 +356,26 @@ class _DashboardState extends State<Dashboard> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const NotificationScreen()),
-                                  );
+                                onPressed: () async {
+                                  dynamic response = await getNotifications();
+                                  if (response.statusCode == 200) {
+                                    print(jsonDecode(response.body)['data']
+                                        ['notifications']);
+                                    List<dynamic> notifications =
+                                        jsonDecode(response.body)['data']
+                                            ['notifications'];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationScreen(
+                                                  notifications:
+                                                      notifications)),
+                                    );
+                                  } else {
+                                    errorDialog(context,
+                                        'Error occurred! Please try again later');
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,

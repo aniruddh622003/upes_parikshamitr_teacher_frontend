@@ -1,12 +1,21 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class NotificationScreen extends StatefulWidget {
+  final List<dynamic> notifications;
+  const NotificationScreen({super.key, required this.notifications});
 
+  @override
+  _NotificationScreenState createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +42,7 @@ class NotificationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: const Padding(
+        body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Column(
@@ -45,20 +54,8 @@ class NotificationScreen extends StatelessWidget {
                     children: [
                       NotificationCategoryBox(
                         title: "Today",
-                        notifications: [
-                          {
-                            "name": "Aniruddh Upadhyay",
-                            "subject": "Meeting",
-                            "msg":
-                                "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Extra text",
-                          },
-                          {
-                            "name": "Khushi Gupta",
-                            "subject": "Reminder",
-                            "msg": "Don't forget the deadline. Thank you."
-                          },
-                        ],
-                        read: [true, true],
+                        notifications: widget.notifications,
+                        read: [false, true, true],
                       ),
                       SizedBox(height: 10),
                       NotificationCategoryBox(
@@ -126,7 +123,7 @@ class NotificationScreen extends StatelessWidget {
 
 class NotificationCategoryBox extends StatelessWidget {
   final String title;
-  final List<Map<String, String>> notifications;
+  final List<dynamic> notifications;
   final List<bool> read;
 
   const NotificationCategoryBox({
@@ -153,9 +150,9 @@ class NotificationCategoryBox extends StatelessWidget {
         ...List.generate(
           notifications.length,
           (index) => NotificationBox(
-            name: notifications[index]['name']!,
-            subject: notifications[index]['subject']!,
-            msg: notifications[index]['msg']!,
+            name: notifications[index]['sender'].toString(),
+            subject: notifications[index]['title'].toString(),
+            msg: notifications[index]['message'].toString(),
             isRead: read[index],
             onTap: () {},
           ),
