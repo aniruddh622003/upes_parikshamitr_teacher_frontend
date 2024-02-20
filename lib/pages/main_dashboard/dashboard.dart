@@ -301,7 +301,8 @@ class _DashboardState extends State<Dashboard> {
   final storage = const FlutterSecureStorage();
 
   void signOut() async {
-    final confirm = await showDialog(
+    late bool confirm = false;
+    await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Confirm Sign Out'),
@@ -309,11 +310,17 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           TextButton(
             child: const Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () {
+              confirm = false;
+              Navigator.of(context).pop();
+            },
           ),
           TextButton(
             child: const Text('Sign Out'),
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () {
+              confirm = true;
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),

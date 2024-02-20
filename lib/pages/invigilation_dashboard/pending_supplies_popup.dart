@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void pendingSuppliesPopup(BuildContext context,
     Map<dynamic, dynamic> supplyDetails, List<dynamic> pendingSuppliesList) {
@@ -60,8 +60,10 @@ void pendingSuppliesPopup(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(supplyDetails['type'] as String,
-                        style: const TextStyle(fontSize: fontMedium)),
+                    Flexible(
+                      child: Text(supplyDetails['type'] as String,
+                          style: const TextStyle(fontSize: fontMedium)),
+                    ),
                     Container(
                       width: 35,
                       height: 35,
@@ -122,21 +124,33 @@ void pendingSuppliesPopup(BuildContext context,
                         } else if (int.parse(controller.text) < 0) {
                           throw 'Quantity cannot be negative';
                         } else {
-                          const storage = FlutterSecureStorage();
-                          dynamic response =
-                              await updateSupplies(pendingSuppliesList);
+                          pendingSuppliesList[index]['quantity'] =
+                              supplyDetails['quantity'] -
+                                  int.parse(controller.text);
+                          Map data = {
+                            "pending_supplies": pendingSuppliesList,
+                          };
+                          dynamic response = await updateSupplies(data);
                           if (response.statusCode == 200) {
                             Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const InvigilatorDashboard()));
+                            Fluttertoast.showToast(
+                                msg: "Success",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                textColor: white,
+                                backgroundColor: green,
+                                timeInSecForIosWeb: 1,
+                                fontSize: 16.0);
                           } else {
                             throw 'Failed to update supplies';
                           }
-                          pendingSuppliesList[index]['quantity'] =
-                              pendingSuppliesList[index]['quantity'] -
-                                  int.parse(controller.text);
                           // Save the updated list to secure storage
-                          await storage.write(
-                              key: 'pendingSupplies',
-                              value: jsonEncode(pendingSuppliesList));
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());

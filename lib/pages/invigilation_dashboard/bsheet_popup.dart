@@ -105,10 +105,10 @@ void bsheetPopup(BuildContext context) async {
                     onPressed: () async {
                       try {
                         const storage = FlutterSecureStorage();
-                        dynamic room_data =
+                        dynamic roomData =
                             await storage.read(key: 'room_data');
                         dynamic data = await getRoomDetails(
-                            jsonDecode(room_data.toString())[0]['room_id']);
+                            jsonDecode(roomData.toString())[0]['room_id']);
                         if (data.statusCode == 200) {
                           Map roomData = jsonDecode(data.body);
                           int indexData = roomData['data']['seating_plan']
