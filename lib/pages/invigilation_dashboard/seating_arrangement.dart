@@ -97,141 +97,149 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
             ),
             body: RefreshIndicator(
               onRefresh: fetchData,
-              child: Column(
-                children: [
-                  Center(
-                    child: Text("Room: ${seatingPlan?['data']['room_no']}",
-                        style: const TextStyle(
-                          color: white,
-                          fontSize: fontXLarge,
-                        )),
-                  ),
-                  const Center(
-                    child: Text("2:00 - 5:00 PM",
-                        style: TextStyle(
-                          color: white,
-                          fontSize: fontSmall,
-                        )),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                      child: Container(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 10),
-                    decoration: const BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
+              child: Expanded(
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text("Room: ${seatingPlan?['data']['room_no']}",
+                          style: const TextStyle(
+                            color: white,
+                            fontSize: fontXLarge,
+                          )),
                     ),
-                    child: ListView(children: [
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 20),
-                        itemCount: ((int.parse(seatingPlan?['data']
+                    const Center(
+                      child: Text("2:00 - 5:00 PM",
+                          style: TextStyle(
+                            color: white,
+                            fontSize: fontSmall,
+                          )),
+                    ),
+                    const SizedBox(height: 20),
+                    Expanded(
+                        child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      decoration: const BoxDecoration(
+                        color: white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: ListView(children: [
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 20),
+                          itemCount: ((int.parse(seatingPlan?['data']
+                                          ['highest_seat_no']
+                                      .substring(1)) +
+                                  1) *
+                              (seatingPlan?['data']['highest_seat_no']
+                                      .codeUnitAt(0) -
+                                  'A'.codeUnitAt(0) +
+                                  2)) as int,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: int.parse(seatingPlan?['data']
                                         ['highest_seat_no']
                                     .substring(1)) +
-                                1) *
-                            (seatingPlan?['data']['highest_seat_no']
-                                    .codeUnitAt(0) -
+                                1,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            String highestSeat =
+                                seatingPlan?['data']['highest_seat_no'];
+                            int classSizeH = highestSeat.codeUnitAt(0) -
                                 'A'.codeUnitAt(0) +
-                                2)) as int,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: int.parse(seatingPlan?['data']
-                                      ['highest_seat_no']
-                                  .substring(1)) +
-                              1,
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 15,
+                                2;
+                            int classSizeW =
+                                int.parse(highestSeat.substring(1)) + 1;
+                            int currentRow = index ~/ classSizeW + 1;
+                            Color color = blue;
+                            Color fontColor = black;
+                            String text = '';
+                            String seat = String.fromCharCode(
+                                    64 + index ~/ classSizeW + 1) +
+                                (index % classSizeW).toString();
+                            int indexData = seatingPlan?['data']['seating_plan']
+                                .indexWhere(
+                                    (student) => student['seat_no'] == seat);
+
+                            if (index == (classSizeH - 1) * classSizeW) {
+                              color = Colors.transparent;
+                            } else if (index % classSizeW == 0 ||
+                                currentRow == classSizeH) {
+                              color = Colors.transparent;
+                              if (index % classSizeW == 0) {
+                                text = String.fromCharCode(
+                                    64 + index ~/ classSizeW + 1);
+                              }
+                              if (index > classSizeW * (classSizeH - 1)) {
+                                text = (index - classSizeW * (classSizeH - 1))
+                                    .toString();
+                              }
+                            } else if (indexData > -1) {
+                              if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'YES') {
+                                color = blue;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'DEBARRED') {
+                                color = red;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'F_HOLD') {
+                                color = yellow;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'R_HOLD') {
+                                color = magenta;
+                              }
+                              if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['attendance'] ==
+                                  true) {
+                                color = green;
+                              }
+                            } else {
+                              color = gray;
+                            }
+
+                            return GestureDetector(
+                              onTap: () => indexData > -1
+                                  ? seatingPlanPopup(
+                                      context,
+                                      seatingPlan?['data']['seating_plan']
+                                          [indexData])
+                                  : {},
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(text,
+                                      style: TextStyle(
+                                          color: fontColor,
+                                          fontSize: fontMedium)),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          String highestSeat =
-                              seatingPlan?['data']['highest_seat_no'];
-                          int classSizeH =
-                              highestSeat.codeUnitAt(0) - 'A'.codeUnitAt(0) + 2;
-                          int classSizeW =
-                              int.parse(highestSeat.substring(1)) + 1;
-                          int currentRow = index ~/ classSizeW + 1;
-                          Color color = blue;
-                          Color fontColor = black;
-                          String text = '';
-                          String seat = String.fromCharCode(
-                                  64 + index ~/ classSizeW + 1) +
-                              (index % classSizeW).toString();
-                          int indexData = seatingPlan?['data']['seating_plan']
-                              .indexWhere(
-                                  (student) => student['seat_no'] == seat);
-
-                          if (index == (classSizeH - 1) * classSizeW) {
-                            color = Colors.transparent;
-                          } else if (index % classSizeW == 0 ||
-                              currentRow == classSizeH) {
-                            color = Colors.transparent;
-                            if (index % classSizeW == 0) {
-                              text = String.fromCharCode(
-                                  64 + index ~/ classSizeW + 1);
-                            }
-                            if (index > classSizeW * (classSizeH - 1)) {
-                              text = (index - classSizeW * (classSizeH - 1))
-                                  .toString();
-                            }
-                          } else if (indexData > -1) {
-                            if (seatingPlan?['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'YES') {
-                              color = blue;
-                            } else if (seatingPlan?['data']['seating_plan']
-                                    [indexData]['eligible'] ==
-                                'DEBARRED') {
-                              color = red;
-                            } else if (seatingPlan?['data']['seating_plan']
-                                    [indexData]['eligible'] ==
-                                'F_HOLD') {
-                              color = yellow;
-                            }
-                            if (seatingPlan?['data']['seating_plan'][indexData]
-                                    ['attendance'] ==
-                                true) {
-                              color = green;
-                            }
-                          } else {
-                            color = gray;
-                          }
-
-                          return GestureDetector(
-                            onTap: () => indexData > -1
-                                ? seatingPlanPopup(
-                                    context,
-                                    seatingPlan?['data']['seating_plan']
-                                        [indexData])
-                                : {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: color,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Text(text,
-                                    style: TextStyle(
-                                        color: fontColor,
-                                        fontSize: fontMedium)),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                        GridView.count(
+                          childAspectRatio: 2.5,
+                          crossAxisCount: 2,
+                          padding: const EdgeInsets.all(8.0),
+                          children: <Widget>[
                             Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 30,
@@ -242,7 +250,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Text('Seat Allocated'),
+                                    Flexible(
+                                        child: const Text('Seat Allocated')),
                                   ],
                                 ),
                               ),
@@ -251,33 +260,28 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 30,
                                       height: 30,
                                       decoration: BoxDecoration(
-                                        color: red,
+                                        color: gray,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Text('Seat Debarred'),
+                                    Flexible(
+                                        child: const Text('Seat Unallocated')),
                                   ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
                             Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 30,
@@ -288,7 +292,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Text('Student Present'),
+                                    Flexible(
+                                        child: const Text('Student Present')),
                                   ],
                                 ),
                               ),
@@ -297,6 +302,30 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: red,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Flexible(
+                                        child: Flexible(
+                                            child:
+                                                const Text('Seat Debarred'))),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 30,
@@ -307,23 +336,18 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Text('Seat Financial Hold'),
+                                    Flexible(
+                                        child:
+                                            const Text('Seat Financial Hold')),
                                   ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
                             Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 30,
@@ -334,17 +358,19 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Text('Seat Registration Hold'),
+                                    Flexible(
+                                        child: const Text(
+                                            'Seat Registration Hold')),
                                   ],
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ]),
-                  ))
-                ],
+                      ]),
+                    ))
+                  ],
+                ),
               ),
             ),
           );
