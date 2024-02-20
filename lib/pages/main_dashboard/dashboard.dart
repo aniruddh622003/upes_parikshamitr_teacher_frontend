@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -14,6 +14,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
@@ -26,6 +27,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   late Map data;
+  late Timer _timer;
 
   Future<Map> getDetails({token}) async {
     var response = await http.get(
@@ -70,6 +72,71 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+      List notificationsLocal = [];
+      dynamic response = await getNotifications();
+      if (response.statusCode == 200) {
+        List<dynamic> notificationsServer =
+            jsonDecode(response.body)['data']['notifications'];
+        String? notifcationsData =
+            await const FlutterSecureStorage().read(key: 'notifications');
+        if (notifcationsData != null) {
+          notificationsLocal = jsonDecode(notifcationsData);
+          // sync notificationsLocal with notificationsServer and update notificationsLocal
+          bool newNotification = false;
+          for (var notification in notificationsServer) {
+            bool found = false;
+            for (var localNotification in notificationsLocal) {
+              if (notification['_id'] == localNotification[0]['_id']) {
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              newNotification = true;
+              List item = [];
+              item.add(notification);
+              item.add(false);
+              notificationsLocal.add(item);
+            }
+          }
+          if (newNotification) {
+            Fluttertoast.showToast(
+                msg: "You have new notification(s).",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: grayLight,
+                textColor: black,
+                fontSize: 16.0);
+          }
+          // Delete notifications from notificationsLocal that are not in notificationsServer
+          for (var localNotification in notificationsLocal) {
+            bool found = false;
+            for (var notification in notificationsServer) {
+              if (notification['_id'] == localNotification[0]['_id']) {
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              notificationsLocal.remove(localNotification);
+            }
+          }
+          await const FlutterSecureStorage().write(
+              key: 'notifications', value: jsonEncode(notificationsLocal));
+        } else {
+          for (var notification in notificationsServer) {
+            List item = [];
+            item.add(notification);
+            item.add(false);
+            notificationsLocal.add(item);
+          }
+          await const FlutterSecureStorage().write(
+              key: 'notifications', value: jsonEncode(notificationsLocal));
+        }
+      }
+    });
     super.initState();
   }
 
@@ -468,6 +535,10 @@ class _DashboardState extends State<Dashboard> {
                                         earlierBool.add(notification[1]);
                                       }
                                     }
+
+                                    setState(() {
+                                      getUnreadNotificationsCount();
+                                    });
 
                                     Navigator.push(
                                       context,
