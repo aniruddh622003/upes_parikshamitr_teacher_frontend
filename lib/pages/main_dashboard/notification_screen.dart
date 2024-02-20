@@ -8,8 +8,20 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.d
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class NotificationScreen extends StatefulWidget {
-  final List<dynamic> notifications;
-  const NotificationScreen({super.key, required this.notifications});
+  final List<dynamic> today;
+  final List<dynamic> yesterday;
+  final List<dynamic> earlier;
+  final List<bool> todayBool;
+  final List<bool> yesterdayBool;
+  final List<bool> earlierBool;
+  const NotificationScreen(
+      {super.key,
+      required this.today,
+      required this.yesterday,
+      required this.earlier,
+      required this.todayBool,
+      required this.yesterdayBool,
+      required this.earlierBool});
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -43,73 +55,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Column(
                     children: [
                       NotificationCategoryBox(
                         title: "Today",
-                        notifications: widget.notifications,
-                        read: [false, true, true],
+                        notifications: widget.today,
+                        read: widget.todayBool,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       NotificationCategoryBox(
                         title: "Yesterday",
-                        notifications: [
-                          {
-                            "name": "Khushi",
-                            "subject": "Updates",
-                            "msg":
-                                "Project updates to be given today. No delay will be tolerated. Thank you."
-                          },
-                          {
-                            "name": "Aniruddh",
-                            "subject": "Task",
-                            "msg":
-                                "Complete the task by tomorrow. The tasks are monitored by the admin. Thank you."
-                          },
-                          {
-                            "name": "Luffy",
-                            "subject": "Announcement",
-                            "msg": "New announcement."
-                          },
-                          {
-                            "name": "Franky",
-                            "subject": "Report",
-                            "msg":
-                                "Submit the report by tomorrow. Please give the hard copy. Thank you"
-                          },
-                        ],
-                        read: [true, false, false, false],
+                        notifications: widget.yesterday,
+                        read: widget.yesterdayBool,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       NotificationCategoryBox(
                         title: "Earlier",
-                        notifications: [
-                          {
-                            "name": "Aarav",
-                            "subject": "Notification",
-                            "msg":
-                                "Notification message will be triggered here. Thank you."
-                          },
-                          {
-                            "name": "Aniruddh",
-                            "subject": "Status",
-                            "msg":
-                                "Check the status of the task.If you face any issue, feel free to notify me.Thank you."
-                          },
-                          {
-                            "name": "Khushi",
-                            "subject": "Reminder",
-                            "msg": "Reminder for tomorrow's meeting.Thank you"
-                          },
-                        ],
-                        read: [true, true, true],
+                        notifications: widget.earlier,
+                        read: widget.earlierBool,
                       ),
                     ],
                   ),
