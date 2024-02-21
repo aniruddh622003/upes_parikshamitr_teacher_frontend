@@ -197,6 +197,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                       key: 'room_data',
                                       value: jsonEncode(roomData));
                                   Navigator.pop(context);
+                                  Navigator.pop(context);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

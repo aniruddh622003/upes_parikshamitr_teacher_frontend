@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/submission_to_controller.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/pending_req.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -13,36 +17,56 @@ class SubmitToController extends StatefulWidget {
 
 class _SubmitToControllerState extends State<SubmitToController> {
   final qrKey = GlobalKey(debugLabel: 'QR');
+  final submissionUniqueCode = TextEditingController();
+  
 
   void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
+    String? uniqueCode;
+    controller.scannedDataStream.listen((scanData) async{
       controller.pauseCamera();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Scan Successful'),
-            content: Text(scanData.code.toString()),
-            actions: [
-              TextButton(
-                child: const Text('Scan Again'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  controller.resumeCamera();
-                },
-              ),
-              TextButton(
-                child: const Text('Continue'),
-                onPressed: () {
-                  controller.dispose();
-                  Navigator.of(context).pop();
-                  pendingReq(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
+      uniqueCode = scanData.code.toString();
+      Map data ={
+        "uniqueCode": uniqueCode.toString(),
+      };
+
+      var response = await submissionToController(data);
+
+      if(response.statusCode == 201){
+        try{
+          errorDialog(context, jsonDecode(response.body).toString());
+          pendingReq(context);
+
+        }catch (e) {
+          errorDialog(context, '${e.toString()}, ${jsonDecode(response.body)}');
+        }
+
+      }
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       title: const Text('Scan Successful'),
+      //       content: Text(scanData.code.toString()),
+      //       actions: [
+      //         TextButton(
+      //           child: const Text('Scan Again'),
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //             controller.resumeCamera();
+      //           },
+      //         ),
+      //         TextButton(
+      //           child: const Text('Continue'),
+      //           onPressed: () {
+      //             controller.dispose();
+      //             Navigator.of(context).pop();
+      //             pendingReq(context);
+      //           },
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
     });
   }
 
@@ -76,7 +100,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
-                  'Scan QR Code in Controller Room to get your invigilation details and proceed.',
+                  'Scan QR Code to complete the examinaton submission.',
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
