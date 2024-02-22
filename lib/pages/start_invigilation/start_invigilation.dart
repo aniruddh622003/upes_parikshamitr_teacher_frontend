@@ -20,8 +20,10 @@ class StartInvigilation extends StatefulWidget {
 class _StartInvigilationState extends State<StartInvigilation> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerUniqueCode = TextEditingController();
+  QRViewController? controller;
   void onQRViewCreated(QRViewController controller) {
     String? uniqueCode;
+    this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
       // Make the function async
       controller.pauseCamera();
@@ -145,6 +147,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
+                  controller?.pauseCamera();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -159,6 +162,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                           ElevatedButton(
                             child: const Text('Back'),
                             onPressed: () {
+                              controller?.resumeCamera();
                               Navigator.of(context).pop();
                             },
                           ),

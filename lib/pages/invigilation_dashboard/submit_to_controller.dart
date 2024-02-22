@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/submission_to_controller.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/pending_req.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class SubmitToController extends StatefulWidget {
@@ -18,29 +20,60 @@ class SubmitToController extends StatefulWidget {
 class _SubmitToControllerState extends State<SubmitToController> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   final submissionUniqueCode = TextEditingController();
-  
+  QRViewController? controller;
 
   void onQRViewCreated(QRViewController controller) {
     String? uniqueCode;
-    controller.scannedDataStream.listen((scanData) async{
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
       uniqueCode = scanData.code.toString();
-      Map data ={
-        "uniqueCode": uniqueCode.toString(),
+      Map data = {
+        "unique_code": uniqueCode.toString(),
       };
 
       var response = await submissionToController(data);
 
-      if(response.statusCode == 201){
-        try{
-          errorDialog(context, jsonDecode(response.body).toString());
-          pendingReq(context);
-
-        }catch (e) {
+      if (response.statusCode == 201) {
+        try {
+          // pendingReq(context);
+          await FlutterSecureStorage()
+              .write(key: "submission_state", value: "submitting");
+          await FlutterSecureStorage().delete(key: "invigilation_state");
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SubmissionDetails(),
+            ),
+          );
+        } catch (e) {
           errorDialog(context, '${e.toString()}, ${jsonDecode(response.body)}');
         }
-
+      } else {
+        // If that response was not OK, throw an error.
+        // throw Exception('Failed to load text key');
+        var body = jsonDecode(response.body);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Unique Code'),
+              content: Text('Unique Code: $uniqueCode\nError: $body'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
+
       // showDialog(
       //   context: context,
       //   builder: (BuildContext context) {
@@ -126,15 +159,14 @@ class _SubmitToControllerState extends State<SubmitToController> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
+                  controller?.pauseCamera();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Enter code'),
                         content: TextField(
-                          onChanged: (value) {
-                            // Store your value here
-                          },
+                          controller: submissionUniqueCode,
                           decoration: const InputDecoration(
                               hintText: "Enter your code here"),
                         ),
@@ -142,14 +174,62 @@ class _SubmitToControllerState extends State<SubmitToController> {
                           ElevatedButton(
                             child: const Text('Back'),
                             onPressed: () {
+                              controller?.resumeCamera();
                               Navigator.of(context).pop();
                             },
                           ),
                           ElevatedButton(
                             child: const Text('Confirm'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              pendingReq(context);
+                            onPressed: () async {
+                              String uniqueCode = submissionUniqueCode.text;
+                              Map data = {
+                                "unique_code": uniqueCode.toString(),
+                              };
+
+                              var response = await submissionToController(data);
+
+                              if (response.statusCode == 201) {
+                                try {
+                                  // pendingReq(context);
+                                  await FlutterSecureStorage().write(
+                                      key: "submission_state",
+                                      value: "submitting");
+                                  await FlutterSecureStorage()
+                                      .delete(key: "invigilation_state");
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SubmissionDetails(),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  errorDialog(context,
+                                      '${e.toString()}, ${jsonDecode(response.body)}');
+                                }
+                              } else {
+                                var body = jsonDecode(response.body);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Unique Code'),
+                                      content: Text(
+                                          'Unique Code: $uniqueCode\nError: $body'),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             },
                           ),
                         ],
