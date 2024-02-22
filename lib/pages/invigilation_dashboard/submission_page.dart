@@ -64,25 +64,29 @@ class SubmissionDetails extends StatelessWidget {
                         dynamic response = await checkRoomStatus(
                             jsonDecode(roomData.toString())[0]['room_id']);
                         if (response.statusCode == 200) {
-                          Fluttertoast.showToast(
-                              msg: "Submission Approved!",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.grey,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          FlutterSecureStorage()
-                              .delete(key: 'submission_state');
-                          String? jwt =
-                              await FlutterSecureStorage().read(key: 'jwt');
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Dashboard(jwt: jwt),
-                            ),
-                          );
+                          if (jsonDecode(response.body)['data'] == "APPROVAL") {
+                            errorDialog(context, "Kindly wait for approval");
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Submission Approved!",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.grey,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                            FlutterSecureStorage()
+                                .delete(key: 'submission_state');
+                            String? jwt =
+                                await FlutterSecureStorage().read(key: 'jwt');
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Dashboard(jwt: jwt),
+                              ),
+                            );
+                          }
                         } else {
                           errorDialog(context,
                               "Submission not yet approved by the controller. Please wait.");

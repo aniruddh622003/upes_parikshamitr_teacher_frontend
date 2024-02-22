@@ -136,22 +136,22 @@ class _SignInPageState extends State<SignInPage> {
                         controller: controllerPass,
                       ),
                     ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPassword()));
-                          },
-                          child: const Text(
-                            'Forgot Password',
-                            style:
-                                TextStyle(color: orange, fontSize: fontSmall),
-                          ),
-                        )),
+                    // Padding(
+                    //     padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
+                    //     child: GestureDetector(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) =>
+                    //                     const ForgotPassword()));
+                    //       },
+                    //       child: const Text(
+                    //         'Forgot Password',
+                    //         style:
+                    //             TextStyle(color: orange, fontSize: fontSmall),
+                    //       ),
+                    //     )),
                   ],
                 ),
                 Column(

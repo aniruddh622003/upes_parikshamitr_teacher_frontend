@@ -14,6 +14,9 @@ void seatingPlanPopup(
   } else if (studentDetails['eligible'] == 'DEBARRED') {
     eligibleColor = red;
     eligibleText = "NO (Debarred)";
+  } else if (studentDetails['eligible'] == 'R_HOLD') {
+    eligibleColor = magenta;
+    eligibleText = "NO (REGISTRATION HOLD)";
   } else {
     eligibleColor = grayDark;
     eligibleText = "NO";
