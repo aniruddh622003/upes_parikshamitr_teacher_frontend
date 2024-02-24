@@ -130,7 +130,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 20),
+                            horizontal: 20, vertical: 20),
                         itemCount: ((int.parse(seatingPlan?['data']
                                         ['highest_seat_no']
                                     .substring(1)) +
@@ -250,7 +250,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Seat Allocated')),
+                                    const Flexible(
+                                        child: Text('Seat Allocated')),
                                   ],
                                 ),
                               ),
@@ -270,7 +271,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Seat Unallocated')),
+                                    const Flexible(
+                                        child: Text('Seat Unallocated')),
                                   ],
                                 ),
                               ),

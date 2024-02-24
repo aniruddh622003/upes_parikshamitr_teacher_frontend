@@ -51,9 +51,12 @@ class InvigilationDetailsCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      course,
-                      style: const TextStyle(color: white, fontSize: fontSmall),
+                    Flexible(
+                      child: Text(
+                        course,
+                        style:
+                            const TextStyle(color: white, fontSize: fontSmall),
+                      ),
                     ),
                     Container(
                       width: 25,
