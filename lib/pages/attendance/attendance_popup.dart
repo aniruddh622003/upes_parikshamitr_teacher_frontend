@@ -2,22 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void attendancePopup(BuildContext context) async {
   final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
-  void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      controllerSAP.text = scanData.code.toString();
-    });
+  void onBarcodeButtonPressed() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE);
+    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
   }
 
   showDialog(
@@ -48,19 +47,21 @@ void attendancePopup(BuildContext context) async {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text('Align the QR code within the frame to scan'),
+                const Text('Align the Barcode within the frame to scan'),
                 const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
                     height: 300,
                     width: 300,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        child: GestureDetector(
+                          onTap: onBarcodeButtonPressed,
+                          child: Container(
+                            color: gray,
+                            child: Center(child: Text("Scan Barcode")),
+                          ),
+                        )),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -102,9 +103,8 @@ void attendancePopup(BuildContext context) async {
                     onPressed: () async {
                       try {
                         const storage = FlutterSecureStorage();
-                        dynamic roomData =
-                            await storage.read(key: 'room_data');
-                        
+                        dynamic roomData = await storage.read(key: 'room_data');
+
                         dynamic data = await getRoomDetails(
                             jsonDecode(roomData.toString())[0]['room_id']);
                         if (data != null) {
