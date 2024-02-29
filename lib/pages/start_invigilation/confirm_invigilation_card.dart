@@ -68,17 +68,15 @@ void confirmInvigilationCard(
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
-                                      child: Text(
+                                      child: Text(supplies[index]['type'],
                                           textScaler:
                                               const TextScaler.linear(1),
-                                          supplies[index]['type'],
                                           style: const TextStyle(
                                               color: white,
                                               fontSize: fontMedium)),
                                     ),
-                                    Text(
+                                    Text("${supplies[index]['quantity']} Nos.",
                                         textScaler: const TextScaler.linear(1),
-                                        "${supplies[index]['quantity']} Nos.",
                                         style: const TextStyle(
                                             color: white,
                                             fontSize: fontMedium)),

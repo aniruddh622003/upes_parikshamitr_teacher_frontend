@@ -140,14 +140,12 @@ class InvigilationDetailsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-              textScaler: TextScaler.linear(1), 'Examination Subjects'),
+          const Text(textScaler: TextScaler.linear(1), 'Examination Subjects'),
           ...makeSubjectList(),
           const SizedBox(height: 20),
           const Text(textScaler: TextScaler.linear(1), 'Co-Invigilator'),
-          Text(
+          Text(data['invigilator1']['name'] ?? 'Not Assigned',
               textScaler: const TextScaler.linear(1),
-              data['invigilator1']['name'] ?? 'Not Assigned',
               style: const TextStyle(
                 fontSize: fontMedium,
                 color: orange,
