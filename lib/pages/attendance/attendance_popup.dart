@@ -11,7 +11,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void attendancePopup(BuildContext context) async {
-  final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
   void onBarcodeButtonPressed() async {
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
