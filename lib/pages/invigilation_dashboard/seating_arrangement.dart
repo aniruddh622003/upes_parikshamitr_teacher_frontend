@@ -126,106 +126,115 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                       ),
                     ),
                     child: ListView(children: [
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        itemCount: ((int.parse(seatingPlan?['data']
+                      SizedBox(
+                        height: ((seatingPlan?['data']['highest_seat_no']
+                                        .codeUnitAt(0) -
+                                    'A'.codeUnitAt(0) +
+                                    2) *
+                                55)
+                            .toDouble(),
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          // physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          itemCount: ((int.parse(seatingPlan?['data']
+                                          ['highest_seat_no']
+                                      .substring(1)) +
+                                  1) *
+                              (seatingPlan?['data']['highest_seat_no']
+                                      .codeUnitAt(0) -
+                                  'A'.codeUnitAt(0) +
+                                  2)) as int,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: (seatingPlan?['data']
                                         ['highest_seat_no']
-                                    .substring(1)) +
-                                1) *
-                            (seatingPlan?['data']['highest_seat_no']
                                     .codeUnitAt(0) -
                                 'A'.codeUnitAt(0) +
-                                2)) as int,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: int.parse(seatingPlan?['data']
-                                      ['highest_seat_no']
-                                  .substring(1)) +
-                              1,
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 15,
+                                2) as int,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            String highestSeat =
+                                seatingPlan?['data']['highest_seat_no'];
+                            int classSizeH = highestSeat.codeUnitAt(0) -
+                                'A'.codeUnitAt(0) +
+                                2;
+
+                            // int classSizeW =
+                            //     int.parse(highestSeat.substring(1));
+                            // int currentRow = index ~/ classSizeW + 1;
+                            Color color = blue;
+                            Color fontColor = black;
+                            String text = '';
+                            String seat =
+                                String.fromCharCode(64 + index % classSizeH) +
+                                    (index ~/ classSizeH).toString();
+                            int indexData = seatingPlan?['data']['seating_plan']
+                                .indexWhere(
+                                    (student) => student['seat_no'] == seat);
+                            if (index == 0) {
+                              color = Colors.transparent;
+                            } else if (index < classSizeH) {
+                              text = String.fromCharCode(64 + index);
+                              color = Colors.transparent;
+                            } else if (index % classSizeH == 0) {
+                              color = Colors.transparent;
+                              if (index % classSizeH == 0) {
+                                text = (index ~/ classSizeH).toString();
+                              }
+                            } else if (indexData > -1) {
+                              if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'YES') {
+                                color = blue;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'DEBARRED') {
+                                color = red;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'F_HOLD') {
+                                color = yellow;
+                              } else if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'R_HOLD') {
+                                color = magenta;
+                              }
+                              if (seatingPlan?['data']['seating_plan']
+                                      [indexData]['attendance'] ==
+                                  true) {
+                                color = green;
+                              }
+                            } else {
+                              color = gray;
+                            }
+
+                            return GestureDetector(
+                              onTap: () => indexData > -1
+                                  ? seatingPlanPopup(
+                                      context,
+                                      seatingPlan?['data']['seating_plan']
+                                          [indexData])
+                                  : {},
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(text.toString(),
+                                      style: TextStyle(
+                                          color: fontColor,
+                                          fontSize: fontMedium)),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          String highestSeat =
-                              seatingPlan?['data']['highest_seat_no'];
-                          int classSizeH =
-                              highestSeat.codeUnitAt(0) - 'A'.codeUnitAt(0) + 2;
-                          int classSizeW =
-                              int.parse(highestSeat.substring(1)) + 1;
-                          int currentRow = index ~/ classSizeW + 1;
-                          Color color = blue;
-                          Color fontColor = black;
-                          String text = '';
-                          String seat = String.fromCharCode(
-                                  64 + index ~/ classSizeW + 1) +
-                              (index % classSizeW).toString();
-                          int indexData = seatingPlan?['data']['seating_plan']
-                              .indexWhere(
-                                  (student) => student['seat_no'] == seat);
-
-                          if (index == (classSizeH - 1) * classSizeW) {
-                            color = Colors.transparent;
-                          } else if (index % classSizeW == 0 ||
-                              currentRow == classSizeH) {
-                            color = Colors.transparent;
-                            if (index % classSizeW == 0) {
-                              text = String.fromCharCode(
-                                  64 + index ~/ classSizeW + 1);
-                            }
-                            if (index > classSizeW * (classSizeH - 1)) {
-                              text = (index - classSizeW * (classSizeH - 1))
-                                  .toString();
-                            }
-                          } else if (indexData > -1) {
-                            if (seatingPlan?['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'YES') {
-                              color = blue;
-                            } else if (seatingPlan?['data']['seating_plan']
-                                    [indexData]['eligible'] ==
-                                'DEBARRED') {
-                              color = red;
-                            } else if (seatingPlan?['data']['seating_plan']
-                                    [indexData]['eligible'] ==
-                                'F_HOLD') {
-                              color = yellow;
-                            } else if (seatingPlan?['data']['seating_plan']
-                                    [indexData]['eligible'] ==
-                                'R_HOLD') {
-                              color = magenta;
-                            }
-                            if (seatingPlan?['data']['seating_plan'][indexData]
-                                    ['attendance'] ==
-                                true) {
-                              color = green;
-                            }
-                          } else {
-                            color = gray;
-                          }
-
-                          return GestureDetector(
-                            onTap: () => indexData > -1
-                                ? seatingPlanPopup(
-                                    context,
-                                    seatingPlan?['data']['seating_plan']
-                                        [indexData])
-                                : {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: color,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Text(text,
-                                    style: TextStyle(
-                                        color: fontColor,
-                                        fontSize: fontMedium)),
-                              ),
-                            ),
-                          );
-                        },
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.width / 2,
