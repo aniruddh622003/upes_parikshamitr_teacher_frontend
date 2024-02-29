@@ -31,7 +31,11 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Flexible(child: Text('Seat Allocated')),
+                          const Flexible(
+                              child: Text(
+                            'Seat Allocated',
+                            textScaler: TextScaler.linear(1),
+                          )),
                         ],
                       ),
                     ),
@@ -51,7 +55,11 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Flexible(child: Text('Seat Unallocated')),
+                          const Flexible(
+                              child: Text(
+                            'Seat Unallocated',
+                            textScaler: TextScaler.linear(1),
+                          )),
                         ],
                       ),
                     ),
@@ -71,7 +79,10 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Text('Student Present'),
+                          const Text(
+                            'Student Present',
+                            textScaler: TextScaler.linear(1),
+                          ),
                         ],
                       ),
                     ),
@@ -91,7 +102,11 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Flexible(child: Text('Seat Debarred')),
+                          const Flexible(
+                              child: Text(
+                            'Seat Debarred',
+                            textScaler: TextScaler.linear(1),
+                          )),
                         ],
                       ),
                     ),
@@ -111,7 +126,10 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Text('Seat Financial Hold'),
+                          const Text(
+                            'Seat Financial Hold',
+                            textScaler: TextScaler.linear(1),
+                          ),
                         ],
                       ),
                     ),
@@ -131,7 +149,11 @@ class PlaceholderTest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Flexible(child: Text('Seat Registration Hold')),
+                          const Flexible(
+                              child: Text(
+                            'Seat Registration Hold',
+                            textScaler: TextScaler.linear(1),
+                          )),
                         ],
                       ),
                     ),

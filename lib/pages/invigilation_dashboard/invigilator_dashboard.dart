@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/bsheet_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submit_to_controller.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/current_time.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,6 +37,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         ),
         child: const Text(
+          textScaler: TextScaler.linear(1),
           'Check Supplies',
           style: TextStyle(color: white),
         ),
@@ -62,6 +60,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
           children: [
             Expanded(
               child: Text(
+                textScaler: TextScaler.linear(1),
                 'No pending supplies',
                 style: TextStyle(
                   fontSize: fontSmall,
@@ -91,6 +90,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
               children: [
                 Expanded(
                   child: Text(
+                    textScaler: const TextScaler.linear(1),
                     item['type'],
                     style: const TextStyle(
                       fontSize: fontSmall,
@@ -136,6 +136,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       ),
                     ),
                     child: Text(
+                      textScaler: const TextScaler.linear(1),
                       "Pending: ${item['quantity']}",
                       style: const TextStyle(
                         fontSize: fontSmall,
@@ -167,6 +168,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
           children: [
             Expanded(
               child: Text(
+                textScaler: TextScaler.linear(1),
                 'No pending supplies',
                 style: TextStyle(
                   fontSize: fontSmall,
@@ -202,6 +204,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
+            textScaler: TextScaler.linear(1),
             'Invigilation Dashboard',
             style: TextStyle(
               fontSize: fontMedium,
@@ -358,6 +361,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                             child: Row(
                               children: [
                                 const Text(
+                                  textScaler: TextScaler.linear(1),
                                   'Flying Squad',
                                   style: TextStyle(
                                     color: white,
@@ -372,6 +376,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                       'android/assets/refresh.svg'),
                                 ),
                                 const Text(
+                                  textScaler: TextScaler.linear(1),
                                   "Refresh",
                                   style: TextStyle(
                                       fontSize: fontXSmall,
@@ -396,6 +401,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
+                                    textScaler: TextScaler.linear(1),
                                     'Dr. Rajat Gupta',
                                     style: TextStyle(
                                       fontSize: fontSmall,
@@ -421,6 +427,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
+                                    textScaler: TextScaler.linear(1),
                                     'Dr. Anil Kumar',
                                     style: TextStyle(
                                       fontSize: fontSmall,
@@ -446,6 +453,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
+                                    textScaler: TextScaler.linear(1),
                                     'Dr. Atul Kumar',
                                     style: TextStyle(
                                       fontSize: fontSmall,
@@ -466,7 +474,9 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                             ConnectionState.waiting) {
                           return const CircularProgressIndicator(); // or some other widget while waiting
                         } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
+                          return Text(
+                              textScaler: const TextScaler.linear(1),
+                              'Error: ${snapshot.error}');
                         } else {
                           return snapshot.data!;
                         }
@@ -487,6 +497,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
 
     if (currentHour >= 8 && currentHour < 13 && period == 'AM') {
       return const Text(
+        textScaler: TextScaler.linear(1),
         '(Phase I)',
         style: TextStyle(
           fontSize: fontMedium,
@@ -496,6 +507,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
       );
     } else {
       return const Text(
+        textScaler: TextScaler.linear(1),
         '(Phase II)',
         style: TextStyle(
           fontSize: fontMedium,

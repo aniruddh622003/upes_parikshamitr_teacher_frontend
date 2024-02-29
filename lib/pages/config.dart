@@ -72,5 +72,5 @@ List<Map> requiredSupplies = [
   // {"name": "Pink Slips", "required": 10},
 ];
 
-String serverUrl = "https://test.aniruddhremote.online";
+String serverUrl = "http://144.24.135.11:3000";
 String roomId = "65ba84665bfb4b58d77d0184";

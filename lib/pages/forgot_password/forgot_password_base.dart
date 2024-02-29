@@ -20,6 +20,7 @@ class ForgotPassword extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
+            textScaler: TextScaler.linear(1),
             'UPES Pariksha Mitr - Teachers',
             style: TextStyle(
               fontSize: fontMedium,
@@ -48,6 +49,7 @@ class ForgotPassword extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.all(15),
                           child: Text(
+                            textScaler: TextScaler.linear(1),
                             'OR',
                             style: TextStyle(
                               fontSize: fontLarge,
@@ -76,6 +78,7 @@ class ForgotPassword extends StatelessWidget {
                                       builder: (context) => const LogInPage()));
                             },
                             child: RichText(
+                              textScaler: const TextScaler.linear(1),
                               text: const TextSpan(
                                 style: TextStyle(
                                   color: black,

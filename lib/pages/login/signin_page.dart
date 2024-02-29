@@ -72,6 +72,7 @@ class _SignInPageState extends State<SignInPage> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
+          textScaler: TextScaler.linear(1),
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(
             fontSize: fontMedium,
@@ -99,6 +100,7 @@ class _SignInPageState extends State<SignInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "Welcome Back.",
                         style: TextStyle(
                           fontSize: fontXLarge,
@@ -109,6 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 6, 16, 10),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "We are happy to assist you again.",
                         style: TextStyle(
                           color: grayDark,
@@ -150,7 +153,7 @@ class _SignInPageState extends State<SignInPage> {
                     //                 builder: (context) =>
                     //                     const ForgotPassword()));
                     //       },
-                    //       child: const Text(
+                    //       child: const Text(textScaler: const TextScaler.linear(1),
                     //         'Forgot Password',
                     //         style:
                     //             TextStyle(color: orange, fontSize: fontSmall),
@@ -196,6 +199,7 @@ class _SignInPageState extends State<SignInPage> {
                                 );
                               } else {
                                 return const Text(
+                                  textScaler: TextScaler.linear(1),
                                   'Sign In',
                                   style: TextStyle(
                                       color: white,
@@ -227,6 +231,7 @@ class _SignInPageState extends State<SignInPage> {
                                   builder: (context) => const LogInPage()));
                         },
                         child: RichText(
+                          textScaler: const TextScaler.linear(1),
                           text: const TextSpan(
                             style: TextStyle(
                               color: black,

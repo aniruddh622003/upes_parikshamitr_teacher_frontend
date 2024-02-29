@@ -20,6 +20,7 @@ void attendanceErrorDialog(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Not Allowed',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium,
                             color: white,
@@ -36,6 +37,7 @@ void attendanceErrorDialog(BuildContext context) {
                 const SizedBox(height: 10),
                 const Text(
                     'Student either has been placed on financial hold or is debarred.',
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontMedium,
                       color: white,

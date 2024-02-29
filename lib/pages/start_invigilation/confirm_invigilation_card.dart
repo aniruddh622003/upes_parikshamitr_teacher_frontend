@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/approve_invigilator.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -31,6 +32,7 @@ void confirmInvigilationCard(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
+                    textScaler: TextScaler.linear(1),
                     'Confirm Invigilation',
                     style: TextStyle(
                         color: blue,
@@ -39,6 +41,7 @@ void confirmInvigilationCard(
                   ),
                   const SizedBox(height: 10),
                   const Text(
+                    textScaler: TextScaler.linear(1),
                     'Please ensure that you have the following:',
                     style: TextStyle(
                       color: black,
@@ -65,18 +68,25 @@ void confirmInvigilationCard(
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
-                                      child: Text(supplies[index]['type'],
+                                      child: Text(
+                                          textScaler:
+                                              const TextScaler.linear(1),
+                                          supplies[index]['type'],
                                           style: const TextStyle(
                                               color: white,
                                               fontSize: fontMedium)),
                                     ),
-                                    Text("${supplies[index]['quantity']} Nos.",
+                                    Text(
+                                        textScaler: const TextScaler.linear(1),
+                                        "${supplies[index]['quantity']} Nos.",
                                         style: const TextStyle(
                                             color: white,
                                             fontSize: fontMedium)),
                                   ],
                                 ),
-                                const Text("Received:",
+                                const Text(
+                                    textScaler: TextScaler.linear(1),
+                                    "Received:",
                                     style: TextStyle(
                                         color: white, fontSize: fontSmall)),
                                 Container(
@@ -88,6 +98,9 @@ void confirmInvigilationCard(
                                   ),
                                   child: TextField(
                                     keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
                                     controller: controllers[index],
                                     textAlign: TextAlign.center,
                                     decoration: const InputDecoration(
@@ -162,6 +175,7 @@ void confirmInvigilationCard(
                       backgroundColor: MaterialStateProperty.all(orange),
                     ),
                     child: const Text(
+                      textScaler: TextScaler.linear(1),
                       'Confirm and Start Invigilation',
                       style: TextStyle(color: white),
                     ),

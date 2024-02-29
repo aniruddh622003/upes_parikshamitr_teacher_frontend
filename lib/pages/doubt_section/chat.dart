@@ -27,14 +27,14 @@ class ChatScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                Text(textScaler: const TextScaler.linear(1),
                   personName,
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: Colors.white,
                   ),
                 ),
-                Text(
+                Text(textScaler: const TextScaler.linear(1),
                   designation,
                   style:
                       const TextStyle(fontSize: fontSmall, color: Colors.white),
@@ -168,7 +168,7 @@ class ChatBubble extends StatelessWidget {
             color: message.sender == 'user' ? chatBubbleGrey : primaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(
+          child: Text(textScaler: const TextScaler.linear(1),
             message.text,
             style: TextStyle(
                 color: message.sender != 'user' ? Colors.white : black,

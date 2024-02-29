@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
@@ -31,7 +32,9 @@ void pendingSuppliesPopup(BuildContext context,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Pending Supplies Detail',
+                    const Text(
+                        textScaler: TextScaler.linear(1),
+                        'Pending Supplies Detail',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -44,12 +47,16 @@ void pendingSuppliesPopup(BuildContext context,
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Supplies Pending',
+                    Text(
+                        textScaler: TextScaler.linear(1),
+                        'Supplies Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
                             fontWeight: FontWeight.bold)),
-                    Text('Pending',
+                    Text(
+                        textScaler: TextScaler.linear(1),
+                        'Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
@@ -61,7 +68,9 @@ void pendingSuppliesPopup(BuildContext context,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: Text(supplyDetails['type'] as String,
+                      child: Text(
+                          textScaler: const TextScaler.linear(1),
+                          supplyDetails['type'] as String,
                           style: const TextStyle(fontSize: fontMedium)),
                     ),
                     Container(
@@ -73,6 +82,7 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                       child: Center(
                         child: Text(
+                          textScaler: const TextScaler.linear(1),
                           (supplyDetails['quantity']).toString(),
                           style: const TextStyle(
                             color: white,
@@ -83,7 +93,9 @@ void pendingSuppliesPopup(BuildContext context,
                     )
                   ],
                 ),
-                const Text('Update newly received quantity:',
+                const Text(
+                    textScaler: TextScaler.linear(1),
+                    'Update newly received quantity:',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
@@ -96,6 +108,9 @@ void pendingSuppliesPopup(BuildContext context,
                   ),
                   child: TextField(
                     keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     controller: controller,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
@@ -156,7 +171,9 @@ void pendingSuppliesPopup(BuildContext context,
                         errorDialog(context, e.toString());
                       }
                     },
-                    child: const Text('Confirm Update',
+                    child: const Text(
+                        textScaler: TextScaler.linear(1),
+                        'Confirm Update',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

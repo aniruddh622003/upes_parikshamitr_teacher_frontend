@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -41,7 +42,9 @@ void bsheetPopup(BuildContext context) async {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Issue B-Sheet',
+                    const Text(
+                        textScaler: TextScaler.linear(1),
+                        'Issue B-Sheet',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -51,7 +54,9 @@ void bsheetPopup(BuildContext context) async {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text('Align the QR code within the frame to scan'),
+                const Text(
+                    textScaler: TextScaler.linear(1),
+                    'Align the QR code within the frame to scan'),
                 const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
@@ -68,12 +73,17 @@ void bsheetPopup(BuildContext context) async {
                 ),
                 const SizedBox(height: 10),
                 const Center(
-                    child: Text('OR',
+                    child: Text(
+                        textScaler: TextScaler.linear(1),
+                        'OR',
                         style: TextStyle(
                             fontSize: fontMedium,
                             fontWeight: FontWeight.bold))),
                 const SizedBox(height: 10),
-                const Center(child: Text('Enter Student’s SAP ID Below')),
+                const Center(
+                    child: Text(
+                        textScaler: TextScaler.linear(1),
+                        'Enter Student’s SAP ID Below')),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -83,6 +93,10 @@ void bsheetPopup(BuildContext context) async {
                   ),
                   child: TextField(
                     controller: controllerSAP,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -105,8 +119,7 @@ void bsheetPopup(BuildContext context) async {
                     onPressed: () async {
                       try {
                         const storage = FlutterSecureStorage();
-                        dynamic roomData =
-                            await storage.read(key: 'room_data');
+                        dynamic roomData = await storage.read(key: 'room_data');
                         dynamic data = await getRoomDetails(
                             jsonDecode(roomData.toString())[0]['room_id']);
                         if (data.statusCode == 200) {
@@ -152,7 +165,9 @@ void bsheetPopup(BuildContext context) async {
                         errorDialog(context, e.toString());
                       }
                     },
-                    child: const Text('Issue B-Sheet',
+                    child: const Text(
+                        textScaler: TextScaler.linear(1),
+                        'Issue B-Sheet',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

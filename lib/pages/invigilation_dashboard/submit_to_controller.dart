@@ -36,15 +36,15 @@ class _SubmitToControllerState extends State<SubmitToController> {
       if (response.statusCode == 201) {
         try {
           // pendingReq(context);
-          await FlutterSecureStorage()
+          await const FlutterSecureStorage()
               .write(key: "submission_state", value: "submitting");
-          await FlutterSecureStorage().delete(key: "invigilation_state");
+          await const FlutterSecureStorage().delete(key: "invigilation_state");
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SubmissionDetails(),
+              builder: (context) => const SubmissionDetails(),
             ),
           );
         } catch (e) {
@@ -58,11 +58,15 @@ class _SubmitToControllerState extends State<SubmitToController> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unique Code'),
-              content: Text('Unique Code: $uniqueCode\nError: $body'),
+              title: const Text(
+                  textScaler: TextScaler.linear(1), 'Unique Code'),
+              content: Text(
+                  textScaler: const TextScaler.linear(1),
+                  'Unique Code: $uniqueCode\nError: $body'),
               actions: [
                 TextButton(
-                  child: const Text('OK'),
+                  child:
+                      const Text(textScaler: TextScaler.linear(1), 'OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -77,18 +81,18 @@ class _SubmitToControllerState extends State<SubmitToController> {
       //   context: context,
       //   builder: (BuildContext context) {
       //     return AlertDialog(
-      //       title: const Text('Scan Successful'),
-      //       content: Text(scanData.code.toString()),
+      //       title: const Text(textScaler: const TextScaler.linear(1),'Scan Successful'),
+      //       content: Text(textScaler: const TextScaler.linear(1),scanData.code.toString()),
       //       actions: [
       //         TextButton(
-      //           child: const Text('Scan Again'),
+      //           child: const Text(textScaler: const TextScaler.linear(1),'Scan Again'),
       //           onPressed: () {
       //             Navigator.of(context).pop();
       //             controller.resumeCamera();
       //           },
       //         ),
       //         TextButton(
-      //           child: const Text('Continue'),
+      //           child: const Text(textScaler: const TextScaler.linear(1),'Continue'),
       //           onPressed: () {
       //             controller.dispose();
       //             Navigator.of(context).pop();
@@ -111,6 +115,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
+            textScaler: TextScaler.linear(1),
             'Scan QR Code',
             style: TextStyle(
               color: white,
@@ -132,6 +137,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
+                  textScaler: TextScaler.linear(1),
                   'Scan QR Code to complete the examinaton submission.',
                   style: TextStyle(
                     color: white,
@@ -163,7 +169,9 @@ class _SubmitToControllerState extends State<SubmitToController> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Enter code'),
+                        title: const Text(
+                            textScaler: TextScaler.linear(1),
+                            'Enter code'),
                         content: TextField(
                           controller: submissionUniqueCode,
                           decoration: const InputDecoration(
@@ -171,14 +179,17 @@ class _SubmitToControllerState extends State<SubmitToController> {
                         ),
                         actions: <Widget>[
                           ElevatedButton(
-                            child: const Text('Back'),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1), 'Back'),
                             onPressed: () {
                               controller?.resumeCamera();
                               Navigator.of(context).pop();
                             },
                           ),
                           ElevatedButton(
-                            child: const Text('Confirm'),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1),
+                                'Confirm'),
                             onPressed: () async {
                               String uniqueCode = submissionUniqueCode.text;
                               Map data = {
@@ -190,10 +201,10 @@ class _SubmitToControllerState extends State<SubmitToController> {
                               if (response.statusCode == 201) {
                                 try {
                                   // pendingReq(context);
-                                  await FlutterSecureStorage().write(
+                                  await const FlutterSecureStorage().write(
                                       key: "submission_state",
                                       value: "submitting");
-                                  await FlutterSecureStorage()
+                                  await const FlutterSecureStorage()
                                       .delete(key: "invigilation_state");
                                   Navigator.pop(context);
                                   Navigator.pop(context);
@@ -201,7 +212,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SubmissionDetails(),
+                                      builder: (context) => const SubmissionDetails(),
                                     ),
                                   );
                                 } catch (e) {
@@ -214,12 +225,20 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('Unique Code'),
+                                      title: const Text(
+                                          textScaler:
+                                              TextScaler.linear(1),
+                                          'Unique Code'),
                                       content: Text(
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                           'Unique Code: $uniqueCode\nError: $body'),
                                       actions: [
                                         TextButton(
-                                          child: const Text('OK'),
+                                          child: const Text(
+                                              textScaler:
+                                                  TextScaler.linear(1),
+                                              'OK'),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -245,10 +264,12 @@ class _SubmitToControllerState extends State<SubmitToController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      textScaler: TextScaler.linear(1),
                       'Can\'t Scan Code? ',
                       style: TextStyle(fontSize: fontMedium, color: black),
                     ),
                     Text(
+                      textScaler: TextScaler.linear(1),
                       'Type Code.',
                       style: TextStyle(fontSize: fontMedium, color: orange),
                     ),

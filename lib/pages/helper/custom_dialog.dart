@@ -18,10 +18,15 @@ void customDialog(BuildContext context, String title, String body) {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
+                  Text(
+                      textScaler: const TextScaler.linear(1),
+                      title,
                       style: const TextStyle(
                           fontSize: fontLarge, fontWeight: FontWeight.bold)),
-                  Text(body, style: const TextStyle(fontSize: fontMedium)),
+                  Text(
+                      textScaler: const TextScaler.linear(1),
+                      body,
+                      style: const TextStyle(fontSize: fontMedium)),
                   const SizedBox(height: 10),
                   Center(
                     child: ElevatedButton(

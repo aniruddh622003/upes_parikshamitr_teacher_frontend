@@ -12,7 +12,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SubmissionDetails extends StatelessWidget {
-  const SubmissionDetails({Key? key}) : super(key: key);
+  const SubmissionDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,7 @@ class SubmissionDetails extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
+          textScaler: TextScaler.linear(1),
           ' Submission Details',
           style: TextStyle(
             color: white,
@@ -49,7 +50,9 @@ class SubmissionDetails extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("Submission Recieved",
+                        const Text(
+                            textScaler: TextScaler.linear(1),
+                            "Submission Recieved",
                             style: TextStyle(
                                 fontSize: fontLarge,
                                 fontWeight: FontWeight.bold,
@@ -57,6 +60,7 @@ class SubmissionDetails extends StatelessWidget {
                         const SizedBox(height: 20),
                         const Center(
                             child: Text(
+                                textScaler: TextScaler.linear(1),
                                 'Your submission has been sent for authentication to the controller. Kindly wait.',
                                 style: TextStyle(fontSize: fontMedium))),
                         const SizedBox(height: 20),
@@ -83,9 +87,9 @@ class SubmissionDetails extends StatelessWidget {
                                       backgroundColor: Colors.grey,
                                       textColor: Colors.white,
                                       fontSize: 16.0);
-                                  FlutterSecureStorage()
+                                  const FlutterSecureStorage()
                                       .delete(key: 'submission_state');
-                                  String? jwt = await FlutterSecureStorage()
+                                  String? jwt = await const FlutterSecureStorage()
                                       .read(key: 'jwt');
                                   Navigator.pop(context);
                                   Navigator.push(
@@ -107,7 +111,9 @@ class SubmissionDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text('Check Status'),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1),
+                                'Check Status'),
                           ),
                         ),
                       ],

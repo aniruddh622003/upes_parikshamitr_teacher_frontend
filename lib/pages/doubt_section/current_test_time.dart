@@ -50,7 +50,7 @@ class _CurrentTestTimeState extends State<CurrentTestTime> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return Text(textScaler: const TextScaler.linear(1),
       testTime,
       style: const TextStyle(fontSize: fontMedium, color: Colors.white),
     );

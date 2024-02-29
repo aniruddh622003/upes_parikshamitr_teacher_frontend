@@ -166,6 +166,7 @@ class _Schedule extends State<Schedule> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
+                  textScaler: const TextScaler.linear(1),
                   date.split('-')[2],
                   style: TextStyle(
                     color: textColor,
@@ -173,6 +174,7 @@ class _Schedule extends State<Schedule> {
                   ),
                 ),
                 Text(
+                  textScaler: const TextScaler.linear(1),
                   monthName,
                   style: TextStyle(
                     color: textColor,
@@ -194,29 +196,31 @@ class _Schedule extends State<Schedule> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // const Text(
+        // const Text(textScaler: const TextScaler.linear(1),
         //   "View Invigilation Schedule",
         //   style: TextStyle(fontWeight: FontWeight.bold),
         // ),
 
         Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: blue,
           ),
-          child: Column(
+          child: const Column(
             children: [
               Text(
+                textScaler: TextScaler.linear(1),
                 "Welcome to UPES ParikshaMitr Teacher",
                 style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 30, color: white),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
               Text(
+                textScaler: TextScaler.linear(1),
                 "Please Scan the QR by pressing the button on the top-right corner to start invigilation.",
                 style: TextStyle(fontSize: 20, color: white),
               ),
@@ -254,14 +258,14 @@ class _Schedule extends State<Schedule> {
         //                   Row(
         //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //                     children: [
-        //                       Text(
+        //                       Text(textScaler: const TextScaler.linear(1),
         //                         data[index]['timeSlot'],
         //                         style: TextStyle(
         //                           color: textColor,
         //                           fontSize: fontSmall,
         //                         ),
         //                       ),
-        //                       Text(
+        //                       Text(textScaler: const TextScaler.linear(1),
         //                         data[index]['room'],
         //                         style: TextStyle(
         //                           color: textColor,
@@ -270,7 +274,7 @@ class _Schedule extends State<Schedule> {
         //                       ),
         //                     ],
         //                   ),
-        //                   Text(
+        //                   Text(textScaler: const TextScaler.linear(1),
         //                     data[index]['task'],
         //                     style: TextStyle(
         //                       color: textColor,
@@ -278,7 +282,7 @@ class _Schedule extends State<Schedule> {
         //                       fontWeight: FontWeight.bold,
         //                     ),
         //                   ),
-        //                   Text(
+        //                   Text(textScaler: const TextScaler.linear(1),
         //                     '${data[index]['message']}',
         //                     style: TextStyle(
         //                       color: textColor,
@@ -294,14 +298,14 @@ class _Schedule extends State<Schedule> {
         //               child: Row(
         //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //                 children: [
-        //                   Text(
+        //                   Text(textScaler: const TextScaler.linear(1),
         //                     data[index]['timeSlot'],
         //                     style: TextStyle(
         //                       color: textColor,
         //                       fontSize: fontMedium,
         //                     ),
         //                   ),
-        //                   Text(
+        //                   Text(textScaler: const TextScaler.linear(1),
         //                     data[index]['task'],
         //                     style: TextStyle(
         //                       color: textColor,

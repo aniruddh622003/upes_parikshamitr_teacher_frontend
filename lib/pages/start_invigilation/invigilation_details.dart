@@ -22,6 +22,7 @@ class InvigilationDetails extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
+            textScaler: TextScaler.linear(1),
             'Details',
             style: TextStyle(
               color: white,
@@ -29,12 +30,6 @@ class InvigilationDetails extends StatelessWidget {
           ),
           backgroundColor: blue,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: white),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
         ),
         backgroundColor: blue,
         body: ListView(
@@ -72,7 +67,9 @@ class InvigilationDetails extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text('Not Approved',
+                                  const Text(
+                                      textScaler: TextScaler.linear(1),
+                                      'Not Approved',
                                       style: TextStyle(
                                           fontSize: fontMedium,
                                           color: white,
@@ -88,6 +85,7 @@ class InvigilationDetails extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               const Text(
+                                  textScaler: TextScaler.linear(1),
                                   'Please wait for the controller to approve your invigilation and try again.',
                                   style: TextStyle(
                                     fontSize: fontMedium,
@@ -112,6 +110,7 @@ class InvigilationDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      textScaler: TextScaler.linear(1),
                       'Request for Approval',
                       style: TextStyle(fontSize: fontMedium),
                     ),

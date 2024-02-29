@@ -62,6 +62,7 @@ class AttendancePage extends StatelessWidget {
           children: [
             Text(
               'Seating Arrangement',
+              textScaler: TextScaler.linear(1),
               style: TextStyle(color: white),
             )
           ],
@@ -77,6 +78,7 @@ class AttendancePage extends StatelessWidget {
         children: [
           const Center(
             child: Text("Attendance",
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(
                   color: white,
                   fontSize: fontXLarge,
@@ -105,6 +107,7 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Student Details',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontMedium,
                                     fontWeight: FontWeight.bold)),
@@ -115,11 +118,13 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('SAP ID',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontSmall,
                                     color: blue,
                                     fontWeight: FontWeight.bold)),
                             Text('Seat No.',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontSmall,
                                     color: blue,
@@ -131,6 +136,7 @@ class AttendancePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(studentDetails['sap_id'].toString(),
+                                textScaler: const TextScaler.linear(1),
                                 style: const TextStyle(fontSize: fontMedium)),
                             Container(
                               width: 35,
@@ -142,6 +148,7 @@ class AttendancePage extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   studentDetails['seat_no'].toString(),
+                                  textScaler: const TextScaler.linear(1),
                                   style: const TextStyle(
                                     color: white,
                                     fontSize: fontMedium,
@@ -152,62 +159,75 @@ class AttendancePage extends StatelessWidget {
                           ],
                         ),
                         const Text('Roll No.',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['roll_no'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Name',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['student_name'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Subject Name',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['subject'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Subject Code',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['subject_code'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Course',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['course'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Examination Type',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
                         Text(studentDetails['exam_type'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const SizedBox(height: 20),
                         const Center(
                           child: Text("Sheet Number",
+                              textScaler: TextScaler.linear(1),
                               style: TextStyle(
                                 color: black,
                                 fontSize: fontLarge,
@@ -260,6 +280,7 @@ class AttendancePage extends StatelessWidget {
                               attendancePopup(context);
                             },
                             child: const Text('Mark Attendance',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(fontSize: fontSmall)),
                           ),
                         ),

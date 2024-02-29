@@ -57,6 +57,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
           const storage = FlutterSecureStorage();
           await storage.write(key: 'room_data', value: jsonEncode(roomData));
           Navigator.pop(context);
+          Navigator.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -74,11 +75,15 @@ class _StartInvigilationState extends State<StartInvigilation> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Unique Code'),
-              content: Text('Unique Code: $uniqueCode\nError: $body'),
+              title: const Text(
+                  textScaler: TextScaler.linear(1), 'Unique Code'),
+              content: Text(
+                  textScaler: const TextScaler.linear(1),
+                  'Unique Code: $uniqueCode\nError: $body'),
               actions: [
                 TextButton(
-                  child: const Text('OK'),
+                  child:
+                      const Text(textScaler: TextScaler.linear(1), 'OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -100,6 +105,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
+            textScaler: TextScaler.linear(1),
             'Scan QR Code',
             style: TextStyle(
               color: white,
@@ -121,6 +127,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
+                  textScaler: TextScaler.linear(1),
                   'Scan QR Code in Controller Room to get your invigilation details and proceed.',
                   style: TextStyle(
                     color: white,
@@ -152,7 +159,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Enter code'),
+                        title: const Text(
+                            textScaler: TextScaler.linear(1),
+                            'Enter code'),
                         content: TextField(
                           controller: controllerUniqueCode,
                           decoration: const InputDecoration(
@@ -160,14 +169,17 @@ class _StartInvigilationState extends State<StartInvigilation> {
                         ),
                         actions: <Widget>[
                           ElevatedButton(
-                            child: const Text('Back'),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1), 'Back'),
                             onPressed: () {
                               controller?.resumeCamera();
                               Navigator.of(context).pop();
                             },
                           ),
                           ElevatedButton(
-                            child: const Text('Confirm'),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1),
+                                'Confirm'),
                             onPressed: () async {
                               String? uniqueCode =
                                   controllerUniqueCode.text.toString();
@@ -202,6 +214,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                       value: jsonEncode(roomData));
                                   Navigator.pop(context);
                                   Navigator.pop(context);
+                                  Navigator.pop(context);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -222,12 +235,20 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('Unique Code'),
+                                      title: const Text(
+                                          textScaler:
+                                              TextScaler.linear(1),
+                                          'Unique Code'),
                                       content: Text(
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                           'Unique Code: $uniqueCode\nError: $body'),
                                       actions: [
                                         TextButton(
-                                          child: const Text('OK'),
+                                          child: const Text(
+                                              textScaler:
+                                                  TextScaler.linear(1),
+                                              'OK'),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -253,10 +274,12 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      textScaler: TextScaler.linear(1),
                       'Can\'t Scan Code? ',
                       style: TextStyle(fontSize: fontMedium, color: black),
                     ),
                     Text(
+                      textScaler: TextScaler.linear(1),
                       'Type Code.',
                       style: TextStyle(fontSize: fontMedium, color: orange),
                     ),

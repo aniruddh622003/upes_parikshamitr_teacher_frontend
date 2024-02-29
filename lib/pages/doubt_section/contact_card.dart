@@ -49,14 +49,14 @@ class ContactCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            Text(textScaler: const TextScaler.linear(1),
                               name,
                               style: const TextStyle(
                                   fontSize: fontMedium,
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 5),
-                            Text(
+                            Text(textScaler: const TextScaler.linear(1),
                               designation,
                               style: const TextStyle(fontSize: fontSmall),
                             ),
@@ -107,7 +107,7 @@ class ContactCard extends StatelessWidget {
           )
 
           // ListTile(
-          //   title: Text(
+          //   title: Text(textScaler: const TextScaler.linear(1),
           //     name,
           //     style: TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold),
           //   ),
@@ -115,7 +115,7 @@ class ContactCard extends StatelessWidget {
           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
           //     children: [
           //       Expanded(
-          //         child: Text(
+          //         child: Text(textScaler: const TextScaler.linear(1),
           //           designation,
           //           style: TextStyle(fontSize: fontSmall),
           //         ),

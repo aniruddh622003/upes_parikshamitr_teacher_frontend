@@ -53,11 +53,14 @@ class _LogInPageState extends State<LogInPage> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Info",
+                        const Text(
+                            textScaler: TextScaler.linear(1),
+                            "Info",
                             style: TextStyle(
                                 fontSize: fontLarge,
                                 fontWeight: FontWeight.bold)),
                         Text(
+                            textScaler: const TextScaler.linear(1),
                             "${jsonDecode(response.body)['message']}. Please continue to LogIn.",
                             style: const TextStyle(fontSize: fontMedium)),
                         const SizedBox(height: 10),
@@ -72,7 +75,8 @@ class _LogInPageState extends State<LogInPage> {
                                       builder: (context) =>
                                           const SignInPage()));
                             },
-                            child: const Text("OK"),
+                            child: const Text(
+                                textScaler: TextScaler.linear(1), "OK"),
                           ),
                         ),
                       ],
@@ -108,6 +112,7 @@ class _LogInPageState extends State<LogInPage> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
+          textScaler: TextScaler.linear(1),
           'UPES Pariksha Mitr - Teachers',
           style: TextStyle(
             fontSize: fontMedium,
@@ -135,6 +140,7 @@ class _LogInPageState extends State<LogInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "Welcome to",
                         style: TextStyle(
                           fontSize: fontXLarge,
@@ -145,6 +151,7 @@ class _LogInPageState extends State<LogInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 0, 17, 12),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "Pariksha Mitr",
                         style: TextStyle(
                             color: blue,
@@ -161,6 +168,7 @@ class _LogInPageState extends State<LogInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 11, 16, 20),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "Let's help you manage examinations.",
                         style: TextStyle(
                           color: grayDark,
@@ -257,6 +265,7 @@ class _LogInPageState extends State<LogInPage> {
                                 );
                               } else {
                                 return const Text(
+                                  textScaler: TextScaler.linear(1),
                                   'Register',
                                   style: TextStyle(
                                       color: white,
@@ -288,6 +297,7 @@ class _LogInPageState extends State<LogInPage> {
                                   builder: (context) => const SignInPage()));
                         },
                         child: RichText(
+                          textScaler: const TextScaler.linear(1),
                           text: const TextSpan(
                             style: TextStyle(
                               color: black,

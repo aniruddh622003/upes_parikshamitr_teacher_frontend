@@ -72,7 +72,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
@@ -147,18 +147,20 @@ class _DashboardState extends State<Dashboard> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirm Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
+        title: const Text(textScaler: TextScaler.linear(1), 'Confirm Sign Out'),
+        content: const Text(
+            textScaler: TextScaler.linear(1),
+            'Are you sure you want to sign out?'),
         actions: [
           TextButton(
-            child: const Text('Cancel'),
+            child: const Text(textScaler: TextScaler.linear(1), 'Cancel'),
             onPressed: () {
               confirm = false;
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text('Sign Out'),
+            child: const Text(textScaler: TextScaler.linear(1), 'Sign Out'),
             onPressed: () {
               confirm = true;
               Navigator.of(context).pop();
@@ -188,7 +190,10 @@ class _DashboardState extends State<Dashboard> {
               body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Scaffold(
-              body: Center(child: Text('Error: ${snapshot.error}')));
+              body: Center(
+                  child: Text(
+                      textScaler: const TextScaler.linear(1),
+                      'Error: ${snapshot.error}')));
         } else {
           return Scaffold(
               backgroundColor: blue,
@@ -212,6 +217,7 @@ class _DashboardState extends State<Dashboard> {
                           },
                         ),
                         const Text(
+                          textScaler: TextScaler.linear(1),
                           'Dashboard',
                           style: TextStyle(color: white),
                         ),
@@ -236,6 +242,7 @@ class _DashboardState extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
+                      textScaler: const TextScaler.linear(1),
                       'Hi, ${data['name']}!',
                       style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
@@ -388,6 +395,7 @@ class _DashboardState extends State<Dashboard> {
                                     const Padding(
                                       padding: EdgeInsets.all(10.0),
                                       child: Text(
+                                        textScaler: TextScaler.linear(1),
                                         'View Notification',
                                         style: TextStyle(color: white),
                                       ),
@@ -402,8 +410,9 @@ class _DashboardState extends State<Dashboard> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: Text(
+                                        textScaler: const TextScaler.linear(1),
                                         "${widget.unreadNotificationsCount > 0 ? widget.unreadNotificationsCount : ''}",
-                                        style: TextStyle(color: white),
+                                        style: const TextStyle(color: white),
                                       ),
                                     ),
                                     const Spacer(),

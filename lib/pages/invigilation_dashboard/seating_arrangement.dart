@@ -50,11 +50,15 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('Error'),
-                content: Text('${snapshot.error}'),
+                title:
+                    const Text(textScaler: TextScaler.linear(1), 'Error'),
+                content: Text(
+                    textScaler: const TextScaler.linear(1),
+                    '${snapshot.error}'),
                 actions: <Widget>[
                   ElevatedButton(
-                    child: const Text('OK'),
+                    child: const Text(
+                        textScaler: TextScaler.linear(1), 'OK'),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
@@ -83,6 +87,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
+                    textScaler: TextScaler.linear(1),
                     'Seating Arrangement',
                     style: TextStyle(color: white),
                   )
@@ -100,14 +105,18 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
               child: Column(
                 children: [
                   Center(
-                    child: Text("Room: ${seatingPlan?['data']['room_no']}",
+                    child: Text(
+                        textScaler: const TextScaler.linear(1),
+                        "Room: ${seatingPlan?['data']['room_no']}",
                         style: const TextStyle(
                           color: white,
                           fontSize: fontXLarge,
                         )),
                   ),
                   const Center(
-                    child: Text("2:00 - 5:00 PM",
+                    child: Text(
+                        textScaler: TextScaler.linear(1),
+                        "2:00 - 5:00 PM",
                         style: TextStyle(
                           color: white,
                           fontSize: fontSmall,
@@ -226,7 +235,10 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(
-                                  child: Text(text.toString(),
+                                  child: Text(
+                                      textScaler: const TextScaler.linear(1),
+                                      text.toString(),
+                                      textScaleFactor: 1,
                                       style: TextStyle(
                                           color: fontColor,
                                           fontSize: fontMedium)),
@@ -259,7 +271,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Allocated')),
+                                    const Flexible(
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Allocated')),
                                   ],
                                 ),
                               ),
@@ -279,7 +295,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Unallocated')),
+                                    const Flexible(
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Unallocated')),
                                   ],
                                 ),
                               ),
@@ -299,7 +319,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Present')),
+                                    const Flexible(
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Present')),
                                   ],
                                 ),
                               ),
@@ -319,7 +343,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(child: Text('Debarred')),
+                                    const Flexible(
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Debarred')),
                                   ],
                                 ),
                               ),
@@ -340,7 +368,10 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                     ),
                                     const SizedBox(width: 5),
                                     const Flexible(
-                                        child: Text('Financial Hold')),
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Financial Hold')),
                                   ],
                                 ),
                               ),
@@ -361,7 +392,10 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                     ),
                                     const SizedBox(width: 5),
                                     const Flexible(
-                                        child: Text('Registration Hold')),
+                                        child: Text(
+                                            textScaler:
+                                                TextScaler.linear(1),
+                                            'Registration Hold')),
                                   ],
                                 ),
                               ),

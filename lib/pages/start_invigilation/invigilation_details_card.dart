@@ -53,6 +53,7 @@ class InvigilationDetailsCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
+                        textScaler: const TextScaler.linear(1),
                         course,
                         style:
                             const TextStyle(color: white, fontSize: fontSmall),
@@ -67,6 +68,7 @@ class InvigilationDetailsCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
+                          textScaler: const TextScaler.linear(1),
                           count.toString(),
                           style: const TextStyle(
                             color: blue,
@@ -81,7 +83,9 @@ class InvigilationDetailsCard extends StatelessWidget {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Text(subject,
+                child: Text(
+                    textScaler: const TextScaler.linear(1),
+                    subject,
                     style: const TextStyle(
                       color: blue,
                       fontSize: fontMedium,
@@ -104,14 +108,19 @@ class InvigilationDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Invigilation Details:',
+          const Text(
+              textScaler: TextScaler.linear(1),
+              'Invigilation Details:',
               style: TextStyle(
                   fontSize: fontLarge,
                   fontWeight: FontWeight.bold,
                   color: blue)),
           const SizedBox(height: 20),
           const Center(
-              child: Text('Room No.', style: TextStyle(fontSize: fontMedium))),
+              child: Text(
+                  textScaler: TextScaler.linear(1),
+                  'Room No.',
+                  style: TextStyle(fontSize: fontMedium))),
           Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
@@ -120,6 +129,7 @@ class InvigilationDetailsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Text(
+                textScaler: const TextScaler.linear(1),
                 data['room']['room_no'].toString(),
                 style: const TextStyle(
                   color: white,
@@ -130,11 +140,14 @@ class InvigilationDetailsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text('Examination Subjects'),
+          const Text(
+              textScaler: TextScaler.linear(1), 'Examination Subjects'),
           ...makeSubjectList(),
           const SizedBox(height: 20),
-          const Text('Co-Invigilator'),
-          Text(data['invigilator1']['name'] ?? 'Not Assigned',
+          const Text(textScaler: TextScaler.linear(1), 'Co-Invigilator'),
+          Text(
+              textScaler: const TextScaler.linear(1),
+              data['invigilator1']['name'] ?? 'Not Assigned',
               style: const TextStyle(
                 fontSize: fontMedium,
                 color: orange,
@@ -142,19 +155,23 @@ class InvigilationDetailsCard extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Students'),
-              Text('Debarred Students'),
+              Text(textScaler: TextScaler.linear(1), 'Total Students'),
+              Text(textScaler: TextScaler.linear(1), 'Debarred Students'),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(studentCount.toString(),
+              Text(
+                  textScaler: const TextScaler.linear(1),
+                  studentCount.toString(),
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: orange,
                   )),
-              Text(debarredCount.toString(),
+              Text(
+                  textScaler: const TextScaler.linear(1),
+                  debarredCount.toString(),
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: orange,

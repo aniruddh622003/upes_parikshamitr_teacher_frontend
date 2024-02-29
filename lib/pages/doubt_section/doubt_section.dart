@@ -36,6 +36,7 @@ class DoubtSection extends StatelessWidget {
                       },
                     ),
                     const Text(
+                      textScaler: TextScaler.linear(1),
                       'Doubt Section',
                       style: TextStyle(
                         fontSize: fontMedium,
@@ -55,6 +56,7 @@ class DoubtSection extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
+                          textScaler: const TextScaler.linear(1),
                           "Room: $roomNumber",
                           style: const TextStyle(
                               fontSize: fontXLarge, color: Colors.white),
@@ -92,6 +94,7 @@ class DoubtSection extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
+                  textScaler: TextScaler.linear(1),
                   "Contacts for help",
                   style: TextStyle(fontSize: fontMedium),
                 ),
