@@ -64,23 +64,29 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Column(
                     children: [
-                      NotificationCategoryBox(
-                        title: "Today",
-                        notifications: widget.today,
-                        read: widget.todayBool,
-                      ),
-                      const SizedBox(height: 10),
-                      NotificationCategoryBox(
-                        title: "Yesterday",
-                        notifications: widget.yesterday,
-                        read: widget.yesterdayBool,
-                      ),
-                      const SizedBox(height: 10),
-                      NotificationCategoryBox(
-                        title: "Earlier",
-                        notifications: widget.earlier,
-                        read: widget.earlierBool,
-                      ),
+                      widget.todayBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Today",
+                              notifications: widget.today,
+                              read: widget.todayBool,
+                            )
+                          : const SizedBox(),
+                      // const SizedBox(height: 10),
+                      widget.yesterdayBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Yesterday",
+                              notifications: widget.yesterday,
+                              read: widget.yesterdayBool,
+                            )
+                          : const SizedBox(),
+                      // const SizedBox(height: 10),
+                      widget.earlierBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Earlier",
+                              notifications: widget.earlier,
+                              read: widget.earlierBool,
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),
