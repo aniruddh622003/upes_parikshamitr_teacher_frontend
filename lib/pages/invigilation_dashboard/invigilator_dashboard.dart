@@ -369,19 +369,18 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
-                                const Spacer(),
-                                Container(
-                                  padding: const EdgeInsets.only(right: 7),
-                                  child: SvgPicture.asset(
-                                      'android/assets/refresh.svg'),
-                                ),
-                                const Text(
-                                  textScaler: TextScaler.linear(1),
-                                  "Refresh",
-                                  style: TextStyle(
-                                      fontSize: fontXSmall,
-                                      color: Colors.white),
-                                ),
+                                // const Spacer(),
+                                // Container(
+                                //   padding: const EdgeInsets.only(right: 7),
+                                //   child: SvgPicture.asset(
+                                //       'android/assets/refresh.svg'),
+                                // ),
+                                // const Text(
+                                //   "Refresh",
+                                //   style: TextStyle(
+                                //       fontSize: fontXSmall,
+                                //       color: Colors.white),
+                                // ),
                               ],
                             ),
                           ),

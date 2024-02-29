@@ -1,7 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Schedule extends StatefulWidget {
@@ -226,6 +233,218 @@ class _Schedule extends State<Schedule> {
               ),
             ],
           ),
+        ),
+        Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize:
+                      Size(double.infinity, 60), // Set a minimum height here
+                ),
+                onPressed: () async {
+                  // Load the PDF file from the assets
+                  ByteData data = await rootBundle.load(
+                      'assets/Examination Guidelines for Control Room Supervisors (CRS).pdf');
+
+                  // Get the application documents directory
+                  Directory appDocDir =
+                      await getApplicationDocumentsDirectory();
+                  String appDocPath = appDocDir.path;
+
+                  // Write the file
+                  File file = File(
+                      '$appDocPath/Examination Guidelines for Control Room Supervisors (CRS).pdf');
+                  await file.writeAsBytes(data.buffer
+                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                  // Open the file
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        appBar: AppBar(
+                            title: Text("Control Room Guidlines",
+                                textScaler: TextScaler.linear(1))),
+                        body: PDFView(
+                          filePath: file.path,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.picture_as_pdf,
+                      size: 50,
+                      color: white,
+                    ), // Add your icon here
+                    SizedBox(width: 10),
+                    // Add some spacing between the icon and text
+                    Flexible(
+                      child: Container(
+                        margin:
+                            EdgeInsets.only(left: 10), // Add left margin here
+                        child: Text('Control room instructions',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: white,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize:
+                      Size(double.infinity, 60), // Set a minimum height here
+                ),
+                onPressed: () async {
+                  // Load the PDF file from the assets
+                  ByteData data = await rootBundle.load(
+                      'assets/Examination Guidelines for Flying Squad.pdf');
+
+                  // Get the application documents directory
+                  Directory appDocDir =
+                      await getApplicationDocumentsDirectory();
+                  String appDocPath = appDocDir.path;
+
+                  // Write the file
+                  File file = File(
+                      '$appDocPath/Examination Guidelines for Flying Squad.pdf');
+                  await file.writeAsBytes(data.buffer
+                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                  // Open the file
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        appBar: AppBar(
+                            title: Text(
+                          "Flying Squad Guidlines",
+                          textScaler: TextScaler.linear(1),
+                        )),
+                        body: PDFView(
+                          filePath: file.path,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.picture_as_pdf,
+                      size: 50,
+                      color: white,
+                    ), // Add your icon here
+                    SizedBox(width: 10),
+                    // Add some spacing between the icon and text
+                    Flexible(
+                      child: Container(
+                        margin:
+                            EdgeInsets.only(left: 10), // Add left margin here
+                        child: Text('Flying Squad instructions',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: white,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize:
+                      Size(double.infinity, 60), // Set a minimum height here
+                ),
+                onPressed: () async {
+                  // Load the PDF file from the assets
+                  ByteData data = await rootBundle.load(
+                      'assets/Examination Guidelines for Invigilators.pdf');
+
+                  // Get the application documents directory
+                  Directory appDocDir =
+                      await getApplicationDocumentsDirectory();
+                  String appDocPath = appDocDir.path;
+
+                  // Write the file
+                  File file = File(
+                      '$appDocPath/Examination Guidelines for Invigilators.pdf');
+                  await file.writeAsBytes(data.buffer
+                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                  // Open the file
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        appBar: AppBar(
+                            title: Text(
+                          "Invigilator Guidlines",
+                          textScaler: TextScaler.linear(1),
+                        )),
+                        body: PDFView(
+                          filePath: file.path,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.picture_as_pdf,
+                      size: 50,
+                      color: white,
+                    ), // Add your icon here
+                    SizedBox(width: 10),
+                    // Add some spacing between the icon and text
+                    Flexible(
+                      child: Container(
+                        margin:
+                            EdgeInsets.only(left: 10), // Add left margin here
+                        child: Text('Invigilator instructions',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: white,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
         // SizedBox(
         //   height: 100,

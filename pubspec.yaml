@@ -36,6 +36,9 @@ dependencies:
   http: ^1.2.0
   flutter_secure_storage: ^9.0.0
   url_launcher: ^6.0.10
+  path_provider: ^2.0.2
+  open_file: ^3.2.1
+  flutter_pdfview: ^1.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -86,6 +89,9 @@ flutter:
     - assets/upes_logo.svg
     - assets/upes_logo.png
     - assets/home_art.png
+    - assets/Examination Guidelines for Control Room Supervisors (CRS).pdf
+    - assets/Examination Guidelines for Flying Squad.pdf
+    - assets/Examination Guidelines for Invigilators.pdf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
