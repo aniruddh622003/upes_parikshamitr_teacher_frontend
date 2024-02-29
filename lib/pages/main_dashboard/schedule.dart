@@ -234,6 +234,11 @@ class _Schedule extends State<Schedule> {
             ],
           ),
         ),
+        const Text(
+          textScaler: TextScaler.linear(1),
+          "Instructions",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         Column(
           children: <Widget>[
             Padding(
