@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
@@ -124,6 +125,7 @@ void attendancePopup(BuildContext context) async {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => AttendancePage(
                                         studentDetails: studentDetails)));
+                                
                               } else if (roomDetails['data']['seating_plan']
                                           [indexData]['eligible'] ==
                                       'F_HOLD' ||

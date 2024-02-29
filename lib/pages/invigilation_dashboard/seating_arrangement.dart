@@ -237,10 +237,10 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.width / 1,
                         child: GridView.count(
                           physics: const NeverScrollableScrollPhysics(),
-                          childAspectRatio: 3,
+                          childAspectRatio: 2,
                           crossAxisCount: 2,
                           padding: const EdgeInsets.all(8.0),
                           children: [
@@ -259,8 +259,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(
-                                        child: Text('Seat Allocated')),
+                                    const Flexible(child: Text('Allocated')),
                                   ],
                                 ),
                               ),
@@ -280,8 +279,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(
-                                        child: Text('Seat Unallocated')),
+                                    const Flexible(child: Text('Unallocated')),
                                   ],
                                 ),
                               ),
@@ -301,8 +299,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(
-                                        child: Text('Student Present')),
+                                    const Flexible(child: Text('Present')),
                                   ],
                                 ),
                               ),
@@ -322,9 +319,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                       ),
                                     ),
                                     const SizedBox(width: 5),
-                                    const Flexible(
-                                        child: Flexible(
-                                            child: Text('Seat Debarred'))),
+                                    const Flexible(child: Text('Debarred')),
                                   ],
                                 ),
                               ),
@@ -345,7 +340,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                     ),
                                     const SizedBox(width: 5),
                                     const Flexible(
-                                        child: Text('Seat Financial Hold')),
+                                        child: Text('Financial Hold')),
                                   ],
                                 ),
                               ),
@@ -366,7 +361,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                     ),
                                     const SizedBox(width: 5),
                                     const Flexible(
-                                        child: Text('Seat Registration Hold')),
+                                        child: Text('Registration Hold')),
                                   ],
                                 ),
                               ),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show serverUrl;
@@ -75,24 +76,10 @@ class AttendancePage extends StatelessWidget {
       body: Column(
         children: [
           const Center(
-            child: Text("Room: 11013",
+            child: Text("Attendance",
                 style: TextStyle(
                   color: white,
                   fontSize: fontXLarge,
-                )),
-          ),
-          const Center(
-            child: Text("2:00 - 5:00 PM",
-                style: TextStyle(
-                  color: white,
-                  fontSize: fontSmall,
-                )),
-          ),
-          const Center(
-            child: Text("Mr. Vir Das & Mrs. Richa",
-                style: TextStyle(
-                  color: white,
-                  fontSize: fontSmall,
                 )),
           ),
           const SizedBox(height: 20),
@@ -261,6 +248,15 @@ class AttendancePage extends StatelessWidget {
                               markAttendance(jsonDecode(roomData.toString())[0]
                                   ['room_id']);
                               Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                msg: "Attendance Marked Successfully!",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: gray,
+                                textColor: black,
+                                fontSize: 16.0,
+                              );
                               attendancePopup(context);
                             },
                             child: const Text('Mark Attendance',

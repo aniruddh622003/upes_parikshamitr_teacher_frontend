@@ -51,6 +51,7 @@ class InvigilationDetails extends StatelessWidget {
                   dynamic response = await getSupplies();
                   // print(
                   //     "${jsonDecode(response.body)['data']}, ${data['room']['_id']}");
+                  print(jsonDecode(response.body));
                   if (response.statusCode == 200) {
                     confirmInvigilationCard(context,
                         jsonDecode(response.body)['data'], data['room']['_id']);

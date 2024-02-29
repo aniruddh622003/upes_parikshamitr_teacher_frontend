@@ -263,13 +263,17 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                              onTap: () => ufmPopup(context),
+                              onTap: () => errorDialog(context,
+                                  "This feature is currently under development."),
+                              // ufmPopup(context),
                               child:
                                   SvgPicture.asset('android/assets/ufm.svg')),
                         ),
                         Expanded(
                           child: GestureDetector(
-                              onTap: () => bsheetPopup(context),
+                              onTap: () => errorDialog(context,
+                                  "This feature is currently under development."),
+                              // bsheetPopup(context),
                               child: SvgPicture.asset(
                                   'android/assets/supplementary.svg')),
                         ),
@@ -293,11 +297,13 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       children: [
                         Expanded(
                             child: GestureDetector(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoubtSection(roomNumber: "1101"))),
+                          onTap: () => errorDialog(context,
+                              "This feature is currently under development."),
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const DoubtSection(roomNumber: "1101"))),
                           child: SvgPicture.asset('android/assets/doubt.svg'),
                         )),
                         Expanded(
