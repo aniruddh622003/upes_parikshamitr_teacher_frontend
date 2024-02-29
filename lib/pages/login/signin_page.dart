@@ -8,7 +8,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -127,6 +127,10 @@ class _SignInPageState extends State<SignInPage> {
                       child: CustomTextField(
                         label: 'Enter your SAP ID',
                         controller: controllerEmail,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                     ),
                     Padding(
@@ -136,22 +140,22 @@ class _SignInPageState extends State<SignInPage> {
                         controller: controllerPass,
                       ),
                     ),
-                      // Padding(
-                      //     padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
-                      //     child: GestureDetector(
-                      //       onTap: () {
-                      //         Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //                 builder: (context) =>
-                      //                     const ForgotPassword()));
-                      //       },
-                      //       child: const Text(
-                      //         'Forgot Password',
-                      //         style:
-                      //             TextStyle(color: orange, fontSize: fontSmall),
-                      //       ),
-                      //     )),
+                    // Padding(
+                    //     padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
+                    //     child: GestureDetector(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) =>
+                    //                     const ForgotPassword()));
+                    //       },
+                    //       child: const Text(
+                    //         'Forgot Password',
+                    //         style:
+                    //             TextStyle(color: orange, fontSize: fontSmall),
+                    //       ),
+                    //     )),
                   ],
                 ),
                 Column(
