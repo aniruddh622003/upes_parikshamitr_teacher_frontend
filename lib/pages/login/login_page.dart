@@ -174,6 +174,9 @@ class _LogInPageState extends State<LogInPage> {
                       child: CustomTextField(
                         label: 'Enter your name',
                         controller: controllerName,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                        ],
                       ),
                     ),
                     Padding(
@@ -181,6 +184,10 @@ class _LogInPageState extends State<LogInPage> {
                       child: CustomTextField(
                         label: 'Enter your SAP ID',
                         controller: controllerEmail,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                     ),
                     Padding(
