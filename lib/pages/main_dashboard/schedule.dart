@@ -268,7 +268,9 @@ class _Schedule extends State<Schedule> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
-                        appBar: AppBar(title: Text("Control Room Guidlines")),
+                        appBar: AppBar(
+                            title: Text("Control Room Guidlines",
+                                textScaler: TextScaler.linear(1))),
                         body: PDFView(
                           filePath: file.path,
                         ),
@@ -291,6 +293,7 @@ class _Schedule extends State<Schedule> {
                         margin:
                             EdgeInsets.only(left: 10), // Add left margin here
                         child: Text('Control room instructions',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
                               color: white,
@@ -333,7 +336,11 @@ class _Schedule extends State<Schedule> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
-                        appBar: AppBar(title: Text("Flying Squad Guidlines")),
+                        appBar: AppBar(
+                            title: Text(
+                          "Flying Squad Guidlines",
+                          textScaler: TextScaler.linear(1),
+                        )),
                         body: PDFView(
                           filePath: file.path,
                         ),
@@ -356,6 +363,7 @@ class _Schedule extends State<Schedule> {
                         margin:
                             EdgeInsets.only(left: 10), // Add left margin here
                         child: Text('Flying Squad instructions',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
                               color: white,
@@ -398,7 +406,11 @@ class _Schedule extends State<Schedule> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
-                        appBar: AppBar(title: Text("Invigilator Guidlines")),
+                        appBar: AppBar(
+                            title: Text(
+                          "Invigilator Guidlines",
+                          textScaler: TextScaler.linear(1),
+                        )),
                         body: PDFView(
                           filePath: file.path,
                         ),
@@ -421,6 +433,7 @@ class _Schedule extends State<Schedule> {
                         margin:
                             EdgeInsets.only(left: 10), // Add left margin here
                         child: Text('Invigilator instructions',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
                               color: white,
