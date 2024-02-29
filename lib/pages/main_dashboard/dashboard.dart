@@ -15,6 +15,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/star
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
@@ -28,6 +29,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   late Map data;
   late Timer _timer;
+
+  String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
   Future<Map> getDetails({token}) async {
     var response = await http.get(
@@ -239,6 +242,14 @@ class _DashboardState extends State<Dashboard> {
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      textScaler: const TextScaler.linear(1),
+                      formattedDate,
+                      style: const TextStyle(color: white, fontSize: fontSmall),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
