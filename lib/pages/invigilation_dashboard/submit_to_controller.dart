@@ -48,7 +48,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
             ),
           );
         } catch (e) {
-          errorDialog(context, '${e.toString()}, ${jsonDecode(response.body)}');
+          errorDialog(context,
+              '${e.toString()}, ${jsonDecode(response.body)['message']}');
         }
       } else {
         // If that response was not OK, throw an error.
@@ -58,15 +59,14 @@ class _SubmitToControllerState extends State<SubmitToController> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
-                  textScaler: TextScaler.linear(1), 'Unique Code'),
+              title:
+                  const Text(textScaler: TextScaler.linear(1), 'Unique Code'),
               content: Text(
                   textScaler: const TextScaler.linear(1),
                   'Unique Code: $uniqueCode\nError: $body'),
               actions: [
                 TextButton(
-                  child:
-                      const Text(textScaler: TextScaler.linear(1), 'OK'),
+                  child: const Text(textScaler: TextScaler.linear(1), 'OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -170,8 +170,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text(
-                            textScaler: TextScaler.linear(1),
-                            'Enter code'),
+                            textScaler: TextScaler.linear(1), 'Enter code'),
                         content: TextField(
                           controller: submissionUniqueCode,
                           decoration: const InputDecoration(
@@ -188,8 +187,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
                           ),
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1),
-                                'Confirm'),
+                                textScaler: TextScaler.linear(1), 'Confirm'),
                             onPressed: () async {
                               String uniqueCode = submissionUniqueCode.text;
                               Map data = {
@@ -212,12 +210,13 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const SubmissionDetails(),
+                                      builder: (context) =>
+                                          const SubmissionDetails(),
                                     ),
                                   );
                                 } catch (e) {
                                   errorDialog(context,
-                                      '${e.toString()}, ${jsonDecode(response.body)}');
+                                      '${e.toString()}, ${jsonDecode(response.body)['message']}');
                                 }
                               } else {
                                 var body = jsonDecode(response.body);
@@ -226,8 +225,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text(
-                                          textScaler:
-                                              TextScaler.linear(1),
+                                          textScaler: TextScaler.linear(1),
                                           'Unique Code'),
                                       content: Text(
                                           textScaler:
@@ -236,8 +234,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                       actions: [
                                         TextButton(
                                           child: const Text(
-                                              textScaler:
-                                                  TextScaler.linear(1),
+                                              textScaler: TextScaler.linear(1),
                                               'OK'),
                                           onPressed: () {
                                             Navigator.of(context).pop();

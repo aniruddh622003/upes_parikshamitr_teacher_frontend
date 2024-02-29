@@ -65,7 +65,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
                     data: jsonDecode(response.body)['data']),
               ));
         } catch (e) {
-          errorDialog(context, '${e.toString()}, ${jsonDecode(response.body)}');
+          errorDialog(context,
+              '${e.toString()}, ${jsonDecode(response.body)['message']}');
         }
       } else {
         // If that response was not OK, throw an error.
@@ -75,15 +76,14 @@ class _StartInvigilationState extends State<StartInvigilation> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
-                  textScaler: TextScaler.linear(1), 'Unique Code'),
+              title:
+                  const Text(textScaler: TextScaler.linear(1), 'Unique Code'),
               content: Text(
                   textScaler: const TextScaler.linear(1),
                   'Unique Code: $uniqueCode\nError: $body'),
               actions: [
                 TextButton(
-                  child:
-                      const Text(textScaler: TextScaler.linear(1), 'OK'),
+                  child: const Text(textScaler: TextScaler.linear(1), 'OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -160,8 +160,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text(
-                            textScaler: TextScaler.linear(1),
-                            'Enter code'),
+                            textScaler: TextScaler.linear(1), 'Enter code'),
                         content: TextField(
                           controller: controllerUniqueCode,
                           decoration: const InputDecoration(
@@ -178,8 +177,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                           ),
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1),
-                                'Confirm'),
+                                textScaler: TextScaler.linear(1), 'Confirm'),
                             onPressed: () async {
                               String? uniqueCode =
                                   controllerUniqueCode.text.toString();
@@ -225,7 +223,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                       ));
                                 } catch (e) {
                                   errorDialog(context,
-                                      '${e.toString()}, ${jsonDecode(response.body)}');
+                                      '${e.toString()}, ${jsonDecode(response.body)['message']}');
                                 }
                               } else {
                                 // If that response was not OK, throw an error.
@@ -236,8 +234,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text(
-                                          textScaler:
-                                              TextScaler.linear(1),
+                                          textScaler: TextScaler.linear(1),
                                           'Unique Code'),
                                       content: Text(
                                           textScaler:
@@ -246,8 +243,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                       actions: [
                                         TextButton(
                                           child: const Text(
-                                              textScaler:
-                                                  TextScaler.linear(1),
+                                              textScaler: TextScaler.linear(1),
                                               'OK'),
                                           onPressed: () {
                                             Navigator.of(context).pop();
