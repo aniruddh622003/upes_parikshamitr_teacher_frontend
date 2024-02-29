@@ -194,115 +194,140 @@ class _Schedule extends State<Schedule> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "View Invigilation Schedule",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: makeDateWidgets(dateData.keys.toList()),
+        // const Text(
+        //   "View Invigilation Schedule",
+        //   style: TextStyle(fontWeight: FontWeight.bold),
+        // ),
+
+        Container(
+          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: blue,
+          ),
+          child: Column(
+            children: [
+              Text(
+                "Welcome to UPES ParikshaMitr Teacher",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 30, color: white),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Please Scan the QR by pressing the button on the top-right corner to start invigilation.",
+                style: TextStyle(fontSize: 20, color: white),
+              ),
+            ],
           ),
         ),
-        Column(
-          children: List<Widget>.generate(
-            data.length, // Replace with your number of containers
-            (index) {
-              Color selectedColorBG = purple;
-              Color baseColorBG = purpleLight;
-              Color selectedColorText = white;
-              Color baseColorText = black;
-              Color bgColor = (selectedContainerIndex == index)
-                  ? selectedColorBG
-                  : baseColorBG;
-              Color textColor = (selectedContainerIndex == index)
-                  ? selectedColorText
-                  : baseColorText;
-              Widget contents = (selectedContainerIndex == index)
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                data[index]['timeSlot'],
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontSize: fontSmall,
-                                ),
-                              ),
-                              Text(
-                                data[index]['room'],
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontSize: fontSmall,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            data[index]['task'],
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: fontMedium,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '${data[index]['message']}',
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: fontSmall,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            data[index]['timeSlot'],
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: fontMedium,
-                            ),
-                          ),
-                          Text(
-                            data[index]['task'],
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: fontMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedContainerIndex = index;
-                  });
-                },
-                child: Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: bgColor,
-                    ),
-                    child: contents),
-              );
-            },
-          ),
-        ),
+        // SizedBox(
+        //   height: 100,
+        //   child: ListView(
+        //     scrollDirection: Axis.horizontal,
+        //     children: makeDateWidgets(dateData.keys.toList()),
+        //   ),
+        // ),
+        // Column(
+        //   children: List<Widget>.generate(
+        //     data.length, // Replace with your number of containers
+        //     (index) {
+        //       Color selectedColorBG = purple;
+        //       Color baseColorBG = purpleLight;
+        //       Color selectedColorText = white;
+        //       Color baseColorText = black;
+        //       Color bgColor = (selectedContainerIndex == index)
+        //           ? selectedColorBG
+        //           : baseColorBG;
+        //       Color textColor = (selectedContainerIndex == index)
+        //           ? selectedColorText
+        //           : baseColorText;
+        //       Widget contents = (selectedContainerIndex == index)
+        //           ? Container(
+        //               padding: const EdgeInsets.symmetric(
+        //                   horizontal: 15, vertical: 10),
+        //               child: Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   Row(
+        //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                     children: [
+        //                       Text(
+        //                         data[index]['timeSlot'],
+        //                         style: TextStyle(
+        //                           color: textColor,
+        //                           fontSize: fontSmall,
+        //                         ),
+        //                       ),
+        //                       Text(
+        //                         data[index]['room'],
+        //                         style: TextStyle(
+        //                           color: textColor,
+        //                           fontSize: fontSmall,
+        //                         ),
+        //                       ),
+        //                     ],
+        //                   ),
+        //                   Text(
+        //                     data[index]['task'],
+        //                     style: TextStyle(
+        //                       color: textColor,
+        //                       fontSize: fontMedium,
+        //                       fontWeight: FontWeight.bold,
+        //                     ),
+        //                   ),
+        //                   Text(
+        //                     '${data[index]['message']}',
+        //                     style: TextStyle(
+        //                       color: textColor,
+        //                       fontSize: fontSmall,
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             )
+        //           : Container(
+        //               padding: const EdgeInsets.symmetric(
+        //                   horizontal: 15, vertical: 10),
+        //               child: Row(
+        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                 children: [
+        //                   Text(
+        //                     data[index]['timeSlot'],
+        //                     style: TextStyle(
+        //                       color: textColor,
+        //                       fontSize: fontMedium,
+        //                     ),
+        //                   ),
+        //                   Text(
+        //                     data[index]['task'],
+        //                     style: TextStyle(
+        //                       color: textColor,
+        //                       fontSize: fontMedium,
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             );
+        //       return GestureDetector(
+        //         onTap: () {
+        //           setState(() {
+        //             selectedContainerIndex = index;
+        //           });
+        //         },
+        //         child: Container(
+        //             margin: const EdgeInsets.only(top: 5),
+        //             decoration: BoxDecoration(
+        //               borderRadius: BorderRadius.circular(10),
+        //               color: bgColor,
+        //             ),
+        //             child: contents),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
