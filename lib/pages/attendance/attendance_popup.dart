@@ -148,23 +148,23 @@ void attendancePopup(BuildContext context) async {
                                   roomDetails['data']['seating_plan'][indexData]
                                           ['eligible'] ==
                                       'DEBARRED') {
-                                Navigator.of(context).pop();
+                                // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
                               }
                             } else {
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
                               errorDialog(context, 'Student not found!');
                             }
                           } else {
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
                             errorDialog(context, "An error occured!");
                           }
                         } else {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                           errorDialog(context, "An error occured!");
                         }
                       } catch (e) {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         errorDialog(context, "e.toString()");
                       }
                     },

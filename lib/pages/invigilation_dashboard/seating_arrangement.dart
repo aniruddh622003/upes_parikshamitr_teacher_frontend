@@ -238,7 +238,6 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                   child: Text(
                                       textScaler: const TextScaler.linear(1),
                                       text.toString(),
-                                      textScaleFactor: 1,
                                       style: TextStyle(
                                           color: fontColor,
                                           fontSize: fontMedium)),

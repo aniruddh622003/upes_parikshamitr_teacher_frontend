@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
@@ -14,6 +15,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class InvigilatorDashboard extends StatefulWidget {
   const InvigilatorDashboard({super.key});
@@ -23,6 +25,32 @@ class InvigilatorDashboard extends StatefulWidget {
 }
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
+  Map data = {};
+  Future<Map> getDetails() async {
+    final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
+    var response = await http.get(
+      Uri.parse('$serverUrl/teacher/getDetails'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body)['data'];
+      setState(() {});
+    } else {
+      data = {'name': 'Default'};
+    }
+    return {};
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDetails();
+  }
+
   Future<Widget> makePendingItems() async {
     // const storage = FlutterSecureStorage();
     // String? pendingSupplies = await storage.read(key: 'pendingSupplies');
@@ -90,8 +118,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
               children: [
                 Expanded(
                   child: Text(
-                    textScaler: const TextScaler.linear(1),
                     item['type'],
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       fontSize: fontSmall,
                       fontWeight: FontWeight.bold,
@@ -227,6 +255,9 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
         ),
         body: Column(
           children: [
+            Text(data['name'] ?? 'Default',
+                textScaler: const TextScaler.linear(1),
+                style: const TextStyle(color: white, fontSize: fontLarge)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -149,24 +149,30 @@ void confirmInvigilationCard(
                           await const FlutterSecureStorage().write(
                               key: 'pendingSupplies',
                               value: jsonEncode(pendingSupplies));
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+
                           const storage = FlutterSecureStorage();
                           await storage.write(
                               key: 'invigilation_state', value: "INVIGILATION");
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const InvigilatorDashboard()),
-                          );
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const InvigilatorDashboard()),
+                            );
+                          });
                         } else {
-                          errorDialog(context,
-                              jsonDecode(responseApproveInvigilator.body));
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            errorDialog(context,
+                                jsonDecode(responseApproveInvigilator.body));
+                          });
                         }
                       } catch (e) {
-                        errorDialog(context, e.toString());
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          errorDialog(context, e.toString());
+                        });
                       }
                     },
                     style: ButtonStyle(
