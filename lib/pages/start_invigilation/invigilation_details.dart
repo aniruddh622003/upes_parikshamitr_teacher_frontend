@@ -46,7 +46,6 @@ class InvigilationDetails extends StatelessWidget {
                   dynamic response = await getSupplies();
                   // print(
                   //     "${jsonDecode(response.body)['data']}, ${data['room']['_id']}");
-                  print(jsonDecode(response.body));
                   if (response.statusCode == 200) {
                     confirmInvigilationCard(context,
                         jsonDecode(response.body)['data'], data['room']['_id']);
@@ -67,8 +66,7 @@ class InvigilationDetails extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                      'Not Approved',
+                                  const Text('Not Approved',
                                       textScaler: TextScaler.linear(1),
                                       style: TextStyle(
                                           fontSize: fontMedium,
