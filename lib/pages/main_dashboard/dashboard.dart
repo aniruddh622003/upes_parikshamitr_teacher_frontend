@@ -150,20 +150,30 @@ class _DashboardState extends State<Dashboard> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(textScaler: TextScaler.linear(1), 'Confirm Sign Out'),
+        title: const Text(
+          'Confirm Sign Out',
+          textScaler: TextScaler.linear(1),
+        ),
         content: const Text(
-            textScaler: TextScaler.linear(1),
-            'Are you sure you want to sign out?'),
+          'Are you sure you want to sign out?',
+          textScaler: TextScaler.linear(1),
+        ),
         actions: [
           TextButton(
-            child: const Text(textScaler: TextScaler.linear(1), 'Cancel'),
+            child: const Text(
+              'Cancel',
+              textScaler: TextScaler.linear(1),
+            ),
             onPressed: () {
               confirm = false;
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text(textScaler: TextScaler.linear(1), 'Sign Out'),
+            child: const Text(
+              'Sign Out',
+              textScaler: TextScaler.linear(1),
+            ),
             onPressed: () {
               confirm = true;
               Navigator.of(context).pop();
@@ -195,8 +205,9 @@ class _DashboardState extends State<Dashboard> {
           return Scaffold(
               body: Center(
                   child: Text(
-                      textScaler: const TextScaler.linear(1),
-                      'Error: ${snapshot.error}')));
+            'Error: ${snapshot.error}',
+            textScaler: const TextScaler.linear(1),
+          )));
         } else {
           return Scaffold(
               backgroundColor: blue,
@@ -220,8 +231,8 @@ class _DashboardState extends State<Dashboard> {
                           },
                         ),
                         const Text(
-                          textScaler: TextScaler.linear(1),
                           'Dashboard',
+                          textScaler: TextScaler.linear(1),
                           style: TextStyle(color: white),
                         ),
                       ],
@@ -245,16 +256,16 @@ class _DashboardState extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15, top: 15),
                     child: Text(
-                      textScaler: const TextScaler.linear(1),
                       formattedDate,
+                      textScaler: const TextScaler.linear(1),
                       style: const TextStyle(color: white, fontSize: fontSmall),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      textScaler: const TextScaler.linear(1),
                       'Hi, ${data['name']}!',
+                      textScaler: const TextScaler.linear(1),
                       style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
                   ),
@@ -406,8 +417,8 @@ class _DashboardState extends State<Dashboard> {
                                     const Padding(
                                       padding: EdgeInsets.all(10.0),
                                       child: Text(
-                                        textScaler: TextScaler.linear(1),
                                         'View Notification',
+                                        textScaler: TextScaler.linear(1),
                                         style: TextStyle(color: white),
                                       ),
                                     ),
@@ -421,8 +432,8 @@ class _DashboardState extends State<Dashboard> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: Text(
-                                        textScaler: const TextScaler.linear(1),
                                         "${widget.unreadNotificationsCount > 0 ? widget.unreadNotificationsCount : ''}",
+                                        textScaler: const TextScaler.linear(1),
                                         style: const TextStyle(color: white),
                                       ),
                                     ),

@@ -42,8 +42,8 @@ class _Step2CodeState extends State<Step2Code> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
-                    textScaler: TextScaler.linear(1),
                     "Please Verify yourself.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -52,8 +52,8 @@ class _Step2CodeState extends State<Step2Code> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
-                    textScaler: TextScaler.linear(1),
                     "You are almost there.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -76,8 +76,8 @@ class _Step2CodeState extends State<Step2Code> {
                 const Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
-                      textScaler: TextScaler.linear(1),
                       "Enter Verification Code.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -124,8 +124,8 @@ class _Step2CodeState extends State<Step2Code> {
                       _validateEmail();
                     },
                     child: const Text(
-                      textScaler: TextScaler.linear(1),
                       'Verify',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,

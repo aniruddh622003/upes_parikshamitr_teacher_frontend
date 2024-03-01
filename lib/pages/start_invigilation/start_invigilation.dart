@@ -76,14 +76,20 @@ class _StartInvigilationState extends State<StartInvigilation> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title:
-                  const Text(textScaler: TextScaler.linear(1), 'Unique Code'),
+              title: const Text(
+                'Unique Code',
+                textScaler: TextScaler.linear(1),
+              ),
               content: Text(
-                  textScaler: const TextScaler.linear(1),
-                  'Unique Code: $uniqueCode\nError: $body'),
+                'Unique Code: $uniqueCode\nError: $body',
+                textScaler: const TextScaler.linear(1),
+              ),
               actions: [
                 TextButton(
-                  child: const Text(textScaler: TextScaler.linear(1), 'OK'),
+                  child: const Text(
+                    'OK',
+                    textScaler: TextScaler.linear(1),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -105,8 +111,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            textScaler: TextScaler.linear(1),
             'Scan QR Code',
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               color: white,
             ),
@@ -127,8 +133,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
-                  textScaler: TextScaler.linear(1),
                   'Scan QR Code in Controller Room to get your invigilation details and proceed.',
+                  textScaler: TextScaler.linear(1),
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
@@ -160,7 +166,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text(
-                            textScaler: TextScaler.linear(1), 'Enter code'),
+                          'Enter code',
+                          textScaler: TextScaler.linear(1),
+                        ),
                         content: TextField(
                           controller: controllerUniqueCode,
                           decoration: const InputDecoration(
@@ -169,7 +177,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
                         actions: <Widget>[
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1), 'Back'),
+                              'Back',
+                              textScaler: TextScaler.linear(1),
+                            ),
                             onPressed: () {
                               controller?.resumeCamera();
                               Navigator.of(context).pop();
@@ -177,7 +187,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
                           ),
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1), 'Confirm'),
+                              'Confirm',
+                              textScaler: TextScaler.linear(1),
+                            ),
                             onPressed: () async {
                               String? uniqueCode =
                                   controllerUniqueCode.text.toString();
@@ -234,17 +246,19 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text(
-                                          textScaler: TextScaler.linear(1),
-                                          'Unique Code'),
+                                        'Unique Code',
+                                        textScaler: TextScaler.linear(1),
+                                      ),
                                       content: Text(
-                                          textScaler:
-                                              const TextScaler.linear(1),
-                                          'Unique Code: $uniqueCode\nError: $body'),
+                                        'Unique Code: $uniqueCode\nError: $body',
+                                        textScaler: const TextScaler.linear(1),
+                                      ),
                                       actions: [
                                         TextButton(
                                           child: const Text(
-                                              textScaler: TextScaler.linear(1),
-                                              'OK'),
+                                            'OK',
+                                            textScaler: TextScaler.linear(1),
+                                          ),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -270,13 +284,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      textScaler: TextScaler.linear(1),
                       'Can\'t Scan Code? ',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(fontSize: fontMedium, color: black),
                     ),
                     Text(
-                      textScaler: TextScaler.linear(1),
                       'Type Code.',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(fontSize: fontMedium, color: orange),
                     ),
                   ],

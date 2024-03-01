@@ -62,14 +62,13 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
+        Text(currentTime,
             textScaler: const TextScaler.linear(1),
-            currentTime,
             style: const TextStyle(fontSize: 32, color: Colors.white)),
         const SizedBox(height: 10),
         Text(
-          textScaler: const TextScaler.linear(1),
           'Test Time: $testTime',
+          textScaler: const TextScaler.linear(1),
           style: const TextStyle(fontSize: fontMedium, color: Colors.white),
         ),
       ],

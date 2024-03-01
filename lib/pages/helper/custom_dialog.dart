@@ -18,14 +18,12 @@ void customDialog(BuildContext context, String title, String body) {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  Text(title,
                       textScaler: const TextScaler.linear(1),
-                      title,
                       style: const TextStyle(
                           fontSize: fontLarge, fontWeight: FontWeight.bold)),
-                  Text(
+                  Text(body,
                       textScaler: const TextScaler.linear(1),
-                      body,
                       style: const TextStyle(fontSize: fontMedium)),
                   const SizedBox(height: 10),
                   Center(
@@ -33,7 +31,7 @@ void customDialog(BuildContext context, String title, String body) {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text("OK"),
+                      child: const Text("OK", textScaler: TextScaler.linear(1)),
                     ),
                   ),
                 ],

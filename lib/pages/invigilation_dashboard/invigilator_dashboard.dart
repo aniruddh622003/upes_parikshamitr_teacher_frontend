@@ -64,8 +64,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         ),
         child: const Text(
-          textScaler: TextScaler.linear(1),
           'Check Supplies',
+          textScaler: TextScaler.linear(1),
           style: TextStyle(color: white),
         ),
       )
@@ -89,8 +89,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             children: [
               Expanded(
                 child: Text(
-                  textScaler: TextScaler.linear(1),
                   'No pending supplies',
+                  textScaler: TextScaler.linear(1),
                   style: TextStyle(
                     fontSize: fontSmall,
                   ),
@@ -168,8 +168,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ),
                       ),
                       child: Text(
-                        textScaler: const TextScaler.linear(1),
                         "Pending: ${item['quantity']}",
+                        textScaler: const TextScaler.linear(1),
                         style: const TextStyle(
                           fontSize: fontSmall,
                           fontWeight: FontWeight.bold,
@@ -200,8 +200,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             children: [
               Expanded(
                 child: Text(
-                  textScaler: TextScaler.linear(1),
                   'No pending supplies',
+                  textScaler: TextScaler.linear(1),
                   style: TextStyle(
                     fontSize: fontSmall,
                   ),
@@ -227,8 +227,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
           children: [
             Expanded(
               child: Text(
-                textScaler: TextScaler.linear(1),
                 'No pending supplies',
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(
                   fontSize: fontSmall,
                 ),
@@ -263,8 +263,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            textScaler: TextScaler.linear(1),
             'Invigilation Dashboard',
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               fontSize: fontMedium,
               fontWeight: FontWeight.bold,
@@ -430,11 +430,11 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10)),
                             ),
-                            child: Row(
+                            child: const Row(
                               children: [
-                                const Text(
-                                  textScaler: TextScaler.linear(1),
+                                Text(
                                   'Flying Squad',
+                                  textScaler: TextScaler.linear(1),
                                   style: TextStyle(
                                     color: white,
                                     fontSize: fontSmall,
@@ -472,8 +472,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    textScaler: TextScaler.linear(1),
                                     'Dr. Rajat Gupta',
+                                    textScaler: TextScaler.linear(1),
                                     style: TextStyle(
                                       fontSize: fontSmall,
                                     ),
@@ -498,8 +498,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    textScaler: TextScaler.linear(1),
                                     'Dr. Anil Kumar',
+                                    textScaler: TextScaler.linear(1),
                                     style: TextStyle(
                                       fontSize: fontSmall,
                                     ),
@@ -524,8 +524,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    textScaler: TextScaler.linear(1),
                                     'Dr. Atul Kumar',
+                                    textScaler: TextScaler.linear(1),
                                     style: TextStyle(
                                       fontSize: fontSmall,
                                     ),
@@ -543,11 +543,17 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                           AsyncSnapshot<Widget> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator(); // or some other widget while waiting
+                          return const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ); // or some other widget while waiting
                         } else if (snapshot.hasError) {
                           return Text(
-                              textScaler: const TextScaler.linear(1),
-                              'Error: ${snapshot.error}');
+                            'Error: ${snapshot.error}',
+                            textScaler: const TextScaler.linear(1),
+                          );
                         } else {
                           return snapshot.data!;
                         }
@@ -568,8 +574,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
 
     if (currentHour >= 8 && currentHour < 13 && period == 'AM') {
       return const Text(
-        textScaler: TextScaler.linear(1),
         '(Phase I)',
+        textScaler: TextScaler.linear(1),
         style: TextStyle(
           fontSize: fontMedium,
           color: white,
@@ -578,8 +584,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
       );
     } else {
       return const Text(
-        textScaler: TextScaler.linear(1),
         '(Phase II)',
+        textScaler: TextScaler.linear(1),
         style: TextStyle(
           fontSize: fontMedium,
           color: white,

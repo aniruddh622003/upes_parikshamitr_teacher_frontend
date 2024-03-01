@@ -41,9 +41,8 @@ void seatingPlanPopup(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    const Text('Student Details',
                         textScaler: TextScaler.linear(1),
-                        'Student Details',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -56,16 +55,14 @@ void seatingPlanPopup(
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    Text('SAP ID',
                         textScaler: TextScaler.linear(1),
-                        'SAP ID',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
                             fontWeight: FontWeight.bold)),
-                    Text(
+                    Text('Seat No.',
                         textScaler: TextScaler.linear(1),
-                        'Seat No.',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
@@ -76,9 +73,8 @@ void seatingPlanPopup(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    Text(studentDetails['sap_id'].toString(),
                         textScaler: const TextScaler.linear(1),
-                        studentDetails['sap_id'].toString(),
                         style: const TextStyle(fontSize: fontMedium)),
                     Container(
                       width: 35,
@@ -89,8 +85,8 @@ void seatingPlanPopup(
                       ),
                       child: Center(
                         child: Text(
-                          textScaler: const TextScaler.linear(1),
                           studentDetails['seat_no'].toString(),
+                          textScaler: const TextScaler.linear(1),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -100,122 +96,105 @@ void seatingPlanPopup(
                     )
                   ],
                 ),
-                const Text(
+                const Text('Roll No.',
                     textScaler: TextScaler.linear(1),
-                    'Roll No.',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['roll_no'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['roll_no'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Name',
                     textScaler: TextScaler.linear(1),
-                    'Name',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['student_name'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['student_name'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Subject Name',
                     textScaler: TextScaler.linear(1),
-                    'Subject Name',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['subject'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['subject'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Subject Code',
                     textScaler: TextScaler.linear(1),
-                    'Subject Code',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['subject_code'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['subject_code'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Course',
                     textScaler: TextScaler.linear(1),
-                    'Course',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['course'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['course'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Examination Type',
                     textScaler: TextScaler.linear(1),
-                    'Examination Type',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['exam_type'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['exam_type'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('A Sheet Number',
                     textScaler: TextScaler.linear(1),
-                    'A Sheet Number',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
                 Text(
-                    textScaler: const TextScaler.linear(1),
                     studentDetails['ans_sheet_number'].toString() == 'null'
                         ? 'Not Allotted'
                         : studentDetails['ans_sheet_number'].toString(),
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('B Sheet Count',
                     textScaler: TextScaler.linear(1),
-                    'B Sheet Count',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(studentDetails['b_sheet_count'].toString(),
                     textScaler: const TextScaler.linear(1),
-                    studentDetails['b_sheet_count'].toString(),
                     style: const TextStyle(
                       fontSize: fontMedium,
                     )),
-                const Text(
+                const Text('Eligible',
                     textScaler: TextScaler.linear(1),
-                    'Eligible',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
+                Text(eligibleText,
                     textScaler: const TextScaler.linear(1),
-                    eligibleText,
                     style:
                         TextStyle(fontSize: fontMedium, color: eligibleColor)),
               ],

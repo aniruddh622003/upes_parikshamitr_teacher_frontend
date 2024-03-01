@@ -28,16 +28,15 @@ void reqApp(BuildContext context) {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    const Text("Request Approved",
                         textScaler: TextScaler.linear(1),
-                        "Request Approved",
                         style: TextStyle(
                             color: white,
                             fontSize: fontLarge,
                             fontWeight: FontWeight.bold)),
                     const Text(
-                        textScaler: TextScaler.linear(1),
                         'Your submission has been authenticated by the controller. You can exit this screen!',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(color: white, fontSize: fontMedium)),
                     const SizedBox(height: 10),
                     Center(
@@ -59,7 +58,9 @@ void reqApp(BuildContext context) {
                           }
                         },
                         child: const Text(
-                            textScaler: TextScaler.linear(1), "OK"),
+                          "OK",
+                          textScaler: TextScaler.linear(1),
+                        ),
                       ),
                     ),
                   ],

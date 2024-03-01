@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:io';
 
@@ -173,16 +173,16 @@ class _Schedule extends State<Schedule> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  textScaler: const TextScaler.linear(1),
                   date.split('-')[2],
+                  textScaler: const TextScaler.linear(1),
                   style: TextStyle(
                     color: textColor,
                     fontSize: fontLarge,
                   ),
                 ),
                 Text(
-                  textScaler: const TextScaler.linear(1),
                   monthName,
+                  textScaler: const TextScaler.linear(1),
                   style: TextStyle(
                     color: textColor,
                     fontSize: fontMedium,
@@ -203,8 +203,9 @@ class _Schedule extends State<Schedule> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // const Text(textScaler: const TextScaler.linear(1),
+        // const Text(
         //   "View Invigilation Schedule",
+        //textScaler: const TextScaler.linear(1),
         //   style: TextStyle(fontWeight: FontWeight.bold),
         // ),
 
@@ -218,8 +219,8 @@ class _Schedule extends State<Schedule> {
           child: const Column(
             children: [
               Text(
-                textScaler: TextScaler.linear(1),
                 "Welcome to UPES ParikshaMitr Teacher",
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 30, color: white),
               ),
@@ -227,30 +228,30 @@ class _Schedule extends State<Schedule> {
                 height: 20,
               ),
               Text(
-                textScaler: TextScaler.linear(1),
                 "Please Scan the QR by pressing the button on the top-right corner to start invigilation.",
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(fontSize: 20, color: white),
               ),
             ],
           ),
         ),
         const Text(
-          textScaler: TextScaler.linear(1),
           "Instructions",
+          textScaler: TextScaler.linear(1),
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  minimumSize:
-                      Size(double.infinity, 60), // Set a minimum height here
+                  minimumSize: const Size(
+                      double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
                   // Load the PDF file from the assets
@@ -274,7 +275,7 @@ class _Schedule extends State<Schedule> {
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
                         appBar: AppBar(
-                            title: Text("Control Room Guidlines",
+                            title: const Text("Control Room Guidlines",
                                 textScaler: TextScaler.linear(1))),
                         body: PDFView(
                           filePath: file.path,
@@ -286,18 +287,18 @@ class _Schedule extends State<Schedule> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(
+                    const Icon(
                       Icons.picture_as_pdf,
                       size: 50,
                       color: white,
                     ), // Add your icon here
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // Add some spacing between the icon and text
                     Flexible(
                       child: Container(
-                        margin:
-                            EdgeInsets.only(left: 10), // Add left margin here
-                        child: Text('Control room instructions',
+                        margin: const EdgeInsets.only(
+                            left: 10), // Add left margin here
+                        child: const Text('Control room instructions',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
@@ -310,15 +311,15 @@ class _Schedule extends State<Schedule> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  minimumSize:
-                      Size(double.infinity, 60), // Set a minimum height here
+                  minimumSize: const Size(
+                      double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
                   // Load the PDF file from the assets
@@ -342,7 +343,7 @@ class _Schedule extends State<Schedule> {
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
                         appBar: AppBar(
-                            title: Text(
+                            title: const Text(
                           "Flying Squad Guidlines",
                           textScaler: TextScaler.linear(1),
                         )),
@@ -356,18 +357,18 @@ class _Schedule extends State<Schedule> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(
+                    const Icon(
                       Icons.picture_as_pdf,
                       size: 50,
                       color: white,
                     ), // Add your icon here
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // Add some spacing between the icon and text
                     Flexible(
                       child: Container(
-                        margin:
-                            EdgeInsets.only(left: 10), // Add left margin here
-                        child: Text('Flying Squad instructions',
+                        margin: const EdgeInsets.only(
+                            left: 10), // Add left margin here
+                        child: const Text('Flying Squad instructions',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
@@ -380,15 +381,15 @@ class _Schedule extends State<Schedule> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  minimumSize:
-                      Size(double.infinity, 60), // Set a minimum height here
+                  minimumSize: const Size(
+                      double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
                   // Load the PDF file from the assets
@@ -412,7 +413,7 @@ class _Schedule extends State<Schedule> {
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
                         appBar: AppBar(
-                            title: Text(
+                            title: const Text(
                           "Invigilator Guidlines",
                           textScaler: TextScaler.linear(1),
                         )),
@@ -426,18 +427,18 @@ class _Schedule extends State<Schedule> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(
+                    const Icon(
                       Icons.picture_as_pdf,
                       size: 50,
                       color: white,
                     ), // Add your icon here
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // Add some spacing between the icon and text
                     Flexible(
                       child: Container(
-                        margin:
-                            EdgeInsets.only(left: 10), // Add left margin here
-                        child: Text('Invigilator instructions',
+                        margin: const EdgeInsets.only(
+                            left: 10), // Add left margin here
+                        child: const Text('Invigilator instructions',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
@@ -482,15 +483,17 @@ class _Schedule extends State<Schedule> {
         //                   Row(
         //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //                     children: [
-        //                       Text(textScaler: const TextScaler.linear(1),
+        //                       Text(
         //                         data[index]['timeSlot'],
+        //textScaler: const TextScaler.linear(1),
         //                         style: TextStyle(
         //                           color: textColor,
         //                           fontSize: fontSmall,
         //                         ),
         //                       ),
-        //                       Text(textScaler: const TextScaler.linear(1),
+        //                       Text(
         //                         data[index]['room'],
+        //textScaler: const TextScaler.linear(1),
         //                         style: TextStyle(
         //                           color: textColor,
         //                           fontSize: fontSmall,
@@ -498,16 +501,18 @@ class _Schedule extends State<Schedule> {
         //                       ),
         //                     ],
         //                   ),
-        //                   Text(textScaler: const TextScaler.linear(1),
+        //                   Text(
         //                     data[index]['task'],
+        //textScaler: const TextScaler.linear(1),
         //                     style: TextStyle(
         //                       color: textColor,
         //                       fontSize: fontMedium,
         //                       fontWeight: FontWeight.bold,
         //                     ),
         //                   ),
-        //                   Text(textScaler: const TextScaler.linear(1),
+        //                   Text(
         //                     '${data[index]['message']}',
+        //textScaler: const TextScaler.linear(1),
         //                     style: TextStyle(
         //                       color: textColor,
         //                       fontSize: fontSmall,
@@ -522,15 +527,17 @@ class _Schedule extends State<Schedule> {
         //               child: Row(
         //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //                 children: [
-        //                   Text(textScaler: const TextScaler.linear(1),
+        //                   Text(
         //                     data[index]['timeSlot'],
+        //textScaler: const TextScaler.linear(1),
         //                     style: TextStyle(
         //                       color: textColor,
         //                       fontSize: fontMedium,
         //                     ),
         //                   ),
-        //                   Text(textScaler: const TextScaler.linear(1),
+        //                   Text(
         //                     data[index]['task'],
+        //textScaler: const TextScaler.linear(1),
         //                     style: TextStyle(
         //                       color: textColor,
         //                       fontSize: fontMedium,

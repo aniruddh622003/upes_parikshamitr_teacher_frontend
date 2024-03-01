@@ -72,8 +72,8 @@ class _SignInPageState extends State<SignInPage> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
-          textScaler: TextScaler.linear(1),
           'UPES Pariksha Mitr - Teachers',
+          textScaler: TextScaler.linear(1),
           style: TextStyle(
             fontSize: fontMedium,
             fontWeight: FontWeight.bold,
@@ -100,8 +100,8 @@ class _SignInPageState extends State<SignInPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
-                        textScaler: TextScaler.linear(1),
                         "Welcome Back.",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           fontSize: fontXLarge,
                           fontWeight: FontWeight.w700,
@@ -153,8 +153,9 @@ class _SignInPageState extends State<SignInPage> {
                     //                 builder: (context) =>
                     //                     const ForgotPassword()));
                     //       },
-                    //       child: const Text(textScaler: const TextScaler.linear(1),
+                    //       child: const Text(
                     //         'Forgot Password',
+                    //textScaler: const TextScaler.linear(1),
                     //         style:
                     //             TextStyle(color: orange, fontSize: fontSmall),
                     //       ),
@@ -199,8 +200,8 @@ class _SignInPageState extends State<SignInPage> {
                                 );
                               } else {
                                 return const Text(
-                                  textScaler: TextScaler.linear(1),
                                   'Sign In',
+                                  textScaler: TextScaler.linear(1),
                                   style: TextStyle(
                                       color: white,
                                       fontSize: fontMedium,

@@ -32,8 +32,8 @@ void confirmInvigilationCard(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    textScaler: TextScaler.linear(1),
                     'Confirm Invigilation',
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                         color: blue,
                         fontSize: fontLarge,
@@ -41,8 +41,8 @@ void confirmInvigilationCard(
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    textScaler: TextScaler.linear(1),
                     'Please ensure that you have the following:',
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: black,
                       fontSize: fontMedium,
@@ -82,9 +82,8 @@ void confirmInvigilationCard(
                                             fontSize: fontMedium)),
                                   ],
                                 ),
-                                const Text(
+                                const Text("Received:",
                                     textScaler: TextScaler.linear(1),
-                                    "Received:",
                                     style: TextStyle(
                                         color: white, fontSize: fontSmall)),
                                 Container(
@@ -179,8 +178,8 @@ void confirmInvigilationCard(
                       backgroundColor: MaterialStateProperty.all(orange),
                     ),
                     child: const Text(
-                      textScaler: TextScaler.linear(1),
                       'Confirm and Start Invigilation',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(color: white),
                     ),
                   ),

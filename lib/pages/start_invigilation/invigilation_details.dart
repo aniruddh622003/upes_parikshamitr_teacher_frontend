@@ -22,8 +22,8 @@ class InvigilationDetails extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            textScaler: TextScaler.linear(1),
             'Details',
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               color: white,
             ),
@@ -68,8 +68,8 @@ class InvigilationDetails extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                      textScaler: TextScaler.linear(1),
                                       'Not Approved',
+                                      textScaler: TextScaler.linear(1),
                                       style: TextStyle(
                                           fontSize: fontMedium,
                                           color: white,
@@ -85,8 +85,8 @@ class InvigilationDetails extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                  textScaler: TextScaler.linear(1),
                                   'Please wait for the controller to approve your invigilation and try again.',
+                                  textScaler: TextScaler.linear(1),
                                   style: TextStyle(
                                     fontSize: fontMedium,
                                     color: white,
@@ -110,8 +110,8 @@ class InvigilationDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      textScaler: TextScaler.linear(1),
                       'Request for Approval',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(fontSize: fontMedium),
                     ),
                   ],

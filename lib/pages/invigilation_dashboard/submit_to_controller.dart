@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -59,14 +61,20 @@ class _SubmitToControllerState extends State<SubmitToController> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title:
-                  const Text(textScaler: TextScaler.linear(1), 'Unique Code'),
+              title: const Text(
+                'Unique Code',
+                textScaler: TextScaler.linear(1),
+              ),
               content: Text(
-                  textScaler: const TextScaler.linear(1),
-                  'Unique Code: $uniqueCode\nError: $body'),
+                'Unique Code: $uniqueCode\nError: $body',
+                textScaler: const TextScaler.linear(1),
+              ),
               actions: [
                 TextButton(
-                  child: const Text(textScaler: TextScaler.linear(1), 'OK'),
+                  child: const Text(
+                    'OK',
+                    textScaler: TextScaler.linear(1),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -81,18 +89,18 @@ class _SubmitToControllerState extends State<SubmitToController> {
       //   context: context,
       //   builder: (BuildContext context) {
       //     return AlertDialog(
-      //       title: const Text(textScaler: const TextScaler.linear(1),'Scan Successful'),
-      //       content: Text(textScaler: const TextScaler.linear(1),scanData.code.toString()),
+      //       title: const Text('Scan Successful',textScaler: const TextScaler.linear(1),),
+      //       content: Text(scanData.code.toString(),textScaler: const TextScaler.linear(1),),
       //       actions: [
       //         TextButton(
-      //           child: const Text(textScaler: const TextScaler.linear(1),'Scan Again'),
+      //           child: const Text('Scan Again',textScaler: const TextScaler.linear(1),),
       //           onPressed: () {
       //             Navigator.of(context).pop();
       //             controller.resumeCamera();
       //           },
       //         ),
       //         TextButton(
-      //           child: const Text(textScaler: const TextScaler.linear(1),'Continue'),
+      //           child: const Text('Continue',textScaler: const TextScaler.linear(1),),
       //           onPressed: () {
       //             controller.dispose();
       //             Navigator.of(context).pop();
@@ -115,8 +123,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            textScaler: TextScaler.linear(1),
             'Scan QR Code',
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               color: white,
             ),
@@ -137,8 +145,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: const Center(
                 child: Text(
-                  textScaler: TextScaler.linear(1),
                   'Scan QR Code to complete the examinaton submission.',
+                  textScaler: TextScaler.linear(1),
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
@@ -170,7 +178,9 @@ class _SubmitToControllerState extends State<SubmitToController> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text(
-                            textScaler: TextScaler.linear(1), 'Enter code'),
+                          'Enter code',
+                          textScaler: TextScaler.linear(1),
+                        ),
                         content: TextField(
                           controller: submissionUniqueCode,
                           decoration: const InputDecoration(
@@ -179,7 +189,9 @@ class _SubmitToControllerState extends State<SubmitToController> {
                         actions: <Widget>[
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1), 'Back'),
+                              'Back',
+                              textScaler: TextScaler.linear(1),
+                            ),
                             onPressed: () {
                               controller?.resumeCamera();
                               Navigator.of(context).pop();
@@ -187,7 +199,9 @@ class _SubmitToControllerState extends State<SubmitToController> {
                           ),
                           ElevatedButton(
                             child: const Text(
-                                textScaler: TextScaler.linear(1), 'Confirm'),
+                              'Confirm',
+                              textScaler: TextScaler.linear(1),
+                            ),
                             onPressed: () async {
                               String uniqueCode = submissionUniqueCode.text;
                               Map data = {
@@ -225,17 +239,19 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text(
-                                          textScaler: TextScaler.linear(1),
-                                          'Unique Code'),
+                                        'Unique Code',
+                                        textScaler: TextScaler.linear(1),
+                                      ),
                                       content: Text(
-                                          textScaler:
-                                              const TextScaler.linear(1),
-                                          'Unique Code: $uniqueCode\nError: $body'),
+                                        'Unique Code: $uniqueCode\nError: $body',
+                                        textScaler: const TextScaler.linear(1),
+                                      ),
                                       actions: [
                                         TextButton(
                                           child: const Text(
-                                              textScaler: TextScaler.linear(1),
-                                              'OK'),
+                                            'OK',
+                                            textScaler: TextScaler.linear(1),
+                                          ),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -261,13 +277,13 @@ class _SubmitToControllerState extends State<SubmitToController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      textScaler: TextScaler.linear(1),
                       'Can\'t Scan Code? ',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(fontSize: fontMedium, color: black),
                     ),
                     Text(
-                      textScaler: TextScaler.linear(1),
                       'Type Code.',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(fontSize: fontMedium, color: orange),
                     ),
                   ],

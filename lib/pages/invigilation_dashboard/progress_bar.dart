@@ -77,8 +77,8 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              textScaler: const TextScaler.linear(1),
               "$remainingHours hr $remainingMinutesPart min left",
+              textScaler: const TextScaler.linear(1),
               style: const TextStyle(color: Colors.white),
             )
           ],

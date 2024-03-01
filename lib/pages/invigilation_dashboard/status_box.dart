@@ -26,8 +26,8 @@ Widget getStatusBox(String name, {bool roundedBorder = false}) {
             ),
           ),
           child: Text(
-            textScaler: const TextScaler.linear(1),
             name,
+            textScaler: const TextScaler.linear(1),
             style: const TextStyle(
               fontSize: fontSmall,
               fontWeight: FontWeight.w500,
@@ -69,8 +69,8 @@ Widget getStatusBoxWithText(String name, String text, Color textColor,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                textScaler: const TextScaler.linear(1),
                 name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(
                   fontSize: fontSmall,
                   fontWeight: FontWeight.w500,
@@ -78,8 +78,8 @@ Widget getStatusBoxWithText(String name, String text, Color textColor,
                 ),
               ),
               Text(
-                textScaler: const TextScaler.linear(1),
                 text,
+                textScaler: const TextScaler.linear(1),
                 style: TextStyle(
                   fontSize: fontXSmall,
                   fontWeight: FontWeight.bold,
@@ -124,8 +124,8 @@ Widget getStatusBoxWithButton(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                textScaler: const TextScaler.linear(1),
                 name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(
                   fontSize: fontSmall,
                   fontWeight: FontWeight.w500,
@@ -149,8 +149,8 @@ Widget getStatusBoxWithButton(
                   ),
                 ),
                 child: Text(
-                  textScaler: const TextScaler.linear(1),
                   buttonText,
+                  textScaler: const TextScaler.linear(1),
                   style: const TextStyle(fontSize: fontXSmall, color: white),
                 ),
               ),

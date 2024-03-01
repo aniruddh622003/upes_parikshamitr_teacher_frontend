@@ -35,9 +35,8 @@ void pendingSuppliesPopup(BuildContext context,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    const Text('Pending Supplies Detail',
                         textScaler: TextScaler.linear(1),
-                        'Pending Supplies Detail',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -50,16 +49,14 @@ void pendingSuppliesPopup(BuildContext context,
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    Text('Supplies Pending',
                         textScaler: TextScaler.linear(1),
-                        'Supplies Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
                             fontWeight: FontWeight.bold)),
-                    Text(
+                    Text('Pending',
                         textScaler: TextScaler.linear(1),
-                        'Pending',
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
@@ -71,9 +68,8 @@ void pendingSuppliesPopup(BuildContext context,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: Text(
+                      child: Text(supplyDetails['type'] as String,
                           textScaler: const TextScaler.linear(1),
-                          supplyDetails['type'] as String,
                           style: const TextStyle(fontSize: fontMedium)),
                     ),
                     Container(
@@ -85,8 +81,8 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                       child: Center(
                         child: Text(
+                          supplyDetails['quantity'].toString(),
                           textScaler: const TextScaler.linear(1),
-                          (supplyDetails['quantity']).toString(),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -96,9 +92,8 @@ void pendingSuppliesPopup(BuildContext context,
                     )
                   ],
                 ),
-                const Text(
+                const Text('Update newly received quantity:',
                     textScaler: TextScaler.linear(1),
-                    'Update newly received quantity:',
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
@@ -175,13 +170,11 @@ void pendingSuppliesPopup(BuildContext context,
                           // Save the updated list to secure storage
                         }
                       } catch (e) {
-                        
                         errorDialog(context, e.toString());
                       }
                     },
-                    child: const Text(
+                    child: const Text('Confirm Update',
                         textScaler: TextScaler.linear(1),
-                        'Confirm Update',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

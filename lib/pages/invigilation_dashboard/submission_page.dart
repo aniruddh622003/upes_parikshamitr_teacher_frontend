@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -23,8 +25,8 @@ class SubmissionDetails extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
+          'Submission Details',
           textScaler: TextScaler.linear(1),
-          ' Submission Details',
           style: TextStyle(
             color: white,
           ),
@@ -50,9 +52,8 @@ class SubmissionDetails extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
+                        const Text("Submission Recieved",
                             textScaler: TextScaler.linear(1),
-                            "Submission Recieved",
                             style: TextStyle(
                                 fontSize: fontLarge,
                                 fontWeight: FontWeight.bold,
@@ -60,8 +61,8 @@ class SubmissionDetails extends StatelessWidget {
                         const SizedBox(height: 20),
                         const Center(
                             child: Text(
-                                textScaler: TextScaler.linear(1),
                                 'Your submission has been sent for authentication to the controller. Kindly wait.',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(fontSize: fontMedium))),
                         const SizedBox(height: 20),
                         Center(
@@ -89,8 +90,9 @@ class SubmissionDetails extends StatelessWidget {
                                       fontSize: 16.0);
                                   const FlutterSecureStorage()
                                       .delete(key: 'submission_state');
-                                  String? jwt = await const FlutterSecureStorage()
-                                      .read(key: 'jwt');
+                                  String? jwt =
+                                      await const FlutterSecureStorage()
+                                          .read(key: 'jwt');
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
@@ -112,8 +114,9 @@ class SubmissionDetails extends StatelessWidget {
                               ),
                             ),
                             child: const Text(
-                                textScaler: TextScaler.linear(1),
-                                'Check Status'),
+                              'Check Status',
+                              textScaler: TextScaler.linear(1),
+                            ),
                           ),
                         ),
                       ],

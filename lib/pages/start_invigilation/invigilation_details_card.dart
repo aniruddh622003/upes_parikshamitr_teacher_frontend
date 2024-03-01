@@ -53,8 +53,8 @@ class InvigilationDetailsCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        textScaler: const TextScaler.linear(1),
                         course,
+                        textScaler: const TextScaler.linear(1),
                         style:
                             const TextStyle(color: white, fontSize: fontSmall),
                       ),
@@ -68,8 +68,8 @@ class InvigilationDetailsCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          textScaler: const TextScaler.linear(1),
                           count.toString(),
+                          textScaler: const TextScaler.linear(1),
                           style: const TextStyle(
                             color: blue,
                             fontSize: fontSmall,
@@ -83,9 +83,8 @@ class InvigilationDetailsCard extends StatelessWidget {
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Text(
+                child: Text(subject,
                     textScaler: const TextScaler.linear(1),
-                    subject,
                     style: const TextStyle(
                       color: blue,
                       fontSize: fontMedium,
@@ -108,18 +107,16 @@ class InvigilationDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const Text('Invigilation Details:',
               textScaler: TextScaler.linear(1),
-              'Invigilation Details:',
               style: TextStyle(
                   fontSize: fontLarge,
                   fontWeight: FontWeight.bold,
                   color: blue)),
           const SizedBox(height: 20),
           const Center(
-              child: Text(
+              child: Text('Room No.',
                   textScaler: TextScaler.linear(1),
-                  'Room No.',
                   style: TextStyle(fontSize: fontMedium))),
           Center(
             child: Container(
@@ -129,8 +126,8 @@ class InvigilationDetailsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Text(
-                textScaler: const TextScaler.linear(1),
                 data['room']['room_no'].toString(),
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(
                   color: white,
                   fontWeight: FontWeight.bold,
@@ -140,10 +137,16 @@ class InvigilationDetailsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(textScaler: TextScaler.linear(1), 'Examination Subjects'),
+          const Text(
+            'Examination Subjects',
+            textScaler: TextScaler.linear(1),
+          ),
           ...makeSubjectList(),
           const SizedBox(height: 20),
-          const Text(textScaler: TextScaler.linear(1), 'Co-Invigilator'),
+          const Text(
+            'Co-Invigilator',
+            textScaler: TextScaler.linear(1),
+          ),
           Text(data['invigilator1']['name'] ?? 'Not Assigned',
               textScaler: const TextScaler.linear(1),
               style: const TextStyle(
@@ -153,23 +156,27 @@ class InvigilationDetailsCard extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(textScaler: TextScaler.linear(1), 'Total Students'),
-              Text(textScaler: TextScaler.linear(1), 'Debarred Students'),
+              Text(
+                'Total Students',
+                textScaler: TextScaler.linear(1),
+              ),
+              Text(
+                'Debarred Students',
+                textScaler: TextScaler.linear(1),
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              Text(studentCount.toString(),
                   textScaler: const TextScaler.linear(1),
-                  studentCount.toString(),
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: orange,
                   )),
-              Text(
+              Text(debarredCount.toString(),
                   textScaler: const TextScaler.linear(1),
-                  debarredCount.toString(),
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: orange,

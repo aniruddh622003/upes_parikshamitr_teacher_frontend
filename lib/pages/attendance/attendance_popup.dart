@@ -169,8 +169,8 @@ void attendancePopup(BuildContext context) async {
                       }
                     },
                     child: const Text(
-                        textScaler: TextScaler.linear(1),
                         'Mark Attendance',
+                        textScaler: TextScaler.linear(1),
                         // textScaler: const TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),

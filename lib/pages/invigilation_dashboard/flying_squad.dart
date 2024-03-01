@@ -21,8 +21,8 @@ class FlyingSquad extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              textScaler: const TextScaler.linear(1),
               title,
+              textScaler: const TextScaler.linear(1),
               style: const TextStyle(
                 color: white,
                 fontSize: fontSmall,
@@ -35,8 +35,8 @@ class FlyingSquad extends StatelessWidget {
               child: SvgPicture.asset('android/assets/refresh.svg'),
             ),
             const Text(
-              textScaler: TextScaler.linear(1),
               "Refresh",
+              textScaler: TextScaler.linear(1),
               style: TextStyle(fontSize: fontXSmall, color: Colors.white),
             ),
           ],

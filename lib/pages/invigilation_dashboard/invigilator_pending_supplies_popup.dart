@@ -17,9 +17,8 @@ class Test extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              const Text('Pending Supplies',
                   textScaler: TextScaler.linear(1),
-                  'Pending Supplies',
                   style: TextStyle(
                       fontSize: fontMedium,
                       color: white,
@@ -33,8 +32,8 @@ class Test extends StatelessWidget {
                 ),
                 child: const Center(
                   child: Text(
-                    textScaler: TextScaler.linear(1),
                     "!",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: orange,
                       fontSize: fontMedium,
@@ -47,8 +46,8 @@ class Test extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Text(
-              textScaler: TextScaler.linear(1),
               'There are still some items left that you haven’t received, please confirm them below and get started with invigilation while they arrive to your assigned room.',
+              textScaler: TextScaler.linear(1),
               style: TextStyle(
                 fontSize: fontSmall,
                 color: white,
@@ -59,35 +58,14 @@ class Test extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  Text('\u2022 B-Sheets',
                       textScaler: TextScaler.linear(1),
-                      '\u2022 B-Sheets',
                       style: TextStyle(
                           fontSize: fontMedium,
                           color: white,
                           fontWeight: FontWeight.bold)),
-                  Text(
+                  Text('10/55',
                       textScaler: TextScaler.linear(1),
-                      '10/55',
-                      style: TextStyle(
-                          fontSize: fontMedium,
-                          color: white,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      textScaler: TextScaler.linear(1),
-                      '\u2022 Threads',
-                      style: TextStyle(
-                          fontSize: fontMedium,
-                          color: white,
-                          fontWeight: FontWeight.bold)),
-                  Text(
-                      textScaler: TextScaler.linear(1),
-                      '0/55',
                       style: TextStyle(
                           fontSize: fontMedium,
                           color: white,
@@ -97,16 +75,31 @@ class Test extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  Text('\u2022 Threads',
                       textScaler: TextScaler.linear(1),
-                      '\u2022 Pink Slips',
                       style: TextStyle(
                           fontSize: fontMedium,
                           color: white,
                           fontWeight: FontWeight.bold)),
-                  Text(
+                  Text('0/55',
                       textScaler: TextScaler.linear(1),
-                      '10/55',
+                      style: TextStyle(
+                          fontSize: fontMedium,
+                          color: white,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('\u2022 Pink Slips',
+                      textScaler: TextScaler.linear(1),
+                      style: TextStyle(
+                          fontSize: fontMedium,
+                          color: white,
+                          fontWeight: FontWeight.bold)),
+                  Text('10/55',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                           fontSize: fontMedium,
                           color: white,
@@ -126,8 +119,8 @@ class Test extends StatelessWidget {
                   // Handle button press here
                 },
                 child: const Text(
-                  textScaler: TextScaler.linear(1),
                   'Request for Pending Supplies',
+                  textScaler: TextScaler.linear(1),
                   style: TextStyle(
                     color: orange,
                     fontSize: fontSmall,

@@ -44,8 +44,8 @@ class _Step1EmailState extends State<Step1Email> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
-                    textScaler: TextScaler.linear(1),
                     "Forgot your Password?",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -54,8 +54,8 @@ class _Step1EmailState extends State<Step1Email> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
-                    textScaler: TextScaler.linear(1),
                     "We are here to help.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -78,8 +78,8 @@ class _Step1EmailState extends State<Step1Email> {
                 const Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
-                      textScaler: TextScaler.linear(1),
                       "Enter Your Email Address.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -125,8 +125,8 @@ class _Step1EmailState extends State<Step1Email> {
                       _validateEmail();
                     },
                     child: const Text(
-                      textScaler: TextScaler.linear(1),
                       'Send Verification Code',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,

@@ -38,8 +38,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           backgroundColor: primaryColor,
           title: const Text(
-            textScaler: TextScaler.linear(1),
             "Notification",
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               fontSize: fontMedium,
               fontWeight: FontWeight.bold,
@@ -115,8 +115,8 @@ class NotificationCategoryBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          textScaler: const TextScaler.linear(1),
           title,
+          textScaler: const TextScaler.linear(1),
           style: const TextStyle(
             fontSize: fontSmall,
             fontWeight: FontWeight.bold,
@@ -243,8 +243,8 @@ class _NotificationBoxState extends State<NotificationBox> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        textScaler: const TextScaler.linear(1),
                         widget.msg,
+                        textScaler: const TextScaler.linear(1),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -254,8 +254,8 @@ class _NotificationBoxState extends State<NotificationBox> {
                         ),
                       ),
                       const Text(
-                        textScaler: TextScaler.linear(1),
                         "Read more",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -265,8 +265,8 @@ class _NotificationBoxState extends State<NotificationBox> {
                   );
                 } else {
                   return Text(
-                    textScaler: const TextScaler.linear(1),
                     widget.msg,
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -293,14 +293,14 @@ class _NotificationBoxState extends State<NotificationBox> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                textScaler: const TextScaler.linear(1),
                 widget.subject,
+                textScaler: const TextScaler.linear(1),
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
-                textScaler: const TextScaler.linear(1),
                 widget.name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -308,8 +308,8 @@ class _NotificationBoxState extends State<NotificationBox> {
                 constraints: const BoxConstraints(maxHeight: 500),
                 child: SingleChildScrollView(
                   child: Text(
-                    textScaler: const TextScaler.linear(1),
                     widget.msg,
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),

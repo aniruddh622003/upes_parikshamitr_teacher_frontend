@@ -40,9 +40,8 @@ void ufmPopup(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    const Text('Issue UFM',
                         textScaler: TextScaler.linear(1),
-                        'Issue UFM',
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -53,8 +52,9 @@ void ufmPopup(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                    textScaler: TextScaler.linear(1),
-                    'Align the QR code within the frame to scan'),
+                  'Align the QR code within the frame to scan',
+                  textScaler: TextScaler.linear(1),
+                ),
                 const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
@@ -71,17 +71,17 @@ void ufmPopup(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 const Center(
-                    child: Text(
+                    child: Text('OR',
                         textScaler: TextScaler.linear(1),
-                        'OR',
                         style: TextStyle(
                             fontSize: fontMedium,
                             fontWeight: FontWeight.bold))),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text(
-                        textScaler: TextScaler.linear(1),
-                        'Enter Student’s SAP ID Below')),
+                  'Enter Student’s SAP ID Below',
+                  textScaler: TextScaler.linear(1),
+                )),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -164,9 +164,8 @@ void ufmPopup(BuildContext context) {
                         errorDialog(context, e.toString());
                       }
                     },
-                    child: const Text(
+                    child: const Text('Report Candidate',
                         textScaler: TextScaler.linear(1),
-                        'Report Candidate',
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

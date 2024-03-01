@@ -44,25 +44,26 @@ class _UFMPageState extends State<UFMPage> {
       appBar: AppBar(
         backgroundColor: blue,
         foregroundColor: white,
-        title: const Text(textScaler: TextScaler.linear(1), 'Issue UFM Slip'),
+        title: const Text(
+          'Issue UFM Slip',
+          textScaler: TextScaler.linear(1),
+        ),
       ),
       body: Container(
         color: blue,
         child: Column(
           children: [
             const Center(
-              child: Text(
+              child: Text("Room: 11013",
                   textScaler: TextScaler.linear(1),
-                  "Room: 11013",
                   style: TextStyle(
                     color: white,
                     fontSize: fontXLarge,
                   )),
             ),
             const Center(
-              child: Text(
+              child: Text("2:00 - 5:00 PM",
                   textScaler: TextScaler.linear(1),
-                  "2:00 - 5:00 PM",
                   style: TextStyle(
                     color: white,
                     fontSize: fontSmall,
@@ -90,16 +91,14 @@ class _UFMPageState extends State<UFMPage> {
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              Text('SAP ID',
                                   textScaler: TextScaler.linear(1),
-                                  'SAP ID',
                                   style: TextStyle(
                                       fontSize: fontSmall,
                                       color: blue,
                                       fontWeight: FontWeight.bold)),
-                              Text(
+                              Text('Seat No.',
                                   textScaler: TextScaler.linear(1),
-                                  'Seat No.',
                                   style: TextStyle(
                                       fontSize: fontSmall,
                                       color: blue,
@@ -110,9 +109,8 @@ class _UFMPageState extends State<UFMPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              Text(widget.studentDetails['sap_id'].toString(),
                                   textScaler: const TextScaler.linear(1),
-                                  widget.studentDetails['sap_id'].toString(),
                                   style: const TextStyle(fontSize: fontMedium)),
                               Container(
                                 width: 35,
@@ -123,8 +121,8 @@ class _UFMPageState extends State<UFMPage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    textScaler: const TextScaler.linear(1),
                                     widget.studentDetails['seat_no'].toString(),
+                                    textScaler: const TextScaler.linear(1),
                                     style: const TextStyle(
                                       color: white,
                                       fontSize: fontMedium,
@@ -134,90 +132,77 @@ class _UFMPageState extends State<UFMPage> {
                               )
                             ],
                           ),
-                          const Text(
+                          const Text('Roll No.',
                               textScaler: TextScaler.linear(1),
-                              'Roll No.',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['roll_no'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['roll_no'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          const Text(
+                          const Text('Name',
                               textScaler: TextScaler.linear(1),
-                              'Name',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['student_name'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['student_name'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          const Text(
+                          const Text('Subject Name',
                               textScaler: TextScaler.linear(1),
-                              'Subject Name',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['subject'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['subject'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          const Text(
+                          const Text('Subject Code',
                               textScaler: TextScaler.linear(1),
-                              'Subject Code',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['subject_code'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['subject_code'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          const Text(
+                          const Text('Course',
                               textScaler: TextScaler.linear(1),
-                              'Course',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['course'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['course'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-                          const Text(
+                          const Text('Examination Type',
                               textScaler: TextScaler.linear(1),
-                              'Examination Type',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
                                   fontWeight: FontWeight.bold)),
-                          Text(
+                          Text(widget.studentDetails['exam_type'].toString(),
                               textScaler: const TextScaler.linear(1),
-                              widget.studentDetails['exam_type'].toString(),
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
 
                           // here two text field with father name and contact number
 
-                          const Text(
+                          const Text('Father\'s Name',
                               textScaler: TextScaler.linear(1),
-                              'Father\'s Name',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -241,9 +226,8 @@ class _UFMPageState extends State<UFMPage> {
                               ),
                             ),
                           ),
-                          const Text(
+                          const Text('Father\'s Contact Number',
                               textScaler: TextScaler.linear(1),
-                              'Father\'s Contact Number',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -267,9 +251,8 @@ class _UFMPageState extends State<UFMPage> {
                               ),
                             ),
                           ),
-                          const Text(
+                          const Text('Emergency Contact',
                               textScaler: TextScaler.linear(1),
-                              'Emergency Contact',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -293,9 +276,8 @@ class _UFMPageState extends State<UFMPage> {
                               ),
                             ),
                           ),
-                          const Text(
+                          const Text('Contact Address',
                               textScaler: TextScaler.linear(1),
-                              'Contact Address',
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -316,8 +298,8 @@ class _UFMPageState extends State<UFMPage> {
                             ),
                           ),
                           const Text(
-                              textScaler: TextScaler.linear(1),
                               'Details of incriminating material recovered',
+                              textScaler: TextScaler.linear(1),
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -328,9 +310,8 @@ class _UFMPageState extends State<UFMPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text(
+                                  child: Text('No. of printed pages',
                                       textScaler: TextScaler.linear(1),
-                                      'No. of printed pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -358,10 +339,9 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text(
+                                      Text('$_counter1',
                                           textScaler:
                                               const TextScaler.linear(1),
-                                          '$_counter1',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -391,9 +371,8 @@ class _UFMPageState extends State<UFMPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text(
+                                  child: Text('No. of torn pages',
                                       textScaler: TextScaler.linear(1),
-                                      'No. of torn pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -421,10 +400,9 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text(
+                                      Text('$_counter2',
                                           textScaler:
                                               const TextScaler.linear(1),
-                                          '$_counter2',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -454,9 +432,8 @@ class _UFMPageState extends State<UFMPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text(
+                                  child: Text('Communication device',
                                       textScaler: TextScaler.linear(1),
-                                      'Communication device',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -484,10 +461,9 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text(
+                                      Text('$_counter3',
                                           textScaler:
                                               const TextScaler.linear(1),
-                                          '$_counter3',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -517,9 +493,8 @@ class _UFMPageState extends State<UFMPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text(
+                                  child: Text('Number of handwritten pages',
                                       textScaler: TextScaler.linear(1),
-                                      'Number of handwritten pages',
                                       style: TextStyle(fontSize: fontMedium)),
                                 ),
                                 Container(
@@ -547,10 +522,9 @@ class _UFMPageState extends State<UFMPage> {
                                           padding: const EdgeInsets.all(0),
                                         ),
                                       ),
-                                      Text(
+                                      Text('$_counter4',
                                           textScaler:
                                               const TextScaler.linear(1),
-                                          '$_counter4',
                                           style: const TextStyle(fontSize: 20)),
                                       Container(
                                         decoration: const BoxDecoration(
@@ -575,8 +549,8 @@ class _UFMPageState extends State<UFMPage> {
                             ),
                           ),
                           const Text(
-                              textScaler: TextScaler.linear(1),
                               'Material recovered under reference as below',
+                              textScaler: TextScaler.linear(1),
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -586,9 +560,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In student's hand",
                                     textScaler: TextScaler.linear(1),
-                                    "In student's hand",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -618,9 +591,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In student's shoes",
                                     textScaler: TextScaler.linear(1),
-                                    "In student's shoes",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -649,9 +621,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In student's pocket",
                                     textScaler: TextScaler.linear(1),
-                                    "In student's pocket",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -680,9 +651,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In student's clothes",
                                     textScaler: TextScaler.linear(1),
-                                    "In student's clothes",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -711,9 +681,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("On table",
                                     textScaler: TextScaler.linear(1),
-                                    "On table",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -742,9 +711,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In answer book",
                                     textScaler: TextScaler.linear(1),
-                                    "In answer book",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -773,9 +741,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("Under answer book",
                                     textScaler: TextScaler.linear(1),
-                                    "Under answer book",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -804,9 +771,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("Under question paper",
                                     textScaler: TextScaler.linear(1),
-                                    "Under question paper",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -835,9 +801,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("Under feet",
                                     textScaler: TextScaler.linear(1),
-                                    "Under feet",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -866,9 +831,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("In desk",
                                     textScaler: TextScaler.linear(1),
-                                    "In desk",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -897,9 +861,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("Near desk",
                                     textScaler: TextScaler.linear(1),
-                                    "Near desk",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -928,9 +891,8 @@ class _UFMPageState extends State<UFMPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                const Text("Other",
                                     textScaler: TextScaler.linear(1),
-                                    "Other",
                                     style: TextStyle(fontSize: fontMedium)),
                                 SizedBox(
                                   height: 24.0,
@@ -956,8 +918,8 @@ class _UFMPageState extends State<UFMPage> {
                           ),
 
                           const Text(
-                              textScaler: TextScaler.linear(1),
                               'Any other mode of use of unfair means or misconduct, if any:',
+                              textScaler: TextScaler.linear(1),
                               style: TextStyle(
                                   fontSize: fontSmall,
                                   color: blue,
@@ -1051,9 +1013,8 @@ class _UFMPageState extends State<UFMPage> {
                                   errorDialog(context, e.toString());
                                 }
                               },
-                              child: const Text(
+                              child: const Text('Report Student',
                                   textScaler: TextScaler.linear(1),
-                                  'Report Student',
                                   style: TextStyle(fontSize: fontSmall)),
                             ),
                           ),

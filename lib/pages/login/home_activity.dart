@@ -29,9 +29,8 @@ class _HomeActivityState extends State<HomeActivity> {
             padding: EdgeInsets.symmetric(
                 horizontal: 16.0), // adjust the value as needed
             child: Center(
-              child: Text(
+              child: Text('UPES ParikshaMitr',
                   textScaler: TextScaler.linear(1),
-                  'UPES ParikshaMitr',
                   style: TextStyle(
                       fontSize: 32,
                       color: orange,
@@ -42,9 +41,8 @@ class _HomeActivityState extends State<HomeActivity> {
             padding: EdgeInsets.symmetric(
                 horizontal: 40.0), // adjust the value as needed
             child: Center(
-              child: Text(
+              child: Text('Teacher\'s Portal',
                   textScaler: TextScaler.linear(1),
-                  'Teacher\'s Portal',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 32, color: white, fontWeight: FontWeight.w700)),
@@ -70,8 +68,8 @@ class _HomeActivityState extends State<HomeActivity> {
                         builder: (context) => const SignInPage()));
               },
               child: const Text(
-                textScaler: TextScaler.linear(1),
                 'Get Started',
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(
                     color: black,
                     fontSize: fontMedium,
