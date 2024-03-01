@@ -55,7 +55,6 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
     // const storage = FlutterSecureStorage();
     // String? pendingSupplies = await storage.read(key: 'pendingSupplies');
     dynamic response = await getSupplies();
-    List pendingSupplies = jsonDecode(response.body)['data'];
     List<Widget> items = [
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -71,116 +70,148 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
         ),
       )
     ];
-    List<dynamic> suppliesList = pendingSupplies;
-    if (suppliesList.isEmpty) {
-      items.add(Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          border: const Border(
-            bottom: BorderSide(
-              color: gray,
+
+    if (jsonDecode(response.body)['data'].runtimeType != Null) {
+      List<dynamic> suppliesList = jsonDecode(response.body)['data'];
+      if (suppliesList.isEmpty) {
+        items.add(Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            border: const Border(
+              bottom: BorderSide(
+                color: gray,
+              ),
             ),
+            color: grayLight,
+            borderRadius: BorderRadius.circular(10),
           ),
-          color: grayLight,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Row(
-          children: [
-            Expanded(
-              child: Text(
-                textScaler: TextScaler.linear(1),
-                'No pending supplies',
-                style: TextStyle(
-                  fontSize: fontSmall,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ));
-    } else {
-      for (Map item in suppliesList) {
-        if (item['quantity'] == 0) {
-          continue;
-        } else {
-          items.add(Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              border: const Border(
-                bottom: BorderSide(
-                  color: gray,
-                ),
-              ),
-              color: grayLight,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item['type'],
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                      fontSize: fontSmall,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  textScaler: TextScaler.linear(1),
+                  'No pending supplies',
+                  style: TextStyle(
+                    fontSize: fontSmall,
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                  width: 150,
-                  child: ElevatedButton(
-                    onPressed: item['quantity'] > 0
-                        ? () {
-                            pendingSuppliesPopup(context, item, suppliesList);
-                          }
-                        : null,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
-                            return Colors
-                                .transparent; // Use the same background color when the button is disabled
-                          }
-                          return item['quantity'] > 0
-                              ? Colors.orange
-                              : Colors.transparent;
-                        },
-                      ),
-                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
-                            return Colors
-                                .green; // Use the same text color when the button is disabled
-                          }
-                          return Colors.white;
-                        },
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Change this to your desired border radius
-                        ),
-                      ),
-                    ),
+              ),
+            ],
+          ),
+        ));
+      } else {
+        for (Map item in suppliesList) {
+          if (item['quantity'] == 0) {
+            continue;
+          } else {
+            items.add(Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                border: const Border(
+                  bottom: BorderSide(
+                    color: gray,
+                  ),
+                ),
+                color: grayLight,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
                     child: Text(
+                      item['type'],
                       textScaler: const TextScaler.linear(1),
-                      "Pending: ${item['quantity']}",
                       style: const TextStyle(
                         fontSize: fontSmall,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
-          ));
+                  SizedBox(
+                    height: 30,
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: item['quantity'] > 0
+                          ? () {
+                              pendingSuppliesPopup(context, item, suppliesList);
+                            }
+                          : null,
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.disabled)) {
+                              return Colors
+                                  .transparent; // Use the same background color when the button is disabled
+                            }
+                            return item['quantity'] > 0
+                                ? Colors.orange
+                                : Colors.transparent;
+                          },
+                        ),
+                        foregroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.disabled)) {
+                              return Colors
+                                  .green; // Use the same text color when the button is disabled
+                            }
+                            return Colors.white;
+                          },
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Change this to your desired border radius
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        textScaler: const TextScaler.linear(1),
+                        "Pending: ${item['quantity']}",
+                        style: const TextStyle(
+                          fontSize: fontSmall,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ));
+          }
         }
       }
-    }
 
-    if (items.length == 1) {
+      if (items.length == 1) {
+        items.add(Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            border: const Border(
+              bottom: BorderSide(
+                color: gray,
+              ),
+            ),
+            color: grayLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  textScaler: TextScaler.linear(1),
+                  'No pending supplies',
+                  style: TextStyle(
+                    fontSize: fontSmall,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+      }
+    } else {
       items.add(Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
