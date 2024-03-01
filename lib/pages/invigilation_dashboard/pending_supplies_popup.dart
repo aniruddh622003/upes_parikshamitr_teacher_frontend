@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
@@ -142,8 +145,12 @@ void pendingSuppliesPopup(BuildContext context,
                           pendingSuppliesList[index]['quantity'] =
                               supplyDetails['quantity'] -
                                   int.parse(controller.text);
+                          dynamic roomData = await const FlutterSecureStorage()
+                              .read(key: 'room_data');
                           Map data = {
                             "pending_supplies": pendingSuppliesList,
+                            "room_id": jsonDecode(roomData.toString())[0]
+                                ['room_id']
                           };
                           dynamic response = await updateSupplies(data);
                           if (response.statusCode == 200) {
@@ -163,7 +170,7 @@ void pendingSuppliesPopup(BuildContext context,
                                 timeInSecForIosWeb: 1,
                                 fontSize: 16.0);
                           } else {
-                            throw 'Failed to update supplies';
+                            throw 'Failed to update supplies ${jsonDecode(response.body)}';
                           }
                           // Save the updated list to secure storage
                         }
