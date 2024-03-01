@@ -57,11 +57,11 @@ Map studentDetails = {
   "exam_type": "Supplementary Examination"
 };
 
-List<Map> pendingSupplies = [
-  {"name": "B Sheets", "required": 15, "received": 5},
-  {"name": "Threads", "required": 10, "received": 5},
-  {"name": "A Sheets", "required": 10, "received": 5},
-];
+// List<Map> pendingSupplies = [
+//   {"name": "B Sheets", "required": 15, "received": 5},
+//   {"name": "Threads", "required": 10, "received": 5},
+//   {"name": "A Sheets", "required": 10, "received": 5},
+// ];
 
 List<Map> requiredSupplies = [
   {"name": "B Sheets", "required": 100},

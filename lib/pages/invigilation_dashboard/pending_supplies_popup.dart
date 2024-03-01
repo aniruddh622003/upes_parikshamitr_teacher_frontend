@@ -175,6 +175,7 @@ void pendingSuppliesPopup(BuildContext context,
                           // Save the updated list to secure storage
                         }
                       } catch (e) {
+                        
                         errorDialog(context, e.toString());
                       }
                     },

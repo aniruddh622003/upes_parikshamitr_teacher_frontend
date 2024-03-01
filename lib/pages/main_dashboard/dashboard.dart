@@ -243,7 +243,7 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 15),
                     child: Text(
                       textScaler: const TextScaler.linear(1),
                       formattedDate,

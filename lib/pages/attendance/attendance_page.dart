@@ -225,15 +225,7 @@ class AttendancePage extends StatelessWidget {
                               fontSize: fontMedium,
                             )),
                         const SizedBox(height: 20),
-                        const Center(
-                          child: Text("Sheet Number",
-                              textScaler: TextScaler.linear(1),
-                              style: TextStyle(
-                                color: black,
-                                fontSize: fontLarge,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
+                        const Center(),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
@@ -242,7 +234,11 @@ class AttendancePage extends StatelessWidget {
                           ),
                           child: TextField(
                             controller: controllerSheetNo,
+                            keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ], // Only digits allowed.
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Type here',
