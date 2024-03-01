@@ -313,13 +313,23 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                              onTap: () => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SubmitToController()))
-                                  },
+                              onTap: () async {
+                                dynamic response = await getSupplies();
+                                List<dynamic> suppliesList =
+                                    jsonDecode(response.body)['data'];
+                                for (Map item in suppliesList) {
+                                  if (item['quantity'] != 0) {
+                                    errorDialog(context,
+                                        "Please clear all the pending supplies");
+                                    return;
+                                  }
+                                }
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubmitToController()));
+                              },
                               child: SvgPicture.asset(
                                   'android/assets/controller.svg')),
                         ),
