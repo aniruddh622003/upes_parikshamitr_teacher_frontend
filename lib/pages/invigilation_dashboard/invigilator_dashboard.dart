@@ -410,133 +410,133 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         )),
                       ],
                     ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(right: 20, left: 20, top: 10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: grayLight,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            decoration: const BoxDecoration(
-                              color: blue,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)),
-                            ),
-                            child: const Row(
-                              children: [
-                                Text(
-                                  'Flying Squad',
-                                  textScaler: TextScaler.linear(1),
-                                  style: TextStyle(
-                                    color: white,
-                                    fontSize: fontSmall,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                // const Spacer(),
-                                // Container(
-                                //   padding: const EdgeInsets.only(right: 7),
-                                //   child: SvgPicture.asset(
-                                //       'android/assets/refresh.svg'),
-                                // ),
-                                // const Text(
-                                //   "Refresh",
-                                //   style: TextStyle(
-                                //       fontSize: fontXSmall,
-                                //       color: Colors.white),
-                                // ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              border: const Border(
-                                bottom: BorderSide(
-                                  color: gray,
-                                ),
-                              ),
-                              color: grayLight,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'Dr. Rajat Gupta',
-                                    textScaler: TextScaler.linear(1),
-                                    style: TextStyle(
-                                      fontSize: fontSmall,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              border: const Border(
-                                bottom: BorderSide(
-                                  color: gray,
-                                ),
-                              ),
-                              color: grayLight,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'Dr. Anil Kumar',
-                                    textScaler: TextScaler.linear(1),
-                                    style: TextStyle(
-                                      fontSize: fontSmall,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              border: const Border(
-                                bottom: BorderSide(
-                                  color: gray,
-                                ),
-                              ),
-                              color: grayLight,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'Dr. Atul Kumar',
-                                    textScaler: TextScaler.linear(1),
-                                    style: TextStyle(
-                                      fontSize: fontSmall,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   margin:
+                    //       const EdgeInsets.only(right: 20, left: 20, top: 10),
+                    //   width: double.infinity,
+                    //   decoration: BoxDecoration(
+                    //     color: grayLight,
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //     children: [
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 10),
+                    //         decoration: const BoxDecoration(
+                    //           color: blue,
+                    //           borderRadius: BorderRadius.only(
+                    //               topLeft: Radius.circular(10),
+                    //               topRight: Radius.circular(10)),
+                    //         ),
+                    //         child: const Row(
+                    //           children: [
+                    //             Text(
+                    //               'Flying Squad',
+                    //               textScaler: TextScaler.linear(1),
+                    //               style: TextStyle(
+                    //                 color: white,
+                    //                 fontSize: fontSmall,
+                    //                 fontWeight: FontWeight.normal,
+                    //               ),
+                    //             ),
+                    //             // const Spacer(),
+                    //             // Container(
+                    //             //   padding: const EdgeInsets.only(right: 7),
+                    //             //   child: SvgPicture.asset(
+                    //             //       'android/assets/refresh.svg'),
+                    //             // ),
+                    //             // const Text(
+                    //             //   "Refresh",
+                    //             //   style: TextStyle(
+                    //             //       fontSize: fontXSmall,
+                    //             //       color: Colors.white),
+                    //             // ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 5),
+                    //         decoration: BoxDecoration(
+                    //           border: const Border(
+                    //             bottom: BorderSide(
+                    //               color: gray,
+                    //             ),
+                    //           ),
+                    //           color: grayLight,
+                    //           borderRadius: BorderRadius.circular(10),
+                    //         ),
+                    //         child: const Row(
+                    //           children: [
+                    //             Expanded(
+                    //               child: Text(
+                    //                 'Dr. Rajat Gupta',
+                    //                 textScaler: TextScaler.linear(1),
+                    //                 style: TextStyle(
+                    //                   fontSize: fontSmall,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 5),
+                    //         decoration: BoxDecoration(
+                    //           border: const Border(
+                    //             bottom: BorderSide(
+                    //               color: gray,
+                    //             ),
+                    //           ),
+                    //           color: grayLight,
+                    //           borderRadius: BorderRadius.circular(10),
+                    //         ),
+                    //         child: const Row(
+                    //           children: [
+                    //             Expanded(
+                    //               child: Text(
+                    //                 'Dr. Anil Kumar',
+                    //                 textScaler: TextScaler.linear(1),
+                    //                 style: TextStyle(
+                    //                   fontSize: fontSmall,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 5),
+                    //         decoration: BoxDecoration(
+                    //           border: const Border(
+                    //             bottom: BorderSide(
+                    //               color: gray,
+                    //             ),
+                    //           ),
+                    //           color: grayLight,
+                    //           borderRadius: BorderRadius.circular(10),
+                    //         ),
+                    //         child: const Row(
+                    //           children: [
+                    //             Expanded(
+                    //               child: Text(
+                    //                 'Dr. Atul Kumar',
+                    //                 textScaler: TextScaler.linear(1),
+                    //                 style: TextStyle(
+                    //                   fontSize: fontSmall,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     FutureBuilder<Widget>(
                       future: makePendingItems(),
                       builder: (BuildContext context,
@@ -570,9 +570,9 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   Widget getPhaseText() {
     DateTime currentTime = DateTime.now();
     int currentHour = currentTime.hour;
-    String period = currentHour >= 12 ? 'PM' : 'AM';
+    // String period = currentHour >= 12 ? 'PM' : 'AM';
 
-    if (currentHour >= 8 && currentHour < 13 && period == 'AM') {
+    if (currentHour >= 8 && currentHour < 13) {
       return const Text(
         '(Phase I)',
         textScaler: TextScaler.linear(1),

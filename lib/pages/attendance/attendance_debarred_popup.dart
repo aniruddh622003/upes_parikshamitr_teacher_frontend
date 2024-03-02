@@ -35,8 +35,7 @@ void attendanceErrorDialog(BuildContext context) {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                    'Student either has been placed on financial hold or is debarred.',
+                const Text('Student not eligible for the examination.',
                     textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontMedium,

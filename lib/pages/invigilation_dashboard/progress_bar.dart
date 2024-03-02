@@ -36,12 +36,12 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
 
   void setTimes() {
     dt = DateTime.now();
-    if (((dt.hour * 100) + dt.minute) < 1430) {
+    if (((dt.hour * 100) + dt.minute) < 1300) {
       startTime = DateTime(dt.year, dt.month, dt.day, 10);
-      endTime = DateTime(dt.year, dt.month, dt.day, 13);
+      endTime = DateTime(dt.year, dt.month, dt.day, 12);
     } else {
       startTime = DateTime(dt.year, dt.month, dt.day, 14);
-      endTime = DateTime(dt.year, dt.month, dt.day, 17);
+      endTime = DateTime(dt.year, dt.month, dt.day, 16);
     }
   }
 
@@ -54,9 +54,9 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
     setState(() {
       dt = DateTime.now();
       remainingMinutes = endTime.difference(dt).inMinutes > 0
-          ? endTime.difference(dt).inMinutes < 180
+          ? endTime.difference(dt).inMinutes < 120
               ? endTime.difference(dt).inMinutes
-              : 180
+              : 120
           : 0;
       remainingHours = remainingMinutes ~/ 60;
       remainingMinutesPart = remainingMinutes % 60;
@@ -88,7 +88,7 @@ class _InvigilatorProgressState extends State<InvigilatorProgress> {
           child: SizedBox(
             height: 8,
             child: LinearProgressIndicator(
-              value: (remainingMinutes / 180),
+              value: (remainingMinutes / 120),
               backgroundColor: grayLight,
               valueColor: const AlwaysStoppedAnimation<Color>(orange),
             ),

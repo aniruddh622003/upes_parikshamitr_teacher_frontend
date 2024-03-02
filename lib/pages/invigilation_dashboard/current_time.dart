@@ -49,10 +49,10 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
 
   String _calculateTestTime() {
     DateTime now = DateTime.now();
-    if (now.hour < 10) {
-      return "10:00 AM - 1:00 PM";
-    } else if (now.hour < 14) {
-      return "2:00 - 5:00 PM";
+    if (now.hour < 13) {
+      return "10:00 AM - 12:00 PM";
+    } else if (now.hour < 17) {
+      return "2:00 - 4:00 PM";
     } else {
       return "Test time has passed";
     }

@@ -127,6 +127,7 @@ void attendancePopup(BuildContext context) async {
                         if (data != null) {
                           if (data.statusCode == 200) {
                             Map roomDetails = jsonDecode(data.body);
+
                             int indexData = roomDetails['data']['seating_plan']
                                 .indexWhere((student) =>
                                     student['sap_id'] ==
@@ -147,7 +148,10 @@ void attendancePopup(BuildContext context) async {
                                       'F_HOLD' ||
                                   roomDetails['data']['seating_plan'][indexData]
                                           ['eligible'] ==
-                                      'DEBARRED') {
+                                      'DEBARRED' ||
+                                  roomDetails['data']['seating_plan'][indexData]
+                                          ['eligible'] ==
+                                      'R_HOLD') {
                                 // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
                               }
@@ -168,8 +172,7 @@ void attendancePopup(BuildContext context) async {
                         errorDialog(context, "e.toString()");
                       }
                     },
-                    child: const Text(
-                        'Mark Attendance',
+                    child: const Text('Mark Attendance',
                         textScaler: TextScaler.linear(1),
                         // textScaler: const TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
