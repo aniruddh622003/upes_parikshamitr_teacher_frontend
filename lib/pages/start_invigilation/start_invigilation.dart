@@ -9,6 +9,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
@@ -146,13 +147,24 @@ class _StartInvigilationState extends State<StartInvigilation> {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: onQRViewCreated,
-                  ),
-                ),
+                child: kIsWeb
+                    ? const Center(
+                        child: Text(
+                          'QR Code Scanner is currently not supported on Web. Please type the code to proceed.',
+                          textScaler: TextScaler.linear(1),
+                          style: TextStyle(
+                            color: white,
+                            fontSize: fontLarge,
+                          ),
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: QRView(
+                          key: qrKey,
+                          onQRViewCreated: onQRViewCreated,
+                        ),
+                      ),
               ),
             ),
             Container(
@@ -160,7 +172,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  controller?.pauseCamera();
+                  if (!kIsWeb) {
+                    controller?.resumeCamera();
+                  }
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {

@@ -89,7 +89,7 @@ void seatingPlanPopup(
                           textScaler: const TextScaler.linear(1),
                           style: const TextStyle(
                             color: white,
-                            fontSize: fontMedium,
+                            fontSize: fontMedium - 3,
                           ),
                         ),
                       ),

@@ -39,6 +39,8 @@ dependencies:
   path_provider: ^2.0.2
   open_file: ^3.2.1
   flutter_pdfview: ^1.2.1
+  jsqr: any
+  universal_html: any
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

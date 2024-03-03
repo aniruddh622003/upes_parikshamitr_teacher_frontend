@@ -258,22 +258,34 @@ class AttendancePage extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              const storage = FlutterSecureStorage();
-                              dynamic roomData =
-                                  await storage.read(key: 'room_data');
-                              markAttendance(jsonDecode(roomData.toString())[0]
-                                  ['room_id']);
-                              Navigator.pop(context);
-                              Fluttertoast.showToast(
-                                msg: "Attendance Marked Successfully!",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: gray,
-                                textColor: black,
-                                fontSize: 16.0,
-                              );
-                              attendancePopup(context);
+                              if (controllerSheetNo.text.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: "Please enter answer sheet number",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else {
+                                const storage = FlutterSecureStorage();
+                                dynamic roomData =
+                                    await storage.read(key: 'room_data');
+                                markAttendance(
+                                    jsonDecode(roomData.toString())[0]
+                                        ['room_id']);
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                  msg: "Attendance Marked Successfully!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: gray,
+                                  textColor: black,
+                                  fontSize: 16.0,
+                                );
+                                attendancePopup(context);
+                              }
                             },
                             child: const Text('Mark Attendance',
                                 textScaler: TextScaler.linear(1),

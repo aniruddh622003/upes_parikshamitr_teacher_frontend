@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -61,14 +62,20 @@ void attendancePopup(BuildContext context) async {
                         borderRadius: BorderRadius.circular(20),
                         child: GestureDetector(
                           onTap: onBarcodeButtonPressed,
-                          child: Container(
-                            color: gray,
-                            child: const Center(
-                                child: Text(
-                              "Scan Barcode",
-                              textScaler: TextScaler.linear(1),
-                            )),
-                          ),
+                          child: kIsWeb
+                              ? Container(
+                                  child: Center(
+                                      child: Text(
+                                          "Barcode Scanner is currently not supported on Web. Please type the code to proceed.")),
+                                )
+                              : Container(
+                                  color: gray,
+                                  child: const Center(
+                                      child: Text(
+                                    "Scan Barcode",
+                                    textScaler: TextScaler.linear(1),
+                                  )),
+                                ),
                         )),
                   ),
                 ),

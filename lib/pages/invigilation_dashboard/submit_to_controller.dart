@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -183,13 +184,24 @@ class _SubmitToControllerState extends State<SubmitToController> {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: onQRViewCreated,
-                  ),
-                ),
+                child: kIsWeb
+                    ? const Center(
+                        child: Text(
+                          'QR Code Scanner is currently not supported on Web. Please type the code to proceed.',
+                          textScaler: TextScaler.linear(1),
+                          style: TextStyle(
+                            color: white,
+                            fontSize: fontLarge,
+                          ),
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: QRView(
+                          key: qrKey,
+                          onQRViewCreated: onQRViewCreated,
+                        ),
+                      ),
               ),
             ),
             Container(
@@ -197,7 +209,9 @@ class _SubmitToControllerState extends State<SubmitToController> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  controller?.pauseCamera();
+                  if (!kIsWeb) {
+                    controller?.dispose();
+                  }
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
