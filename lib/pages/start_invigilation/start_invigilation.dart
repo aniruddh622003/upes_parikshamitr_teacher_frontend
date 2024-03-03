@@ -46,6 +46,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
       if (response.statusCode == 201) {
         try {
           Map data = jsonDecode(response.body)['data'];
+
           List roomData = [
             {
               'room_id': data['room']['_id'],
@@ -57,6 +58,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
           ];
           const storage = FlutterSecureStorage();
           await storage.write(key: 'room_data', value: jsonEncode(roomData));
+          await storage.write(key: 'unique_code', value: uniqueCode.toString());
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.push(

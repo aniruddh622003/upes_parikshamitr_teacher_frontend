@@ -243,6 +243,16 @@ class _SubmitToControllerState extends State<SubmitToController> {
                             ),
                             onPressed: () async {
                               String uniqueCode = submissionUniqueCode.text;
+                              String? uniqueCodeLocal =
+                                  await const FlutterSecureStorage()
+                                      .read(key: "unique_code");
+                              if (uniqueCodeLocal != uniqueCode) {
+                                errorDialog(context, "Invalid Code");
+                                return;
+                              } else {
+                                await const FlutterSecureStorage()
+                                    .delete(key: "unique_code");
+                              }
                               Map data = {
                                 "unique_code": uniqueCode.toString(),
                               };
