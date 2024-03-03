@@ -5,10 +5,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/submission_to_controller.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class SubmitToController extends StatefulWidget {
@@ -52,6 +54,29 @@ class _SubmitToControllerState extends State<SubmitToController> {
         } catch (e) {
           errorDialog(context,
               '${e.toString()}, ${jsonDecode(response.body)['message']}');
+        }
+      } else if (response.statusCode == 202) {
+        try {
+          Fluttertoast.showToast(
+              msg: "Submission Approved!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          const FlutterSecureStorage().delete(key: 'submission_state');
+          String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Dashboard(jwt: jwt),
+            ),
+          );
+        } catch (e) {
+          errorDialog(context, e.toString());
         }
       } else {
         // If that response was not OK, throw an error.
@@ -231,6 +256,33 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                 } catch (e) {
                                   errorDialog(context,
                                       '${e.toString()}, ${jsonDecode(response.body)['message']}');
+                                }
+                              } else if (response.statusCode == 202) {
+                                try {
+                                  Fluttertoast.showToast(
+                                      msg: "Submission Approved!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  const FlutterSecureStorage()
+                                      .delete(key: 'submission_state');
+                                  String? jwt =
+                                      await const FlutterSecureStorage()
+                                          .read(key: 'jwt');
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Dashboard(jwt: jwt),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  errorDialog(context, e.toString());
                                 }
                               } else {
                                 var body = jsonDecode(response.body);
