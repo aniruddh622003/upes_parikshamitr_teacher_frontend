@@ -32,6 +32,12 @@ class _SubmitToControllerState extends State<SubmitToController> {
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
       uniqueCode = scanData.code.toString();
+      String? uniqueCodeLocal =
+          await const FlutterSecureStorage().read(key: "unique_code");
+      if (uniqueCodeLocal != uniqueCode) {
+        errorDialog(context, "Invalid Code");
+        return;
+      }
       Map data = {
         "unique_code": uniqueCode.toString(),
       };
@@ -40,7 +46,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
 
       if (response.statusCode == 201) {
         try {
-          // pendingReq(context);
+          await const FlutterSecureStorage().delete(key: "unique_code");
           await const FlutterSecureStorage()
               .write(key: "submission_state", value: "submitting");
           await const FlutterSecureStorage().delete(key: "invigilation_state");
@@ -249,9 +255,6 @@ class _SubmitToControllerState extends State<SubmitToController> {
                               if (uniqueCodeLocal != uniqueCode) {
                                 errorDialog(context, "Invalid Code");
                                 return;
-                              } else {
-                                await const FlutterSecureStorage()
-                                    .delete(key: "unique_code");
                               }
                               Map data = {
                                 "unique_code": uniqueCode.toString(),
@@ -261,7 +264,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
 
                               if (response.statusCode == 201) {
                                 try {
-                                  // pendingReq(context);
+                                  await const FlutterSecureStorage()
+                                      .delete(key: "unique_code");
                                   await const FlutterSecureStorage().write(
                                       key: "submission_state",
                                       value: "submitting");

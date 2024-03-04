@@ -238,6 +238,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                   await storage.write(
                                       key: 'room_data',
                                       value: jsonEncode(roomData));
+                                  await storage.write(
+                                      key: 'unique_code',
+                                      value: uniqueCode.toString());
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.pop(context);

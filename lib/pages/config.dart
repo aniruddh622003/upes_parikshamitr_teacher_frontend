@@ -1,1 +1,1 @@
-String serverUrl = "https://backend2.parikshamitr.tech";
+String serverUrl = "https://backend.parikshamitr.tech";
