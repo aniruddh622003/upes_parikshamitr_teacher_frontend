@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/approve_invigilator.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -144,7 +145,18 @@ void confirmInvigilationCard(
                         };
                         dynamic responseApproveInvigilator =
                             await approveInvigilator(dataApproveInvigilator);
-                        if (responseApproveInvigilator.statusCode == 201) {
+                        if (responseApproveInvigilator.statusCode == 201 ||
+                            responseApproveInvigilator.statusCode == 304) {
+                          if (responseApproveInvigilator.statusCode == 304) {
+                            Fluttertoast.showToast(
+                                msg: "Resumed Invigilation",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.grey,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
                           await const FlutterSecureStorage().write(
                               key: 'pendingSupplies',
                               value: jsonEncode(pendingSupplies));
@@ -154,24 +166,19 @@ void confirmInvigilationCard(
                               key: 'invigilation_state', value: "INVIGILATION");
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const InvigilatorDashboard()),
-                            );
-                          });
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const InvigilatorDashboard()),
+                          );
                         } else {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            errorDialog(context,
-                                jsonDecode(responseApproveInvigilator.body));
-                          });
+                          errorDialog(context,
+                              jsonDecode(responseApproveInvigilator.body));
                         }
                       } catch (e) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          errorDialog(context, e.toString());
-                        });
+                        errorDialog(context, e.toString());
                       }
                     },
                     style: ButtonStyle(

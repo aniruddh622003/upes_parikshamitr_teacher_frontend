@@ -162,7 +162,7 @@ void pendingSuppliesPopup(BuildContext context,
                                 gravity: ToastGravity.BOTTOM,
                                 textColor: white,
                                 backgroundColor: green,
-                                timeInSecForIosWeb: 1,
+                                timeInSecForIosWeb: 3,
                                 fontSize: 16.0);
                           } else {
                             throw 'Failed to update supplies ${jsonDecode(response.body)}';

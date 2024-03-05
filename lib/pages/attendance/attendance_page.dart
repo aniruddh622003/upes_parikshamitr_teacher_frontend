@@ -263,7 +263,7 @@ class AttendancePage extends StatelessWidget {
                                     msg: "Please enter answer sheet number",
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
+                                    timeInSecForIosWeb: 3,
                                     backgroundColor: Colors.red,
                                     textColor: Colors.white,
                                     fontSize: 16.0);
@@ -278,8 +278,8 @@ class AttendancePage extends StatelessWidget {
                                 Fluttertoast.showToast(
                                   msg: "Attendance Marked Successfully!",
                                   toastLength: Toast.LENGTH_SHORT,
+                                  timeInSecForIosWeb: 3,
                                   gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
                                   backgroundColor: gray,
                                   textColor: black,
                                   fontSize: 16.0,

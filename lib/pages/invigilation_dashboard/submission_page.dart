@@ -82,9 +82,9 @@ class SubmissionDetails extends StatelessWidget {
                                 } else {
                                   Fluttertoast.showToast(
                                       msg: "Submission Approved!",
-                                      toastLength: Toast.LENGTH_SHORT,
+                                      toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
+                                      timeInSecForIosWeb: 3,
                                       backgroundColor: Colors.grey,
                                       textColor: Colors.white,
                                       fontSize: 16.0);

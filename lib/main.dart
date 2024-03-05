@@ -31,6 +31,8 @@ void main() async {
   String? jwt = await storage.read(key: 'jwt');
   String? invigilationState = await storage.read(key: 'invigilation_state');
   String? submissionState = await storage.read(key: 'submission_state');
+  print(invigilationState);
+
   if (jwt != null) {
     await verifyToken(token: jwt);
   }

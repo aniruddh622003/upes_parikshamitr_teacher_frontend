@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
@@ -71,8 +72,29 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  void checkInvigilationState() async {
+    const storage = FlutterSecureStorage();
+    String? invigilationState = await storage.read(key: 'invigilation_state');
+    String? roomData = await storage.read(key: 'room_data');
+    String? uniqueCode = await storage.read(key: 'unique_code');
+    String? pendingSupplies = await storage.read(key: 'pendingSupplies');
+
+    if (invigilationState != null &&
+        roomData != null &&
+        pendingSupplies != null &&
+        uniqueCode != null) {
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const InvigilatorDashboard()),
+      );
+    }
+  }
+
   @override
   void initState() {
+    checkInvigilationState();
+
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -106,9 +128,9 @@ class _DashboardState extends State<Dashboard> {
           if (newNotification) {
             Fluttertoast.showToast(
                 msg: "You have new notification(s).",
-                toastLength: Toast.LENGTH_SHORT,
+                toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 3,
                 backgroundColor: grayLight,
                 textColor: black,
                 fontSize: 16.0);
