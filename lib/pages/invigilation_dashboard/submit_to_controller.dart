@@ -72,7 +72,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
               backgroundColor: Colors.grey,
               textColor: Colors.white,
               fontSize: 16.0);
-          const FlutterSecureStorage().delete(key: 'submission_state');
+          await const FlutterSecureStorage().delete(key: 'submission_state');
+          await const FlutterSecureStorage().delete(key: "invigilation_state");
           String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
           Navigator.pop(context);
           Navigator.pop(context);
