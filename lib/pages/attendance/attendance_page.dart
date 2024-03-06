@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show serverUrl;
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -276,7 +277,8 @@ class AttendancePage extends StatelessWidget {
                                         ['room_id']);
                                 Navigator.pop(context);
                                 Fluttertoast.showToast(
-                                  msg: "Attendance Marked Successfully!",
+                                  msg:
+                                      "Updating Attendance, please wait for around 10 seconds!",
                                   toastLength: Toast.LENGTH_SHORT,
                                   timeInSecForIosWeb: 3,
                                   gravity: ToastGravity.BOTTOM,
@@ -284,7 +286,9 @@ class AttendancePage extends StatelessWidget {
                                   textColor: black,
                                   fontSize: 16.0,
                                 );
-                                attendancePopup(context);
+                                // attendancePopup(context);
+                                //close keyboard
+                                FocusScope.of(context).unfocus();
                               }
                             },
                             child: const Text('Mark Attendance',

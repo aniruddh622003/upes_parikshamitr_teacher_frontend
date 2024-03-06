@@ -146,7 +146,8 @@ void attendancePopup(BuildContext context) async {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
-                                Navigator.of(context).pop();
+                                // Navigator.of(context).pop();
+                                controllerSAP.clear();
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => AttendancePage(
                                         studentDetails: studentDetails)));

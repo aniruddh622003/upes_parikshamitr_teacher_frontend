@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void seatingPlanPopup(
@@ -197,6 +204,60 @@ void seatingPlanPopup(
                     textScaler: const TextScaler.linear(1),
                     style:
                         TextStyle(fontSize: fontMedium, color: eligibleColor)),
+                SizedBox(
+                  height: 45,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: orange,
+                      foregroundColor: white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: studentDetails['attendance']
+                        ? null
+                        : () async {
+                            try {
+                              if (studentDetails['eligible'] == 'YES') {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => AttendancePage(
+                                        studentDetails: studentDetails)));
+                              } else if (studentDetails['eligible'] ==
+                                      'F_HOLD' ||
+                                  studentDetails['eligible'] == 'DEBARRED' ||
+                                  studentDetails['eligible'] == 'R_HOLD') {
+                                // Navigator.of(context).pop();
+                                attendanceErrorDialog(context);
+                              }
+                              // Navigator.of(context).pop();
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) => AttendancePage(
+                              //         studentDetails: studentDetails)));
+                              // } else if (roomDetails['data']['seating_plan']
+                              //             [indexData]['eligible'] ==
+                              //         'F_HOLD' ||
+                              //     roomDetails['data']['seating_plan'][indexData]
+                              //             ['eligible'] ==
+                              //         'DEBARRED' ||
+                              //     roomDetails['data']['seating_plan'][indexData]
+                              //             ['eligible'] ==
+                              //         'R_HOLD') {
+                              //   // Navigator.of(context).pop();
+                              //   attendanceErrorDialog(context);
+                              // }
+                            } catch (e) {
+                              // Navigator.pop(context);
+                              errorDialog(context, "e.toString()");
+                            }
+                          },
+                    child: const Text('Mark Attendance',
+                        textScaler: TextScaler.linear(1),
+                        // textScaler: const TextScaler.linear(1),
+                        style: TextStyle(fontSize: fontSmall)),
+                  ),
+                ),
               ],
             ),
           ),

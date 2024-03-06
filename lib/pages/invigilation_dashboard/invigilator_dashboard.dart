@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/check_room_status.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
@@ -10,6 +12,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submit_to_controller.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/current_time.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -345,13 +348,47 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Expanded(
                           child: GestureDetector(
                               onTap: () async {
-                                dynamic response = await getSupplies();
+                                dynamic responseSupp = await getSupplies();
                                 List<dynamic> suppliesList =
-                                    jsonDecode(response.body)['data'];
+                                    jsonDecode(responseSupp.body)['data'];
                                 for (Map item in suppliesList) {
                                   if (item['quantity'] != 0) {
                                     errorDialog(context,
                                         "Please clear all the pending supplies");
+                                    return;
+                                  }
+                                }
+                                const storage = FlutterSecureStorage();
+                                dynamic roomData =
+                                    await storage.read(key: 'room_data');
+                                dynamic response = await checkRoomStatus(
+                                    jsonDecode(roomData.toString())[0]
+                                        ['room_id']);
+                                if (response.statusCode == 200) {
+                                  if (jsonDecode(response.body)['data'] ==
+                                      "COMPLETED") {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Invigilation Completed Successfully!",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 3,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                    const FlutterSecureStorage()
+                                        .delete(key: 'invigilation_state');
+                                    String? jwt =
+                                        await const FlutterSecureStorage()
+                                            .read(key: 'jwt');
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Dashboard(jwt: jwt),
+                                      ),
+                                    );
                                     return;
                                   }
                                 }
