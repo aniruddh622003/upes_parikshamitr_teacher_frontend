@@ -129,6 +129,7 @@ class _LogInPageState extends State<LogInPage> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       body: ListView(
         children: [
           Container(

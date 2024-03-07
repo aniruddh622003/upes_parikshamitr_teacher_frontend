@@ -88,6 +88,7 @@ class _SignInPageState extends State<SignInPage> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       body: ListView(
         children: [
           Container(

@@ -165,6 +165,12 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   final storage = const FlutterSecureStorage();
 
   void signOut() async {

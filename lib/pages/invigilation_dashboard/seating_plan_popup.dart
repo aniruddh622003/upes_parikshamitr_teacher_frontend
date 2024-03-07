@@ -1,11 +1,11 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void seatingPlanPopup(
@@ -39,10 +39,11 @@ void seatingPlanPopup(
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              // mainAxisSize: MainAxisSize.min,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              shrinkWrap: true,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
