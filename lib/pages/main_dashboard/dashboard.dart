@@ -137,6 +137,8 @@ class _DashboardState extends State<Dashboard> {
                 fontSize: 16.0);
           }
           // Delete notifications from notificationsLocal that are not in notificationsServer
+          List toRemove = [];
+
           for (var localNotification in notificationsLocal) {
             bool found = false;
             for (var notification in notificationsServer) {
@@ -146,9 +148,14 @@ class _DashboardState extends State<Dashboard> {
               }
             }
             if (!found) {
-              notificationsLocal.remove(localNotification);
+              toRemove.add(localNotification);
             }
           }
+
+          for (var item in toRemove) {
+            notificationsLocal.remove(item);
+          }
+
           await const FlutterSecureStorage().write(
               key: 'notifications', value: jsonEncode(notificationsLocal));
         } else {
