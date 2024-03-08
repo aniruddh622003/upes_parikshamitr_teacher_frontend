@@ -20,6 +20,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
   late dynamic response;
   Map? seatingPlan;
   late Timer _timer;
+  final ScrollController _scrollController = ScrollController();
 
   Key key = UniqueKey();
 
@@ -32,17 +33,13 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
         });
       });
     });
-    // fetchData().then((value) {
-    //   setState(() {
-    //     seatingPlan = value;
-    //   });
-    // });
     super.initState();
   }
 
   @override
   void dispose() {
     _timer.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -69,7 +66,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollController = ScrollController();
+    
 
     return KeyedSubtree(
         key: key,

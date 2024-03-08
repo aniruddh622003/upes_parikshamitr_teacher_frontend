@@ -19,6 +19,7 @@ void ufmPopup(BuildContext context) {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       controllerSAP.text = scanData.code.toString();
+      controller.dispose();
     });
   }
 
@@ -175,5 +176,7 @@ void ufmPopup(BuildContext context) {
         ),
       );
     },
-  );
+  ).then((_) {
+    controllerSAP.dispose();
+  });
 }

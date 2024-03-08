@@ -30,6 +30,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   late Map data;
   late Timer _timer;
+  bool isPageLoaded = false;
+  bool isButtonEnabled = true;
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
@@ -94,7 +96,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     checkInvigilationState();
-
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -161,6 +162,9 @@ class _DashboardState extends State<Dashboard> {
               key: 'notifications', value: jsonEncode(notificationsLocal));
         }
       }
+      setState(() {
+        getUnreadNotificationsCount();
+      });
     });
     super.initState();
   }
@@ -226,7 +230,8 @@ class _DashboardState extends State<Dashboard> {
     return FutureBuilder(
       future: getDetails(token: widget.jwt),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            !isPageLoaded) {
           return const Scaffold(
               body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
@@ -237,6 +242,7 @@ class _DashboardState extends State<Dashboard> {
             textScaler: const TextScaler.linear(1),
           )));
         } else {
+          isPageLoaded = true;
           return Scaffold(
               backgroundColor: blue,
               appBar: AppBar(
@@ -317,121 +323,140 @@ class _DashboardState extends State<Dashboard> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  List notificationsLocal = [];
-                                  List<dynamic> today = [];
-                                  List<dynamic> yesterday = [];
-                                  List<dynamic> earlier = [];
-                                  List<bool> todayBool = [];
-                                  List<bool> yesterdayBool = [];
-                                  List<bool> earlierBool = [];
-                                  dynamic response = await getNotifications();
-                                  if (response.statusCode == 200) {
-                                    List<dynamic> notificationsServer =
-                                        jsonDecode(response.body)['data']
-                                            ['notifications'];
-                                    String? notifcationsData =
-                                        await const FlutterSecureStorage()
-                                            .read(key: 'notifications');
-                                    if (notifcationsData != null) {
-                                      notificationsLocal =
-                                          jsonDecode(notifcationsData);
-                                      // sync notificationsLocal with notificationsServer and update notificationsLocal
-                                      for (var notification
-                                          in notificationsServer) {
-                                        bool found = false;
-                                        for (var localNotification
-                                            in notificationsLocal) {
-                                          if (notification['_id'] ==
-                                              localNotification[0]['_id']) {
-                                            found = true;
-                                            break;
+                                onPressed: isButtonEnabled
+                                    ? () async {
+                                        setState(() {
+                                          isButtonEnabled = false;
+                                        });
+                                        List notificationsLocal = [];
+                                        List<dynamic> today = [];
+                                        List<dynamic> yesterday = [];
+                                        List<dynamic> earlier = [];
+                                        List<bool> todayBool = [];
+                                        List<bool> yesterdayBool = [];
+                                        List<bool> earlierBool = [];
+                                        dynamic response =
+                                            await getNotifications();
+                                        if (response.statusCode == 200) {
+                                          List<dynamic> notificationsServer =
+                                              jsonDecode(response.body)['data']
+                                                  ['notifications'];
+                                          String? notifcationsData =
+                                              await const FlutterSecureStorage()
+                                                  .read(key: 'notifications');
+                                          if (notifcationsData != null) {
+                                            notificationsLocal =
+                                                jsonDecode(notifcationsData);
+                                            // sync notificationsLocal with notificationsServer and update notificationsLocal
+                                            for (var notification
+                                                in notificationsServer) {
+                                              bool found = false;
+                                              for (var localNotification
+                                                  in notificationsLocal) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                List item = [];
+                                                item.add(notification);
+                                                item.add(false);
+                                                notificationsLocal.add(item);
+                                              }
+                                            }
+                                            // Delete notifications from notificationsLocal that are not in notificationsServer
+                                            for (var localNotification
+                                                in notificationsLocal) {
+                                              bool found = false;
+                                              for (var notification
+                                                  in notificationsServer) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                notificationsLocal
+                                                    .remove(localNotification);
+                                              }
+                                            }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
+                                          } else {
+                                            for (var notification
+                                                in notificationsServer) {
+                                              List item = [];
+                                              item.add(notification);
+                                              item.add(false);
+                                              notificationsLocal.add(item);
+                                            }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
                                           }
-                                        }
-                                        if (!found) {
-                                          List item = [];
-                                          item.add(notification);
-                                          item.add(false);
-                                          notificationsLocal.add(item);
-                                        }
-                                      }
-                                      // Delete notifications from notificationsLocal that are not in notificationsServer
-                                      for (var localNotification
-                                          in notificationsLocal) {
-                                        bool found = false;
-                                        for (var notification
-                                            in notificationsServer) {
-                                          if (notification['_id'] ==
-                                              localNotification[0]['_id']) {
-                                            found = true;
-                                            break;
+                                          for (var notification
+                                              in notificationsLocal) {
+                                            if (DateTime.parse(notification[0]
+                                                        ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                0) {
+                                              today.add(notification[0]);
+                                              todayBool.add(notification[1]);
+                                            } else if (DateTime.parse(
+                                                        notification[0]
+                                                            ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                -1) {
+                                              yesterday.add(notification[0]);
+                                              yesterdayBool
+                                                  .add(notification[1]);
+                                            } else {
+                                              earlier.add(notification[0]);
+                                              earlierBool.add(notification[1]);
+                                            }
                                           }
-                                        }
-                                        if (!found) {
-                                          notificationsLocal
-                                              .remove(localNotification);
-                                        }
-                                      }
-                                      await const FlutterSecureStorage().write(
-                                          key: 'notifications',
-                                          value:
-                                              jsonEncode(notificationsLocal));
-                                    } else {
-                                      for (var notification
-                                          in notificationsServer) {
-                                        List item = [];
-                                        item.add(notification);
-                                        item.add(false);
-                                        notificationsLocal.add(item);
-                                      }
-                                      await const FlutterSecureStorage().write(
-                                          key: 'notifications',
-                                          value:
-                                              jsonEncode(notificationsLocal));
-                                    }
-                                    for (var notification
-                                        in notificationsLocal) {
-                                      if (DateTime.parse(
-                                                  notification[0]['createdAt'])
-                                              .difference(DateTime.now())
-                                              .inDays ==
-                                          0) {
-                                        today.add(notification[0]);
-                                        todayBool.add(notification[1]);
-                                      } else if (DateTime.parse(
-                                                  notification[0]['createdAt'])
-                                              .difference(DateTime.now())
-                                              .inDays ==
-                                          -1) {
-                                        yesterday.add(notification[0]);
-                                        yesterdayBool.add(notification[1]);
-                                      } else {
-                                        earlier.add(notification[0]);
-                                        earlierBool.add(notification[1]);
-                                      }
-                                    }
 
-                                    setState(() {
-                                      getUnreadNotificationsCount();
-                                    });
+                                          setState(() {
+                                            getUnreadNotificationsCount();
+                                          });
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NotificationScreen(
-                                                  today: today,
-                                                  yesterday: yesterday,
-                                                  earlier: earlier,
-                                                  todayBool: todayBool,
-                                                  yesterdayBool: yesterdayBool,
-                                                  earlierBool: earlierBool)),
-                                    );
-                                  } else {
-                                    errorDialog(context,
-                                        'Error occurred! Please try again later');
-                                  }
-                                },
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationScreen(
+                                                        today: today,
+                                                        yesterday: yesterday,
+                                                        earlier: earlier,
+                                                        todayBool: todayBool,
+                                                        yesterdayBool:
+                                                            yesterdayBool,
+                                                        earlierBool:
+                                                            earlierBool)),
+                                          ).then((_) {
+                                            setState(() {
+                                              isButtonEnabled = true;
+                                              getUnreadNotificationsCount();
+                                            });
+                                          });
+                                        } else {
+                                          errorDialog(context,
+                                              'Error occurred! Please try again later');
+                                        }
+                                      }
+                                    : null,
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
                                     shadowColor: Colors.transparent,

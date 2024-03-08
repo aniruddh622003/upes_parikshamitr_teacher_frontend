@@ -38,6 +38,17 @@ class _UFMPageState extends State<UFMPage> {
   bool _isChecked10 = false;
   bool _isChecked11 = false;
   bool _isChecked12 = false;
+
+  @override
+  void dispose() {
+    controllerFName.dispose();
+    controllerFMobile.dispose();
+    controllerEAddress.dispose();
+    controllerEMobile.dispose();
+    controllerOtherRemarks.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

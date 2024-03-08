@@ -24,6 +24,15 @@ class _LogInPageState extends State<LogInPage> {
   final TextEditingController controllerPass1 = TextEditingController();
   final TextEditingController controllerPass2 = TextEditingController();
 
+  @override
+  void dispose() {
+    controllerName.dispose();
+    controllerEmail.dispose();
+    controllerPass1.dispose();
+    controllerPass2.dispose();
+    super.dispose();
+  }
+
   Future<bool> _registerFuture = Future.value(false);
   Future<bool> sendPostRequest(Map<String, dynamic> data) async {
     var url = Uri.parse('$serverUrl/teacher');

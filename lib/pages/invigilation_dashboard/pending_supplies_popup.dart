@@ -184,5 +184,7 @@ void pendingSuppliesPopup(BuildContext context,
         ),
       );
     },
-  );
+  ).then((_) {
+    controller.dispose();
+  });
 }

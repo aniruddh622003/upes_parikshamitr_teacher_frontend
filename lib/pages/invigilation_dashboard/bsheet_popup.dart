@@ -21,6 +21,7 @@ void bsheetPopup(BuildContext context) async {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       controllerSAP.text = scanData.code.toString();
+      controller.dispose();
     });
   }
 
@@ -176,5 +177,7 @@ void bsheetPopup(BuildContext context) async {
         ),
       );
     },
-  );
+  ).then((_) {
+    controllerSAP.dispose();
+  });
 }

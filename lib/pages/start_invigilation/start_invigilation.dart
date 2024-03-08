@@ -22,6 +22,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerUniqueCode = TextEditingController();
   QRViewController? controller;
+  @override
+  void dispose() {
+    controller?.dispose();
+    controllerUniqueCode.dispose();
+    super.dispose();
+  }
+
   void onQRViewCreated(QRViewController controller) {
     String? uniqueCode;
     this.controller = controller;

@@ -60,6 +60,13 @@ class _SignInPageState extends State<SignInPage> {
   Future<void>? _futurePostRequest;
 
   @override
+  void dispose() {
+    controllerEmail.dispose();
+    controllerPass.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;

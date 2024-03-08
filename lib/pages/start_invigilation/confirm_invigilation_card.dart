@@ -197,5 +197,9 @@ void confirmInvigilationCard(
         },
       );
     },
-  );
+  ).then((_) {
+    for (int i = 0; i < controllers.length; i++) {
+      controllers[i].dispose();
+    }
+  });
 }

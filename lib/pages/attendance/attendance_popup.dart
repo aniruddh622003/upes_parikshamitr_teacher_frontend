@@ -63,11 +63,9 @@ void attendancePopup(BuildContext context) async {
                         child: GestureDetector(
                           onTap: onBarcodeButtonPressed,
                           child: kIsWeb
-                              ? Container(
-                                  child: Center(
-                                      child: Text(
-                                          "Barcode Scanner is currently not supported on Web. Please type the code to proceed.")),
-                                )
+                              ? const Center(
+                                  child: Text(
+                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
                               : Container(
                                   color: gray,
                                   child: const Center(
@@ -192,5 +190,7 @@ void attendancePopup(BuildContext context) async {
         ),
       );
     },
-  );
+  ).then((_) {
+    controllerSAP.dispose();
+  });
 }

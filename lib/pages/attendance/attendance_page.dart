@@ -3,20 +3,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
     show serverUrl;
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AttendancePage extends StatelessWidget {
+class AttendancePage extends StatefulWidget {
   final Map<dynamic, dynamic> studentDetails;
-  final controllerSheetNo = TextEditingController();
 
-  AttendancePage({super.key, required this.studentDetails});
+  const AttendancePage({super.key, required this.studentDetails});
+
+  @override
+  State<AttendancePage> createState() => _AttendancePageState();
+}
+
+class _AttendancePageState extends State<AttendancePage> {
+  final controllerSheetNo = TextEditingController();
 
   Future<void> markAttendance(String roomId) async {
     const storage = FlutterSecureStorage();
@@ -30,7 +36,7 @@ class AttendancePage extends StatelessWidget {
       },
       body: jsonEncode(<String, dynamic>{
         'room_id': roomId,
-        'sap_id': studentDetails['sap_id'],
+        'sap_id': widget.studentDetails['sap_id'],
         'ans_sheet_number': int.parse(controllerSheetNo.text),
       }),
     );
@@ -45,6 +51,12 @@ class AttendancePage extends StatelessWidget {
     //   print(jsonDecode(response.body)['message']);
     //   // throw Exception('Failed to mark attendance');
     // }
+  }
+
+  @override
+  void dispose() {
+    controllerSheetNo.dispose();
+    super.dispose();
   }
 
   @override
@@ -136,7 +148,7 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(studentDetails['sap_id'].toString(),
+                            Text(widget.studentDetails['sap_id'].toString(),
                                 textScaler: const TextScaler.linear(1),
                                 style: const TextStyle(fontSize: fontMedium)),
                             Container(
@@ -148,7 +160,7 @@ class AttendancePage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  studentDetails['seat_no'].toString(),
+                                  widget.studentDetails['seat_no'].toString(),
                                   textScaler: const TextScaler.linear(1),
                                   style: const TextStyle(
                                     color: white,
@@ -165,7 +177,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['roll_no'].toString(),
+                        Text(widget.studentDetails['roll_no'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
@@ -176,7 +188,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['student_name'].toString(),
+                        Text(widget.studentDetails['student_name'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
@@ -187,7 +199,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['subject'].toString(),
+                        Text(widget.studentDetails['subject'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
@@ -198,7 +210,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['subject_code'].toString(),
+                        Text(widget.studentDetails['subject_code'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
@@ -209,7 +221,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['course'].toString(),
+                        Text(widget.studentDetails['course'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
@@ -220,7 +232,7 @@ class AttendancePage extends StatelessWidget {
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['exam_type'].toString(),
+                        Text(widget.studentDetails['exam_type'].toString(),
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,

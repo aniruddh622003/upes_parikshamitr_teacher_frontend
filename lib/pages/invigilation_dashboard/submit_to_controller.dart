@@ -26,6 +26,12 @@ class _SubmitToControllerState extends State<SubmitToController> {
   final submissionUniqueCode = TextEditingController();
   QRViewController? controller;
 
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   void onQRViewCreated(QRViewController controller) {
     String? uniqueCode;
     this.controller = controller;
