@@ -294,13 +294,14 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             Text(data['name'] ?? 'Default',
                 textScaler: const TextScaler.linear(1),
                 style: const TextStyle(color: white, fontSize: fontLarge)),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
+                  padding: const EdgeInsets.only(bottom: 20),
                   child: Column(
                     children: [
                       Text(
@@ -310,7 +311,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                             const TextStyle(color: white, fontSize: fontMedium),
                       ),
                       const CurrentTimeWidget(),
-                      getPhaseText(),
+                      // getPhaseText(),
                     ],
                   ),
                 )),
@@ -617,7 +618,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
     int currentHour = currentTime.hour;
     // String period = currentHour >= 12 ? 'PM' : 'AM';
 
-    if (currentHour >= 8 && currentHour < 13) {
+    if (currentHour >= 0 && currentHour < 13) {
       return const Text(
         '(Phase I)',
         textScaler: TextScaler.linear(1),

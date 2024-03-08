@@ -216,7 +216,8 @@ void seatingPlanPopup(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: studentDetails['attendance']
+                    onPressed: studentDetails['attendance'] ||
+                            !(studentDetails['eligible'] == 'YES')
                         ? null
                         : () async {
                             try {

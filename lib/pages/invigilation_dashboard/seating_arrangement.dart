@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
@@ -66,8 +67,6 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return KeyedSubtree(
         key: key,
         child: FutureBuilder(
@@ -113,6 +112,25 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
             } else {
               seatingPlan = snapshot
                   .data; // Assign the data from fetchData to seatingPlan
+              int allocatedStudents = seatingPlan?['data']['eligible_students'];
+              int debarredStudents = seatingPlan?['data']['debarred_students'];
+              int financialHoldStudents =
+                  seatingPlan?['data']['f_hold_students'];
+              int registrationHoldStudents =
+                  seatingPlan?['data']['r_hold_students'];
+              int presentStudents = seatingPlan?['data']['seating_plan']
+                  .where((student) => student['attendance'] == true)
+                  .length;
+              int totalSeats = ((int.parse(seatingPlan?['data']
+                              ['highest_seat_no']
+                          .substring(1)) +
+                      0) *
+                  (seatingPlan?['data']['highest_seat_no'].codeUnitAt(0) -
+                      'A'.codeUnitAt(0) +
+                      1)) as int;
+              int emptySeats =
+                  totalSeats - seatingPlan?['data']['total_students'] as int;
+
               return Scaffold(
                 backgroundColor: blue,
                 appBar: AppBar(
@@ -151,14 +169,6 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                               fontSize: fontXLarge,
                             )),
                       ),
-                      // const Center(
-                      //   child: Text("2:00 - 5:00 PM",
-                      //       textScaler: TextScaler.linear(1),
-                      //       style: TextStyle(
-                      //         color: white,
-                      //         fontSize: fontSmall,
-                      //       )),
-                      // ),
                       const SizedBox(height: 20),
                       Expanded(
                           child: Container(
@@ -183,14 +193,13 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                               controller:
                                   _scrollController, // Pass the ScrollController to the Scrollbar
                               // interactive: true,
-                              thickness: 15,
-                              thumbVisibility: true,
-                              trackVisibility: true,
+                              thickness: kIsWeb ? 15 : 0,
+                              thumbVisibility: kIsWeb,
+                              trackVisibility: kIsWeb,
                               child: GridView.builder(
                                 controller: _scrollController,
                                 scrollDirection: Axis.horizontal,
                                 // shrinkWrap: true,
-
                                 // physics: const NeverScrollableScrollPhysics(),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 20),
@@ -298,11 +307,21 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                               ),
                             ),
                           ),
+                          Center(
+                            child: Text(
+                              'Total Students: ${seatingPlan?['data']['total_students']}',
+                              textScaler: const TextScaler.linear(1),
+                              style: const TextStyle(
+                                color: black,
+                                fontSize: fontMedium,
+                              ),
+                            ),
+                          ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.width / 1,
+                            height: MediaQuery.of(context).size.width / 1.75,
                             child: GridView.count(
                               physics: const NeverScrollableScrollPhysics(),
-                              childAspectRatio: 2,
+                              childAspectRatio: 2.5,
                               crossAxisCount: 2,
                               padding: const EdgeInsets.all(8.0),
                               children: [
@@ -323,10 +342,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Allocated',
-                                          textScaler: TextScaler.linear(1),
+                                          'Allocated: $allocatedStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
@@ -349,10 +369,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Unallocated',
-                                          textScaler: TextScaler.linear(1),
+                                          'Unallocated: $emptySeats',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
@@ -375,10 +396,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Present',
-                                          textScaler: TextScaler.linear(1),
+                                          'Present: $presentStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
@@ -401,10 +423,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Debarred',
-                                          textScaler: TextScaler.linear(1),
+                                          'Debarred: $debarredStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
@@ -427,10 +450,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Financial Hold',
-                                          textScaler: TextScaler.linear(1),
+                                          'Financial\nHold: $financialHoldStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
@@ -453,10 +477,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           ),
                                         ),
                                         const SizedBox(width: 5),
-                                        const Flexible(
+                                        Flexible(
                                             child: Text(
-                                          'Registration Hold',
-                                          textScaler: TextScaler.linear(1),
+                                          'Registration\nHold: $registrationHoldStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
                                         )),
                                       ],
                                     ),
