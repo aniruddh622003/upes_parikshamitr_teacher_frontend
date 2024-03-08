@@ -19,6 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class InvigilatorDashboard extends StatefulWidget {
   const InvigilatorDashboard({super.key});
@@ -29,6 +30,7 @@ class InvigilatorDashboard extends StatefulWidget {
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   Map data = {};
+  String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
   Future<Map> getDetails() async {
     final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
     var response = await http.get(
@@ -301,6 +303,12 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                   padding: const EdgeInsets.only(bottom: 30),
                   child: Column(
                     children: [
+                      Text(
+                        formattedDate,
+                        textScaler: const TextScaler.linear(1),
+                        style:
+                            const TextStyle(color: white, fontSize: fontMedium),
+                      ),
                       const CurrentTimeWidget(),
                       getPhaseText(),
                     ],
@@ -340,7 +348,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Expanded(
                           child: GestureDetector(
                               onTap: () => errorDialog(context,
-                                  "This feature is currently under development."),
+                                  "This feature is not applicable for Mid Semester Examinations."),
                               // bsheetPopup(context),
                               child: SvgPicture.asset(
                                   'android/assets/supplementary.svg')),
