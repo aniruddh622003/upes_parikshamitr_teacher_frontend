@@ -125,14 +125,11 @@ void attendancePopup(BuildContext context) async {
                     onPressed: () async {
                       try {
                         const storage = FlutterSecureStorage();
-                        dynamic roomData = await storage.read(key: 'room_data');
-
-                        dynamic data = await getRoomDetails(
-                            jsonDecode(roomData.toString())[0]['room_id']);
+                        String? roomId = await storage.read(key: 'roomId');
+                        dynamic data = await getRoomDetails(roomId.toString());
                         if (data != null) {
                           if (data.statusCode == 200) {
                             Map roomDetails = jsonDecode(data.body);
-
                             int indexData = roomDetails['data']['seating_plan']
                                 .indexWhere((student) =>
                                     student['sap_id'] ==

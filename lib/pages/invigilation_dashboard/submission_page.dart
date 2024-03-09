@@ -69,11 +69,10 @@ class SubmissionDetails extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               const storage = FlutterSecureStorage();
-                              dynamic roomData =
-                                  await storage.read(key: 'room_data');
-                              dynamic response = await checkRoomStatus(
-                                  jsonDecode(roomData.toString())[0]
-                                      ['room_id']);
+                              final String? roomId =
+                                  await storage.read(key: 'roomId');
+                              dynamic response =
+                                  await checkRoomStatus(roomId.toString());
                               if (response.statusCode == 200) {
                                 if (jsonDecode(response.body)['data'] ==
                                     "APPROVAL") {
@@ -88,8 +87,12 @@ class SubmissionDetails extends StatelessWidget {
                                       backgroundColor: Colors.grey,
                                       textColor: Colors.white,
                                       fontSize: 16.0);
-                                  const FlutterSecureStorage()
+                                  await const FlutterSecureStorage()
                                       .delete(key: 'submission_state');
+                                  await const FlutterSecureStorage()
+                                      .delete(key: "unique_code");
+                                  await const FlutterSecureStorage()
+                                      .delete(key: "roomId");
                                   String? jwt =
                                       await const FlutterSecureStorage()
                                           .read(key: 'jwt');

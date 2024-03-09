@@ -2,15 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/mark_attendance.dart';
 // import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show serverUrl;
 // import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class AttendancePage extends StatefulWidget {
   final Map<dynamic, dynamic> studentDetails;
@@ -23,35 +20,6 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   final controllerSheetNo = TextEditingController();
-
-  Future<void> markAttendance(String roomId) async {
-    const storage = FlutterSecureStorage();
-    final String? jwt = await storage.read(key: 'jwt');
-
-    final _ = await http.post(
-      Uri.parse('$serverUrl/teacher/invigilation/mark-attendance'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $jwt',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'room_id': roomId,
-        'sap_id': widget.studentDetails['sap_id'],
-        'ans_sheet_number': int.parse(controllerSheetNo.text),
-      }),
-    );
-
-    // if (response.statusCode == 200) {
-    //   // If the server returns a 200 OK response, parse the JSON.
-    //   // return response.body;
-    //   print(jsonDecode(response.body)['message']);
-    // } else {
-    //   // If the server did not return a 200 OK response,
-    //   // then throw an exception.
-    //   print(jsonDecode(response.body)['message']);
-    //   // throw Exception('Failed to mark attendance');
-    // }
-  }
 
   @override
   void dispose() {
@@ -281,12 +249,17 @@ class _AttendancePageState extends State<AttendancePage> {
                                     textColor: Colors.white,
                                     fontSize: 16.0);
                               } else {
-                                const storage = FlutterSecureStorage();
-                                dynamic roomData =
-                                    await storage.read(key: 'room_data');
-                                markAttendance(
-                                    jsonDecode(roomData.toString())[0]
-                                        ['room_id']);
+                                final String? roomId =
+                                    await const FlutterSecureStorage()
+                                        .read(key: 'roomId');
+                                Map data = {
+                                  'room_id': roomId,
+                                  'sap_id': widget.studentDetails['sap_id'],
+                                  'ans_sheet_number':
+                                      int.parse(controllerSheetNo.text),
+                                };
+                                await markAttendance(data);
+                                // WIP: markAttendance status code
                                 Navigator.pop(context);
                                 Fluttertoast.showToast(
                                   msg:

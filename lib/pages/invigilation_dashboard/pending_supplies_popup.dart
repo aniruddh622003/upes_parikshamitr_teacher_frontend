@@ -140,12 +140,12 @@ void pendingSuppliesPopup(BuildContext context,
                           pendingSuppliesList[index]['quantity'] =
                               supplyDetails['quantity'] -
                                   int.parse(controller.text);
-                          dynamic roomData = await const FlutterSecureStorage()
-                              .read(key: 'room_data');
+                          final String? roomId =
+                              await const FlutterSecureStorage()
+                                  .read(key: 'roomId');
                           Map data = {
                             "pending_supplies": pendingSuppliesList,
-                            "room_id": jsonDecode(roomData.toString())[0]
-                                ['room_id']
+                            "room_id": roomId.toString(),
                           };
                           dynamic response = await updateSupplies(data);
                           if (response.statusCode == 200) {

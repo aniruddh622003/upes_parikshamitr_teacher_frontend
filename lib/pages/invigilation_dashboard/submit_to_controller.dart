@@ -52,10 +52,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
 
       if (response.statusCode == 201) {
         try {
-          await const FlutterSecureStorage().delete(key: "unique_code");
           await const FlutterSecureStorage()
               .write(key: "submission_state", value: "submitting");
-          await const FlutterSecureStorage().delete(key: "invigilation_state");
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.push(
@@ -79,7 +77,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
               textColor: Colors.white,
               fontSize: 16.0);
           await const FlutterSecureStorage().delete(key: 'submission_state');
-          await const FlutterSecureStorage().delete(key: "invigilation_state");
+          await const FlutterSecureStorage().delete(key: "unique_code");
+          await const FlutterSecureStorage().delete(key: "roomId");
           String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
           Navigator.pop(context);
           Navigator.pop(context);

@@ -53,18 +53,9 @@ class _StartInvigilationState extends State<StartInvigilation> {
       if (response.statusCode == 201) {
         try {
           Map data = jsonDecode(response.body)['data'];
-
-          List roomData = [
-            {
-              'room_id': data['room']['_id'],
-              'room_no': data['room']['room_no'],
-              'block': data['room']['block'],
-              'floor': data['room']['floor'],
-              'room_invigilator_id': data['room']['room_invigilator_id'],
-            }
-          ];
+          String roomId = data['room']['_id'];
           const storage = FlutterSecureStorage();
-          await storage.write(key: 'room_data', value: jsonEncode(roomData));
+          await storage.write(key: 'roomId', value: roomId);
           await storage.write(key: 'unique_code', value: uniqueCode.toString());
           Navigator.pop(context);
           Navigator.pop(context);
@@ -231,20 +222,10 @@ class _StartInvigilationState extends State<StartInvigilation> {
                               if (response.statusCode == 201) {
                                 try {
                                   Map data = jsonDecode(response.body)['data'];
-                                  List roomData = [
-                                    {
-                                      'room_id': data['room']['_id'],
-                                      'room_no': data['room']['room_no'],
-                                      'block': data['room']['block'],
-                                      'floor': data['room']['floor'],
-                                      'room_invigilator_id': data['room']
-                                          ['room_invigilator_id'],
-                                    }
-                                  ];
+                                  String roomId = data['room']['_id'];
                                   const storage = FlutterSecureStorage();
                                   await storage.write(
-                                      key: 'room_data',
-                                      value: jsonEncode(roomData));
+                                      key: 'roomId', value: roomId);
                                   await storage.write(
                                       key: 'unique_code',
                                       value: uniqueCode.toString());

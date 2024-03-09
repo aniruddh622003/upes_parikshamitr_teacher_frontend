@@ -45,7 +45,6 @@ void reqApp(BuildContext context) {
                           try {
                             const storage = FlutterSecureStorage();
                             String? jwt = await storage.read(key: 'jwt');
-                            await storage.delete(key: "invigilation_state");
                             Navigator.pop(context);
                             Navigator.pop(context);
                             Navigator.pop(context);

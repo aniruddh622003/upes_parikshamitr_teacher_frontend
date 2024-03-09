@@ -9,6 +9,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.d
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
@@ -20,8 +21,8 @@ import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
-  int unreadNotificationsCount = 0;
-  Dashboard({super.key, required this.jwt});
+
+  const Dashboard({super.key, required this.jwt});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -30,6 +31,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   late Map data;
   late Timer _timer;
+  int unreadNotificationsCount = 0;
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
 
@@ -68,28 +70,31 @@ class _DashboardState extends State<Dashboard> {
           count++;
         }
       }
-      widget.unreadNotificationsCount = count;
+      unreadNotificationsCount = count;
     } else {
-      widget.unreadNotificationsCount = 0;
+      unreadNotificationsCount = 0;
     }
   }
 
   void checkInvigilationState() async {
     const storage = FlutterSecureStorage();
-    String? invigilationState = await storage.read(key: 'invigilation_state');
-    String? roomData = await storage.read(key: 'room_data');
-    String? uniqueCode = await storage.read(key: 'unique_code');
-    String? pendingSupplies = await storage.read(key: 'pendingSupplies');
+    String? roomId = await storage.read(key: 'roomId');
+    String? submissionState = await storage.read(key: 'submission_state');
 
-    if (invigilationState != null &&
-        roomData != null &&
-        pendingSupplies != null &&
-        uniqueCode != null) {
-      Navigator.pop(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const InvigilatorDashboard()),
-      );
+    if (roomId != null) {
+      if (submissionState != null) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SubmissionDetails()),
+        );
+      } else {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const InvigilatorDashboard()),
+        );
+      }
     }
   }
 
@@ -98,7 +103,7 @@ class _DashboardState extends State<Dashboard> {
     checkInvigilationState();
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
@@ -109,6 +114,7 @@ class _DashboardState extends State<Dashboard> {
         if (notifcationsData != null) {
           notificationsLocal = jsonDecode(notifcationsData);
           // sync notificationsLocal with notificationsServer and update notificationsLocal
+          List toAdd = [];
           bool newNotification = false;
           for (var notification in notificationsServer) {
             bool found = false;
@@ -123,8 +129,11 @@ class _DashboardState extends State<Dashboard> {
               List item = [];
               item.add(notification);
               item.add(false);
-              notificationsLocal.add(item);
+              toAdd.add(item);
             }
+          }
+          for (var item in toAdd) {
+            notificationsLocal.add(item);
           }
           if (newNotification) {
             Fluttertoast.showToast(
@@ -213,8 +222,13 @@ class _DashboardState extends State<Dashboard> {
               'Sign Out',
               textScaler: TextScaler.linear(1),
             ),
-            onPressed: () {
+            onPressed: () async {
               confirm = true;
+              await storage.delete(key: 'notifications');
+              await storage.delete(key: 'roomId');
+              await storage.delete(key: 'unique_code');
+              await storage.delete(key: 'jwt');
+              await storage.delete(key: 'submission_state');
               Navigator.of(context).pop();
             },
           ),
@@ -223,7 +237,6 @@ class _DashboardState extends State<Dashboard> {
     );
 
     if (confirm) {
-      await storage.delete(key: 'jwt');
       Navigator.pop(context);
       Navigator.push(
         context,
@@ -485,14 +498,13 @@ class _DashboardState extends State<Dashboard> {
                                     Container(
                                       padding: const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
-                                        color:
-                                            widget.unreadNotificationsCount > 0
-                                                ? orange
-                                                : Colors.transparent,
+                                        color: unreadNotificationsCount > 0
+                                            ? orange
+                                            : Colors.transparent,
                                         shape: BoxShape.circle,
                                       ),
                                       child: Text(
-                                        "${widget.unreadNotificationsCount > 0 ? widget.unreadNotificationsCount : ''}",
+                                        "${unreadNotificationsCount > 0 ? unreadNotificationsCount : ''}",
                                         textScaler: const TextScaler.linear(1),
                                         style: const TextStyle(color: white),
                                       ),

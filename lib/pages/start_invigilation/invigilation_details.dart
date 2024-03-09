@@ -50,14 +50,11 @@ class InvigilationDetails extends StatelessWidget {
                   // print(
                   //     "${jsonDecode(response.body)['data']}, ${data['room']['_id']}");
                   if (response.statusCode == 200) {
-                    List<Map> pendingSupplies = [];
-                    await const FlutterSecureStorage().write(
-                        key: 'pendingSupplies',
-                        value: jsonEncode(pendingSupplies));
+                    // List<Map> pendingSupplies = [];
+                    // await const FlutterSecureStorage().write(
+                    //     key: 'pendingSupplies',
+                    //     value: jsonEncode(pendingSupplies));
 
-                    const storage = FlutterSecureStorage();
-                    await storage.write(
-                        key: 'invigilation_state', value: "INVIGILATION");
                     Navigator.of(context).pop();
                     // Navigator.of(context).pop();
 
@@ -67,7 +64,19 @@ class InvigilationDetails extends StatelessWidget {
                           builder: (context) => const InvigilatorDashboard()),
                     );
                   } else if (response.statusCode == 404) {
-                    // Navigator.pop(context);
+                    await const FlutterSecureStorage()
+                        .delete(key: "unique_code");
+                    await const FlutterSecureStorage().delete(key: "roomId");
+
+                    Navigator.pop(context);
+                    String? jwt =
+                        await const FlutterSecureStorage().read(key: 'jwt');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(jwt: jwt),
+                      ),
+                    );
 
                     showDialog(
                       context: context,
@@ -94,17 +103,6 @@ class InvigilationDetails extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () async {
                                       Navigator.pop(context);
-                                      Navigator.pop(context);
-                                      String? jwt =
-                                          await const FlutterSecureStorage()
-                                              .read(key: 'jwt');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              Dashboard(jwt: jwt),
-                                        ),
-                                      );
                                     },
                                     child: const Icon(
                                       Icons.close_sharp,

@@ -157,13 +157,10 @@ void confirmInvigilationCard(
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
-                          await const FlutterSecureStorage().write(
-                              key: 'pendingSupplies',
-                              value: jsonEncode(pendingSupplies));
+                          // await const FlutterSecureStorage().write(
+                          //     key: 'pendingSupplies',
+                          //     value: jsonEncode(pendingSupplies));
 
-                          const storage = FlutterSecureStorage();
-                          await storage.write(
-                              key: 'invigilation_state', value: "INVIGILATION");
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
 

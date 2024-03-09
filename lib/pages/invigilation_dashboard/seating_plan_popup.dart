@@ -205,6 +205,9 @@ void seatingPlanPopup(
                     textScaler: const TextScaler.linear(1),
                     style:
                         TextStyle(fontSize: fontMedium, color: eligibleColor)),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 45,
                   width: double.infinity,
