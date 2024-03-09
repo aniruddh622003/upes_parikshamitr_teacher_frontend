@@ -75,6 +75,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - android/assets/signinpage.svg
+    - android/assets/examsummary.svg
     - android/assets/carousel1.svg
     - android/assets/carousel2.svg
     - android/assets/carousel3.svg

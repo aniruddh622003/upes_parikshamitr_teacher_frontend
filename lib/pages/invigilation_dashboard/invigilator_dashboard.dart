@@ -5,10 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/check_room_status.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
@@ -35,6 +37,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   Map data = {};
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
+  bool isExamSummaryEnabled = true;
   int unreadNotificationsCount = 0;
   late Timer _timer;
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
@@ -731,6 +734,45 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                           },
                           child: SvgPicture.asset(
                               'android/assets/seatingplan.svg'),
+                        )),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: GestureDetector(
+                          onTap: isExamSummaryEnabled
+                              ? () async {
+                                  setState(() {
+                                    isExamSummaryEnabled = false;
+                                  });
+                                  String? roomId =
+                                      await const FlutterSecureStorage()
+                                          .read(key: 'roomId');
+                                  dynamic response =
+                                      await getRoomDetails(roomId.toString());
+                                  if (response.statusCode == 200) {
+                                    Map roomDetails = jsonDecode(response.body);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ExamSummary(
+                                                roomDetails:
+                                                    roomDetails))).then((_) {
+                                      setState(() {
+                                        isExamSummaryEnabled = true;
+                                      });
+                                    });
+                                  } else {
+                                    errorDialog(context, "An error occurred!");
+                                    isExamSummaryEnabled = true;
+                                  }
+                                }
+                              : null,
+                          child: SvgPicture.asset(
+                              'android/assets/examsummary.svg'),
                         )),
                       ],
                     ),
