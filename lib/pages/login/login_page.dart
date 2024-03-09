@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/valid_email_checker.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -21,6 +22,8 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPhone = TextEditingController();
+  final TextEditingController controllerSAP = TextEditingController();
   final TextEditingController controllerPass1 = TextEditingController();
   final TextEditingController controllerPass2 = TextEditingController();
 
@@ -28,8 +31,10 @@ class _LogInPageState extends State<LogInPage> {
   void dispose() {
     controllerName.dispose();
     controllerEmail.dispose();
+    controllerSAP.dispose();
     controllerPass1.dispose();
     controllerPass2.dispose();
+    controllerPhone.dispose();
     super.dispose();
   }
 
@@ -202,11 +207,29 @@ class _LogInPageState extends State<LogInPage> {
                       padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                       child: CustomTextField(
                         label: 'Enter your SAP ID',
-                        controller: controllerEmail,
+                        controller: controllerSAP,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your Phone number',
+                        controller: controllerPhone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your email address',
+                        controller: controllerEmail,
                       ),
                     ),
                     Padding(
@@ -239,8 +262,10 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                           onPressed: () {
                             if (controllerName.text.isEmpty ||
-                                controllerEmail.text.isEmpty ||
+                                controllerSAP.text.isEmpty ||
                                 controllerPass1.text.isEmpty ||
+                                controllerEmail.text.isEmpty ||
+                                controllerPhone.text.isEmpty ||
                                 controllerPass2.text.isEmpty) {
                               errorDialog(
                                   context, 'Please fill all the fields.');
@@ -253,12 +278,18 @@ class _LogInPageState extends State<LogInPage> {
                             } else if (controllerPass1.text !=
                                 controllerPass2.text) {
                               errorDialog(context, 'Passwords do not match.');
+                            } else if (!isValidEmail(controllerEmail.text)) {
+                              errorDialog(context, 'Invalid Email Address.');
+                            } else if (controllerPhone.text.length != 10) {
+                              errorDialog(context, 'Invalid Phone Number.');
                             } else {
                               // send data to server
                               Map<String, dynamic> data = {
-                                'sap_id': int.parse(controllerEmail.text),
+                                'sap_id': int.parse(controllerSAP.text),
                                 'name': controllerName.text,
                                 'password': controllerPass1.text,
+                                'phone': controllerPhone.text,
+                                'email': controllerEmail.text,
                               };
                               setState(() {
                                 _registerFuture = sendPostRequest(data);

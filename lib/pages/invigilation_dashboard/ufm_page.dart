@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/mark_ufm.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -968,8 +969,12 @@ class _UFMPageState extends State<UFMPage> {
                                       controllerEMobile.text.isNotEmpty &&
                                       controllerFMobile.text.isNotEmpty &&
                                       controllerFName.text.isNotEmpty) {
+                                         final String? roomId =
+                                    await const FlutterSecureStorage()
+                                        .read(key: 'roomId');
                                     Map data = {
-                                      "room_id": "65ba84665bfb4b58d77d0184",
+
+                                      "room_id": roomId.toString(),
                                       "sap_id": widget.studentDetails['sap_id']
                                           .toString(),
                                       "father_name": controllerFName.text,
@@ -1015,7 +1020,6 @@ class _UFMPageState extends State<UFMPage> {
                                       errorDialog(context, "An error occured!");
                                     }
                                   } else {
-                                    Navigator.pop(context);
                                     errorDialog(
                                         context, "Please fill all the fields!");
                                   }

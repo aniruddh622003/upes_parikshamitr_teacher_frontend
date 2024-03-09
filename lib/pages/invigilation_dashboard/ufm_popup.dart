@@ -1,26 +1,24 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void ufmPopup(BuildContext context) {
   TextEditingController controllerSAP = TextEditingController();
-  final qrKey = GlobalKey(debugLabel: 'QR');
-  void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      controllerSAP.text = scanData.code.toString();
-      controller.dispose();
-    });
+
+  void onBarcodeButtonPressed() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE);
+    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
   }
 
   showDialog(
@@ -53,7 +51,7 @@ void ufmPopup(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Align the QR code within the frame to scan',
+                  'Open the Barcode scanner and align in the frame to scan',
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),
@@ -62,12 +60,22 @@ void ufmPopup(BuildContext context) {
                     height: 300,
                     width: 300,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        child: GestureDetector(
+                          onTap: onBarcodeButtonPressed,
+                          child: kIsWeb
+                              ? const Center(
+                                  child: Text(
+                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                              : Container(
+                                  color: gray,
+                                  child: const Center(
+                                      child: Text(
+                                    "Scan Barcode",
+                                    textScaler: TextScaler.linear(1),
+                                  )),
+                                ),
+                        )),
                   ),
                 ),
                 const SizedBox(height: 10),

@@ -50,7 +50,7 @@ void attendancePopup(BuildContext context) async {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Align the Barcode within the frame to scan',
+                  'Open the Barcode scanner and align in the frame to scan',
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),

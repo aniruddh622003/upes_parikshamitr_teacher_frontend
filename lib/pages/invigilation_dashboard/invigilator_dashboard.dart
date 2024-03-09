@@ -13,6 +13,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submit_to_controller.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -622,9 +623,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                              onTap: () => errorDialog(context,
-                                  "This feature is currently under development."),
-                              // ufmPopup(context),
+                              onTap: () => ufmPopup(context),
                               child:
                                   SvgPicture.asset('android/assets/ufm.svg')),
                         ),

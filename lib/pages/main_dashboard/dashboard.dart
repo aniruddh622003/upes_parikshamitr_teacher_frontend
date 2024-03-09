@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +13,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -48,6 +50,15 @@ class _DashboardState extends State<Dashboard> {
 
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+      int? phone = data['phone'];
+      String? email = data['email'];
+      if (phone == null || email == null) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CheckPhoneEmail()),
+        );
+      }
     } else {
       errorDialog(context, 'Error occurred! Please try again later');
       Navigator.pop(context);
@@ -97,6 +108,8 @@ class _DashboardState extends State<Dashboard> {
       }
     }
   }
+
+  void checkPhoneEmail() async {}
 
   @override
   void initState() {

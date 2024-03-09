@@ -110,8 +110,8 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                 color: Colors.blue,
               ); // Return an empty container as the builder has to return a widget
             } else {
-              seatingPlan = snapshot
-                  .data; // Assign the data from fetchData to seatingPlan
+              seatingPlan = snapshot.data;
+               // Assign the data from fetchData to seatingPlan
               int allocatedStudents = seatingPlan?['data']['eligible_students'];
               int debarredStudents = seatingPlan?['data']['debarred_students'];
               int financialHoldStudents =
