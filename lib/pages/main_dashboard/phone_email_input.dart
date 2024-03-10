@@ -23,8 +23,8 @@ class _CheckPhoneEmailState extends State<CheckPhoneEmail> {
 
   @override
   void dispose() {
-    controllerPhone.dispose();
-    controllerEmail.dispose();
+    // controllerPhone.dispose();
+    // controllerEmail.dispose();
     super.dispose();
   }
 

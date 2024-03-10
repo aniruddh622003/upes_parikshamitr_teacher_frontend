@@ -14,6 +14,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 void pendingSuppliesPopup(BuildContext context,
     Map<dynamic, dynamic> supplyDetails, List<dynamic> pendingSuppliesList) {
   int index = pendingSuppliesList.indexOf(supplyDetails);
+  print(pendingSuppliesList[index]);
+  print(supplyDetails);
+  print(pendingSuppliesList);
   TextEditingController controller = TextEditingController();
   showDialog(
     context: context,
@@ -144,9 +147,10 @@ void pendingSuppliesPopup(BuildContext context,
                               await const FlutterSecureStorage()
                                   .read(key: 'roomId');
                           Map data = {
-                            "pending_supplies": pendingSuppliesList,
+                            "pending_supplies": [pendingSuppliesList[index]],
                             "room_id": roomId.toString(),
                           };
+                          print(data);
                           dynamic response = await updateSupplies(data);
                           if (response.statusCode == 200) {
                             Navigator.pop(context);
@@ -185,6 +189,6 @@ void pendingSuppliesPopup(BuildContext context,
       );
     },
   ).then((_) {
-    controller.dispose();
+    // controller.dispose();
   });
 }

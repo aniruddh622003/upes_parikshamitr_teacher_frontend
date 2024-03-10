@@ -123,6 +123,12 @@ void addPendingSuppliesPopup(BuildContext context) {
                         dynamic response = await addSupplies(data);
                         if (response.statusCode == 200) {
                           Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const InvigilatorDashboard()));
                           Fluttertoast.showToast(
                               msg: "Supplies Added Successfully",
                               toastLength: Toast.LENGTH_SHORT,
@@ -151,8 +157,5 @@ void addPendingSuppliesPopup(BuildContext context) {
         ),
       );
     },
-  ).then((_) {
-    supplyName.dispose();
-    supplyNumber.dispose();
-  });
+  );
 }

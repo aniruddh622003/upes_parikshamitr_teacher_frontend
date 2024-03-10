@@ -24,8 +24,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
   QRViewController? controller;
   @override
   void dispose() {
-    controller?.dispose();
-    controllerUniqueCode.dispose();
+    // controller?.dispose();
+    // controllerUniqueCode.dispose();
     super.dispose();
   }
 

@@ -22,7 +22,7 @@ class _Step2CodeState extends State<Step2Code> {
 
   @override
   void dispose() {
-    codeController.dispose();
+    // codeController.dispose();
     super.dispose();
   }
 
