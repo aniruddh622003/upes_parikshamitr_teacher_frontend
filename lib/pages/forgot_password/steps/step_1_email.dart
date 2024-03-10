@@ -22,7 +22,7 @@ class _Step1EmailState extends State<Step1Email> {
 
   @override
   void dispose() {
-    emailController.dispose();
+    // emailController.dispose();
     super.dispose();
   }
 

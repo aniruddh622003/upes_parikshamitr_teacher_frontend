@@ -154,8 +154,5 @@ void addPendingSuppliesPopup(BuildContext context) {
         ),
       );
     },
-  ).then((_) {
-    supplyName.dispose();
-    supplyNumber.dispose();
-  });
+  );
 }

@@ -28,7 +28,7 @@ class _SubmitToControllerState extends State<SubmitToController> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    // controller?.dispose();
     super.dispose();
   }
 

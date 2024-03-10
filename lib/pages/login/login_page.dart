@@ -29,12 +29,12 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   void dispose() {
-    controllerName.dispose();
-    controllerEmail.dispose();
-    controllerSAP.dispose();
-    controllerPass1.dispose();
-    controllerPass2.dispose();
-    controllerPhone.dispose();
+    // controllerName.dispose();
+    // controllerEmail.dispose();
+    // controllerSAP.dispose();
+    // controllerPass1.dispose();
+    // controllerPass2.dispose();
+    // controllerPhone.dispose();
     super.dispose();
   }
 
