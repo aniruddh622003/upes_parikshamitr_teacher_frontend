@@ -30,6 +30,7 @@ class _UFMPageState extends State<UFMPage> {
   TextEditingController controllerEMobile = TextEditingController();
   TextEditingController controllerOtherRemarks = TextEditingController();
   TextEditingController controllerStudentRemarks = TextEditingController();
+  TextEditingController controllerNewAnsSheet = TextEditingController();
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   bool _isChecked3 = false;
@@ -942,6 +943,52 @@ class _UFMPageState extends State<UFMPage> {
                               ),
                             ),
                           ),
+                          const Text('Student remarks, if any:',
+                              textScaler: TextScaler.linear(1),
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: blueXLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: controllerStudentRemarks,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here',
+                              ),
+                            ),
+                          ),
+                          const Text('New Answer Sheet:',
+                              textScaler: TextScaler.linear(1),
+                              style: TextStyle(
+                                  fontSize: fontSmall,
+                                  color: blue,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: blueXLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: controllerNewAnsSheet,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here',
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 10),
                           SizedBox(
                             height: 45,
@@ -959,9 +1006,10 @@ class _UFMPageState extends State<UFMPage> {
                                   if (controllerEAddress.text.isEmpty ||
                                       controllerEMobile.text.isEmpty ||
                                       controllerFMobile.text.isEmpty ||
-                                      controllerFName.text.isEmpty) {
-                                    errorDialog(
-                                        context, "Please fill all the fields!");
+                                      controllerFName.text.isEmpty ||
+                                      controllerNewAnsSheet.text.isEmpty) {
+                                    errorDialog(context,
+                                        "Please fill all the required fields!");
                                   } else if (controllerEMobile.text.length !=
                                           10 ||
                                       controllerFMobile.text.length != 10) {
@@ -1006,6 +1054,8 @@ class _UFMPageState extends State<UFMPage> {
                                       "student_remarks":
                                           controllerStudentRemarks.text
                                               .toString(),
+                                      "new_answer_sheet_number":
+                                          controllerNewAnsSheet.text.toString(),
                                     };
                                     dynamic response = await markUFM(data);
                                     if (response != null) {
@@ -1030,6 +1080,7 @@ class _UFMPageState extends State<UFMPage> {
                                   style: TextStyle(fontSize: fontSmall)),
                             ),
                           ),
+                          const SizedBox(height: 10),
                         ],
                       )
                     ],

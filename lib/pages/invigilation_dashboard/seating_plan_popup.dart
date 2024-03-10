@@ -24,11 +24,10 @@ void seatingPlanPopup(
   } else if (studentDetails['eligible'] == 'R_HOLD') {
     eligibleColor = orange;
     eligibleText = "NO (REGISTRATION HOLD)";
-  }else if (studentDetails['eligible'] == 'UFM') {
+  } else if (studentDetails['eligible'] == 'UFM') {
     eligibleColor = magenta;
     eligibleText = "UFM Case";
-  } 
-   else {
+  } else {
     eligibleColor = grayDark;
     eligibleText = "NO";
   }
@@ -183,7 +182,12 @@ void seatingPlanPopup(
                 Text(
                     studentDetails['ans_sheet_number'].toString() == 'null'
                         ? 'Not Allotted'
-                        : studentDetails['ans_sheet_number'].toString(),
+                        : studentDetails['UFM'] != null
+                            ? studentDetails['new_ans_sheet_number'] == null
+                                ? 'Cancelled'
+                                : studentDetails['new_ans_sheet_number']
+                                    .toString()
+                            : studentDetails['ans_sheet_number'].toString(),
                     textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       fontSize: fontMedium,

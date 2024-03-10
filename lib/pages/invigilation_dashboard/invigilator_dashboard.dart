@@ -188,7 +188,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
           children: [
             const Text(
               'Pending Supplies',
-              textScaleFactor: 1,
+              textScaler: TextScaler.linear(1),
               style: TextStyle(color: white),
             ),
             InkWell(
@@ -196,7 +196,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                 // Handle the icon tap here
                 addPendingSuppliesPopup(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.add_circle_outline,
                 color: Colors.white,
               ),

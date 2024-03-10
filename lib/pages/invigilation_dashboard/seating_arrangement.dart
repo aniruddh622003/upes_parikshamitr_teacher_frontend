@@ -56,6 +56,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
   }
 
   Future<Map> fetchData() async {
+    print(widget.roomId);
     response = await http.get(Uri.parse(
         '$serverUrl/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
     if (response.statusCode == 200) {
@@ -126,8 +127,9 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
               int registrationHoldStudents =
                   seatingPlan?['data']['r_hold_students'];
               int presentStudents = seatingPlan?['data']['seating_plan']
-                  .where((student) => student['attendance'] == true)
-                  .length;
+                      .where((student) => student['attendance'] == true)
+                      .length -
+                  countufm;
               int totalSeats = ((int.parse(seatingPlan?['data']
                               ['highest_seat_no']
                           .substring(1)) +
@@ -262,7 +264,18 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                     if (seatingPlan?['data']['seating_plan']
                                             [indexData]['eligible'] ==
                                         'YES') {
-                                      color = blue;
+                                      if (seatingPlan?['data']['seating_plan']
+                                              [indexData]['attendance'] ==
+                                          true) {
+                                        color = green;
+                                      } else {
+                                        color = blue;
+                                      }
+                                    } else if (seatingPlan?['data']
+                                                ['seating_plan'][indexData]
+                                            ['eligible'] ==
+                                        "UFM") {
+                                      color = magenta;
                                     } else if (seatingPlan?['data']
                                                 ['seating_plan'][indexData]
                                             ['eligible'] ==
@@ -278,17 +291,6 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                             ['eligible'] ==
                                         'R_HOLD') {
                                       color = orange;
-                                    } else if (seatingPlan?['data']
-                                                ['seating_plan'][indexData]
-                                            ['eligible'] ==
-                                        "UFM") {
-                                      color = magenta;
-                                    }
-
-                                    if (seatingPlan?['data']['seating_plan']
-                                            [indexData]['attendance'] ==
-                                        true) {
-                                      color = green;
                                     }
                                   } else {
                                     color = gray;
