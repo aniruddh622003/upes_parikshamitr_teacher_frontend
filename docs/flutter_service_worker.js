@@ -47,18 +47,10 @@ const RESOURCES = {"assets/android/assets/call.svg": "14148808733ca8c109f6b57dd2
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "4c779083d8797ba8be8d3cd5d7fb873e",
-"/": "4c779083d8797ba8be8d3cd5d7fb873e",
-"main.dart.js": "9f42705f12f571a3680b8ac2e2e974c6",
+"index.html": "6099f31aef7b39a50106e31aaed64fcf",
+"/": "6099f31aef7b39a50106e31aaed64fcf",
+"main.dart.js": "d4323003f49687404393cd3fa709cf97",
 "manifest.json": "ed50e8a954db89c20b3af3c2eeb2084c",
-"splash/img/dark-1x.png": "e279208c795a0c8adedd9c0972419c12",
-"splash/img/dark-2x.png": "54bb791d7b6dd74f24e766124e28bca7",
-"splash/img/dark-3x.png": "e556435d494bcc893bf48ade55b6f2ed",
-"splash/img/dark-4x.png": "8b4bf0dbe6e2d5e43918138160d374c9",
-"splash/img/light-1x.png": "e279208c795a0c8adedd9c0972419c12",
-"splash/img/light-2x.png": "54bb791d7b6dd74f24e766124e28bca7",
-"splash/img/light-3x.png": "e556435d494bcc893bf48ade55b6f2ed",
-"splash/img/light-4x.png": "8b4bf0dbe6e2d5e43918138160d374c9",
 "version.json": "337b83ab554bb120704b8ea4b6106dd1"};
 // The application shell files that are downloaded before a service worker can
 // start.
