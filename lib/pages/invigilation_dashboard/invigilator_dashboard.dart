@@ -11,6 +11,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/add_pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
@@ -182,14 +183,28 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         ),
-        child: const Text(
-          'Check Supplies',
-          textScaler: TextScaler.linear(1),
-          style: TextStyle(color: white),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Pending Supplies',
+              textScaleFactor: 1,
+              style: TextStyle(color: white),
+            ),
+            InkWell(
+              onTap: () {
+                // Handle the icon tap here
+                addPendingSuppliesPopup(context);
+              },
+              child: Icon(
+                Icons.add_circle_outline,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
-      )
+      ),
     ];
-
     if (jsonDecode(response.body)['data'].runtimeType != Null) {
       List<dynamic> suppliesList = jsonDecode(response.body)['data'];
       if (suppliesList.isEmpty) {
