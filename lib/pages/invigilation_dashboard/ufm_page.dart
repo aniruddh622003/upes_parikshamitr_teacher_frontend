@@ -29,6 +29,7 @@ class _UFMPageState extends State<UFMPage> {
   TextEditingController controllerEAddress = TextEditingController();
   TextEditingController controllerEMobile = TextEditingController();
   TextEditingController controllerOtherRemarks = TextEditingController();
+  TextEditingController controllerStudentRemarks = TextEditingController();
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   bool _isChecked3 = false;
@@ -49,6 +50,7 @@ class _UFMPageState extends State<UFMPage> {
     controllerEAddress.dispose();
     controllerEMobile.dispose();
     controllerOtherRemarks.dispose();
+    controllerStudentRemarks.dispose();
     super.dispose();
   }
 
@@ -73,14 +75,6 @@ class _UFMPageState extends State<UFMPage> {
                   style: TextStyle(
                     color: white,
                     fontSize: fontXLarge,
-                  )),
-            ),
-            const Center(
-              child: Text("2:00 - 5:00 PM",
-                  textScaler: TextScaler.linear(1),
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontSmall,
                   )),
             ),
             const SizedBox(height: 20),
@@ -139,7 +133,7 @@ class _UFMPageState extends State<UFMPage> {
                                     textScaler: const TextScaler.linear(1),
                                     style: const TextStyle(
                                       color: white,
-                                      fontSize: fontMedium,
+                                      fontSize: fontMedium - 3,
                                     ),
                                   ),
                                 ),
@@ -212,9 +206,6 @@ class _UFMPageState extends State<UFMPage> {
                               style: const TextStyle(
                                 fontSize: fontMedium,
                               )),
-
-                          // here two text field with father name and contact number
-
                           const Text('Father\'s Name',
                               textScaler: TextScaler.linear(1),
                               style: TextStyle(
@@ -599,7 +590,6 @@ class _UFMPageState extends State<UFMPage> {
                               ],
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 0),
                             child: Row(
@@ -930,7 +920,6 @@ class _UFMPageState extends State<UFMPage> {
                               ],
                             ),
                           ),
-
                           const Text(
                               'Any other mode of use of unfair means or misconduct, if any:',
                               textScaler: TextScaler.linear(1),
@@ -1013,6 +1002,10 @@ class _UFMPageState extends State<UFMPage> {
                                       },
                                       "other_mode_of_misconduct":
                                           controllerOtherRemarks.text
+                                              .toString(),
+                                      "student_remarks":
+                                          controllerStudentRemarks.text
+                                              .toString(),
                                     };
                                     dynamic response = await markUFM(data);
                                     if (response != null) {
@@ -1021,19 +1014,14 @@ class _UFMPageState extends State<UFMPage> {
                                         customDialog(context, "Success",
                                             "UFM Slip has been issued successfully!");
                                       } else {
-                                        Navigator.pop(context);
                                         errorDialog(
-                                            context,
-                                            jsonDecode(
-                                                response.body)['message']);
+                                            context, "An error occured!");
                                       }
                                     } else {
-                                      Navigator.pop(context);
                                       errorDialog(context, "An error occured!");
                                     }
                                   }
                                 } catch (e) {
-                                  Navigator.pop(context);
                                   errorDialog(context, e.toString());
                                 }
                               },

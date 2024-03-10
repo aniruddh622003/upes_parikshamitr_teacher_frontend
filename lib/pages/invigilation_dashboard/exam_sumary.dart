@@ -288,6 +288,24 @@ class _ExamSummaryState extends State<ExamSummary> {
     return items;
   }
 
+  List<Widget> makeInvigilators(Map invigilators) {
+    List<Widget> items = [];
+    for (var invigilator in invigilators.entries) {
+      if (invigilator.value != null) {
+        if (invigilator.value['name'] != null) {
+          items.add(
+            Text(
+              invigilators[invigilator.key]['name'],
+              textScaler: const TextScaler.linear(1),
+              style: const TextStyle(fontSize: fontLarge, color: orange),
+            ),
+          );
+        }
+      }
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -354,6 +372,10 @@ class _ExamSummaryState extends State<ExamSummary> {
                     textScaler: TextScaler.linear(1),
                     style: TextStyle(fontSize: fontSmall + 2)),
                 ...makeSummaryItems(seatingPlan),
+                const Text('Invigilators',
+                    textScaler: TextScaler.linear(1),
+                    style: TextStyle(fontSize: fontMedium)),
+                ...makeInvigilators(widget.roomDetails['invigilators']),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

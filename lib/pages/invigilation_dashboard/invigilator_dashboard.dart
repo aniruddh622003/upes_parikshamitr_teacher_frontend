@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/check_room_status.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_invigilators.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
@@ -755,18 +756,32 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                       await getRoomDetails(roomId.toString());
                                   if (response.statusCode == 200) {
                                     Map roomDetails = jsonDecode(response.body);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ExamSummary(
-                                                roomDetails:
-                                                    roomDetails))).then((_) {
-                                      setState(() {
-                                        isExamSummaryEnabled = true;
+                                    dynamic responseInvigilators =
+                                        await getInvigilators();
+                                    if (responseInvigilators.statusCode ==
+                                        200) {
+                                      Map invigilators =
+                                          jsonDecode(responseInvigilators.body);
+                                      roomDetails['invigilators'] =
+                                          invigilators['data'];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ExamSummary(
+                                                  roomDetails:
+                                                      roomDetails))).then((_) {
+                                        setState(() {
+                                          isExamSummaryEnabled = true;
+                                        });
                                       });
-                                    });
+                                    } else {
+                                      errorDialog(context,
+                                          "An error occurred while fetching invigilator details.");
+                                      isExamSummaryEnabled = true;
+                                    }
                                   } else {
-                                    errorDialog(context, "An error occurred!");
+                                    errorDialog(context,
+                                        "An error occurred while fetching room details.");
                                     isExamSummaryEnabled = true;
                                   }
                                 }
