@@ -22,9 +22,13 @@ void seatingPlanPopup(
     eligibleColor = red;
     eligibleText = "NO (Debarred)";
   } else if (studentDetails['eligible'] == 'R_HOLD') {
-    eligibleColor = magenta;
+    eligibleColor = orange;
     eligibleText = "NO (REGISTRATION HOLD)";
-  } else {
+  }else if (studentDetails['eligible'] == 'UFM') {
+    eligibleColor = magenta;
+    eligibleText = "UFM Case";
+  } 
+   else {
     eligibleColor = grayDark;
     eligibleText = "NO";
   }

@@ -205,7 +205,13 @@ class _AttendancePageState extends State<AttendancePage> {
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
-                        const SizedBox(height: 20),
+                        // const SizedBox(height: 20),
+                        const Text('Answer Sheet Number',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                                fontSize: fontSmall,
+                                color: blue,
+                                fontWeight: FontWeight.bold)),
                         const Center(),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -222,7 +228,7 @@ class _AttendancePageState extends State<AttendancePage> {
                             ], // Only digits allowed.
                             decoration: const InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Type here',
+                              hintText: 'Type Sheet Number',
                             ),
                           ),
                         ),

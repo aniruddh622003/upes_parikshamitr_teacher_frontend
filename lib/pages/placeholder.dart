@@ -144,7 +144,7 @@ class PlaceholderTest extends StatelessWidget {
                             width: 30,
                             height: 30,
                             decoration: BoxDecoration(
-                              color: magenta,
+                              color: orange,
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
@@ -152,6 +152,30 @@ class PlaceholderTest extends StatelessWidget {
                           const Flexible(
                               child: Text(
                             'Seat Registration Hold',
+                            textScaler: TextScaler.linear(1),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: magenta,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          const Flexible(
+                              child: Text(
+                            'UFM Issued',
                             textScaler: TextScaler.linear(1),
                           )),
                         ],

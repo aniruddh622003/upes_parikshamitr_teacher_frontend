@@ -111,7 +111,14 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
               ); // Return an empty container as the builder has to return a widget
             } else {
               seatingPlan = snapshot.data;
-               // Assign the data from fetchData to seatingPlan
+              int countufm = 0;
+              // Assign the data from fetchData to seatingPlan
+              for (var student in seatingPlan?['data']['seating_plan']) {
+                if (student['eligible'] == 'UFM') {
+                  student['eligible'] = 'UFM';
+                  countufm += 1;
+                }
+              }
               int allocatedStudents = seatingPlan?['data']['eligible_students'];
               int debarredStudents = seatingPlan?['data']['debarred_students'];
               int financialHoldStudents =
@@ -270,8 +277,14 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                                 ['seating_plan'][indexData]
                                             ['eligible'] ==
                                         'R_HOLD') {
+                                      color = orange;
+                                    } else if (seatingPlan?['data']
+                                                ['seating_plan'][indexData]
+                                            ['eligible'] ==
+                                        "UFM") {
                                       color = magenta;
                                     }
+
                                     if (seatingPlan?['data']['seating_plan']
                                             [indexData]['attendance'] ==
                                         true) {
@@ -318,7 +331,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.width / 1.75,
+                            height: MediaQuery.of(context).size.width / 1.3,
                             child: GridView.count(
                               physics: const NeverScrollableScrollPhysics(),
                               childAspectRatio: 2.5,
@@ -471,7 +484,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                           width: 30,
                                           height: 30,
                                           decoration: BoxDecoration(
-                                            color: magenta,
+                                            color: orange,
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                           ),
@@ -480,6 +493,33 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                                         Flexible(
                                             child: Text(
                                           'Registration\nHold: $registrationHoldStudents',
+                                          textScaler:
+                                              const TextScaler.linear(1),
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: magenta,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Flexible(
+                                            child: Text(
+                                          'UFM issued: $countufm',
                                           textScaler:
                                               const TextScaler.linear(1),
                                         )),

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_marked_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -134,9 +135,16 @@ void attendancePopup(BuildContext context) async {
                                 .indexWhere((student) =>
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
+                            // print(roomDetails['data']['seating_plan'][indexData]
+                            //     ['ans_sheet_number']);
                             if (indexData != -1) {
                               if (roomDetails['data']['seating_plan'][indexData]
-                                      ['eligible'] ==
+                                      ['attendance'] ==
+                                  true) {
+                                // Navigator.of(context).pop();
+                                attendancePresentErrorDialog(context);
+                              } else if (roomDetails['data']['seating_plan']
+                                      [indexData]['eligible'] ==
                                   'YES') {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
@@ -157,6 +165,9 @@ void attendancePopup(BuildContext context) async {
                                       'R_HOLD') {
                                 // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
+                              } else {
+                                // Navigator.of(context).pop();
+                                errorDialog(context, 'Student not found!');
                               }
                             } else {
                               // Navigator.pop(context);
