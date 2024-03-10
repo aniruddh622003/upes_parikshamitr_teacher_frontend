@@ -147,9 +147,10 @@ void pendingSuppliesPopup(BuildContext context,
                               await const FlutterSecureStorage()
                                   .read(key: 'roomId');
                           Map data = {
-                            "pending_supplies": pendingSuppliesList,
+                            "pending_supplies": [pendingSuppliesList[index]],
                             "room_id": roomId.toString(),
                           };
+                          print(data);
                           dynamic response = await updateSupplies(data);
                           if (response.statusCode == 200) {
                             Navigator.pop(context);
