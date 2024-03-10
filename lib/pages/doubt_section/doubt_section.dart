@@ -5,8 +5,8 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/current_t
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class DoubtSection extends StatelessWidget {
-  final String roomNumber;
-  const DoubtSection({super.key, required this.roomNumber});
+  // final String roomNumber;
+  const DoubtSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +55,12 @@ class DoubtSection extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 35),
                     child: Column(
                       children: [
-                        Text(
-                          "Room: $roomNumber",
-                          textScaler: const TextScaler.linear(1),
-                          style: const TextStyle(
-                              fontSize: fontXLarge, color: Colors.white),
-                        ),
+                        // Text(
+                        //   "Room: $roomNumber",
+                        //   textScaler: const TextScaler.linear(1),
+                        //   style: const TextStyle(
+                        //       fontSize: fontXLarge, color: Colors.white),
+                        // ),
                         const SizedBox(height: 2),
                         const CurrentTestTime(),
                       ],
@@ -101,29 +101,57 @@ class DoubtSection extends StatelessWidget {
               ),
             ),
             ContactCard(
-              name: 'Dr. Adirup Shankar',
-              designation: 'Controller of Examination',
+              name: 'Dr. Ajay Prasad',
+              designation: 'Center Superintendent SoCS',
+              phoneNumber: '9690129280',
               onMessagePressed: () {
                 // Handle message icon pressed for John Doe
               },
             ),
             ContactCard(
-              name: 'Dr. Virender Singh',
-              designation: 'CSEII2911- Computer Graphics',
+              name: 'Dr. Rahul Kumar Singh',
+              designation: 'Examination Committee Member',
+              phoneNumber: '9781016195',
               onMessagePressed: () {
                 // Handle message icon pressed for Jane Smith
               },
             ),
             ContactCard(
-              name: 'Mr. Teriyaki Khan',
-              designation: 'CSEII2011- Micro-Services',
+              name: 'Dr. Abhijeet Kumar',
+              designation: 'Examination Committee Member',
+              phoneNumber: '9311360747',
               onMessagePressed: () {
                 // Handle message icon pressed for Bob Johnson
               },
             ),
             ContactCard(
-              name: 'Mr. Sai Khanna',
-              designation: 'Finance Department',
+              name: 'Dr. Dhirendra Sharma',
+              designation: 'Examination Committee Member',
+              phoneNumber: '8370033126',
+              onMessagePressed: () {
+                // Handle message icon pressed for Alice Brown
+              },
+            ),
+            ContactCard(
+              name: 'Dr. Rohit Shrivastava',
+              designation: 'Examination Committee Member',
+              phoneNumber: '9725313511',
+              onMessagePressed: () {
+                // Handle message icon pressed for Alice Brown
+              },
+            ),
+            ContactCard(
+              name: 'Dr. Sanoj Kumar',
+              designation: 'Examination Committee Member',
+              phoneNumber: '9058523010',
+              onMessagePressed: () {
+                // Handle message icon pressed for Alice Brown
+              },
+            ),
+            ContactCard(
+              name: 'Dr. Virender Kadyan',
+              designation: 'Application related queries',
+              phoneNumber: '9992037007',
               onMessagePressed: () {
                 // Handle message icon pressed for Alice Brown
               },

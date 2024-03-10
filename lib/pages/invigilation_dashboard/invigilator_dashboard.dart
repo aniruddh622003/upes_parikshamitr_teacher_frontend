@@ -10,6 +10,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.da
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/add_pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
@@ -717,13 +718,13 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                       children: [
                         Expanded(
                             child: GestureDetector(
-                          onTap: () => errorDialog(context,
-                              "This feature is currently under development."),
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const DoubtSection(roomNumber: "1101"))),
+                          onTap: () =>
+                              //     "This feature is currently under development."),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DoubtSection())),
                           child: SvgPicture.asset('android/assets/doubt.svg'),
                         )),
                         Expanded(

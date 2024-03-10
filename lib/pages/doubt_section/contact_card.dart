@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactCard extends StatelessWidget {
   final String name;
   final String designation;
+  final String phoneNumber;
   final VoidCallback onMessagePressed;
 
   const ContactCard({
@@ -16,6 +17,7 @@ class ContactCard extends StatelessWidget {
     required this.name,
     required this.designation,
     required this.onMessagePressed,
+    required this.phoneNumber,
   });
 
   @override
@@ -23,7 +25,7 @@ class ContactCard extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         try {
-          const phoneNumber = '9406803371';
+          // const phoneNumber = '9406803371';
           final telUrl = Uri.parse('tel:$phoneNumber');
           if (await canLaunchUrl(telUrl)) {
             await launchUrl(telUrl);
