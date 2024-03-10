@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -1004,8 +1006,7 @@ class _UFMPageState extends State<UFMPage> {
                                   if (controllerEAddress.text.isEmpty ||
                                       controllerEMobile.text.isEmpty ||
                                       controllerFMobile.text.isEmpty ||
-                                      controllerFName.text.isEmpty ||
-                                      controllerNewAnsSheet.text.isEmpty) {
+                                      controllerFName.text.isEmpty) {
                                     errorDialog(context,
                                         "Please fill all the required fields!");
                                   } else if (controllerEMobile.text.length !=
@@ -1052,9 +1053,11 @@ class _UFMPageState extends State<UFMPage> {
                                       "student_remarks":
                                           controllerStudentRemarks.text
                                               .toString(),
-                                      "new_ans_sheet_number":
-                                          controllerNewAnsSheet.text.toString(),
+                                      "new_sheet_number": int.parse(
+                                          controllerNewAnsSheet.text
+                                              .toString()),
                                     };
+                                    // print(data);
                                     dynamic response = await markUFM(data);
                                     if (response != null) {
                                       if (response.statusCode == 201) {
@@ -1062,6 +1065,7 @@ class _UFMPageState extends State<UFMPage> {
                                         customDialog(context, "Success",
                                             "UFM Slip has been issued successfully!");
                                       } else {
+                                        print(jsonDecode(response.body));
                                         errorDialog(
                                             context, "An error occured!");
                                       }

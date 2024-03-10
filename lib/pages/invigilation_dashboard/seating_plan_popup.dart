@@ -179,19 +179,52 @@ void seatingPlanPopup(
                         fontSize: fontSmall,
                         color: blue,
                         fontWeight: FontWeight.bold)),
-                Text(
-                    studentDetails['ans_sheet_number'].toString() == 'null'
-                        ? 'Not Allotted'
-                        : studentDetails['UFM'] != null
-                            ? studentDetails['new_ans_sheet_number'] == null
-                                ? 'Cancelled'
-                                : studentDetails['new_ans_sheet_number']
-                                    .toString()
-                            : studentDetails['ans_sheet_number'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                      fontSize: fontMedium,
-                    )),
+                Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                        fontFamily: 'fontMedium',
+                        fontSize: fontMedium), // Use the predefined font size
+                    children: [
+                      if (studentDetails['ans_sheet_number'].toString() ==
+                          'null')
+                        TextSpan(text: 'Not Allotted')
+                      else if (studentDetails['UFM'] != null)
+                        if (studentDetails['new_ans_sheet_number'] == null)
+                          TextSpan(text: 'Cancelled')
+                        else
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text:
+                                    '${studentDetails['ans_sheet_number'].toString()} ',
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        fontMedium), // Use the predefined font size
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(
+                                    width:
+                                        5), // Add a gap between the two sheet numbers
+                              ),
+                              TextSpan(
+                                text: studentDetails['new_ans_sheet_number']
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize:
+                                        fontMedium), // Use the predefined font size
+                              ),
+                            ],
+                          )
+                      else
+                        TextSpan(
+                            text: studentDetails['ans_sheet_number'].toString(),
+                            style: TextStyle(
+                                fontSize:
+                                    fontMedium)), // Use the predefined font size
+                    ],
+                  ),
+                ), // Apply the TextScaler
                 const Text('B Sheet Count',
                     textScaler: TextScaler.linear(1),
                     style: TextStyle(
