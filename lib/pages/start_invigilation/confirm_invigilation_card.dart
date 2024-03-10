@@ -8,7 +8,6 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void confirmInvigilationCard(
     BuildContext context, List supplies, String roomId) {

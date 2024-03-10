@@ -56,7 +56,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
   }
 
   Future<Map> fetchData() async {
-    print(widget.roomId);
+    // print(widget.roomId);
     response = await http.get(Uri.parse(
         '$serverUrl/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
     if (response.statusCode == 200) {

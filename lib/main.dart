@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';

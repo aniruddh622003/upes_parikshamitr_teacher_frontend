@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/confirm_invigilation_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details_card.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 

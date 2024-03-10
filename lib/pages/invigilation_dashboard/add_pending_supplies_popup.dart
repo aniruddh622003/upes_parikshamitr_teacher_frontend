@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/add_supplies.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -112,7 +110,7 @@ void addPendingSuppliesPopup(BuildContext context) {
                       try {
                         const storage = FlutterSecureStorage();
                         String? roomId = await storage.read(key: 'roomId');
-                        String? jwt = await storage.read(key: 'jwt');
+                        // String? jwt = await storage.read(key: 'jwt');
                         Map data = {
                           "room_id": roomId,
                           "pending_supplies": [
@@ -134,14 +132,13 @@ void addPendingSuppliesPopup(BuildContext context) {
                               textColor: Colors.white,
                               fontSize: 16.0);
                         } else {
-                          print(jsonDecode(response.body)["message"]);
+                          // print(jsonDecode(response.body)["message"]);
                           errorDialog(
                               context, jsonDecode(response.body)["message"]);
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());
                       }
-                      ;
                     },
                     child: const Text('Confirm Update',
                         textScaler: TextScaler.linear(1),
