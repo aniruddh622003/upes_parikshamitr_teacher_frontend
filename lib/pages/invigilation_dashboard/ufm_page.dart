@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -965,15 +967,22 @@ class _UFMPageState extends State<UFMPage> {
                               ),
                               onPressed: () async {
                                 try {
-                                  if (controllerEAddress.text.isNotEmpty &&
-                                      controllerEMobile.text.isNotEmpty &&
-                                      controllerFMobile.text.isNotEmpty &&
-                                      controllerFName.text.isNotEmpty) {
-                                         final String? roomId =
-                                    await const FlutterSecureStorage()
-                                        .read(key: 'roomId');
+                                  if (controllerEAddress.text.isEmpty ||
+                                      controllerEMobile.text.isEmpty ||
+                                      controllerFMobile.text.isEmpty ||
+                                      controllerFName.text.isEmpty) {
+                                    errorDialog(
+                                        context, "Please fill all the fields!");
+                                  } else if (controllerEMobile.text.length !=
+                                          10 ||
+                                      controllerFMobile.text.length != 10) {
+                                    errorDialog(context,
+                                        "Please enter a valid mobile number!");
+                                  } else {
+                                    final String? roomId =
+                                        await const FlutterSecureStorage()
+                                            .read(key: 'roomId');
                                     Map data = {
-
                                       "room_id": roomId.toString(),
                                       "sap_id": widget.studentDetails['sap_id']
                                           .toString(),
@@ -1013,15 +1022,15 @@ class _UFMPageState extends State<UFMPage> {
                                             "UFM Slip has been issued successfully!");
                                       } else {
                                         Navigator.pop(context);
-                                        errorDialog(context, response.body);
+                                        errorDialog(
+                                            context,
+                                            jsonDecode(
+                                                response.body)['message']);
                                       }
                                     } else {
                                       Navigator.pop(context);
                                       errorDialog(context, "An error occured!");
                                     }
-                                  } else {
-                                    errorDialog(
-                                        context, "Please fill all the fields!");
                                   }
                                 } catch (e) {
                                   Navigator.pop(context);
