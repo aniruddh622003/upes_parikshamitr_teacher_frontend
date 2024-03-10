@@ -72,7 +72,7 @@ void addPendingSuppliesPopup(BuildContext context) {
                     ),
                   ),
                 ),
-                const Text('Update newly received quantity:',
+                const Text('Quantity required:',
                     textScaler: TextScaler.linear(1),
                     style: TextStyle(
                         fontSize: fontSmall,
