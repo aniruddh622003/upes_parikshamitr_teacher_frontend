@@ -47,9 +47,9 @@ const RESOURCES = {"assets/android/assets/call.svg": "14148808733ca8c109f6b57dd2
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "93610eb680e53ef8219b1d8fe167fea3",
-"/": "93610eb680e53ef8219b1d8fe167fea3",
-"main.dart.js": "f9b9763a35374930e5161e2a801df0e1",
+"index.html": "95c64bf389756406d1b50b3d83d8c9b8",
+"/": "95c64bf389756406d1b50b3d83d8c9b8",
+"main.dart.js": "7fc9c98dc28f2fb6d000b863b6167d35",
 "manifest.json": "ed50e8a954db89c20b3af3c2eeb2084c",
 "version.json": "337b83ab554bb120704b8ea4b6106dd1"};
 // The application shell files that are downloaded before a service worker can
