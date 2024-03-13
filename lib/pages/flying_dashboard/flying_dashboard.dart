@@ -413,44 +413,58 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: roomNumbers.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = index;
-                              });
-                            },
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                color: selectedIndex == index ? orange : blue50,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  roomNumbers[index].toString(),
-                                  textScaler: const TextScaler.linear(1),
-                                  style: TextStyle(
-                                    fontSize: fontMedium,
-                                    color:
-                                        selectedIndex == index ? white : orange,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Rooms to visit",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: fontMedium), // Make the text bold
+                        ),
+                        // SizedBox(height: 10), // Give some gap
+                        SizedBox(
+                          height: 50,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: roomNumbers.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: selectedIndex == index
+                                        ? orange
+                                        : blue50,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      roomNumbers[index].toString(),
+                                      style: TextStyle(
+                                        fontSize: fontMedium,
+                                        color: selectedIndex == index
+                                            ? white
+                                            : orange,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -538,16 +552,32 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                'Invigilators',
-                                textScaler: TextScaler.linear(1),
-                                style: TextStyle(
-                                  fontSize: fontMedium,
-                                  color: black,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            Container(
+                              color: blue, // Set the color to blue
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Invigilators',
+                                    style: TextStyle(
+                                      fontSize: fontMedium,
+                                      color: Colors
+                                          .white, // Set the text color to white
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Room: ${roomNumbers[selectedIndex]}', // Display the selected room number
+                                    style: TextStyle(
+                                      fontSize: fontMedium,
+                                      color: Colors
+                                          .white, // Set the text color to white
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(
@@ -557,11 +587,31 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                         roomNumbers[selectedIndex].toString()]
                                     .length,
                                 itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(roomDetails[
-                                            roomNumbers[selectedIndex]
-                                                .toString()][index]
-                                        .toString()),
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color:
+                                          grayLight, // Set the background color to light gray
+                                      border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors
+                                                .grey), // Add a bottom border
+                                      ),
+                                    ),
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 0,
+                                          horizontal:
+                                              10), // Reduce the horizontal padding
+                                      title: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical:
+                                                0), // Adjust the vertical padding
+                                        child: Text(roomDetails[
+                                                roomNumbers[selectedIndex]
+                                                    .toString()][index]
+                                            .toString()),
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
