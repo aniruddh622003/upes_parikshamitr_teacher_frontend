@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
@@ -42,13 +43,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: verified
-          ? Dashboard(
-              jwt: jwt,
-            )
-          : const HomeActivity(),
+      home: FlyingDashboard(),
+      // verified
+      //     ? Dashboard(
+      //         jwt: jwt,
+      //       )
+      //     : const HomeActivity(),
     );
   }
 }
