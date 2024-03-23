@@ -44,7 +44,8 @@ class ContactCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                   child: Row(
                     children: [
                       Expanded(

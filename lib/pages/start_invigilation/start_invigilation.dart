@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/invigilation_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -53,18 +54,35 @@ class _StartInvigilationState extends State<StartInvigilation> {
       if (response.statusCode == 201) {
         try {
           Map data = jsonDecode(response.body)['data'];
-          String roomId = data['room']['_id'];
-          const storage = FlutterSecureStorage();
-          await storage.write(key: 'roomId', value: roomId);
-          await storage.write(key: 'unique_code', value: uniqueCode.toString());
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InvigilationDetails(
-                    data: jsonDecode(response.body)['data']),
-              ));
+          if (data['message'] == "Flying Squad member assigned") {
+            String slotId = data["data"]['slot'];
+            const storage = FlutterSecureStorage();
+            await storage.write(key: 'slotId', value: slotId);
+            await storage.write(
+                key: 'unique_code', value: uniqueCode.toString());
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      FlyingDashboard(roomData: data["data"]["room_data"]),
+                ));
+          } else {
+            String roomId = data['room']['_id'];
+            const storage = FlutterSecureStorage();
+            await storage.write(key: 'roomId', value: roomId);
+            await storage.write(
+                key: 'unique_code', value: uniqueCode.toString());
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => InvigilationDetails(
+                      data: jsonDecode(response.body)['data']),
+                ));
+          }
         } catch (e) {
           errorDialog(context,
               '${e.toString()}, ${jsonDecode(response.body)['message']}');
@@ -216,30 +234,50 @@ class _StartInvigilationState extends State<StartInvigilation> {
 
                               // Call the API function
                               var response = await assignInvigilator(data);
-
                               // Check if the request was successful
 
                               if (response.statusCode == 201) {
                                 try {
-                                  Map data = jsonDecode(response.body)['data'];
-                                  String roomId = data['room']['_id'];
-                                  const storage = FlutterSecureStorage();
-                                  await storage.write(
-                                      key: 'roomId', value: roomId);
-                                  await storage.write(
-                                      key: 'unique_code',
-                                      value: uniqueCode.toString());
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            InvigilationDetails(
-                                                data: jsonDecode(
-                                                    response.body)['data']),
-                                      ));
+                                  Map data = jsonDecode(response.body);
+                                  if (data['message'] ==
+                                      "Flying Squad member assigned") {
+                                    String slotId = data["data"]["slot"];
+                                    const storage = FlutterSecureStorage();
+                                    await storage.write(
+                                        key: 'slotId', value: slotId);
+                                    await storage.write(
+                                        key: 'unique_code',
+                                        value: uniqueCode.toString());
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => FlyingDashboard(
+                                              roomData: data["data"]
+                                                  ["room_data"]),
+                                        ));
+                                  } else {
+                                    String roomId = data['room']['_id'];
+                                    const storage = FlutterSecureStorage();
+                                    await storage.write(
+                                        key: 'roomId', value: roomId);
+                                    await storage.write(
+                                        key: 'unique_code',
+                                        value: uniqueCode.toString());
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              InvigilationDetails(
+                                                  data: jsonDecode(
+                                                      response.body)['data']),
+                                        ));
+                                  }
                                 } catch (e) {
                                   errorDialog(context,
                                       '${e.toString()}, ${jsonDecode(response.body)['message']}');

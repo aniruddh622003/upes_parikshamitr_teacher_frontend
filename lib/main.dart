@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
@@ -43,14 +43,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FlyingDashboard(),
-      // verified
-      //     ? Dashboard(
-      //         jwt: jwt,
-      //       )
-      //     : const HomeActivity(),
+      home: verified
+          ? Dashboard(
+              jwt: jwt,
+            )
+          : const HomeActivity(),
     );
   }
 }

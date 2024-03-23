@@ -44,19 +44,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
     super.dispose();
   }
 
-  Future<Map> fetchData2() async {
-    response = await http.get(Uri.parse(
-        '$serverUrl/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
-    if (response.statusCode == 200) {
-      setState(() {});
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
-
   Future<Map> fetchData() async {
-    // print(widget.roomId);
     response = await http.get(Uri.parse(
         '$serverUrl/teacher/invigilation/seating-plan?room_id=${widget.roomId}'));
     if (response.statusCode == 200) {
@@ -109,7 +97,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
               });
               return Container(
                 color: Colors.blue,
-              ); // Return an empty container as the builder has to return a widget
+              );
             } else {
               seatingPlan = snapshot.data;
               int countufm = 0;

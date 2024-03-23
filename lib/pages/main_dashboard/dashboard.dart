@@ -6,8 +6,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
@@ -90,9 +92,24 @@ class _DashboardState extends State<Dashboard> {
   void checkInvigilationState() async {
     const storage = FlutterSecureStorage();
     String? roomId = await storage.read(key: 'roomId');
+    String? slotId = await storage.read(key: 'slotId');
     String? submissionState = await storage.read(key: 'submission_state');
-
-    if (roomId != null) {
+    if (slotId != null) {
+      String? uniqueCode = await storage.read(key: 'unique_code');
+      Map data = {
+        'unique_code': uniqueCode.toString(),
+        // Add other data if needed
+      };
+      var response = await assignInvigilator(data);
+      Map roomData = jsonDecode(response.body)['data'];
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                FlyingDashboard(roomData: roomData["room_data"]),
+          ));
+    } else if (roomId != null) {
       if (submissionState != null) {
         Navigator.pop(context);
         Navigator.push(

@@ -13,67 +13,68 @@ class DoubtSection extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
+        backgroundColor: blue,
+        foregroundColor: white,
+        title: const Text("Doubt Section"),
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: white,
           statusBarIconBrightness: Brightness.dark,
         ),
-        toolbarHeight: 200,
-        leading: null,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          color: primaryColor,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0, MediaQuery.of(context).padding.top + 10, 0, 20),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: white),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const Text(
-                      'Doubt Section',
-                      textScaler: TextScaler.linear(1),
-                      style: TextStyle(
-                        fontSize: fontMedium,
-                        fontWeight: FontWeight.bold,
-                        color: white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 35),
-                    child: Column(
-                      children: [
-                        // Text(
-                        //   "Room: $roomNumber",
-                        //   textScaler: const TextScaler.linear(1),
-                        //   style: const TextStyle(
-                        //       fontSize: fontXLarge, color: Colors.white),
-                        // ),
-                        const SizedBox(height: 2),
-                        const CurrentTestTime(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // automaticallyImplyLeading: false,
+        // flexibleSpace: Container(
+        //   color: primaryColor,
+        //   child: Column(
+        //     children: [
+        //       Padding(
+        //         padding: EdgeInsets.fromLTRB(
+        //             0, MediaQuery.of(context).padding.top + 10, 0, 20),
+        //         child: Row(
+        //           children: [
+        //             IconButton(
+        //               icon: const Icon(Icons.arrow_back, color: white),
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //               },
+        //             ),
+        //             const Text(
+        //               'Doubt Section',
+        //               textScaler: TextScaler.linear(1),
+        //               style: TextStyle(
+        //                 fontSize: fontMedium,
+        //                 fontWeight: FontWeight.bold,
+        //                 color: white,
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //       const Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         children: <Widget>[
+        //           Padding(
+        //             padding: EdgeInsets.only(bottom: 35),
+        //             child: Column(
+        //               children: [
+        //                 // Text(
+        //                 //   "Room: $roomNumber",
+        //                 //   textScaler: const TextScaler.linear(1),
+        //                 //   style: const TextStyle(
+        //                 //       fontSize: fontXLarge, color: Colors.white),
+        //                 // ),
+        //                 SizedBox(height: 2),
+        //                 // CurrentTestTime(),
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
       // Make the body cover the entire screen
-      body: SingleChildScrollView(
+      body: Expanded(
           child: Container(
         width: double.infinity,
         constraints: BoxConstraints(
@@ -86,11 +87,11 @@ class DoubtSection extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.only(left: 17, top: 15, bottom: 20),
+              padding: EdgeInsets.only(left: 15, top: 15),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(

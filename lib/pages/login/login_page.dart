@@ -248,6 +248,7 @@ class _LogInPageState extends State<LogInPage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     Padding(

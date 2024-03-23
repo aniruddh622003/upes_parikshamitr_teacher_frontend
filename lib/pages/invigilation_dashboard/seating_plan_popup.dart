@@ -181,28 +181,28 @@ void seatingPlanPopup(
                         fontWeight: FontWeight.bold)),
                 Text.rich(
                   TextSpan(
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontFamily: 'fontMedium',
                         fontSize: fontMedium), // Use the predefined font size
                     children: [
                       if (studentDetails['ans_sheet_number'].toString() ==
                           'null')
-                        TextSpan(text: 'Not Allotted')
+                        const TextSpan(text: 'Not Allotted')
                       else if (studentDetails['UFM'] != null)
                         if (studentDetails['new_ans_sheet_number'] == null)
-                          TextSpan(text: 'Cancelled')
+                          const TextSpan(text: 'Cancelled')
                         else
                           TextSpan(
                             children: [
                               TextSpan(
                                 text:
                                     '${studentDetails['ans_sheet_number'].toString()} ',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize:
                                         fontMedium), // Use the predefined font size
                               ),
-                              WidgetSpan(
+                              const WidgetSpan(
                                 child: SizedBox(
                                     width:
                                         5), // Add a gap between the two sheet numbers
@@ -210,7 +210,7 @@ void seatingPlanPopup(
                               TextSpan(
                                 text: studentDetails['new_ans_sheet_number']
                                     .toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize:
                                         fontMedium), // Use the predefined font size
                               ),
@@ -219,7 +219,7 @@ void seatingPlanPopup(
                       else
                         TextSpan(
                             text: studentDetails['ans_sheet_number'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize:
                                     fontMedium)), // Use the predefined font size
                     ],
