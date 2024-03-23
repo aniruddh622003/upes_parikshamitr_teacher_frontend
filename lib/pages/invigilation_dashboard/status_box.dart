@@ -27,6 +27,7 @@ Widget getStatusBox(String name, {bool roundedBorder = false}) {
           ),
           child: Text(
             name,
+            textScaler: const TextScaler.linear(1),
             style: const TextStyle(
               fontSize: fontSmall,
               fontWeight: FontWeight.w500,
@@ -69,6 +70,7 @@ Widget getStatusBoxWithText(String name, String text, Color textColor,
             children: [
               Text(
                 name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(
                   fontSize: fontSmall,
                   fontWeight: FontWeight.w500,
@@ -77,6 +79,7 @@ Widget getStatusBoxWithText(String name, String text, Color textColor,
               ),
               Text(
                 text,
+                textScaler: const TextScaler.linear(1),
                 style: TextStyle(
                   fontSize: fontXSmall,
                   fontWeight: FontWeight.bold,
@@ -122,6 +125,7 @@ Widget getStatusBoxWithButton(
             children: [
               Text(
                 name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(
                   fontSize: fontSmall,
                   fontWeight: FontWeight.w500,
@@ -146,6 +150,7 @@ Widget getStatusBoxWithButton(
                 ),
                 child: Text(
                   buttonText,
+                  textScaler: const TextScaler.linear(1),
                   style: const TextStyle(fontSize: fontXSmall, color: white),
                 ),
               ),

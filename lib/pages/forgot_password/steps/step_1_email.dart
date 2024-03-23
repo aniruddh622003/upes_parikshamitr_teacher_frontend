@@ -22,14 +22,14 @@ class _Step1EmailState extends State<Step1Email> {
 
   @override
   void dispose() {
-    emailController.dispose();
+    // emailController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // return TextButton(
-    //     onPressed: () => widget.changeStep(1), child: const Text('Next'));
+    //     onPressed: () => widget.changeStep(1), child: const Text(textScaler: const TextScaler.linear(1),'Next'));
     return Container(
         constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height,
@@ -45,6 +45,7 @@ class _Step1EmailState extends State<Step1Email> {
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
                     "Forgot your Password?",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -54,6 +55,7 @@ class _Step1EmailState extends State<Step1Email> {
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
                     "We are here to help.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -77,6 +79,7 @@ class _Step1EmailState extends State<Step1Email> {
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
                       "Enter Your Email Address.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -123,6 +126,7 @@ class _Step1EmailState extends State<Step1Email> {
                     },
                     child: const Text(
                       'Send Verification Code',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,

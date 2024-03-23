@@ -1,33 +1,24 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_marked_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show serverUrl;
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void attendancePopup(BuildContext context) async {
-  late dynamic response;
-  final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
-  void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      controllerSAP.text = scanData.code.toString();
-    });
-  }
-
-  Future<Map> fetchData() async {
-    response = await http.get(Uri.parse(
-        '$serverUrl/teacher/invigilation/seating-plan?room_id=65ba84665bfb4b58d77d0184'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
-    }
+  void onBarcodeButtonPressed() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE);
+    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
   }
 
   showDialog(
@@ -49,6 +40,7 @@ void attendancePopup(BuildContext context) async {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Mark Attendance',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -58,29 +50,47 @@ void attendancePopup(BuildContext context) async {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text('Align the QR code within the frame to scan'),
+                const Text(
+                  'Open the Barcode scanner and align in the frame to scan',
+                  textScaler: TextScaler.linear(1),
+                ),
                 const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
                     height: 300,
                     width: 300,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        child: GestureDetector(
+                          onTap: onBarcodeButtonPressed,
+                          child: kIsWeb
+                              ? const Center(
+                                  child: Text(
+                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                              : Container(
+                                  color: gray,
+                                  child: const Center(
+                                      child: Text(
+                                    "Scan Barcode",
+                                    textScaler: TextScaler.linear(1),
+                                  )),
+                                ),
+                        )),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium,
                             fontWeight: FontWeight.bold))),
                 const SizedBox(height: 10),
-                const Center(child: Text('Enter Student’s SAP ID Below')),
+                const Center(
+                    child: Text(
+                  'Enter Student’s SAP ID Below',
+                  textScaler: TextScaler.linear(1),
+                )),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -90,6 +100,10 @@ void attendancePopup(BuildContext context) async {
                   ),
                   child: TextField(
                     controller: controllerSAP,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -110,36 +124,71 @@ void attendancePopup(BuildContext context) async {
                       ),
                     ),
                     onPressed: () async {
-                      Map data = await fetchData();
-                      int indexData = data['data']['seating_plan'].indexWhere(
-                          (student) =>
-                              student['sap_id'] ==
-                              int.parse(controllerSAP.text));
-                      if (indexData != -1) {
-                        if (data['data']['seating_plan'][indexData]
-                                ['eligible'] ==
-                            'YES') {
-                          Map<dynamic, dynamic> studentDetails =
-                              data['data']['seating_plan'][indexData];
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AttendancePage(
-                                  studentDetails: studentDetails)));
-                        } else if (data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'F_HOLD' ||
-                            data['data']['seating_plan'][indexData]
-                                    ['eligible'] ==
-                                'DEBARRED') {
-                          Navigator.of(context).pop();
-                          attendanceErrorDialog(context);
+                      try {
+                        const storage = FlutterSecureStorage();
+                        String? roomId = await storage.read(key: 'roomId');
+                        dynamic data = await getRoomDetails(roomId.toString());
+                        if (data != null) {
+                          if (data.statusCode == 200) {
+                            Map roomDetails = jsonDecode(data.body);
+                            int indexData = roomDetails['data']['seating_plan']
+                                .indexWhere((student) =>
+                                    student['sap_id'] ==
+                                    int.parse(controllerSAP.text));
+                            // print(roomDetails['data']['seating_plan'][indexData]
+                            //     ['ans_sheet_number']);
+                            if (indexData != -1) {
+                              if (roomDetails['data']['seating_plan'][indexData]
+                                      ['attendance'] ==
+                                  true) {
+                                // Navigator.of(context).pop();
+                                attendancePresentErrorDialog(context);
+                              } else if (roomDetails['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'YES') {
+                                Map<dynamic, dynamic> studentDetails =
+                                    roomDetails['data']['seating_plan']
+                                        [indexData];
+                                // Navigator.of(context).pop();
+                                controllerSAP.clear();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => AttendancePage(
+                                        studentDetails: studentDetails)));
+                              } else if (roomDetails['data']['seating_plan']
+                                          [indexData]['eligible'] ==
+                                      'F_HOLD' ||
+                                  roomDetails['data']['seating_plan'][indexData]
+                                          ['eligible'] ==
+                                      'DEBARRED' ||
+                                  roomDetails['data']['seating_plan'][indexData]
+                                          ['eligible'] ==
+                                      'R_HOLD') {
+                                // Navigator.of(context).pop();
+                                attendanceErrorDialog(context);
+                              } else {
+                                // Navigator.of(context).pop();
+                                errorDialog(context, 'Student not found!');
+                              }
+                            } else {
+                              // Navigator.pop(context);
+                              errorDialog(context, 'Student not found!');
+                            }
+                          } else {
+                            // Navigator.pop(context);
+                            errorDialog(context, "An error occured!");
+                          }
+                        } else {
+                          // Navigator.pop(context);
+                          errorDialog(context, "An error occured!");
                         }
-                      } else {
-                        errorDialog(context, 'Student not found!');
+                      } catch (e) {
+                        // Navigator.pop(context);
+                        errorDialog(context, "e.toString()");
                       }
-                      // consider case for debarred by checkng the studentDetails['eligible'] value
                     },
                     child: const Text('Mark Attendance',
+                        textScaler: TextScaler.linear(1),
+                        // textScaler: const TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),
@@ -149,5 +198,7 @@ void attendancePopup(BuildContext context) async {
         ),
       );
     },
-  );
+  ).then((_) {
+    // controllerSAP.dispose();
+  });
 }

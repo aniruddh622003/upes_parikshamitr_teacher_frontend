@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
@@ -35,12 +35,20 @@ dependencies:
   shared_preferences: ^2.2.2
   http: ^1.2.0
   flutter_secure_storage: ^9.0.0
+  url_launcher: ^6.0.10
+  path_provider: ^2.0.2
+  open_file: ^3.2.1
+  flutter_pdfview: ^1.2.1
+  jsqr: any
+  universal_html: any
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.5
   carousel_slider: ^4.0.0
+  fluttertoast: ^8.2.4
+  flutter_barcode_scanner: ^2.0.0
   # flutter_native_splash: ^2.3.9
 
 dev_dependencies:
@@ -67,6 +75,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - android/assets/signinpage.svg
+    - android/assets/examsummary.svg
     - android/assets/carousel1.svg
     - android/assets/carousel2.svg
     - android/assets/carousel3.svg
@@ -76,11 +85,16 @@ flutter:
     - android/assets/doubt.svg
     - android/assets/qr.svg
     - android/assets/msg.svg
+    - android/assets/call.svg
     - android/assets/refresh.svg
     - android/assets/sheetsubmit.svg
     - android/assets/seatingplan.svg
     - assets/upes_logo.svg
     - assets/upes_logo.png
+    - assets/home_art.png
+    - assets/Examination Guidelines for Control Room Supervisors (CRS).pdf
+    - assets/Examination Guidelines for Flying Squad.pdf
+    - assets/Examination Guidelines for Invigilators.pdf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -50,9 +50,15 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
   String _calculateTestTime() {
     DateTime now = DateTime.now();
     if (now.hour < 10) {
-      return "10:00 AM - 1:00 PM";
+      return 'Test hasn\'t started yet';
+    } else if (now.hour * 100 + now.minute < 1200) {
+      return "10:00 AM - 12:00 PM";
+    } else if (now.hour < 13) {
+      return "Test time has passed";
     } else if (now.hour < 14) {
-      return "2:00 - 5:00 PM";
+      return "Test hasn't started yet";
+    } else if (now.hour < 16) {
+      return "2:00 - 4:00 PM";
     } else {
       return "Test time has passed";
     }
@@ -63,10 +69,14 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
     return Column(
       children: [
         Text(currentTime,
+            textScaler: const TextScaler.linear(1),
             style: const TextStyle(fontSize: 32, color: Colors.white)),
-        const SizedBox(height: 10),
+        // const SizedBox(height: 10),
         Text(
-          'Test Time: $testTime',
+          testTime.substring(0, 4) == 'Test'
+              ? testTime.toString()
+              : 'Test Time: $testTime',
+          textScaler: const TextScaler.linear(1),
           style: const TextStyle(fontSize: fontMedium, color: Colors.white),
         ),
       ],

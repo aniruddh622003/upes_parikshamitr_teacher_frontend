@@ -1,16 +1,24 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'dart:convert';
 
 void ufmPopup(BuildContext context) {
   TextEditingController controllerSAP = TextEditingController();
-  final qrKey = GlobalKey(debugLabel: 'QR');
-  void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      controllerSAP.text = scanData.code.toString();
-    });
+
+  void onBarcodeButtonPressed() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE);
+    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
   }
 
   showDialog(
@@ -32,6 +40,7 @@ void ufmPopup(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Issue UFM',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -41,29 +50,47 @@ void ufmPopup(BuildContext context) {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text('Align the QR code within the frame to scan'),
+                const Text(
+                  'Open the Barcode scanner and align in the frame to scan',
+                  textScaler: TextScaler.linear(1),
+                ),
                 const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
                     height: 300,
                     width: 300,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(20),
+                        child: GestureDetector(
+                          onTap: onBarcodeButtonPressed,
+                          child: kIsWeb
+                              ? const Center(
+                                  child: Text(
+                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                              : Container(
+                                  color: gray,
+                                  child: const Center(
+                                      child: Text(
+                                    "Scan Barcode",
+                                    textScaler: TextScaler.linear(1),
+                                  )),
+                                ),
+                        )),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium,
                             fontWeight: FontWeight.bold))),
                 const SizedBox(height: 10),
-                const Center(child: Text('Enter Student’s SAP ID Below')),
+                const Center(
+                    child: Text(
+                  'Enter Student’s SAP ID Below',
+                  textScaler: TextScaler.linear(1),
+                )),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -73,6 +100,10 @@ void ufmPopup(BuildContext context) {
                   ),
                   child: TextField(
                     controller: controllerSAP,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -92,14 +123,58 @@ void ufmPopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UFMPage()));
+                    onPressed: () async {
+                      try {
+                        const storage = FlutterSecureStorage();
+                        final String? roomId =
+                            await storage.read(key: 'roomId');
+                        dynamic data = await getRoomDetails(roomId.toString());
+                        if (data != null) {
+                          if (data.statusCode == 200) {
+                            Map roomDetails = jsonDecode(data.body);
+                            int indexData = roomDetails['data']['seating_plan']
+                                .indexWhere((student) =>
+                                    student['sap_id'] ==
+                                    int.parse(controllerSAP.text));
+                            if (indexData != -1) {
+                              if (roomDetails['data']['seating_plan'][indexData]
+                                      ['eligible'] ==
+                                  'YES') {
+                                Map<dynamic, dynamic> studentDetails =
+                                    roomDetails['data']['seating_plan']
+                                        [indexData];
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => UFMPage(
+                                        studentDetails: studentDetails)));
+                              } else if (roomDetails['data']['seating_plan']
+                                          [indexData]['eligible'] ==
+                                      'F_HOLD' ||
+                                  roomDetails['data']['seating_plan'][indexData]
+                                          ['eligible'] ==
+                                      'DEBARRED') {
+                                Navigator.of(context).pop();
+                                attendanceErrorDialog(context);
+                              }
+                            } else {
+                              Navigator.pop(context);
+                              errorDialog(context, 'Student not found!');
+                            }
+                          } else {
+                            Navigator.pop(context);
+                            errorDialog(context, "An error occured!");
+                          }
+                        } else {
+                          Navigator.pop(context);
+                          errorDialog(context, "An error occured!");
+                        }
+                      } catch (e) {
+                        Navigator.pop(context);
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text('Report Candidate',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),
@@ -109,5 +184,7 @@ void ufmPopup(BuildContext context) {
         ),
       );
     },
-  );
+  ).then((_) {
+    // controllerSAP.dispose();
+  });
 }

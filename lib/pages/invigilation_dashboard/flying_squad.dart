@@ -22,6 +22,7 @@ class FlyingSquad extends StatelessWidget {
           children: [
             Text(
               title,
+              textScaler: const TextScaler.linear(1),
               style: const TextStyle(
                 color: white,
                 fontSize: fontSmall,
@@ -35,6 +36,7 @@ class FlyingSquad extends StatelessWidget {
             ),
             const Text(
               "Refresh",
+              textScaler: TextScaler.linear(1),
               style: TextStyle(fontSize: fontXSmall, color: Colors.white),
             ),
           ],

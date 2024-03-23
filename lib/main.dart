@@ -1,12 +1,10 @@
-// import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:http/http.dart' as http;
-import 'package:upes_parikshamitr_teacher_frontend/pages/placeholder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,10 +26,14 @@ void main() async {
 
   const storage = FlutterSecureStorage();
   String? jwt = await storage.read(key: 'jwt');
+
   if (jwt != null) {
     await verifyToken(token: jwt);
   }
-  runApp(MyApp(jwt: jwt, verified: verified));
+  runApp(MyApp(
+    jwt: jwt,
+    verified: verified,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,8 +45,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-          jwt != null && verified ? Dashboard(jwt: jwt) : const HomeActivity(),
+      home: verified
+          ? Dashboard(
+              jwt: jwt,
+            )
+          : const HomeActivity(),
     );
   }
 }

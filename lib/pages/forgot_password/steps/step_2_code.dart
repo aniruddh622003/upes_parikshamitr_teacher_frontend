@@ -22,7 +22,7 @@ class _Step2CodeState extends State<Step2Code> {
 
   @override
   void dispose() {
-    codeController.dispose();
+    // codeController.dispose();
     super.dispose();
   }
 
@@ -43,6 +43,7 @@ class _Step2CodeState extends State<Step2Code> {
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
                     "Please Verify yourself.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -52,6 +53,7 @@ class _Step2CodeState extends State<Step2Code> {
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
                     "You are almost there.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -75,6 +77,7 @@ class _Step2CodeState extends State<Step2Code> {
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
                       "Enter Verification Code.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -122,6 +125,7 @@ class _Step2CodeState extends State<Step2Code> {
                     },
                     child: const Text(
                       'Verify',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,

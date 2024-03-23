@@ -29,6 +29,7 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Text(
                   personName,
+                  textScaler: const TextScaler.linear(1),
                   style: const TextStyle(
                     fontSize: fontMedium,
                     color: Colors.white,
@@ -36,6 +37,7 @@ class ChatScreen extends StatelessWidget {
                 ),
                 Text(
                   designation,
+                  textScaler: const TextScaler.linear(1),
                   style:
                       const TextStyle(fontSize: fontSmall, color: Colors.white),
                 ),
@@ -170,6 +172,7 @@ class ChatBubble extends StatelessWidget {
           ),
           child: Text(
             message.text,
+            textScaler: const TextScaler.linear(1),
             style: TextStyle(
                 color: message.sender != 'user' ? Colors.white : black,
                 fontSize: 14,

@@ -1,20 +1,31 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
+
   const Dashboard({super.key, required this.jwt});
 
   @override
@@ -23,6 +34,12 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   late Map data;
+  late Timer _timer;
+  int unreadNotificationsCount = 0;
+  bool isPageLoaded = false;
+  bool isButtonEnabled = true;
+
+  String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
   Future<Map> getDetails({token}) async {
     var response = await http.get(
@@ -35,183 +52,227 @@ class _DashboardState extends State<Dashboard> {
 
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+      int? phone = data['phone'];
+      String? email = data['email'];
+      if (phone == null || email == null) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CheckPhoneEmail()),
+        );
+      }
+    } else {
+      errorDialog(context, 'Error occurred! Please try again later');
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeActivity()),
+      );
     }
     return {};
   }
 
+  Future<void> getUnreadNotificationsCount() async {
+    String? notifcationsData =
+        await const FlutterSecureStorage().read(key: 'notifications');
+    if (notifcationsData != null) {
+      List<dynamic> notifications = jsonDecode(notifcationsData);
+      int count = 0;
+      for (var notification in notifications) {
+        if (!notification[1]) {
+          count++;
+        }
+      }
+      unreadNotificationsCount = count;
+    } else {
+      unreadNotificationsCount = 0;
+    }
+  }
+
+  void checkInvigilationState() async {
+    const storage = FlutterSecureStorage();
+    String? roomId = await storage.read(key: 'roomId');
+    String? slotId = await storage.read(key: 'slotId');
+    String? submissionState = await storage.read(key: 'submission_state');
+    if (slotId != null) {
+      String? uniqueCode = await storage.read(key: 'unique_code');
+      Map data = {
+        'unique_code': uniqueCode.toString(),
+        // Add other data if needed
+      };
+      var response = await assignInvigilator(data);
+      Map roomData = jsonDecode(response.body)['data'];
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                FlyingDashboard(roomData: roomData["room_data"]),
+          ));
+    } else if (roomId != null) {
+      if (submissionState != null) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SubmissionDetails()),
+        );
+      } else {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const InvigilatorDashboard()),
+        );
+      }
+    }
+  }
+
+  void checkPhoneEmail() async {}
+
   @override
   void initState() {
-    super.initState();
+    checkInvigilationState();
     getDetails(token: widget.jwt);
-  }
+    getUnreadNotificationsCount();
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+      List notificationsLocal = [];
+      dynamic response = await getNotifications();
+      if (response.statusCode == 200) {
+        List<dynamic> notificationsServer =
+            jsonDecode(response.body)['data']['notifications'];
+        String? notifcationsData =
+            await const FlutterSecureStorage().read(key: 'notifications');
+        if (notifcationsData != null) {
+          notificationsLocal = jsonDecode(notifcationsData);
+          // sync notificationsLocal with notificationsServer and update notificationsLocal
+          List toAdd = [];
+          bool newNotification = false;
+          for (var notification in notificationsServer) {
+            bool found = false;
+            for (var localNotification in notificationsLocal) {
+              if (notification['_id'] == localNotification[0]['_id']) {
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              newNotification = true;
+              List item = [];
+              item.add(notification);
+              item.add(false);
+              toAdd.add(item);
+            }
+          }
+          for (var item in toAdd) {
+            notificationsLocal.add(item);
+          }
+          if (newNotification) {
+            Fluttertoast.showToast(
+                msg: "You have new notification(s).",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 3,
+                backgroundColor: grayLight,
+                textColor: black,
+                fontSize: 16.0);
+          }
+          // Delete notifications from notificationsLocal that are not in notificationsServer
+          List toRemove = [];
 
-  List<Widget> makeBatchwiseBars(List<Map<String, dynamic>> batches) {
-    List<Widget> batchwiseBars = [];
-    for (Map<String, dynamic> batch in batches) {
-      batchwiseBars.add(
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${batch['name']}',
-                  style: const TextStyle(
-                    fontSize: fontMedium,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '${batch['sheetsEvaluated'].toString()}/${batch['totalSheets'].toString()}',
-                  style: const TextStyle(
-                    fontSize: fontMedium,
-                  ),
-                )
-              ],
-            ),
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: SizedBox(
-                height: 8,
-                child: LinearProgressIndicator(
-                  value: batch['sheetsEvaluated'] / batch['totalSheets'],
-                  backgroundColor: grayLight,
-                  valueColor: const AlwaysStoppedAnimation<Color>(orange),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-          ],
-        ),
-      );
-      batchwiseBars.add(const SizedBox(width: 10));
-    }
-    return batchwiseBars;
-  }
+          for (var localNotification in notificationsLocal) {
+            bool found = false;
+            for (var notification in notificationsServer) {
+              if (notification['_id'] == localNotification[0]['_id']) {
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              toRemove.add(localNotification);
+            }
+          }
 
-  final sheetsData = [
-    {
-      'subjectCode': 'CSBD1001',
-      'subjectName': 'Big Data',
-      'dueDate': '2024-01-15',
-      'batches': [
-        {'name': 'AIML B2 (NH)', 'totalSheets': 30, 'sheetsEvaluated': 10},
-        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
-      ]
-    },
-    {
-      'subjectCode': 'CSAI2036',
-      'subjectName': 'Machine Learning',
-      'dueDate': '2024-01-20',
-      'batches': [
-        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
-        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5},
-        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
-      ]
-    },
-    {
-      'subjectCode': 'CSAI1231',
-      'subjectName': 'Deep Learning',
-      'dueDate': '2024-01-25',
-      'batches': [
-        {'name': 'AIML B1 (NH)', 'totalSheets': 20, 'sheetsEvaluated': 10},
-        {'name': 'AIML B3 (H)', 'totalSheets': 20, 'sheetsEvaluated': 5}
-      ]
-    }
-  ];
+          for (var item in toRemove) {
+            notificationsLocal.remove(item);
+          }
 
-  List<int> calcSheets(List<Map<String, dynamic>> sheetsData) {
-    List<int> totalSheets = [];
-    int total = 0;
-    int checked = 0;
-    for (Map<String, dynamic> sheetData in sheetsData) {
-      for (var batch in sheetData['batches'] as List<Map<String, dynamic>>) {
-        checked += batch['sheetsEvaluated'] as int;
-        total += batch['totalSheets'] as int;
+          await const FlutterSecureStorage().write(
+              key: 'notifications', value: jsonEncode(notificationsLocal));
+        } else {
+          for (var notification in notificationsServer) {
+            List item = [];
+            item.add(notification);
+            item.add(false);
+            notificationsLocal.add(item);
+          }
+          await const FlutterSecureStorage().write(
+              key: 'notifications', value: jsonEncode(notificationsLocal));
+        }
       }
-    }
-    totalSheets.add(checked);
-    totalSheets.add(total);
-    return totalSheets;
+      setState(() {
+        getUnreadNotificationsCount();
+      });
+    });
+    super.initState();
   }
 
-  List<Widget> makeSheetCards(List<Map<String, dynamic>> sheetsData) {
-    List<Widget> sheetCards = [];
-    sheetCards.add(const Text("Evaluate Answer Sheets",
-        style: TextStyle(fontWeight: FontWeight.bold)));
-    for (Map<String, dynamic> sheetData in sheetsData) {
-      final int daysRemaining = DateTime.parse(sheetData['dueDate'].toString())
-          .difference(DateTime.now())
-          .inDays;
-      int totalSheets = 0;
-      int sheetsEvaluated = 0;
-      for (var batch in sheetData['batches'] as List<Map<String, dynamic>>) {
-        totalSheets += batch['totalSheets'] as int;
-        sheetsEvaluated += batch['sheetsEvaluated'] as int;
-      }
-      sheetCards.add(Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: purpleXLight,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(sheetData['subjectCode'].toString()),
-                  Text(
-                    sheetData['subjectName'].toString(),
-                    style: const TextStyle(
-                        fontSize: fontMedium, fontWeight: FontWeight.bold),
-                  ),
-                  Text('Submission in $daysRemaining days'),
-                ],
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
-                decoration: BoxDecoration(
-                  color: orange,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  '$sheetsEvaluated/$totalSheets',
-                  style: const TextStyle(color: white),
-                ),
-              )
-            ],
-          ),
-          const Divider(color: gray),
-          Column(
-              children: makeBatchwiseBars(
-                  sheetData['batches'] as List<Map<String, dynamic>>)),
-        ]),
-      ));
-      sheetCards.add(const SizedBox(height: 10));
-    }
-    return sheetCards;
-  }
-
-  Widget makeSheetMain(List<Map<String, dynamic>> sheetsData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: makeSheetCards(sheetsData),
-    );
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   final storage = const FlutterSecureStorage();
 
   void signOut() async {
-    await storage.delete(key: 'jwt');
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeActivity()),
+    late bool confirm = false;
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Confirm Sign Out',
+          textScaler: TextScaler.linear(1),
+        ),
+        content: const Text(
+          'Are you sure you want to sign out?',
+          textScaler: TextScaler.linear(1),
+        ),
+        actions: [
+          TextButton(
+            child: const Text(
+              'Cancel',
+              textScaler: TextScaler.linear(1),
+            ),
+            onPressed: () {
+              confirm = false;
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text(
+              'Sign Out',
+              textScaler: TextScaler.linear(1),
+            ),
+            onPressed: () async {
+              confirm = true;
+              await storage.delete(key: 'notifications');
+              await storage.delete(key: 'roomId');
+              await storage.delete(key: 'unique_code');
+              await storage.delete(key: 'jwt');
+              await storage.delete(key: 'submission_state');
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
     );
+
+    if (confirm) {
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeActivity()),
+      );
+    }
   }
 
   @override
@@ -219,13 +280,19 @@ class _DashboardState extends State<Dashboard> {
     return FutureBuilder(
       future: getDetails(token: widget.jwt),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            !isPageLoaded) {
           return const Scaffold(
               body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Scaffold(
-              body: Center(child: Text('Error: ${snapshot.error}')));
+              body: Center(
+                  child: Text(
+            'Error: ${snapshot.error}',
+            textScaler: const TextScaler.linear(1),
+          )));
         } else {
+          isPageLoaded = true;
           return Scaffold(
               backgroundColor: blue,
               appBar: AppBar(
@@ -239,9 +306,20 @@ class _DashboardState extends State<Dashboard> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Dashboard',
-                      style: TextStyle(color: white),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.logout, color: white),
+                          onPressed: () {
+                            signOut();
+                          },
+                        ),
+                        const Text(
+                          'Dashboard',
+                          textScaler: TextScaler.linear(1),
+                          style: TextStyle(color: white),
+                        ),
+                      ],
                     ),
                     IconButton(
                       icon: const Icon(Icons.qr_code, color: white),
@@ -256,72 +334,25 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
               ),
-              drawer: Drawer(
-                child: ListView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: blue,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: ListTile(
-                        tileColor: Colors.transparent,
-                        title: const Center(
-                          child: Text('Sign Out',
-                              style: TextStyle(
-                                  color: white, fontSize: fontMedium)),
-                        ),
-                        onTap: () {
-                          signOut();
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    child: Text(
+                      formattedDate,
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(color: white, fontSize: fontSmall),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
                       'Hi, ${data['name']}!',
+                      textScaler: const TextScaler.linear(1),
                       style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  // Column(
-                  //   children: [
-                  //     Container(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 15),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(
-                  //               '${calcSheets(sheetsData)[0]}/${calcSheets(sheetsData)[1]} Sheets Checked',
-                  //               style: const TextStyle(
-                  //                   color: white, fontSize: fontSmall)),
-                  //           ClipRRect(
-                  //             borderRadius:
-                  //                 const BorderRadius.all(Radius.circular(10)),
-                  //             child: SizedBox(
-                  //               height: 8,
-                  //               child: LinearProgressIndicator(
-                  //                 value: calcSheets(sheetsData)[0] /
-                  //                     calcSheets(sheetsData)[1],
-                  //                 backgroundColor: grayLight,
-                  //                 valueColor:
-                  //                     const AlwaysStoppedAnimation<Color>(orange),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
                   const SizedBox(height: 10),
                   Expanded(
                     child: Container(
@@ -342,14 +373,140 @@ class _DashboardState extends State<Dashboard> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const NotificationScreen()),
-                                  );
-                                },
+                                onPressed: isButtonEnabled
+                                    ? () async {
+                                        setState(() {
+                                          isButtonEnabled = false;
+                                        });
+                                        List notificationsLocal = [];
+                                        List<dynamic> today = [];
+                                        List<dynamic> yesterday = [];
+                                        List<dynamic> earlier = [];
+                                        List<bool> todayBool = [];
+                                        List<bool> yesterdayBool = [];
+                                        List<bool> earlierBool = [];
+                                        dynamic response =
+                                            await getNotifications();
+                                        if (response.statusCode == 200) {
+                                          List<dynamic> notificationsServer =
+                                              jsonDecode(response.body)['data']
+                                                  ['notifications'];
+                                          String? notifcationsData =
+                                              await const FlutterSecureStorage()
+                                                  .read(key: 'notifications');
+                                          if (notifcationsData != null) {
+                                            notificationsLocal =
+                                                jsonDecode(notifcationsData);
+                                            // sync notificationsLocal with notificationsServer and update notificationsLocal
+                                            for (var notification
+                                                in notificationsServer) {
+                                              bool found = false;
+                                              for (var localNotification
+                                                  in notificationsLocal) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                List item = [];
+                                                item.add(notification);
+                                                item.add(false);
+                                                notificationsLocal.add(item);
+                                              }
+                                            }
+                                            // Delete notifications from notificationsLocal that are not in notificationsServer
+                                            for (var localNotification
+                                                in notificationsLocal) {
+                                              bool found = false;
+                                              for (var notification
+                                                  in notificationsServer) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                notificationsLocal
+                                                    .remove(localNotification);
+                                              }
+                                            }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
+                                          } else {
+                                            for (var notification
+                                                in notificationsServer) {
+                                              List item = [];
+                                              item.add(notification);
+                                              item.add(false);
+                                              notificationsLocal.add(item);
+                                            }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
+                                          }
+                                          for (var notification
+                                              in notificationsLocal) {
+                                            if (DateTime.parse(notification[0]
+                                                        ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                0) {
+                                              today.add(notification[0]);
+                                              todayBool.add(notification[1]);
+                                            } else if (DateTime.parse(
+                                                        notification[0]
+                                                            ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                -1) {
+                                              yesterday.add(notification[0]);
+                                              yesterdayBool
+                                                  .add(notification[1]);
+                                            } else {
+                                              earlier.add(notification[0]);
+                                              earlierBool.add(notification[1]);
+                                            }
+                                          }
+
+                                          setState(() {
+                                            getUnreadNotificationsCount();
+                                          });
+
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationScreen(
+                                                        today: today,
+                                                        yesterday: yesterday,
+                                                        earlier: earlier,
+                                                        todayBool: todayBool,
+                                                        yesterdayBool:
+                                                            yesterdayBool,
+                                                        earlierBool:
+                                                            earlierBool)),
+                                          ).then((_) {
+                                            setState(() {
+                                              isButtonEnabled = true;
+                                              getUnreadNotificationsCount();
+                                            });
+                                          });
+                                        } else {
+                                          errorDialog(context,
+                                              'Error occurred! Please try again later');
+                                        }
+                                      }
+                                    : null,
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
@@ -364,18 +521,22 @@ class _DashboardState extends State<Dashboard> {
                                       padding: EdgeInsets.all(10.0),
                                       child: Text(
                                         'View Notification',
+                                        textScaler: TextScaler.linear(1),
                                         style: TextStyle(color: white),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.all(5),
-                                      decoration: const BoxDecoration(
-                                        color: red,
+                                      decoration: BoxDecoration(
+                                        color: unreadNotificationsCount > 0
+                                            ? orange
+                                            : Colors.transparent,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Text(
-                                        '3',
-                                        style: TextStyle(color: white),
+                                      child: Text(
+                                        "${unreadNotificationsCount > 0 ? unreadNotificationsCount : ''}",
+                                        textScaler: const TextScaler.linear(1),
+                                        style: const TextStyle(color: white),
                                       ),
                                     ),
                                     const Spacer(),
@@ -393,7 +554,6 @@ class _DashboardState extends State<Dashboard> {
                             const SizedBox(height: 10),
                             const Schedule(),
                             const SizedBox(height: 10),
-                            // makeSheetMain(sheetsData),
                           ],
                         )),
                   ),

@@ -1,13 +1,22 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_supplies.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void pendingSuppliesPopup(BuildContext context,
     Map<dynamic, dynamic> supplyDetails, List<dynamic> pendingSuppliesList) {
   int index = pendingSuppliesList.indexOf(supplyDetails);
+  // print(pendingSuppliesList[index]);
+  // print(supplyDetails);
+  // print(pendingSuppliesList);
   TextEditingController controller = TextEditingController();
   showDialog(
     context: context,
@@ -30,6 +39,7 @@ void pendingSuppliesPopup(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Pending Supplies Detail',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
                     GestureDetector(
@@ -43,11 +53,13 @@ void pendingSuppliesPopup(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Supplies Pending',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
                             fontWeight: FontWeight.bold)),
                     Text('Pending',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontSmall,
                             color: blue,
@@ -58,8 +70,11 @@ void pendingSuppliesPopup(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(supplyDetails['name'] as String,
-                        style: const TextStyle(fontSize: fontMedium)),
+                    Flexible(
+                      child: Text(supplyDetails['type'] as String,
+                          textScaler: const TextScaler.linear(1),
+                          style: const TextStyle(fontSize: fontMedium)),
+                    ),
                     Container(
                       width: 35,
                       height: 35,
@@ -69,9 +84,8 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                       child: Center(
                         child: Text(
-                          (supplyDetails['required'] -
-                                  supplyDetails['received'])
-                              .toString(),
+                          supplyDetails['quantity'].toString(),
+                          textScaler: const TextScaler.linear(1),
                           style: const TextStyle(
                             color: white,
                             fontSize: fontMedium,
@@ -81,21 +95,8 @@ void pendingSuppliesPopup(BuildContext context,
                     )
                   ],
                 ),
-                const Text('Total Needed',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(supplyDetails['required'].toString(),
-                    style: const TextStyle(fontSize: fontMedium)),
-                const Text('Total Received',
-                    style: TextStyle(
-                        fontSize: fontSmall,
-                        color: blue,
-                        fontWeight: FontWeight.bold)),
-                Text(supplyDetails['received'].toString(),
-                    style: const TextStyle(fontSize: fontMedium)),
-                const Text('Update Total Received',
+                const Text('Update newly received quantity:',
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                         fontSize: fontSmall,
                         color: blue,
@@ -108,6 +109,9 @@ void pendingSuppliesPopup(BuildContext context,
                   ),
                   child: TextField(
                     keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     controller: controller,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
@@ -127,17 +131,54 @@ void pendingSuppliesPopup(BuildContext context,
                       ),
                     ),
                     onPressed: () async {
-                      const storage = FlutterSecureStorage();
-                      pendingSuppliesList[index]['received'] =
-                          int.parse(controller.text);
-
-                      // Save the updated list to secure storage
-                      await storage.write(
-                          key: 'pendingSupplies',
-                          value: jsonEncode(pendingSuppliesList));
-                      Navigator.pop(context);
+                      try {
+                        if (controller.text.isEmpty) {
+                          throw 'Please enter the quantity';
+                        } else if (int.parse(controller.text) >
+                            supplyDetails['quantity']) {
+                          throw 'Quantity cannot be more than the pending quantity';
+                        } else if (int.parse(controller.text) < 0) {
+                          throw 'Quantity cannot be negative';
+                        } else {
+                          pendingSuppliesList[index]['quantity'] =
+                              supplyDetails['quantity'] -
+                                  int.parse(controller.text);
+                          final String? roomId =
+                              await const FlutterSecureStorage()
+                                  .read(key: 'roomId');
+                          Map data = {
+                            "pending_supplies": [pendingSuppliesList[index]],
+                            "room_id": roomId.toString(),
+                          };
+                          // print(data);
+                          dynamic response = await updateSupplies(data);
+                          if (response.statusCode == 200) {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const InvigilatorDashboard()));
+                            Fluttertoast.showToast(
+                                msg: "Success",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                textColor: white,
+                                backgroundColor: green,
+                                timeInSecForIosWeb: 3,
+                                fontSize: 16.0);
+                          } else {
+                            throw 'Failed to update supplies ${jsonDecode(response.body)}';
+                          }
+                          // Save the updated list to secure storage
+                        }
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text('Confirm Update',
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),
@@ -147,5 +188,7 @@ void pendingSuppliesPopup(BuildContext context,
         ),
       );
     },
-  );
+  ).then((_) {
+    // controller.dispose();
+  });
 }

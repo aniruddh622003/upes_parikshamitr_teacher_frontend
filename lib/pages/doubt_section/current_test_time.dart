@@ -52,6 +52,7 @@ class _CurrentTestTimeState extends State<CurrentTestTime> {
   Widget build(BuildContext context) {
     return Text(
       testTime,
+      textScaler: const TextScaler.linear(1),
       style: const TextStyle(fontSize: fontMedium, color: Colors.white),
     );
   }

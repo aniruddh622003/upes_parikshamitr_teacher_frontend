@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/valid_email_checker.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -21,8 +22,21 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPhone = TextEditingController();
+  final TextEditingController controllerSAP = TextEditingController();
   final TextEditingController controllerPass1 = TextEditingController();
   final TextEditingController controllerPass2 = TextEditingController();
+
+  @override
+  void dispose() {
+    // controllerName.dispose();
+    // controllerEmail.dispose();
+    // controllerSAP.dispose();
+    // controllerPass1.dispose();
+    // controllerPass2.dispose();
+    // controllerPhone.dispose();
+    super.dispose();
+  }
 
   Future<bool> _registerFuture = Future.value(false);
   Future<bool> sendPostRequest(Map<String, dynamic> data) async {
@@ -54,11 +68,13 @@ class _LogInPageState extends State<LogInPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text("Info",
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontLarge,
                                 fontWeight: FontWeight.bold)),
                         Text(
                             "${jsonDecode(response.body)['message']}. Please continue to LogIn.",
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(fontSize: fontMedium)),
                         const SizedBox(height: 10),
                         Center(
@@ -72,7 +88,10 @@ class _LogInPageState extends State<LogInPage> {
                                       builder: (context) =>
                                           const SignInPage()));
                             },
-                            child: const Text("OK"),
+                            child: const Text(
+                              "OK",
+                              textScaler: TextScaler.linear(1),
+                            ),
                           ),
                         ),
                       ],
@@ -109,6 +128,7 @@ class _LogInPageState extends State<LogInPage> {
         ),
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
+          textScaler: TextScaler.linear(1),
           style: TextStyle(
             fontSize: fontMedium,
             fontWeight: FontWeight.bold,
@@ -123,6 +143,7 @@ class _LogInPageState extends State<LogInPage> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       body: ListView(
         children: [
           Container(
@@ -136,8 +157,10 @@ class _LogInPageState extends State<LogInPage> {
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
                         "Welcome to",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           fontSize: fontXLarge,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -145,10 +168,11 @@ class _LogInPageState extends State<LogInPage> {
                       padding: EdgeInsets.fromLTRB(15, 0, 17, 12),
                       child: Text(
                         "Pariksha Mitr",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             color: blue,
                             fontSize: fontXLarge,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                     Container(
@@ -161,10 +185,11 @@ class _LogInPageState extends State<LogInPage> {
                       padding: EdgeInsets.fromLTRB(15, 11, 16, 20),
                       child: Text(
                         "Let's help you manage examinations.",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           color: grayDark,
                           fontSize: fontMedium,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -173,12 +198,37 @@ class _LogInPageState extends State<LogInPage> {
                       child: CustomTextField(
                         label: 'Enter your name',
                         controller: controllerName,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                        ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                       child: CustomTextField(
                         label: 'Enter your SAP ID',
+                        controller: controllerSAP,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your Phone number',
+                        controller: controllerPhone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                      child: CustomTextField(
+                        label: 'Enter your email address',
                         controller: controllerEmail,
                       ),
                     ),
@@ -198,6 +248,7 @@ class _LogInPageState extends State<LogInPage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     Padding(
@@ -212,8 +263,10 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                           onPressed: () {
                             if (controllerName.text.isEmpty ||
-                                controllerEmail.text.isEmpty ||
+                                controllerSAP.text.isEmpty ||
                                 controllerPass1.text.isEmpty ||
+                                controllerEmail.text.isEmpty ||
+                                controllerPhone.text.isEmpty ||
                                 controllerPass2.text.isEmpty) {
                               errorDialog(
                                   context, 'Please fill all the fields.');
@@ -226,12 +279,18 @@ class _LogInPageState extends State<LogInPage> {
                             } else if (controllerPass1.text !=
                                 controllerPass2.text) {
                               errorDialog(context, 'Passwords do not match.');
+                            } else if (!isValidEmail(controllerEmail.text)) {
+                              errorDialog(context, 'Invalid Email Address.');
+                            } else if (controllerPhone.text.length != 10) {
+                              errorDialog(context, 'Invalid Phone Number.');
                             } else {
                               // send data to server
                               Map<String, dynamic> data = {
-                                'sap_id': int.parse(controllerEmail.text),
+                                'sap_id': int.parse(controllerSAP.text),
                                 'name': controllerName.text,
                                 'password': controllerPass1.text,
+                                'phone': controllerPhone.text,
+                                'email': controllerEmail.text,
                               };
                               setState(() {
                                 _registerFuture = sendPostRequest(data);
@@ -250,6 +309,7 @@ class _LogInPageState extends State<LogInPage> {
                               } else {
                                 return const Text(
                                   'Register',
+                                  textScaler: TextScaler.linear(1),
                                   style: TextStyle(
                                       color: white,
                                       fontSize: fontMedium,
@@ -280,6 +340,7 @@ class _LogInPageState extends State<LogInPage> {
                                   builder: (context) => const SignInPage()));
                         },
                         child: RichText(
+                          textScaler: const TextScaler.linear(1),
                           text: const TextSpan(
                             style: TextStyle(
                               color: black,

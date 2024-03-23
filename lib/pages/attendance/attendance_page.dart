@@ -1,46 +1,30 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart'
-    show serverUrl;
-import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/mark_attendance.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class AttendancePage extends StatelessWidget {
+class AttendancePage extends StatefulWidget {
   final Map<dynamic, dynamic> studentDetails;
+
+  const AttendancePage({super.key, required this.studentDetails});
+
+  @override
+  State<AttendancePage> createState() => _AttendancePageState();
+}
+
+class _AttendancePageState extends State<AttendancePage> {
   final controllerSheetNo = TextEditingController();
 
-  AttendancePage({super.key, required this.studentDetails});
-
-  Future<void> markAttendance() async {
-    const storage = FlutterSecureStorage();
-    final String? jwt = await storage.read(key: 'jwt');
-
-    final _ = await http.post(
-      Uri.parse('$serverUrl/teacher/invigilation/mark-attendance'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $jwt',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'room_id': '65ba84665bfb4b58d77d0184',
-        'sap_id': studentDetails['sap_id'],
-        'ans_sheet_number': int.parse(controllerSheetNo.text),
-      }),
-    );
-
-    // if (response.statusCode == 200) {
-    //   // If the server returns a 200 OK response, parse the JSON.
-    //   // return response.body;
-    //   print(jsonDecode(response.body)['message']);
-    // } else {
-    //   // If the server did not return a 200 OK response,
-    //   // then throw an exception.
-    //   print(jsonDecode(response.body)['message']);
-    //   // throw Exception('Failed to mark attendance');
-    // }
+  @override
+  void dispose() {
+    // controllerSheetNo.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,6 +43,7 @@ class AttendancePage extends StatelessWidget {
           children: [
             Text(
               'Seating Arrangement',
+              textScaler: TextScaler.linear(1),
               style: TextStyle(color: white),
             )
           ],
@@ -73,24 +58,11 @@ class AttendancePage extends StatelessWidget {
       body: Column(
         children: [
           const Center(
-            child: Text("Room: 11013",
+            child: Text("Attendance",
+                textScaler: TextScaler.linear(1),
                 style: TextStyle(
                   color: white,
                   fontSize: fontXLarge,
-                )),
-          ),
-          const Center(
-            child: Text("2:00 - 5:00 PM",
-                style: TextStyle(
-                  color: white,
-                  fontSize: fontSmall,
-                )),
-          ),
-          const Center(
-            child: Text("Mr. Vir Das & Mrs. Richa",
-                style: TextStyle(
-                  color: white,
-                  fontSize: fontSmall,
                 )),
           ),
           const SizedBox(height: 20),
@@ -116,6 +88,7 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Student Details',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontMedium,
                                     fontWeight: FontWeight.bold)),
@@ -126,11 +99,13 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('SAP ID',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontSmall,
                                     color: blue,
                                     fontWeight: FontWeight.bold)),
                             Text('Seat No.',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(
                                     fontSize: fontSmall,
                                     color: blue,
@@ -141,7 +116,8 @@ class AttendancePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(studentDetails['sap_id'].toString(),
+                            Text(widget.studentDetails['sap_id'].toString(),
+                                textScaler: const TextScaler.linear(1),
                                 style: const TextStyle(fontSize: fontMedium)),
                             Container(
                               width: 35,
@@ -152,7 +128,8 @@ class AttendancePage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  studentDetails['seat_no'].toString(),
+                                  widget.studentDetails['seat_no'].toString(),
+                                  textScaler: const TextScaler.linear(1),
                                   style: const TextStyle(
                                     color: white,
                                     fontSize: fontMedium,
@@ -163,68 +140,79 @@ class AttendancePage extends StatelessWidget {
                           ],
                         ),
                         const Text('Roll No.',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['roll_no'].toString(),
+                        Text(widget.studentDetails['roll_no'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Name',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['student_name'].toString(),
+                        Text(widget.studentDetails['student_name'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Subject Name',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['subject'].toString(),
+                        Text(widget.studentDetails['subject'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Subject Code',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['subject_code'].toString(),
+                        Text(widget.studentDetails['subject_code'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Course',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['course'].toString(),
+                        Text(widget.studentDetails['course'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
                         const Text('Examination Type',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                                 fontSize: fontSmall,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(studentDetails['exam_type'].toString(),
+                        Text(widget.studentDetails['exam_type'].toString(),
+                            textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               fontSize: fontMedium,
                             )),
-                        const SizedBox(height: 20),
-                        const Center(
-                          child: Text("Sheet Number",
-                              style: TextStyle(
-                                color: black,
-                                fontSize: fontLarge,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
+                        // const SizedBox(height: 20),
+                        const Text('Answer Sheet Number',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                                fontSize: fontSmall,
+                                color: blue,
+                                fontWeight: FontWeight.bold)),
+                        const Center(),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
@@ -233,10 +221,14 @@ class AttendancePage extends StatelessWidget {
                           ),
                           child: TextField(
                             controller: controllerSheetNo,
+                            keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ], // Only digits allowed.
                             decoration: const InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Type here',
+                              hintText: 'Type Sheet Number',
                             ),
                           ),
                         ),
@@ -253,11 +245,45 @@ class AttendancePage extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
-                              markAttendance();
-                              Navigator.pop(context);
-                              attendancePopup(context);
+                              if (controllerSheetNo.text.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: "Please enter answer sheet number",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 3,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else {
+                                final String? roomId =
+                                    await const FlutterSecureStorage()
+                                        .read(key: 'roomId');
+                                Map data = {
+                                  'room_id': roomId,
+                                  'sap_id': widget.studentDetails['sap_id'],
+                                  'ans_sheet_number':
+                                      int.parse(controllerSheetNo.text),
+                                };
+                                await markAttendance(data);
+                                // WIP: markAttendance status code
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                  msg:
+                                      "Updating Attendance, please wait for around 10 seconds!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  timeInSecForIosWeb: 3,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: gray,
+                                  textColor: black,
+                                  fontSize: 16.0,
+                                );
+                                // attendancePopup(context);
+                                //close keyboard
+                                FocusScope.of(context).unfocus();
+                              }
                             },
                             child: const Text('Mark Attendance',
+                                textScaler: TextScaler.linear(1),
                                 style: TextStyle(fontSize: fontSmall)),
                           ),
                         ),

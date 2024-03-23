@@ -8,7 +8,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
+// import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_base.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/password_field.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -60,6 +60,13 @@ class _SignInPageState extends State<SignInPage> {
   Future<void>? _futurePostRequest;
 
   @override
+  void dispose() {
+    // controllerEmail.dispose();
+    // controllerPass.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -73,6 +80,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
         title: const Text(
           'UPES Pariksha Mitr - Teachers',
+          textScaler: TextScaler.linear(1),
           style: TextStyle(
             fontSize: fontMedium,
             fontWeight: FontWeight.bold,
@@ -87,6 +95,7 @@ class _SignInPageState extends State<SignInPage> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       body: ListView(
         children: [
           Container(
@@ -100,19 +109,22 @@ class _SignInPageState extends State<SignInPage> {
                       padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                       child: Text(
                         "Welcome Back.",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           fontSize: fontXLarge,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(15, 6, 16, 10),
                       child: Text(
+                        textScaler: TextScaler.linear(1),
                         "We are happy to assist you again.",
                         style: TextStyle(
                           color: grayDark,
                           fontSize: fontMedium,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -126,6 +138,10 @@ class _SignInPageState extends State<SignInPage> {
                       child: CustomTextField(
                         label: 'Enter your SAP ID',
                         controller: controllerEmail,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                     ),
                     Padding(
@@ -135,22 +151,23 @@ class _SignInPageState extends State<SignInPage> {
                         controller: controllerPass,
                       ),
                     ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPassword()));
-                          },
-                          child: const Text(
-                            'Forgot Password',
-                            style:
-                                TextStyle(color: orange, fontSize: fontSmall),
-                          ),
-                        )),
+                    // Padding(
+                    //     padding: const EdgeInsets.fromLTRB(214, 0, 29, 0),
+                    //     child: GestureDetector(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) =>
+                    //                     const ForgotPassword()));
+                    //       },
+                    //       child: const Text(
+                    //         'Forgot Password',
+                    //textScaler: const TextScaler.linear(1),
+                    //         style:
+                    //             TextStyle(color: orange, fontSize: fontSmall),
+                    //       ),
+                    //     )),
                   ],
                 ),
                 Column(
@@ -192,6 +209,7 @@ class _SignInPageState extends State<SignInPage> {
                               } else {
                                 return const Text(
                                   'Sign In',
+                                  textScaler: TextScaler.linear(1),
                                   style: TextStyle(
                                       color: white,
                                       fontSize: fontMedium,
@@ -222,6 +240,7 @@ class _SignInPageState extends State<SignInPage> {
                                   builder: (context) => const LogInPage()));
                         },
                         child: RichText(
+                          textScaler: const TextScaler.linear(1),
                           text: const TextSpan(
                             style: TextStyle(
                               color: black,

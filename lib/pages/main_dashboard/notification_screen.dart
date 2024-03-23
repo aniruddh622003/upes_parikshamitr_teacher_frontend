@@ -1,12 +1,32 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class NotificationScreen extends StatefulWidget {
+  final List<dynamic> today;
+  final List<dynamic> yesterday;
+  final List<dynamic> earlier;
+  final List<bool> todayBool;
+  final List<bool> yesterdayBool;
+  final List<bool> earlierBool;
+  const NotificationScreen(
+      {super.key,
+      required this.today,
+      required this.yesterday,
+      required this.earlier,
+      required this.todayBool,
+      required this.yesterdayBool,
+      required this.earlierBool});
 
+  @override
+  _NotificationScreenState createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +39,7 @@ class NotificationScreen extends StatelessWidget {
           backgroundColor: primaryColor,
           title: const Text(
             "Notification",
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               fontSize: fontMedium,
               fontWeight: FontWeight.bold,
@@ -33,87 +54,39 @@ class NotificationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Column(
                     children: [
-                      NotificationCategoryBox(
-                        title: "Today",
-                        notifications: [
-                          {
-                            "name": "Aniruddh Upadhyay",
-                            "subject": "Meeting",
-                            "msg":
-                                "Please attend the meeting at 10 AM in 9104 and please be seated 5 minutes before the time. Thank you.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Extra text",
-                          },
-                          {
-                            "name": "Khushi Gupta",
-                            "subject": "Reminder",
-                            "msg": "Don't forget the deadline. Thank you."
-                          },
-                        ],
-                        read: [true, true],
-                      ),
-                      SizedBox(height: 10),
-                      NotificationCategoryBox(
-                        title: "Yesterday",
-                        notifications: [
-                          {
-                            "name": "Khushi",
-                            "subject": "Updates",
-                            "msg":
-                                "Project updates to be given today. No delay will be tolerated. Thank you."
-                          },
-                          {
-                            "name": "Aniruddh",
-                            "subject": "Task",
-                            "msg":
-                                "Complete the task by tomorrow. The tasks are monitored by the admin. Thank you."
-                          },
-                          {
-                            "name": "Luffy",
-                            "subject": "Announcement",
-                            "msg": "New announcement."
-                          },
-                          {
-                            "name": "Franky",
-                            "subject": "Report",
-                            "msg":
-                                "Submit the report by tomorrow. Please give the hard copy. Thank you"
-                          },
-                        ],
-                        read: [true, false, false, false],
-                      ),
-                      SizedBox(height: 10),
-                      NotificationCategoryBox(
-                        title: "Earlier",
-                        notifications: [
-                          {
-                            "name": "Aarav",
-                            "subject": "Notification",
-                            "msg":
-                                "Notification message will be triggered here. Thank you."
-                          },
-                          {
-                            "name": "Aniruddh",
-                            "subject": "Status",
-                            "msg":
-                                "Check the status of the task.If you face any issue, feel free to notify me.Thank you."
-                          },
-                          {
-                            "name": "Khushi",
-                            "subject": "Reminder",
-                            "msg": "Reminder for tomorrow's meeting.Thank you"
-                          },
-                        ],
-                        read: [true, true, true],
-                      ),
+                      widget.todayBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Today",
+                              notifications: widget.today,
+                              read: widget.todayBool,
+                            )
+                          : const SizedBox(),
+                      // const SizedBox(height: 10),
+                      widget.yesterdayBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Yesterday",
+                              notifications: widget.yesterday,
+                              read: widget.yesterdayBool,
+                            )
+                          : const SizedBox(),
+                      // const SizedBox(height: 10),
+                      widget.earlierBool.isNotEmpty
+                          ? NotificationCategoryBox(
+                              title: "Earlier",
+                              notifications: widget.earlier,
+                              read: widget.earlierBool,
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),
@@ -126,7 +99,7 @@ class NotificationScreen extends StatelessWidget {
 
 class NotificationCategoryBox extends StatelessWidget {
   final String title;
-  final List<Map<String, String>> notifications;
+  final List<dynamic> notifications;
   final List<bool> read;
 
   const NotificationCategoryBox({
@@ -143,6 +116,7 @@ class NotificationCategoryBox extends StatelessWidget {
       children: [
         Text(
           title,
+          textScaler: const TextScaler.linear(1),
           style: const TextStyle(
             fontSize: fontSmall,
             fontWeight: FontWeight.bold,
@@ -153,9 +127,10 @@ class NotificationCategoryBox extends StatelessWidget {
         ...List.generate(
           notifications.length,
           (index) => NotificationBox(
-            name: notifications[index]['name']!,
-            subject: notifications[index]['subject']!,
-            msg: notifications[index]['msg']!,
+            id: notifications[index]['_id'].toString(),
+            name: notifications[index]['sender'].toString(),
+            subject: notifications[index]['title'].toString(),
+            msg: notifications[index]['message'].toString(),
             isRead: read[index],
             onTap: () {},
           ),
@@ -166,6 +141,7 @@ class NotificationCategoryBox extends StatelessWidget {
 }
 
 class NotificationBox extends StatefulWidget {
+  final String id;
   final String name;
   final String subject;
   final String msg;
@@ -174,6 +150,7 @@ class NotificationBox extends StatefulWidget {
 
   const NotificationBox({
     super.key,
+    required this.id,
     required this.name,
     required this.subject,
     required this.msg,
@@ -197,9 +174,20 @@ class _NotificationBoxState extends State<NotificationBox> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (!isRead) {
           widget.onTap();
+          String? notifcationsData =
+              await const FlutterSecureStorage().read(key: 'notifications');
+          List<dynamic> notifications = jsonDecode(notifcationsData!);
+          for (int i = 0; i < notifications.length; i++) {
+            if (notifications[i][0]['_id'] == widget.id) {
+              notifications[i][1] = true;
+              break;
+            }
+          }
+          await const FlutterSecureStorage()
+              .write(key: 'notifications', value: jsonEncode(notifications));
           setState(() {
             isRead = true;
           });
@@ -256,6 +244,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                     children: [
                       Text(
                         widget.msg,
+                        textScaler: const TextScaler.linear(1),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -266,6 +255,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                       ),
                       const Text(
                         "Read more",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -276,6 +266,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                 } else {
                   return Text(
                     widget.msg,
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -303,11 +294,13 @@ class _NotificationBoxState extends State<NotificationBox> {
             children: [
               Text(
                 widget.subject,
+                textScaler: const TextScaler.linear(1),
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
                 widget.name,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -316,6 +309,7 @@ class _NotificationBoxState extends State<NotificationBox> {
                 child: SingleChildScrollView(
                   child: Text(
                     widget.msg,
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),

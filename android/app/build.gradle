@@ -45,7 +45,7 @@ android {
         applicationId "com.example.upes_parikshamitr_teacher_frontend"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 20 //flutter.minSdkVersion need it to be 20 for qr scanner to work, note sdk 20 is android 4.4 so it doesnt matter for now
+        minSdkVersion 21 //flutter.minSdkVersion need it to be 20 for qr scanner to work, note sdk 20 is android 4.4 so it doesnt matter for now
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

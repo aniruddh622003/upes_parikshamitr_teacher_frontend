@@ -25,14 +25,15 @@ void pendingReq(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Pending Request",
+                        textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             color: white,
                             fontSize: fontLarge,
                             fontWeight: FontWeight.bold)),
                     const Text(
                         'Your submission has been sent for authentication to the controller. Kindly wait!',
-                        style: TextStyle(
-                            color: white, fontSize: fontMedium)),
+                        textScaler: TextScaler.linear(1),
+                        style: TextStyle(color: white, fontSize: fontMedium)),
                     const SizedBox(height: 10),
                     Center(
                       child: ElevatedButton(
@@ -40,7 +41,10 @@ void pendingReq(BuildContext context) {
                           Navigator.pop(context);
                           reqApp(context);
                         },
-                        child: const Text("OK"),
+                        child: const Text(
+                          "OK",
+                          textScaler: TextScaler.linear(1),
+                        ),
                       ),
                     ),
                   ],

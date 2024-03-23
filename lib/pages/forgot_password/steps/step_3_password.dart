@@ -40,6 +40,7 @@ class _Step3PassState extends State<Step3Pass> {
                   padding: EdgeInsets.fromLTRB(15, 20, 17, 0),
                   child: Text(
                     "Reset Your Password.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       fontSize: fontXLarge,
                     ),
@@ -49,6 +50,7 @@ class _Step3PassState extends State<Step3Pass> {
                   padding: EdgeInsets.fromLTRB(15, 0, 16, 10),
                   child: Text(
                     "You are almost there.",
+                    textScaler: TextScaler.linear(1),
                     style: TextStyle(
                       color: grayDark,
                       fontSize: fontMedium,
@@ -72,6 +74,7 @@ class _Step3PassState extends State<Step3Pass> {
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                     child: Text(
                       "Enter New Password.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -108,6 +111,7 @@ class _Step3PassState extends State<Step3Pass> {
                     padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
                     child: Text(
                       "Confirm Password.",
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: fontSmall,
@@ -170,6 +174,7 @@ class _Step3PassState extends State<Step3Pass> {
                     },
                     child: const Text(
                       'Reset Password',
+                      textScaler: TextScaler.linear(1),
                       style: TextStyle(
                         color: white,
                         fontSize: fontSmall,

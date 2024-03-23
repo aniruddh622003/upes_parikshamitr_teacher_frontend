@@ -21,6 +21,7 @@ class ForgotPassword extends StatelessWidget {
           ),
           title: const Text(
             'UPES Pariksha Mitr - Teachers',
+            textScaler: TextScaler.linear(1),
             style: TextStyle(
               fontSize: fontMedium,
               fontWeight: FontWeight.bold,
@@ -49,6 +50,7 @@ class ForgotPassword extends StatelessWidget {
                           padding: EdgeInsets.all(15),
                           child: Text(
                             'OR',
+                            textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: fontLarge,
                               fontWeight: FontWeight.bold,
@@ -76,6 +78,7 @@ class ForgotPassword extends StatelessWidget {
                                       builder: (context) => const LogInPage()));
                             },
                             child: RichText(
+                              textScaler: const TextScaler.linear(1),
                               text: const TextSpan(
                                 style: TextStyle(
                                   color: black,
