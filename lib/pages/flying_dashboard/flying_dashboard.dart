@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_invigilator_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_rooms_assigned.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/details_popup.dart';
@@ -195,7 +196,8 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: SizedBox(
-          height: 45 + (40.0 * currentRoomDetails.length),
+          height: 45 +
+              (40.0 * currentRoomDetails.values.where((_) => _ != null).length),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -235,26 +237,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                     String? currentKey =
                         currentRoomDetails.keys.toList()[index];
                     return currentRoomDetails[currentKey] == null
-                        ? Container(
-                            decoration: const BoxDecoration(
-                              color:
-                                  grayLight, // Set the background color to light gray
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey), // Add a bottom border
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal:
-                                    10), // Reduce the horizontal padding
-                            child: const Text("Not Assigned",
-                                textScaler: TextScaler.linear(1),
-                                style: TextStyle(
-                                  fontSize: fontMedium - 2,
-                                )))
+                        ? null
                         : GestureDetector(
                             onTap: () {
                               detailsPopup(
@@ -311,6 +294,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
         } else {
           isPageLoaded = true;
           currentRoomDetails = snapshot.data;
+          print(currentRoomDetails);
           return Scaffold(
               backgroundColor: primaryColor,
               appBar: AppBar(
@@ -334,7 +318,14 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                       Icons.refresh,
                       color: white,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      dynamic response = await getRoomsAssigned();
+                      if (response.statusCode == 200) {
+                        widget.roomData = jsonDecode(response.body)['rooms'];
+                      } else {
+                        errorDialog(context,
+                            'An error occurred while fetching room data.');
+                      }
                       setState(() {});
                     },
                   ),
@@ -600,7 +591,15 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                         decoration: BoxDecoration(
                                           color: selectedIndex == index
                                               ? orange
-                                              : blue50,
+                                              : widget.roomData[index]
+                                                          ['status'] ==
+                                                      'requested'
+                                                  ? greenLight
+                                                  : widget.roomData[index]
+                                                              ['status'] ==
+                                                          'approved'
+                                                      ? green
+                                                      : blue50,
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                         ),
@@ -716,7 +715,10 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: widget.roomData.isNotEmpty
+                              onPressed: widget.roomData.isNotEmpty &&
+                                      widget.roomData[selectedIndex]
+                                              ['status'] ==
+                                          'assigned'
                                   ? () async {
                                       roomRemarks(
                                           context,
