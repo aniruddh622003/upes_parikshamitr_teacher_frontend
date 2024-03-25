@@ -41,89 +41,86 @@ class SubmissionDetails extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Container(
-                // Set the width of the card Set the height of the card
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text("Submission Recieved",
-                            textScaler: TextScaler.linear(1),
-                            style: TextStyle(
-                                fontSize: fontLarge,
-                                fontWeight: FontWeight.bold,
-                                color: orange)),
-                        const SizedBox(height: 20),
-                        const Center(
-                            child: Text(
-                                'Your submission has been sent for authentication to the controller. Kindly wait.',
-                                textScaler: TextScaler.linear(1),
-                                style: TextStyle(fontSize: fontMedium))),
-                        const SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              const storage = FlutterSecureStorage();
-                              final String? roomId =
-                                  await storage.read(key: 'roomId');
-                              dynamic response =
-                                  await checkRoomStatus(roomId.toString());
-                              if (response.statusCode == 200) {
-                                if (jsonDecode(response.body)['data'] ==
-                                    "APPROVAL") {
-                                  errorDialog(
-                                      context, "Kindly wait for approval");
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: "Submission Approved!",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                  await const FlutterSecureStorage()
-                                      .delete(key: 'submission_state');
-                                  await const FlutterSecureStorage()
-                                      .delete(key: "unique_code");
-                                  await const FlutterSecureStorage()
-                                      .delete(key: "roomId");
-                                  String? jwt =
-                                      await const FlutterSecureStorage()
-                                          .read(key: 'jwt');
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(jwt: jwt),
-                                    ),
-                                  );
-                                }
-                              } else {
-                                errorDialog(context,
-                                    "Submission not yet approved by the controller. Please wait.");
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: orange,
-                              foregroundColor: white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text(
-                              'Check Status',
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text("Submission Recieved",
+                          textScaler: TextScaler.linear(1),
+                          style: TextStyle(
+                              fontSize: fontLarge,
+                              fontWeight: FontWeight.bold,
+                              color: orange)),
+                      const SizedBox(height: 20),
+                      const Center(
+                          child: Text(
+                              'Your submission has been sent for authentication to the controller. Kindly wait.',
                               textScaler: TextScaler.linear(1),
+                              style: TextStyle(fontSize: fontMedium))),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            const storage = FlutterSecureStorage();
+                            final String? roomId =
+                                await storage.read(key: 'roomId');
+                            dynamic response =
+                                await checkRoomStatus(roomId.toString());
+                            if (response.statusCode == 200) {
+                              if (jsonDecode(response.body)['data'] ==
+                                  "APPROVAL") {
+                                errorDialog(
+                                    context, "Kindly wait for approval");
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Submission Approved!",
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 3,
+                                    backgroundColor: Colors.grey,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                                await const FlutterSecureStorage()
+                                    .delete(key: 'submission_state');
+                                await const FlutterSecureStorage()
+                                    .delete(key: "unique_code");
+                                await const FlutterSecureStorage()
+                                    .delete(key: "roomId");
+                                String? jwt =
+                                    await const FlutterSecureStorage()
+                                        .read(key: 'jwt');
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Dashboard(jwt: jwt),
+                                  ),
+                                );
+                              }
+                            } else {
+                              errorDialog(context,
+                                  "Submission not yet approved by the controller. Please wait.");
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: orange,
+                            foregroundColor: white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          child: const Text(
+                            'Check Status',
+                            textScaler: TextScaler.linear(1),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

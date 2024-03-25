@@ -294,7 +294,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
         } else {
           isPageLoaded = true;
           currentRoomDetails = snapshot.data;
-          print(currentRoomDetails);
           return Scaffold(
               backgroundColor: primaryColor,
               appBar: AppBar(
