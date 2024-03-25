@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/check_room_status.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_flying_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_invigilators.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
@@ -11,9 +12,11 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/details_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/add_pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_visit_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/progress_bar.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
@@ -170,6 +173,134 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
     } else {
       unreadNotificationsCount = 0;
     }
+  }
+
+  Future<Widget> makeFlyingPanel() async {
+    List<Widget> items = [
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: const BoxDecoration(
+          color: blue,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Flying Squad',
+              textScaler: TextScaler.linear(1),
+              style: TextStyle(color: white),
+            ),
+          ],
+        ),
+      ),
+    ];
+    dynamic response = await getFlyingData();
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['flying_squad'];
+      for (Map flying in data) {
+        Color buttonColor = Colors.transparent;
+        Color textColor = orange;
+        String text = "";
+        if (flying['status'] == "assigned") {
+          text = "Not Visited";
+          buttonColor = Colors.transparent;
+          textColor = orange;
+        } else if (flying['status'] == "requested") {
+          text = "Requested";
+          buttonColor = orange;
+          textColor = white;
+        } else if (flying['status'] == "approved") {
+          text = "Visited";
+          buttonColor = green;
+          textColor = white;
+        }
+
+        items.add(Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            border: const Border(
+              bottom: BorderSide(
+                color: gray,
+              ),
+            ),
+            color: grayLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => detailsPopup(context, flying['teacher']),
+                  child: Flexible(
+                    child: Text(
+                      flying['teacher']['name'],
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                        fontSize: fontSmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: flying['status'] == "requested"
+                      ? () async {
+                          flyingVisitPopup(context, flying).then((value) {
+                            setState(() {});
+                          });
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return buttonColor;
+                    }),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return textColor;
+                    }),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Change this to your desired border radius
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    text.toString(),
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(
+                      fontSize: fontSmall,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
+      }
+    }
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: grayLight,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: items,
+      ),
+    );
   }
 
   Future<Widget> makePendingItems() async {
@@ -944,7 +1075,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                             snapshot.data == null) {
                           isPageLoaded = true;
                           return const Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(10.0),
                             child: Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -959,6 +1090,34 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         }
                       },
                     ),
+
+                    FutureBuilder<Widget>(
+                      future: makeFlyingPanel(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Widget> snapshot) {
+                        if ((snapshot.connectionState ==
+                                    ConnectionState.waiting &&
+                                !isPageLoaded) ||
+                            snapshot.data == null) {
+                          isPageLoaded = true;
+                          return const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ); // or some other widget while waiting
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            'Error: ${snapshot.error}',
+                            textScaler: const TextScaler.linear(1),
+                          );
+                        } else {
+                          return snapshot.data!;
+                        }
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

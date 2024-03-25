@@ -14,7 +14,10 @@ class DoubtSection extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: blue,
         foregroundColor: white,
-        title: const Text("Doubt Section"),
+        title: const Text(
+          "Doubt Section",
+          textScaler: TextScaler.linear(1),
+        ),
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: white,
           statusBarIconBrightness: Brightness.dark,

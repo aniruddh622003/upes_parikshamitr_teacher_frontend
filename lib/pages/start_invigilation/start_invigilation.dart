@@ -69,6 +69,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                       FlyingDashboard(roomData: data["data"]["room_data"]),
                 ));
           } else {
+            data = data['data'];
             String roomId = data['room']['_id'];
             const storage = FlutterSecureStorage();
             await storage.write(key: 'roomId', value: roomId);
@@ -259,6 +260,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                                   ["room_data"]),
                                         ));
                                   } else {
+                                    data = data['data'];
                                     String roomId = data['room']['_id'];
                                     const storage = FlutterSecureStorage();
                                     await storage.write(

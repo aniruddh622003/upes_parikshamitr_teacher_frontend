@@ -290,7 +290,9 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
           ); // Show a loading spinner while waiting
         } else if (snapshot.hasError) {
           return Text(
-              'Error: ${snapshot.error}'); // Show error message if something went wrong
+            'Error: ${snapshot.error}',
+            textScaler: const TextScaler.linear(1),
+          ); // Show error message if something went wrong
         } else {
           isPageLoaded = true;
           currentRoomDetails = snapshot.data;
@@ -606,6 +608,8 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                           child: Text(
                                             widget.roomData[index]["room_no"]
                                                 .toString(),
+                                            textScaler:
+                                                const TextScaler.linear(1),
                                             style: TextStyle(
                                               fontSize: fontMedium,
                                               color: selectedIndex == index
