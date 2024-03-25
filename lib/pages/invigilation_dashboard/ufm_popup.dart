@@ -138,8 +138,10 @@ void ufmPopup(BuildContext context) {
                                     int.parse(controllerSAP.text));
                             if (indexData != -1) {
                               if (roomDetails['data']['seating_plan'][indexData]
-                                      ['eligible'] ==
-                                  'YES') {
+                                          ['eligible'] ==
+                                      'YES' &&
+                                  roomDetails['data']['seating_plan'][indexData]
+                                      ['attendance']) {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
@@ -155,6 +157,11 @@ void ufmPopup(BuildContext context) {
                                       'DEBARRED') {
                                 Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
+                              } else if (!roomDetails['data']['seating_plan']
+                                  [indexData]['attendance']) {
+                                Navigator.pop(context);
+                                errorDialog(
+                                    context, 'Student not marked present!');
                               }
                             } else {
                               Navigator.pop(context);
@@ -162,11 +169,13 @@ void ufmPopup(BuildContext context) {
                             }
                           } else {
                             Navigator.pop(context);
-                            errorDialog(context, "An error occured!");
+                            errorDialog(context,
+                                "An error while fetching seating plan!");
                           }
                         } else {
                           Navigator.pop(context);
-                          errorDialog(context, "An error occured!");
+                          errorDialog(
+                              context, "An error while fetching seating plan!");
                         }
                       } catch (e) {
                         Navigator.pop(context);

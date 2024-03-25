@@ -682,8 +682,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                           value: widget.roomData[selectedIndex]
                                                   ['room_id']
                                               .toString());
-                                      print(widget.roomData[selectedIndex]
-                                          ['room_id']);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
