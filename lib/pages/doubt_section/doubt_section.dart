@@ -76,92 +76,96 @@ class DoubtSection extends StatelessWidget {
         // ),
       ),
       // Make the body cover the entire screen
-      body: Expanded(
-          child: Container(
-        width: double.infinity,
-        constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height - 175,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 15, top: 15),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Contacts for help",
-                  textScaler: TextScaler.linear(1),
-                  style: TextStyle(fontSize: fontMedium),
-                ),
+      body: Column(
+        children: [
+          Expanded(
+              child: Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height - 175,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
-            ContactCard(
-              name: 'Dr. Ajay Prasad',
-              designation: 'Center Superintendent SoCS',
-              phoneNumber: '9690129280',
-              onMessagePressed: () {
-                // Handle message icon pressed for John Doe
-              },
+            child: ListView(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 15, top: 15),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Contacts for help",
+                      textScaler: TextScaler.linear(1),
+                      style: TextStyle(fontSize: fontMedium),
+                    ),
+                  ),
+                ),
+                ContactCard(
+                  name: 'Dr. Ajay Prasad',
+                  designation: 'Center Superintendent SoCS',
+                  phoneNumber: '9690129280',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for John Doe
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Rahul Kumar Singh',
+                  designation: 'Examination Committee Member',
+                  phoneNumber: '9781016195',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Jane Smith
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Abhijeet Kumar',
+                  designation: 'Examination Committee Member',
+                  phoneNumber: '9311360747',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Bob Johnson
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Dhirendra Sharma',
+                  designation: 'Examination Committee Member',
+                  phoneNumber: '8370033126',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Alice Brown
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Rohit Shrivastava',
+                  designation: 'Examination Committee Member',
+                  phoneNumber: '9725313511',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Alice Brown
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Sanoj Kumar',
+                  designation: 'Examination Committee Member',
+                  phoneNumber: '9058523010',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Alice Brown
+                  },
+                ),
+                ContactCard(
+                  name: 'Dr. Virender Kadyan',
+                  designation: 'Application related queries',
+                  phoneNumber: '9992037007',
+                  onMessagePressed: () {
+                    // Handle message icon pressed for Alice Brown
+                  },
+                ),
+              ],
             ),
-            ContactCard(
-              name: 'Dr. Rahul Kumar Singh',
-              designation: 'Examination Committee Member',
-              phoneNumber: '9781016195',
-              onMessagePressed: () {
-                // Handle message icon pressed for Jane Smith
-              },
-            ),
-            ContactCard(
-              name: 'Dr. Abhijeet Kumar',
-              designation: 'Examination Committee Member',
-              phoneNumber: '9311360747',
-              onMessagePressed: () {
-                // Handle message icon pressed for Bob Johnson
-              },
-            ),
-            ContactCard(
-              name: 'Dr. Dhirendra Sharma',
-              designation: 'Examination Committee Member',
-              phoneNumber: '8370033126',
-              onMessagePressed: () {
-                // Handle message icon pressed for Alice Brown
-              },
-            ),
-            ContactCard(
-              name: 'Dr. Rohit Shrivastava',
-              designation: 'Examination Committee Member',
-              phoneNumber: '9725313511',
-              onMessagePressed: () {
-                // Handle message icon pressed for Alice Brown
-              },
-            ),
-            ContactCard(
-              name: 'Dr. Sanoj Kumar',
-              designation: 'Examination Committee Member',
-              phoneNumber: '9058523010',
-              onMessagePressed: () {
-                // Handle message icon pressed for Alice Brown
-              },
-            ),
-            ContactCard(
-              name: 'Dr. Virender Kadyan',
-              designation: 'Application related queries',
-              phoneNumber: '9992037007',
-              onMessagePressed: () {
-                // Handle message icon pressed for Alice Brown
-              },
-            ),
-          ],
-        ),
-      )),
+          )),
+        ],
+      ),
     );
   }
 }
