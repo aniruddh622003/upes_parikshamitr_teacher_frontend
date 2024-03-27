@@ -53,7 +53,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
 
       if (response.statusCode == 201) {
         try {
-          Map data = jsonDecode(response.body)['data'];
+          Map data = jsonDecode(response.body);
           if (data['message'] == "Flying Squad member assigned") {
             String slotId = data["data"]['slot'];
             const storage = FlutterSecureStorage();

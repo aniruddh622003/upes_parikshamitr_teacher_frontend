@@ -789,54 +789,58 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Expanded(
                           child: GestureDetector(
                               onTap: () async {
-                                dynamic responseSupp = await getSupplies();
-                                List<dynamic> suppliesList =
-                                    jsonDecode(responseSupp.body)['data'];
-                                for (Map item in suppliesList) {
-                                  if (item['quantity'] != 0) {
-                                    errorDialog(context,
-                                        "Please clear all the pending supplies");
-                                    return;
+                                try {
+                                  dynamic responseSupp = await getSupplies();
+                                  List<dynamic> suppliesList =
+                                      jsonDecode(responseSupp.body)['data'];
+                                  for (Map item in suppliesList) {
+                                    if (item['quantity'] != 0) {
+                                      errorDialog(context,
+                                          "Please clear all the pending supplies");
+                                      return;
+                                    }
                                   }
-                                }
-                                const storage = FlutterSecureStorage();
-                                final String? roomId =
-                                    await storage.read(key: 'roomId');
-                                dynamic response =
-                                    await checkRoomStatus(roomId.toString());
-                                if (response.statusCode == 200) {
-                                  if (jsonDecode(response.body)['data'] ==
-                                      "COMPLETED") {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                            "Invigilation Completed Successfully!",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 3,
-                                        backgroundColor: Colors.grey,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                    const FlutterSecureStorage()
-                                        .delete(key: 'roomId');
-                                    String? jwt =
-                                        await const FlutterSecureStorage()
-                                            .read(key: 'jwt');
-                                    Navigator.pop(context);
-                                    Navigator.push(
+                                  const storage = FlutterSecureStorage();
+                                  final String? roomId =
+                                      await storage.read(key: 'roomId');
+                                  dynamic response =
+                                      await checkRoomStatus(roomId.toString());
+                                  if (response.statusCode == 200) {
+                                    if (jsonDecode(response.body)['data'] ==
+                                        "COMPLETED") {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Invigilation Completed Successfully!",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 3,
+                                          backgroundColor: Colors.grey,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                      const FlutterSecureStorage()
+                                          .delete(key: 'roomId');
+                                      String? jwt =
+                                          await const FlutterSecureStorage()
+                                              .read(key: 'jwt');
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Dashboard(jwt: jwt),
+                                        ),
+                                      );
+                                      return;
+                                    }
+                                  }
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            Dashboard(jwt: jwt),
-                                      ),
-                                    );
-                                    return;
-                                  }
+                                          builder: (context) =>
+                                              const SubmitToController()));
+                                } catch (e) {
+                                  errorDialog(context, e.toString());
                                 }
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SubmitToController()));
                               },
                               child: SvgPicture.asset(
                                   'android/assets/controller.svg')),

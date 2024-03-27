@@ -41,6 +41,7 @@ dependencies:
   flutter_pdfview: ^1.2.1
   jsqr: any
   universal_html: any
+  mobile_scanner: ^4.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -48,7 +49,7 @@ dependencies:
   flutter_svg: ^2.0.5
   carousel_slider: ^4.0.0
   fluttertoast: ^8.2.4
-  flutter_barcode_scanner: ^2.0.0
+  # flutter_barcode_scanner: ^2.0.0
   collection: ^1.18.0
   # flutter_native_splash: ^2.3.9
 
