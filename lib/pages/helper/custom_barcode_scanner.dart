@@ -23,7 +23,7 @@ class _CustomBarcodeScannerState extends State<CustomBarcodeScanner>
       setState(() {
         _barcode = barcodes.barcodes.firstOrNull;
         if (_barcode != null) {
-          controller?.stop();
+          controller.stop();
           widget.onBarcodeScanned(_barcode!.displayValue.toString());
         }
       });
@@ -79,6 +79,6 @@ class _CustomBarcodeScannerState extends State<CustomBarcodeScanner>
     unawaited(_subscription?.cancel());
     _subscription = null;
     super.dispose();
-    await controller?.stop();
+    await controller.stop();
   }
 }
