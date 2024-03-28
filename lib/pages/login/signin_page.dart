@@ -91,7 +91,11 @@ class _SignInPageState extends State<SignInPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () {
-            Navigator.pop(context);
+            try {
+              Navigator.pop(context);
+            } catch (e) {
+              errorDialog(context, e.toString());
+            }
           },
         ),
       ),
@@ -183,18 +187,22 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                           ),
                           onPressed: () {
-                            if (controllerEmail.text.isEmpty ||
-                                controllerPass.text.isEmpty) {
-                              errorDialog(
-                                  context, 'Please fill all the fields.');
-                            } else {
-                              Map<String, dynamic> data = {
-                                'sap_id': int.parse(controllerEmail.text),
-                                'password': controllerPass.text,
-                              };
-                              setState(() {
-                                _futurePostRequest = sendPostRequest(data);
-                              });
+                            try {
+                              if (controllerEmail.text.isEmpty ||
+                                  controllerPass.text.isEmpty) {
+                                errorDialog(
+                                    context, 'Please fill all the fields.');
+                              } else {
+                                Map<String, dynamic> data = {
+                                  'sap_id': int.parse(controllerEmail.text),
+                                  'password': controllerPass.text,
+                                };
+                                setState(() {
+                                  _futurePostRequest = sendPostRequest(data);
+                                });
+                              }
+                            } catch (e) {
+                              errorDialog(context, e.toString());
                             }
                           },
                           child: FutureBuilder<void>(
@@ -233,11 +241,15 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LogInPage()));
+                          try {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LogInPage()));
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
                         },
                         child: RichText(
                           textScaler: const TextScaler.linear(1),

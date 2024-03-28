@@ -330,9 +330,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter1 > 0) _counter1--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter1 > 0) _counter1--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -350,9 +355,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter1++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter1++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -391,9 +401,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter2 > 0) _counter2--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter2 > 0) _counter2--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -411,9 +426,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter2++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter2++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -452,9 +472,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter3 > 0) _counter3--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter3 > 0) _counter3--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -472,9 +497,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter3++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter3++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -513,9 +543,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter4 > 0) _counter4--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter4 > 0) _counter4--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -533,9 +568,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter4++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter4++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),

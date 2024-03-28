@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/forgot_password/forgot_password_status_widget.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/login_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
@@ -32,7 +33,11 @@ class ForgotPassword extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: white),
             onPressed: () {
-              Navigator.pop(context);
+              try {
+                Navigator.pop(context);
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
         ),
@@ -71,11 +76,16 @@ class ForgotPassword extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LogInPage()));
+                              try {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LogInPage()));
+                              } catch (e) {
+                                errorDialog(context, e.toString());
+                              }
                             },
                             child: RichText(
                               textScaler: const TextScaler.linear(1),

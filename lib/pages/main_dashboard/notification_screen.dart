@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -50,7 +51,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
             icon: const Icon(Icons.arrow_back),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop();
+              try {
+                Navigator.of(context).pop();
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
         ),

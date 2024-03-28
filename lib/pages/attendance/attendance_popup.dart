@@ -131,13 +131,10 @@ void attendancePopup(BuildContext context) async {
                                 .indexWhere((student) =>
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
-                            // print(roomDetails['data']['seating_plan'][indexData]
-                            //     ['ans_sheet_number']);
                             if (indexData != -1) {
                               if (roomDetails['data']['seating_plan'][indexData]
                                       ['attendance'] ==
                                   true) {
-                                // Navigator.of(context).pop();
                                 attendancePresentErrorDialog(context);
                               } else if (roomDetails['data']['seating_plan']
                                       [indexData]['eligible'] ==
@@ -145,7 +142,6 @@ void attendancePopup(BuildContext context) async {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
-                                // Navigator.of(context).pop();
                                 controllerSAP.clear();
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => AttendancePage(
@@ -159,27 +155,23 @@ void attendancePopup(BuildContext context) async {
                                   roomDetails['data']['seating_plan'][indexData]
                                           ['eligible'] ==
                                       'R_HOLD') {
-                                // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
                               } else {
-                                // Navigator.of(context).pop();
                                 errorDialog(context, 'Student not found!');
                               }
                             } else {
-                              // Navigator.pop(context);
                               errorDialog(context, 'Student not found!');
                             }
                           } else {
-                            // Navigator.pop(context);
-                            errorDialog(context, "An error occured!");
+                            errorDialog(context,
+                                "An error occured while fetching room details!");
                           }
                         } else {
-                          // Navigator.pop(context);
-                          errorDialog(context, "An error occured!");
+                          errorDialog(context,
+                              "An error occured while fetching room details!");
                         }
                       } catch (e) {
-                        // Navigator.pop(context);
-                        errorDialog(context, "e.toString()");
+                        errorDialog(context, e.toString());
                       }
                     },
                     child: const Text('Mark Attendance',

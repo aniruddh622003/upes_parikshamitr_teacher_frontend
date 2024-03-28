@@ -66,45 +66,49 @@ class SubmissionDetails extends StatelessWidget {
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
-                            const storage = FlutterSecureStorage();
-                            final String? roomId =
-                                await storage.read(key: 'roomId');
-                            dynamic response =
-                                await checkRoomStatus(roomId.toString());
-                            if (response.statusCode == 200) {
-                              if (jsonDecode(response.body)['data'] ==
-                                  "APPROVAL") {
-                                errorDialog(
-                                    context, "Kindly wait for approval");
+                            try {
+                              const storage = FlutterSecureStorage();
+                              final String? roomId =
+                                  await storage.read(key: 'roomId');
+                              dynamic response =
+                                  await checkRoomStatus(roomId.toString());
+                              if (response.statusCode == 200) {
+                                if (jsonDecode(response.body)['data'] ==
+                                    "APPROVAL") {
+                                  errorDialog(
+                                      context, "Kindly wait for approval");
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "Submission Approved!",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 3,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  await const FlutterSecureStorage()
+                                      .delete(key: 'submission_state');
+                                  await const FlutterSecureStorage()
+                                      .delete(key: "unique_code");
+                                  await const FlutterSecureStorage()
+                                      .delete(key: "roomId");
+                                  String? jwt =
+                                      await const FlutterSecureStorage()
+                                          .read(key: 'jwt');
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Dashboard(jwt: jwt),
+                                    ),
+                                  );
+                                }
                               } else {
-                                Fluttertoast.showToast(
-                                    msg: "Submission Approved!",
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 3,
-                                    backgroundColor: Colors.grey,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                                await const FlutterSecureStorage()
-                                    .delete(key: 'submission_state');
-                                await const FlutterSecureStorage()
-                                    .delete(key: "unique_code");
-                                await const FlutterSecureStorage()
-                                    .delete(key: "roomId");
-                                String? jwt =
-                                    await const FlutterSecureStorage()
-                                        .read(key: 'jwt');
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Dashboard(jwt: jwt),
-                                  ),
-                                );
+                                errorDialog(context,
+                                    "Submission not yet approved by the controller. Please wait.");
                               }
-                            } else {
-                              errorDialog(context,
-                                  "Submission not yet approved by the controller. Please wait.");
+                            } catch (e) {
+                              errorDialog(context, e.toString());
                             }
                           },
                           style: ElevatedButton.styleFrom(
