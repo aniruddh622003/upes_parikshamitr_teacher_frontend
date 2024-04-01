@@ -229,19 +229,16 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => detailsPopup(context, flying['teacher']),
-                  child: Flexible(
-                    child: Text(
-                      flying['teacher']['name'],
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        fontSize: fontSmall,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              GestureDetector(
+                onTap: () => detailsPopup(context, flying['teacher']),
+                child: Text(
+                  flying['teacher']['name'],
+                  textScaler: const TextScaler.linear(1),
+                  style: const TextStyle(
+                    fontSize: fontSmall,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -298,7 +295,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: grayLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
