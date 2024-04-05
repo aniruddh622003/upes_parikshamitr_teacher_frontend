@@ -83,8 +83,8 @@ class SubmissionDetails extends StatelessWidget {
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
+                                      backgroundColor: white,
+                                      textColor: black,
                                       fontSize: 16.0);
                                   await const FlutterSecureStorage()
                                       .delete(key: 'submission_state');

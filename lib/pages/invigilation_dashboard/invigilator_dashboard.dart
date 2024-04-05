@@ -108,7 +108,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 3,
-                backgroundColor: grayLight,
+                backgroundColor: white,
                 textColor: black,
                 fontSize: 16.0);
           }
@@ -797,8 +797,17 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                              onTap: () => errorDialog(context,
-                                  "This feature is not applicable for Mid Semester Examinations."),
+                              onTap: () {
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "This feature is only valid for end-sem exams.",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 3,
+                                    backgroundColor: white,
+                                    textColor: black,
+                                    fontSize: 16.0);
+                              },
                               // bsheetPopup(context),
                               child: SvgPicture.asset(
                                   'android/assets/supplementary.svg')),
@@ -831,8 +840,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                           toastLength: Toast.LENGTH_LONG,
                                           gravity: ToastGravity.BOTTOM,
                                           timeInSecForIosWeb: 3,
-                                          backgroundColor: Colors.grey,
-                                          textColor: Colors.white,
+                                          backgroundColor: white,
+                                          textColor: black,
                                           fontSize: 16.0);
                                       const FlutterSecureStorage()
                                           .delete(key: 'roomId');

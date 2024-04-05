@@ -73,8 +73,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 3,
-              backgroundColor: Colors.grey,
-              textColor: Colors.white,
+              backgroundColor: white,
+              textColor: black,
               fontSize: 16.0);
           await const FlutterSecureStorage().delete(key: 'submission_state');
           await const FlutterSecureStorage().delete(key: "unique_code");
@@ -312,8 +312,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                         toastLength: Toast.LENGTH_LONG,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 3,
-                                        backgroundColor: Colors.grey,
-                                        textColor: Colors.white,
+                                        backgroundColor: white,
+                                        textColor: black,
                                         fontSize: 16.0);
                                     const FlutterSecureStorage()
                                         .delete(key: 'submission_state');

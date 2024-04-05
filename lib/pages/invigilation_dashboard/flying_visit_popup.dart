@@ -75,7 +75,7 @@ Future<void> flyingVisitPopup(BuildContext context, Map flying) {
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 3,
-                              backgroundColor: grayLight,
+                              backgroundColor: white,
                               textColor: black,
                               fontSize: 16.0);
                           Navigator.pop(context);

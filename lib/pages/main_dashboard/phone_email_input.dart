@@ -167,8 +167,8 @@ class _CheckPhoneEmailState extends State<CheckPhoneEmail> {
                                         toastLength: Toast.LENGTH_LONG,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 3,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
+                                        backgroundColor: white,
+                                        textColor: black,
                                         fontSize: 16.0);
 
                                     const storage = FlutterSecureStorage();

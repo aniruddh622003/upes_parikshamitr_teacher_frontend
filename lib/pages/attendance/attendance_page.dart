@@ -255,8 +255,8 @@ class _AttendancePageState extends State<AttendancePage> {
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
+                                      backgroundColor: white,
+                                      textColor: black,
                                       fontSize: 16.0);
                                 } else {
                                   final String? roomId =
@@ -276,7 +276,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                     toastLength: Toast.LENGTH_SHORT,
                                     timeInSecForIosWeb: 3,
                                     gravity: ToastGravity.BOTTOM,
-                                    backgroundColor: gray,
+                                    backgroundColor: white,
                                     textColor: black,
                                     fontSize: 16.0,
                                   );

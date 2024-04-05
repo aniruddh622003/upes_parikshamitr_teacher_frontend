@@ -124,7 +124,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 3,
-                backgroundColor: grayLight,
+                backgroundColor: white,
                 textColor: black,
                 fontSize: 16.0);
           }
@@ -672,7 +672,18 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                               Expanded(
                                 child: GestureDetector(
                                     onTap: () async {
-                                      finalRemarks(context);
+                                      try {
+                                        for (var item in widget.roomData) {
+                                          if (item['status'] != 'approved') {
+                                            errorDialog(context,
+                                                'Please visit all the assigned room(s).');
+                                            return;
+                                          }
+                                        }
+                                        finalRemarks(context);
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      }
                                     },
                                     child: SvgPicture.asset(
                                         'android/assets/controller.svg')),

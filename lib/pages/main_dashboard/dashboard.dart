@@ -171,7 +171,7 @@ class _DashboardState extends State<Dashboard> {
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 3,
-                backgroundColor: grayLight,
+                backgroundColor: white,
                 textColor: black,
                 fontSize: 16.0);
           }
