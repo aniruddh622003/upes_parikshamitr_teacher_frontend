@@ -67,6 +67,9 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
 
   Future<dynamic> setCurrentRoomData(int index) async {
     try {
+      if (widget.roomData.isEmpty) {
+        return {};
+      }
       dynamic response =
           await getInvigilatorData(widget.roomData[index]['room_id']);
       if (response.statusCode == 200) {
@@ -77,6 +80,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
         return {};
       }
     } catch (e) {
+      print("here1");
       errorDialog(context, e.toString());
       return {};
     }
@@ -86,8 +90,15 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
   void initState() {
     getDetails();
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       List notificationsLocal = [];
+      dynamic response2 = await getRoomsAssigned();
+      if (response2.statusCode == 200) {
+        widget.roomData = jsonDecode(response2.body)['rooms'];
+        setState(() {});
+      } else {
+        errorDialog(context, 'An error occurred while fetching room data.');
+      }
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
         List<dynamic> notificationsServer =
@@ -330,6 +341,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                         }
                         setState(() {});
                       } catch (e) {
+                        print("here2");
                         errorDialog(context, e.toString());
                       }
                     },
@@ -523,6 +535,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                               'Error occurred! Please try again later');
                                         }
                                       } catch (e) {
+                                        print("here3");
                                         errorDialog(context, e.toString());
                                       }
                                     }
@@ -583,64 +596,81 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                     fontSize: fontMedium), // Make the text bold
                               ),
                               // SizedBox(height: 10), // Give some gap
-                              SizedBox(
-                                height: 50,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.roomData.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = index;
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        decoration: BoxDecoration(
-                                          color: selectedIndex == index
-                                              ? orange
-                                              : widget.roomData[index]
-                                                          ['status'] ==
-                                                      'requested'
-                                                  ? yellow
-                                                  : widget.roomData[index]
-                                                              ['status'] ==
-                                                          'approved'
-                                                      ? green
-                                                      : blue50,
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            widget.roomData[index]["room_no"]
-                                                .toString(),
-                                            textScaler:
-                                                const TextScaler.linear(1),
-                                            style: TextStyle(
-                                              fontSize: fontMedium,
-                                              color: selectedIndex == index
-                                                  ? white
-                                                  : (widget.roomData[index]
-                                                                  ['status'] ==
-                                                              'requested' ||
-                                                          widget.roomData[index]
-                                                                  ['status'] ==
-                                                              'approved')
-                                                      ? white
-                                                      : orange,
-                                            ),
-                                          ),
-                                        ),
+                              widget.roomData.isEmpty
+                                  ? const Text(
+                                      "No room(s) allocated.",
+                                      textScaler: TextScaler.linear(1),
+                                      style: TextStyle(
+                                        fontSize: fontMedium,
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    )
+                                  : SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget.roomData.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = index;
+                                              });
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              decoration: BoxDecoration(
+                                                color: selectedIndex == index
+                                                    ? orange
+                                                    : widget.roomData[index]
+                                                                ['status'] ==
+                                                            'requested'
+                                                        ? yellow
+                                                        : widget.roomData[index]
+                                                                    [
+                                                                    'status'] ==
+                                                                'approved'
+                                                            ? green
+                                                            : blue50,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  widget.roomData[index]
+                                                          ["room_no"]
+                                                      .toString(),
+                                                  textScaler:
+                                                      const TextScaler.linear(
+                                                          1),
+                                                  style: TextStyle(
+                                                    fontSize: fontMedium,
+                                                    color: selectedIndex ==
+                                                            index
+                                                        ? white
+                                                        : (widget.roomData[index]
+                                                                        [
+                                                                        'status'] ==
+                                                                    'requested' ||
+                                                                widget.roomData[
+                                                                            index]
+                                                                        [
+                                                                        'status'] ==
+                                                                    'approved')
+                                                            ? white
+                                                            : orange,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -682,13 +712,21 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                       try {
                                         for (var item in widget.roomData) {
                                           if (item['status'] != 'approved') {
-                                            errorDialog(context,
-                                                'Please visit all the assigned room(s).');
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Please approve all rooms before proceeding.",
+                                                toastLength: Toast.LENGTH_LONG,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 3,
+                                                backgroundColor: white,
+                                                textColor: black,
+                                                fontSize: 16.0);
                                             return;
                                           }
                                         }
                                         finalRemarks(context);
                                       } catch (e) {
+                                        print("here4");
                                         errorDialog(context, e.toString());
                                       }
                                     },
@@ -725,6 +763,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                                   )));
                                     }
                                   } catch (e) {
+                                    print("here5");
                                     errorDialog(context, e.toString());
                                   }
                                 },
@@ -758,6 +797,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                             widget.roomData[selectedIndex]
                                                 ['room_id']);
                                       } catch (e) {
+                                        print("here6");
                                         errorDialog(context, e.toString());
                                       }
                                     }
