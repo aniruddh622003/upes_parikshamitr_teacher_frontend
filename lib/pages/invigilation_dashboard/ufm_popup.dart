@@ -120,6 +120,10 @@ void ufmPopup(BuildContext context) {
                     ),
                     onPressed: () async {
                       try {
+                        if (controllerSAP.text.isEmpty) {
+                          errorDialog(context, 'Please enter SAP ID!');
+                          return;
+                        }
                         const storage = FlutterSecureStorage();
                         final String? roomId =
                             await storage.read(key: 'roomId');

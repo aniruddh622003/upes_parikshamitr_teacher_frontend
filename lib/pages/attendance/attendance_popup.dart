@@ -121,6 +121,10 @@ void attendancePopup(BuildContext context) async {
                     ),
                     onPressed: () async {
                       try {
+                        if (controllerSAP.text.isEmpty) {
+                          errorDialog(context, 'Please enter SAP ID!');
+                          return;
+                        }
                         const storage = FlutterSecureStorage();
                         String? roomId = await storage.read(key: 'roomId');
                         dynamic data = await getRoomDetails(roomId.toString());

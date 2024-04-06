@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:intl/intl.dart' as intl;
 
 class NotificationScreen extends StatefulWidget {
   final List<dynamic> today;
@@ -90,6 +91,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               title: "Earlier",
                               notifications: widget.earlier,
                               read: widget.earlierBool,
+                              showDate: true,
                             )
                           : const SizedBox(),
                     ],
@@ -106,12 +108,14 @@ class NotificationCategoryBox extends StatelessWidget {
   final String title;
   final List<dynamic> notifications;
   final List<bool> read;
+  final bool showDate;
 
   const NotificationCategoryBox({
     super.key,
     required this.title,
     required this.notifications,
     required this.read,
+    this.showDate = false,
   });
 
   @override
@@ -137,6 +141,8 @@ class NotificationCategoryBox extends StatelessWidget {
             subject: notifications[index]['title'].toString(),
             msg: notifications[index]['message'].toString(),
             isRead: read[index],
+            dateTime: notifications[index]['createdAt'].toString(),
+            showDate: showDate,
             onTap: () {},
           ),
         ).expand((widget) => [widget, const SizedBox(height: 10)]),
@@ -151,7 +157,9 @@ class NotificationBox extends StatefulWidget {
   final String subject;
   final String msg;
   final bool isRead;
+  final String dateTime;
   final Function onTap;
+  final bool showDate;
 
   const NotificationBox({
     super.key,
@@ -160,7 +168,9 @@ class NotificationBox extends StatefulWidget {
     required this.subject,
     required this.msg,
     required this.isRead,
+    required this.dateTime,
     required this.onTap,
+    required this.showDate,
   });
 
   @override
@@ -169,11 +179,15 @@ class NotificationBox extends StatefulWidget {
 
 class _NotificationBoxState extends State<NotificationBox> {
   bool isRead = false;
-
+  String formattedTime = '';
+  String formattedDate = '';
   @override
   void initState() {
     super.initState();
     isRead = widget.isRead;
+    DateTime dateTime = DateTime.parse(widget.dateTime);
+    formattedTime = intl.DateFormat.jm().format(dateTime);
+    formattedDate = intl.DateFormat.yMMMMd().format(dateTime);
   }
 
   @override
@@ -229,13 +243,13 @@ class _NotificationBoxState extends State<NotificationBox> {
           children: [
             LayoutBuilder(
               builder: (context, constraints) {
-                int maxLines = 2;
+                int maxLines = 1;
 
                 TextPainter textPainter = TextPainter(
                   text: TextSpan(
-                    text: widget.msg,
+                    text: widget.msg + widget.dateTime,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.yellow,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -244,13 +258,13 @@ class _NotificationBoxState extends State<NotificationBox> {
                 )..layout(maxWidth: constraints.maxWidth);
 
                 if (textPainter.didExceedMaxLines) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.msg,
+                        widget.subject,
                         textScaler: const TextScaler.linear(1),
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           // text color white when isRead is false, else black
@@ -258,10 +272,10 @@ class _NotificationBoxState extends State<NotificationBox> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const Text(
-                        "Read more",
-                        textScaler: TextScaler.linear(1),
-                        style: TextStyle(
+                      Text(
+                        widget.showDate ? formattedDate : formattedTime,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -269,15 +283,28 @@ class _NotificationBoxState extends State<NotificationBox> {
                     ],
                   );
                 } else {
-                  return Text(
-                    widget.msg,
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.subject,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        widget.showDate ? formattedDate : formattedTime,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   );
                 }
               },
@@ -293,36 +320,43 @@ class _NotificationBoxState extends State<NotificationBox> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.subject,
-                textScaler: const TextScaler.linear(1),
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Text(
-                widget.name,
-                textScaler: const TextScaler.linear(1),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                constraints: const BoxConstraints(maxHeight: 500),
-                child: SingleChildScrollView(
-                  child: Text(
-                    widget.msg,
+          content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.subject,
                     textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                ),
-              )
-            ],
-          ),
+                  Text(
+                    widget.name,
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "$formattedDate $formattedTime",
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    constraints: const BoxConstraints(maxHeight: 500),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        widget.msg,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )),
         );
       },
     );
