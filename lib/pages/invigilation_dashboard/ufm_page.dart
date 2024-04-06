@@ -1087,9 +1087,12 @@ class _UFMPageState extends State<UFMPage> {
                                       "student_remarks":
                                           controllerStudentRemarks.text
                                               .toString(),
-                                      "new_sheet_number": int.parse(
-                                          controllerNewAnsSheet.text
-                                              .toString()),
+                                      "new_sheet_number":
+                                          controllerNewAnsSheet.text != ""
+                                              ? int.parse(controllerNewAnsSheet
+                                                  .text
+                                                  .toString())
+                                              : null
                                     };
                                     // print(data);
                                     dynamic response = await markUFM(data);

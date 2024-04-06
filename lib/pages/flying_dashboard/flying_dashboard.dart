@@ -606,7 +606,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                               : widget.roomData[index]
                                                           ['status'] ==
                                                       'requested'
-                                                  ? greenLight
+                                                  ? yellow
                                                   : widget.roomData[index]
                                                               ['status'] ==
                                                           'approved'
@@ -625,7 +625,14 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                               fontSize: fontMedium,
                                               color: selectedIndex == index
                                                   ? white
-                                                  : orange,
+                                                  : (widget.roomData[index]
+                                                                  ['status'] ==
+                                                              'requested' ||
+                                                          widget.roomData[index]
+                                                                  ['status'] ==
+                                                              'approved')
+                                                      ? white
+                                                      : orange,
                                             ),
                                           ),
                                         ),
