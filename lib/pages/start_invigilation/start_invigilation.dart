@@ -75,6 +75,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
             await storage.write(key: 'roomId', value: roomId);
             await storage.write(
                 key: 'unique_code', value: uniqueCode.toString());
+            await storage.write(
+                key: 'room_no', value: data['room']['room_no'].toString());
             Navigator.pop(context);
             Navigator.pop(context);
             Navigator.push(
@@ -276,6 +278,10 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                         const storage = FlutterSecureStorage();
                                         await storage.write(
                                             key: 'roomId', value: roomId);
+                                        await storage.write(
+                                            key: 'room_no',
+                                            value: data['room']['room_no']
+                                                .toString());
                                         await storage.write(
                                             key: 'unique_code',
                                             value: uniqueCode.toString());

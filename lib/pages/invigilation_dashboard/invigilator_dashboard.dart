@@ -40,6 +40,7 @@ class InvigilatorDashboard extends StatefulWidget {
 }
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
+  String? room_no = "";
   Map data = {};
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
@@ -49,6 +50,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
   Future<Map> getDetails() async {
     final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
+    room_no = await FlutterSecureStorage().read(key: 'room_no');
     var response = await http.get(
       Uri.parse('$serverUrl/teacher/getDetails'),
       headers: {
@@ -604,9 +606,47 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                     topRight: Radius.circular(20),
                   ),
                 ),
+
                 child: ListView(
                   shrinkWrap: true,
                   children: [
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Room No.",
+                              textScaler: const TextScaler.linear(1),
+                              style: const TextStyle(
+                                  fontSize: fontMedium,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              width: 35,
+                              height: 35,
+                              decoration: const BoxDecoration(
+                                color: blue,
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  room_no.toString(),
+                                  textScaler: const TextScaler.linear(1),
+                                  style: const TextStyle(
+                                    color: white,
+                                    fontSize: fontSmall,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
                         color: blue,
