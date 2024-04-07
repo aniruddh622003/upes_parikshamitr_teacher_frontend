@@ -49,30 +49,30 @@ void ufmPopup(BuildContext context) {
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),
-                Center(
-                  child: Container(
-                    height: 300,
-                    width: 300,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/home_art.png'),
-                      fit: BoxFit.contain,
-                    )),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: GestureDetector(
-                          child: kIsWeb
-                              ? const Center(
-                                  child: Text(
-                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
-                              : CustomBarcodeScanner(
+                kIsWeb
+                    ? const Center(
+                        child: Text(
+                            "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                    : Center(
+                        child: Container(
+                          height: 300,
+                          width: 300,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('assets/home_art.png'),
+                            fit: BoxFit.contain,
+                          )),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GestureDetector(
+                                child: CustomBarcodeScanner(
                                   onBarcodeScanned: (displayValue) {
                                     controllerSAP.text = displayValue;
                                   },
                                 ),
-                        )),
-                  ),
-                ),
+                              )),
+                        ),
+                      ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
