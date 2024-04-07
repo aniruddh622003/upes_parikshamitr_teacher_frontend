@@ -133,7 +133,7 @@ class _DashboardState extends State<Dashboard> {
     checkInvigilationState();
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {

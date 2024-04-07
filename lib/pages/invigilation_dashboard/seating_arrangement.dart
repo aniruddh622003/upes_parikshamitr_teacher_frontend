@@ -28,7 +28,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       fetchData().then((value) {
         setState(() {
           seatingPlan = value;

@@ -90,7 +90,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
   void initState() {
     getDetails();
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       List notificationsLocal = [];
       dynamic response2 = await getRoomsAssigned();
       if (response2.statusCode == 200) {

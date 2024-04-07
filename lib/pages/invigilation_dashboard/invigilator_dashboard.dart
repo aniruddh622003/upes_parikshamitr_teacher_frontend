@@ -70,7 +70,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   void initState() {
     getDetails();
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      setState(() {});
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
