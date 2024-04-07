@@ -886,6 +886,8 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                           fontSize: 16.0);
                                       const FlutterSecureStorage()
                                           .delete(key: 'roomId');
+                                      const FlutterSecureStorage()
+                                          .delete(key: 'room_no');
                                       String? jwt =
                                           await const FlutterSecureStorage()
                                               .read(key: 'jwt');
