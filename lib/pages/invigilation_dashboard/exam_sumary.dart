@@ -53,8 +53,10 @@ class _ExamSummaryState extends State<ExamSummary> {
           value.where((student) => student['attendance'] == true).length;
       int absentCount =
           value.where((student) => student['attendance'] == false).length;
-      int debarredCount =
-          value.where((student) => student['eligible'] != 'YES').length;
+      int debarredCount = value
+          .where((student) =>
+              student['eligible'] != 'YES' && student['eligible'] != 'UFM')
+          .length;
       int ufmCount = value.where((student) => student['UFM'] != null).length;
       totalUfm += ufmCount;
       int totalStudents = value.length;
