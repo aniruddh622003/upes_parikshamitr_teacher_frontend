@@ -80,7 +80,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
         return {};
       }
     } catch (e) {
-      print("here1");
       errorDialog(context, e.toString());
       return {};
     }
@@ -90,7 +89,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
   void initState() {
     getDetails();
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
       List notificationsLocal = [];
       dynamic response2 = await getRoomsAssigned();
       if (response2.statusCode == 200) {
@@ -341,7 +340,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                         }
                         setState(() {});
                       } catch (e) {
-                        print("here2");
                         errorDialog(context, e.toString());
                       }
                     },
@@ -535,7 +533,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                               'Error occurred! Please try again later');
                                         }
                                       } catch (e) {
-                                        print("here3");
                                         errorDialog(context, e.toString());
                                       }
                                     }
@@ -726,7 +723,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                         }
                                         finalRemarks(context);
                                       } catch (e) {
-                                        print("here4");
                                         errorDialog(context, e.toString());
                                       }
                                     },
@@ -763,7 +759,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                                   )));
                                     }
                                   } catch (e) {
-                                    print("here5");
                                     errorDialog(context, e.toString());
                                   }
                                 },
@@ -797,7 +792,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                             widget.roomData[selectedIndex]
                                                 ['room_id']);
                                       } catch (e) {
-                                        print("here6");
                                         errorDialog(context, e.toString());
                                       }
                                     }

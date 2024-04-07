@@ -136,8 +136,6 @@ void ufmPopup(BuildContext context) {
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
                             if (indexData != -1) {
-                              print(roomDetails['data']['seating_plan']
-                                  [indexData]);
                               if ((roomDetails['data']['seating_plan']
                                           [indexData]['eligible'] ==
                                       'YES' &&
