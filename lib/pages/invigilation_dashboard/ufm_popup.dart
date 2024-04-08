@@ -5,21 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_barcode_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void ufmPopup(BuildContext context) {
   TextEditingController controllerSAP = TextEditingController();
-
-  void onBarcodeButtonPressed() async {
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", true, ScanMode.BARCODE);
-    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
-  }
 
   showDialog(
     context: context,
@@ -55,29 +49,30 @@ void ufmPopup(BuildContext context) {
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: GestureDetector(
-                          onTap: onBarcodeButtonPressed,
-                          child: kIsWeb
-                              ? const Center(
-                                  child: Text(
-                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
-                              : Container(
-                                  color: gray,
-                                  child: const Center(
-                                      child: Text(
-                                    "Scan Barcode",
-                                    textScaler: TextScaler.linear(1),
-                                  )),
+                kIsWeb
+                    ? const Center(
+                        child: Text(
+                            "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                    : Center(
+                        child: Container(
+                          height: 300,
+                          width: 300,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('assets/home_art.png'),
+                            fit: BoxFit.contain,
+                          )),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GestureDetector(
+                                child: CustomBarcodeScanner(
+                                  onBarcodeScanned: (displayValue) {
+                                    controllerSAP.text = displayValue;
+                                  },
                                 ),
-                        )),
-                  ),
-                ),
+                              )),
+                        ),
+                      ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
@@ -125,6 +120,10 @@ void ufmPopup(BuildContext context) {
                     ),
                     onPressed: () async {
                       try {
+                        if (controllerSAP.text.isEmpty) {
+                          errorDialog(context, 'Please enter SAP ID!');
+                          return;
+                        }
                         const storage = FlutterSecureStorage();
                         final String? roomId =
                             await storage.read(key: 'roomId');
@@ -137,9 +136,11 @@ void ufmPopup(BuildContext context) {
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
                             if (indexData != -1) {
-                              if (roomDetails['data']['seating_plan'][indexData]
-                                      ['eligible'] ==
-                                  'YES') {
+                              if ((roomDetails['data']['seating_plan']
+                                          [indexData]['eligible'] ==
+                                      'YES' &&
+                                  roomDetails['data']['seating_plan'][indexData]
+                                      ['attendance'])) {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
@@ -155,6 +156,17 @@ void ufmPopup(BuildContext context) {
                                       'DEBARRED') {
                                 Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
+                              } else if (!roomDetails['data']['seating_plan']
+                                  [indexData]['attendance']) {
+                                Navigator.pop(context);
+                                errorDialog(
+                                    context, 'Student not marked present!');
+                              } else if (roomDetails['data']['seating_plan']
+                                      [indexData]['eligible'] ==
+                                  'UFM') {
+                                Navigator.pop(context);
+                                errorDialog(
+                                    context, 'Student already issued UFM!');
                               }
                             } else {
                               Navigator.pop(context);
@@ -162,11 +174,13 @@ void ufmPopup(BuildContext context) {
                             }
                           } else {
                             Navigator.pop(context);
-                            errorDialog(context, "An error occured!");
+                            errorDialog(context,
+                                "An error while fetching seating plan!");
                           }
                         } else {
                           Navigator.pop(context);
-                          errorDialog(context, "An error occured!");
+                          errorDialog(
+                              context, "An error while fetching seating plan!");
                         }
                       } catch (e) {
                         Navigator.pop(context);

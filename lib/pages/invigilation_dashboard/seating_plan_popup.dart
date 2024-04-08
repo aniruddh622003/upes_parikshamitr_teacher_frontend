@@ -1,17 +1,19 @@
-// import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void seatingPlanPopup(
-    BuildContext context, Map<String, dynamic> studentDetails) {
+    BuildContext context, Map<String, dynamic> studentDetails) async {
   Color eligibleColor;
   String eligibleText = "";
+  bool isFlying =
+      await const FlutterSecureStorage().read(key: 'slotId') != null;
+
   if (studentDetails['eligible'] == 'YES') {
     eligibleColor = green;
     eligibleText = "YES";
@@ -274,33 +276,14 @@ void seatingPlanPopup(
                                       'F_HOLD' ||
                                   studentDetails['eligible'] == 'DEBARRED' ||
                                   studentDetails['eligible'] == 'R_HOLD') {
-                                // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
                               }
-                              // Navigator.of(context).pop();
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) => AttendancePage(
-                              //         studentDetails: studentDetails)));
-                              // } else if (roomDetails['data']['seating_plan']
-                              //             [indexData]['eligible'] ==
-                              //         'F_HOLD' ||
-                              //     roomDetails['data']['seating_plan'][indexData]
-                              //             ['eligible'] ==
-                              //         'DEBARRED' ||
-                              //     roomDetails['data']['seating_plan'][indexData]
-                              //             ['eligible'] ==
-                              //         'R_HOLD') {
-                              //   // Navigator.of(context).pop();
-                              //   attendanceErrorDialog(context);
-                              // }
                             } catch (e) {
-                              // Navigator.pop(context);
                               errorDialog(context, "e.toString()");
                             }
                           },
                     child: const Text('Mark Attendance',
                         textScaler: TextScaler.linear(1),
-                        // textScaler: const TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),
                 ),

@@ -3,12 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/api/req_room_visit.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/approve_flying_visit.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
-void roomRemarks(BuildContext context, String roomId) {
-  TextEditingController controllerRemarks = TextEditingController();
+Future<void> flyingVisitPopup(BuildContext context, Map flying) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -21,16 +20,13 @@ void roomRemarks(BuildContext context, String roomId) {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: ListView(
-              // mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               shrinkWrap: true,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Enter Room Remarks',
+                    const Text('Update Flying Status',
                         textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),
@@ -40,21 +36,18 @@ void roomRemarks(BuildContext context, String roomId) {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: blueXLight,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: controllerRemarks,
-                    textAlign: TextAlign.left,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Type here',
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 10),
+                const Text('Name',
+                    textScaler: TextScaler.linear(1),
+                    style: TextStyle(
+                        fontSize: fontSmall,
+                        color: blue,
+                        fontWeight: FontWeight.bold)),
+                Text(flying['teacher']['name'].toString(),
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(
+                      fontSize: fontMedium,
+                    )),
                 const SizedBox(height: 10),
                 SizedBox(
                   height: 45,
@@ -69,32 +62,32 @@ void roomRemarks(BuildContext context, String roomId) {
                     ),
                     onPressed: () async {
                       try {
-                        String? slotId = await const FlutterSecureStorage()
-                            .read(key: 'slotId');
+                        String? roomId = await const FlutterSecureStorage()
+                            .read(key: 'roomId');
                         Map data = {
                           "room_id": roomId,
-                          "slot_id": slotId.toString(),
-                          "room_remarks": controllerRemarks.text.toString(),
+                          "flying_squad_id": flying['_id'],
                         };
-                        dynamic response = await reqRoomVisit(data);
+                        dynamic response = await approveFlyingVisit(data);
                         if (response.statusCode == 201) {
-                          Navigator.pop(context);
                           Fluttertoast.showToast(
-                              msg: "Room remarks submitted successfully!",
-                              toastLength: Toast.LENGTH_SHORT,
+                              msg: "Flying Squad visit approved.",
+                              toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 3,
                               backgroundColor: white,
                               textColor: black,
                               fontSize: 16.0);
+                          Navigator.pop(context);
                         } else {
-                          errorDialog(context, response.body);
+                          errorDialog(context,
+                              "An error occurred while approving flying squad visit.");
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());
                       }
                     },
-                    child: const Text('Submit Remarks',
+                    child: const Text('Approve Visit',
                         textScaler: TextScaler.linear(1),
                         style: TextStyle(fontSize: fontSmall)),
                   ),
@@ -106,4 +99,5 @@ void roomRemarks(BuildContext context, String roomId) {
       );
     },
   );
+  return Future.value();
 }

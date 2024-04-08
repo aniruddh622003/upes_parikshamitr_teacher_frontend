@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_invigilator_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_rooms_assigned.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_section.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/details_popup.dart';
@@ -66,6 +67,9 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
 
   Future<dynamic> setCurrentRoomData(int index) async {
     try {
+      if (widget.roomData.isEmpty) {
+        return {};
+      }
       dynamic response =
           await getInvigilatorData(widget.roomData[index]['room_id']);
       if (response.statusCode == 200) {
@@ -85,8 +89,15 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
   void initState() {
     getDetails();
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
       List notificationsLocal = [];
+      dynamic response2 = await getRoomsAssigned();
+      if (response2.statusCode == 200) {
+        widget.roomData = jsonDecode(response2.body)['rooms'];
+        setState(() {});
+      } else {
+        errorDialog(context, 'An error occurred while fetching room data.');
+      }
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
         List<dynamic> notificationsServer =
@@ -123,7 +134,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 3,
-                backgroundColor: grayLight,
+                backgroundColor: white,
                 textColor: black,
                 fontSize: 16.0);
           }
@@ -195,7 +206,8 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: SizedBox(
-          height: 45 + (40.0 * currentRoomDetails.length),
+          height: 45 +
+              (40.0 * currentRoomDetails.values.where((_) => _ != null).length),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -235,26 +247,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                     String? currentKey =
                         currentRoomDetails.keys.toList()[index];
                     return currentRoomDetails[currentKey] == null
-                        ? Container(
-                            decoration: const BoxDecoration(
-                              color:
-                                  grayLight, // Set the background color to light gray
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey), // Add a bottom border
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal:
-                                    10), // Reduce the horizontal padding
-                            child: const Text("Not Assigned",
-                                textScaler: TextScaler.linear(1),
-                                style: TextStyle(
-                                  fontSize: fontMedium - 2,
-                                )))
+                        ? null
                         : GestureDetector(
                             onTap: () {
                               detailsPopup(
@@ -307,7 +300,9 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
           ); // Show a loading spinner while waiting
         } else if (snapshot.hasError) {
           return Text(
-              'Error: ${snapshot.error}'); // Show error message if something went wrong
+            'Error: ${snapshot.error}',
+            textScaler: const TextScaler.linear(1),
+          ); // Show error message if something went wrong
         } else {
           isPageLoaded = true;
           currentRoomDetails = snapshot.data;
@@ -334,8 +329,19 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                       Icons.refresh,
                       color: white,
                     ),
-                    onPressed: () {
-                      setState(() {});
+                    onPressed: () async {
+                      try {
+                        dynamic response = await getRoomsAssigned();
+                        if (response.statusCode == 200) {
+                          widget.roomData = jsonDecode(response.body)['rooms'];
+                        } else {
+                          errorDialog(context,
+                              'An error occurred while fetching room data.');
+                        }
+                        setState(() {});
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                   ),
                 ],
@@ -395,132 +401,139 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                             child: ElevatedButton(
                               onPressed: isButtonEnabled
                                   ? () async {
-                                      setState(() {
-                                        isButtonEnabled = false;
-                                      });
-                                      List notificationsLocal = [];
-                                      List<dynamic> today = [];
-                                      List<dynamic> yesterday = [];
-                                      List<dynamic> earlier = [];
-                                      List<bool> todayBool = [];
-                                      List<bool> yesterdayBool = [];
-                                      List<bool> earlierBool = [];
-                                      dynamic response =
-                                          await getNotifications();
-                                      if (response.statusCode == 200) {
-                                        List<dynamic> notificationsServer =
-                                            jsonDecode(response.body)['data']
-                                                ['notifications'];
-                                        String? notifcationsData =
-                                            await const FlutterSecureStorage()
-                                                .read(key: 'notifications');
-                                        if (notifcationsData != null) {
-                                          notificationsLocal =
-                                              jsonDecode(notifcationsData);
-                                          // sync notificationsLocal with notificationsServer and update notificationsLocal
-                                          for (var notification
-                                              in notificationsServer) {
-                                            bool found = false;
-                                            for (var localNotification
-                                                in notificationsLocal) {
-                                              if (notification['_id'] ==
-                                                  localNotification[0]['_id']) {
-                                                found = true;
-                                                break;
+                                      try {
+                                        setState(() {
+                                          isButtonEnabled = false;
+                                        });
+                                        List notificationsLocal = [];
+                                        List<dynamic> today = [];
+                                        List<dynamic> yesterday = [];
+                                        List<dynamic> earlier = [];
+                                        List<bool> todayBool = [];
+                                        List<bool> yesterdayBool = [];
+                                        List<bool> earlierBool = [];
+                                        dynamic response =
+                                            await getNotifications();
+                                        if (response.statusCode == 200) {
+                                          List<dynamic> notificationsServer =
+                                              jsonDecode(response.body)['data']
+                                                  ['notifications'];
+                                          String? notifcationsData =
+                                              await const FlutterSecureStorage()
+                                                  .read(key: 'notifications');
+                                          if (notifcationsData != null) {
+                                            notificationsLocal =
+                                                jsonDecode(notifcationsData);
+                                            // sync notificationsLocal with notificationsServer and update notificationsLocal
+                                            for (var notification
+                                                in notificationsServer) {
+                                              bool found = false;
+                                              for (var localNotification
+                                                  in notificationsLocal) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                List item = [];
+                                                item.add(notification);
+                                                item.add(false);
+                                                notificationsLocal.add(item);
                                               }
                                             }
-                                            if (!found) {
+                                            // Delete notifications from notificationsLocal that are not in notificationsServer
+                                            for (var localNotification
+                                                in notificationsLocal) {
+                                              bool found = false;
+                                              for (var notification
+                                                  in notificationsServer) {
+                                                if (notification['_id'] ==
+                                                    localNotification[0]
+                                                        ['_id']) {
+                                                  found = true;
+                                                  break;
+                                                }
+                                              }
+                                              if (!found) {
+                                                notificationsLocal
+                                                    .remove(localNotification);
+                                              }
+                                            }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
+                                          } else {
+                                            for (var notification
+                                                in notificationsServer) {
                                               List item = [];
                                               item.add(notification);
                                               item.add(false);
                                               notificationsLocal.add(item);
                                             }
+                                            await const FlutterSecureStorage()
+                                                .write(
+                                                    key: 'notifications',
+                                                    value: jsonEncode(
+                                                        notificationsLocal));
                                           }
-                                          // Delete notifications from notificationsLocal that are not in notificationsServer
-                                          for (var localNotification
-                                              in notificationsLocal) {
-                                            bool found = false;
-                                            for (var notification
-                                                in notificationsServer) {
-                                              if (notification['_id'] ==
-                                                  localNotification[0]['_id']) {
-                                                found = true;
-                                                break;
-                                              }
-                                            }
-                                            if (!found) {
-                                              notificationsLocal
-                                                  .remove(localNotification);
-                                            }
-                                          }
-                                          await const FlutterSecureStorage()
-                                              .write(
-                                                  key: 'notifications',
-                                                  value: jsonEncode(
-                                                      notificationsLocal));
-                                        } else {
                                           for (var notification
-                                              in notificationsServer) {
-                                            List item = [];
-                                            item.add(notification);
-                                            item.add(false);
-                                            notificationsLocal.add(item);
+                                              in notificationsLocal) {
+                                            if (DateTime.parse(notification[0]
+                                                        ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                0) {
+                                              today.add(notification[0]);
+                                              todayBool.add(notification[1]);
+                                            } else if (DateTime.parse(
+                                                        notification[0]
+                                                            ['createdAt'])
+                                                    .difference(DateTime.now())
+                                                    .inDays ==
+                                                -1) {
+                                              yesterday.add(notification[0]);
+                                              yesterdayBool
+                                                  .add(notification[1]);
+                                            } else {
+                                              earlier.add(notification[0]);
+                                              earlierBool.add(notification[1]);
+                                            }
                                           }
-                                          await const FlutterSecureStorage()
-                                              .write(
-                                                  key: 'notifications',
-                                                  value: jsonEncode(
-                                                      notificationsLocal));
-                                        }
-                                        for (var notification
-                                            in notificationsLocal) {
-                                          if (DateTime.parse(notification[0]
-                                                      ['createdAt'])
-                                                  .difference(DateTime.now())
-                                                  .inDays ==
-                                              0) {
-                                            today.add(notification[0]);
-                                            todayBool.add(notification[1]);
-                                          } else if (DateTime.parse(
-                                                      notification[0]
-                                                          ['createdAt'])
-                                                  .difference(DateTime.now())
-                                                  .inDays ==
-                                              -1) {
-                                            yesterday.add(notification[0]);
-                                            yesterdayBool.add(notification[1]);
-                                          } else {
-                                            earlier.add(notification[0]);
-                                            earlierBool.add(notification[1]);
-                                          }
-                                        }
 
-                                        setState(() {
-                                          getUnreadNotificationsCount();
-                                        });
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NotificationScreen(
-                                                      today: today,
-                                                      yesterday: yesterday,
-                                                      earlier: earlier,
-                                                      todayBool: todayBool,
-                                                      yesterdayBool:
-                                                          yesterdayBool,
-                                                      earlierBool:
-                                                          earlierBool)),
-                                        ).then((_) {
                                           setState(() {
-                                            isButtonEnabled = true;
                                             getUnreadNotificationsCount();
                                           });
-                                        });
-                                      } else {
-                                        errorDialog(context,
-                                            'Error occurred! Please try again later');
+
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationScreen(
+                                                        today: today,
+                                                        yesterday: yesterday,
+                                                        earlier: earlier,
+                                                        todayBool: todayBool,
+                                                        yesterdayBool:
+                                                            yesterdayBool,
+                                                        earlierBool:
+                                                            earlierBool)),
+                                          ).then((_) {
+                                            setState(() {
+                                              isButtonEnabled = true;
+                                              getUnreadNotificationsCount();
+                                            });
+                                          });
+                                        } else {
+                                          errorDialog(context,
+                                              'Error occurred! Please try again later');
+                                        }
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
                                       }
                                     }
                                   : null,
@@ -580,47 +593,81 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                     fontSize: fontMedium), // Make the text bold
                               ),
                               // SizedBox(height: 10), // Give some gap
-                              SizedBox(
-                                height: 50,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.roomData.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = index;
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        decoration: BoxDecoration(
-                                          color: selectedIndex == index
-                                              ? orange
-                                              : blue50,
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            widget.roomData[index]["room_no"]
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: fontMedium,
-                                              color: selectedIndex == index
-                                                  ? white
-                                                  : orange,
-                                            ),
-                                          ),
-                                        ),
+                              widget.roomData.isEmpty
+                                  ? const Text(
+                                      "No room(s) allocated.",
+                                      textScaler: TextScaler.linear(1),
+                                      style: TextStyle(
+                                        fontSize: fontMedium,
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    )
+                                  : SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget.roomData.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = index;
+                                              });
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              decoration: BoxDecoration(
+                                                color: selectedIndex == index
+                                                    ? orange
+                                                    : widget.roomData[index]
+                                                                ['status'] ==
+                                                            'requested'
+                                                        ? yellow
+                                                        : widget.roomData[index]
+                                                                    [
+                                                                    'status'] ==
+                                                                'approved'
+                                                            ? green
+                                                            : blue50,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  widget.roomData[index]
+                                                          ["room_no"]
+                                                      .toString(),
+                                                  textScaler:
+                                                      const TextScaler.linear(
+                                                          1),
+                                                  style: TextStyle(
+                                                    fontSize: fontMedium,
+                                                    color: selectedIndex ==
+                                                            index
+                                                        ? white
+                                                        : (widget.roomData[index]
+                                                                        [
+                                                                        'status'] ==
+                                                                    'requested' ||
+                                                                widget.roomData[
+                                                                            index]
+                                                                        [
+                                                                        'status'] ==
+                                                                    'approved')
+                                                            ? white
+                                                            : orange,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -659,7 +706,25 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                               Expanded(
                                 child: GestureDetector(
                                     onTap: () async {
-                                      finalRemarks(context);
+                                      try {
+                                        for (var item in widget.roomData) {
+                                          if (item['status'] != 'approved') {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Please approve all rooms before proceeding.",
+                                                toastLength: Toast.LENGTH_LONG,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 3,
+                                                backgroundColor: white,
+                                                textColor: black,
+                                                fontSize: 16.0);
+                                            return;
+                                          }
+                                        }
+                                        finalRemarks(context);
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      }
                                     },
                                     child: SvgPicture.asset(
                                         'android/assets/controller.svg')),
@@ -682,8 +747,6 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                           value: widget.roomData[selectedIndex]
                                                   ['room_id']
                                               .toString());
-                                      print(widget.roomData[selectedIndex]
-                                          ['room_id']);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -718,12 +781,19 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: widget.roomData.isNotEmpty
+                              onPressed: widget.roomData.isNotEmpty &&
+                                      widget.roomData[selectedIndex]
+                                              ['status'] ==
+                                          'assigned'
                                   ? () async {
-                                      roomRemarks(
-                                          context,
-                                          widget.roomData[selectedIndex]
-                                              ['room_id']);
+                                      try {
+                                        roomRemarks(
+                                            context,
+                                            widget.roomData[selectedIndex]
+                                                ['room_id']);
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      }
                                     }
                                   : null,
                               child: const Text('Room Remarks',

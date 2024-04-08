@@ -115,9 +115,9 @@ void confirmInvigilationCard(
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      int i = 0;
-                      List<Map> pendingSupplies = [];
                       try {
+                        int i = 0;
+                        List<Map> pendingSupplies = [];
                         for (i = 0; i < controllers.length; i++) {
                           if (controllers[i].text.isEmpty) {
                             throw Exception(
@@ -152,8 +152,8 @@ void confirmInvigilationCard(
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 3,
-                                backgroundColor: Colors.grey,
-                                textColor: Colors.white,
+                                backgroundColor: white,
+                                textColor: black,
                                 fontSize: 16.0);
                           }
                           // await const FlutterSecureStorage().write(

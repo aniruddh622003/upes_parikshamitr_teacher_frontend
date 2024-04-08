@@ -80,13 +80,17 @@ class _LogInPageState extends State<LogInPage> {
                         Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInPage()));
+                              try {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignInPage()));
+                              } catch (e) {
+                                errorDialog(context, e.toString());
+                              }
                             },
                             child: const Text(
                               "OK",
@@ -139,7 +143,11 @@ class _LogInPageState extends State<LogInPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () {
-            Navigator.pop(context);
+            try {
+              Navigator.pop(context);
+            } catch (e) {
+              errorDialog(context, e.toString());
+            }
           },
         ),
       ),
@@ -262,39 +270,43 @@ class _LogInPageState extends State<LogInPage> {
                             ),
                           ),
                           onPressed: () {
-                            if (controllerName.text.isEmpty ||
-                                controllerSAP.text.isEmpty ||
-                                controllerPass1.text.isEmpty ||
-                                controllerEmail.text.isEmpty ||
-                                controllerPhone.text.isEmpty ||
-                                controllerPass2.text.isEmpty) {
-                              errorDialog(
-                                  context, 'Please fill all the fields.');
-                            } else if (controllerPass1.text.length < 8) {
-                              errorDialog(context,
-                                  'Password must be atleast 8 characters long.');
-                            } else if (controllerPass1.text.contains(' ')) {
-                              errorDialog(
-                                  context, 'Password cannot contain spaces.');
-                            } else if (controllerPass1.text !=
-                                controllerPass2.text) {
-                              errorDialog(context, 'Passwords do not match.');
-                            } else if (!isValidEmail(controllerEmail.text)) {
-                              errorDialog(context, 'Invalid Email Address.');
-                            } else if (controllerPhone.text.length != 10) {
-                              errorDialog(context, 'Invalid Phone Number.');
-                            } else {
-                              // send data to server
-                              Map<String, dynamic> data = {
-                                'sap_id': int.parse(controllerSAP.text),
-                                'name': controllerName.text,
-                                'password': controllerPass1.text,
-                                'phone': controllerPhone.text,
-                                'email': controllerEmail.text,
-                              };
-                              setState(() {
-                                _registerFuture = sendPostRequest(data);
-                              });
+                            try {
+                              if (controllerName.text.isEmpty ||
+                                  controllerSAP.text.isEmpty ||
+                                  controllerPass1.text.isEmpty ||
+                                  controllerEmail.text.isEmpty ||
+                                  controllerPhone.text.isEmpty ||
+                                  controllerPass2.text.isEmpty) {
+                                errorDialog(
+                                    context, 'Please fill all the fields.');
+                              } else if (controllerPass1.text.length < 8) {
+                                errorDialog(context,
+                                    'Password must be atleast 8 characters long.');
+                              } else if (controllerPass1.text.contains(' ')) {
+                                errorDialog(
+                                    context, 'Password cannot contain spaces.');
+                              } else if (controllerPass1.text !=
+                                  controllerPass2.text) {
+                                errorDialog(context, 'Passwords do not match.');
+                              } else if (!isValidEmail(controllerEmail.text)) {
+                                errorDialog(context, 'Invalid Email Address.');
+                              } else if (controllerPhone.text.length != 10) {
+                                errorDialog(context, 'Invalid Phone Number.');
+                              } else {
+                                // send data to server
+                                Map<String, dynamic> data = {
+                                  'sap_id': int.parse(controllerSAP.text),
+                                  'name': controllerName.text,
+                                  'password': controllerPass1.text,
+                                  'phone': controllerPhone.text,
+                                  'email': controllerEmail.text,
+                                };
+                                setState(() {
+                                  _registerFuture = sendPostRequest(data);
+                                });
+                              }
+                            } catch (e) {
+                              errorDialog(context, e.toString());
                             }
                           },
                           child: FutureBuilder<bool>(
@@ -333,11 +345,15 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignInPage()));
+                          try {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignInPage()));
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
                         },
                         child: RichText(
                           textScaler: const TextScaler.linear(1),

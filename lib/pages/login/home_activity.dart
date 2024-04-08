@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/signin_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
@@ -62,10 +63,14 @@ class _HomeActivityState extends State<HomeActivity> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignInPage()));
+                try {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignInPage()));
+                } catch (e) {
+                  errorDialog(context, e.toString());
+                }
               },
               child: const Text(
                 'Get Started',

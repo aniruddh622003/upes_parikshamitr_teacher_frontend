@@ -5,9 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/mark_attendance.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_popup.dart';
-// import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_arrangement.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 
 class AttendancePage extends StatefulWidget {
   final Map<dynamic, dynamic> studentDetails;
@@ -51,7 +50,11 @@ class _AttendancePageState extends State<AttendancePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: white),
           onPressed: () {
-            Navigator.pop(context);
+            try {
+              Navigator.pop(context);
+            } catch (e) {
+              errorDialog(context, e.toString());
+            }
           },
         ),
       ),
@@ -245,41 +248,42 @@ class _AttendancePageState extends State<AttendancePage> {
                               ),
                             ),
                             onPressed: () async {
-                              if (controllerSheetNo.text.isEmpty) {
-                                Fluttertoast.showToast(
-                                    msg: "Please enter answer sheet number",
+                              try {
+                                if (controllerSheetNo.text.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: "Please enter answer sheet number",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 3,
+                                      backgroundColor: white,
+                                      textColor: black,
+                                      fontSize: 16.0);
+                                } else {
+                                  final String? roomId =
+                                      await const FlutterSecureStorage()
+                                          .read(key: 'roomId');
+                                  Map data = {
+                                    'room_id': roomId,
+                                    'sap_id': widget.studentDetails['sap_id'],
+                                    'ans_sheet_number':
+                                        int.parse(controllerSheetNo.text),
+                                  };
+                                  await markAttendance(data);
+                                  Navigator.pop(context);
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        "Updating Attendance, please wait for around 10 seconds!",
                                     toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
                                     timeInSecForIosWeb: 3,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                              } else {
-                                final String? roomId =
-                                    await const FlutterSecureStorage()
-                                        .read(key: 'roomId');
-                                Map data = {
-                                  'room_id': roomId,
-                                  'sap_id': widget.studentDetails['sap_id'],
-                                  'ans_sheet_number':
-                                      int.parse(controllerSheetNo.text),
-                                };
-                                await markAttendance(data);
-                                // WIP: markAttendance status code
-                                Navigator.pop(context);
-                                Fluttertoast.showToast(
-                                  msg:
-                                      "Updating Attendance, please wait for around 10 seconds!",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  timeInSecForIosWeb: 3,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: gray,
-                                  textColor: black,
-                                  fontSize: 16.0,
-                                );
-                                // attendancePopup(context);
-                                //close keyboard
-                                FocusScope.of(context).unfocus();
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: white,
+                                    textColor: black,
+                                    fontSize: 16.0,
+                                  );
+                                  FocusScope.of(context).unfocus();
+                                }
+                              } catch (e) {
+                                errorDialog(context, e.toString());
                               }
                             },
                             child: const Text('Mark Attendance',

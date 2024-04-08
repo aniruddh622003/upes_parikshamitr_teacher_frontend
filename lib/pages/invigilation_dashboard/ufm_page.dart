@@ -46,12 +46,6 @@ class _UFMPageState extends State<UFMPage> {
 
   @override
   void dispose() {
-    // controllerFName.dispose();
-    // controllerFMobile.dispose();
-    // controllerEAddress.dispose();
-    // controllerEMobile.dispose();
-    // controllerOtherRemarks.dispose();
-    // controllerStudentRemarks.dispose();
     super.dispose();
   }
 
@@ -70,15 +64,6 @@ class _UFMPageState extends State<UFMPage> {
         color: blue,
         child: Column(
           children: [
-            const Center(
-              child: Text("Room: 11013",
-                  textScaler: TextScaler.linear(1),
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontXLarge,
-                  )),
-            ),
-            const SizedBox(height: 20),
             Expanded(
               child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -336,9 +321,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter1 > 0) _counter1--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter1 > 0) _counter1--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -356,9 +346,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter1++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter1++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -397,9 +392,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter2 > 0) _counter2--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter2 > 0) _counter2--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -417,9 +417,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter2++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter2++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -458,9 +463,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter3 > 0) _counter3--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter3 > 0) _counter3--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -478,9 +488,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter3++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter3++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -519,9 +534,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              if (_counter4 > 0) _counter4--;
-                                            });
+                                            try {
+                                              setState(() {
+                                                if (_counter4 > 0) _counter4--;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.remove,
                                               color: white),
@@ -539,9 +559,14 @@ class _UFMPageState extends State<UFMPage> {
                                         ),
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              _counter4++;
-                                            });
+                                            try {
+                                              setState(() {
+                                                _counter4++;
+                                              });
+                                            } catch (e) {
+                                              errorDialog(
+                                                  context, e.toString());
+                                            }
                                           },
                                           icon: const Icon(Icons.add,
                                               color: white),
@@ -1053,9 +1078,12 @@ class _UFMPageState extends State<UFMPage> {
                                       "student_remarks":
                                           controllerStudentRemarks.text
                                               .toString(),
-                                      "new_sheet_number": int.parse(
-                                          controllerNewAnsSheet.text
-                                              .toString()),
+                                      "new_sheet_number":
+                                          controllerNewAnsSheet.text != ""
+                                              ? int.parse(controllerNewAnsSheet
+                                                  .text
+                                                  .toString())
+                                              : null
                                     };
                                     // print(data);
                                     dynamic response = await markUFM(data);

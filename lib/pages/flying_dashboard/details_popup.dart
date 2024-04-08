@@ -23,7 +23,7 @@ void detailsPopup(BuildContext context, Map<String, dynamic> details) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Invgilator Details',
+                    const Text('Details',
                         textScaler: TextScaler.linear(1),
                         style: TextStyle(
                             fontSize: fontMedium, fontWeight: FontWeight.bold)),

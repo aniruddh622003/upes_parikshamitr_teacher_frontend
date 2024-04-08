@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/update_phone_email.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_text_field.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/valid_email_checker.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -131,60 +132,66 @@ class _CheckPhoneEmailState extends State<CheckPhoneEmail> {
                               ),
                             ),
                             onPressed: () async {
-                              if (controllerPhone.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Please enter your phone number.')),
-                                );
-                              } else if (controllerPhone.text.length != 10) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Invalid Phone Number.')),
-                                );
-                              } else if (!isValidEmail(controllerEmail.text)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Invalid Email Address.')),
-                                );
-                              } else {
-                                // Handle the phone number and email here
-                                // Use the updatePhoneEmail function from the API;
-                                var data = {
-                                  'phone': controllerPhone.text,
-                                  'email': controllerEmail.text,
-                                };
-                                var response = await updatePhoneEmail(data);
-
-                                if (response.statusCode == 200) {
-                                  // Show a toast message
-                                  Fluttertoast.showToast(
-                                      msg: "Update successful.",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.green,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-
-                                  const storage = FlutterSecureStorage();
-                                  final String? jwt =
-                                      await storage.read(key: 'jwt');
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Dashboard(
-                                              jwt: jwt,
-                                            )),
-                                  );
-                                } else {
+                              try {
+                                if (controllerPhone.text.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
-                                            'Failed to update phone and email.')),
+                                            'Please enter your phone number.')),
                                   );
+                                } else if (controllerPhone.text.length != 10) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Invalid Phone Number.')),
+                                  );
+                                } else if (!isValidEmail(
+                                    controllerEmail.text)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Invalid Email Address.')),
+                                  );
+                                } else {
+                                  // Handle the phone number and email here
+                                  // Use the updatePhoneEmail function from the API;
+                                  var data = {
+                                    'phone': controllerPhone.text,
+                                    'email': controllerEmail.text,
+                                  };
+                                  var response = await updatePhoneEmail(data);
+
+                                  if (response.statusCode == 200) {
+                                    // Show a toast message
+                                    Fluttertoast.showToast(
+                                        msg: "Update successful.",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 3,
+                                        backgroundColor: white,
+                                        textColor: black,
+                                        fontSize: 16.0);
+
+                                    const storage = FlutterSecureStorage();
+                                    final String? jwt =
+                                        await storage.read(key: 'jwt');
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Dashboard(
+                                                jwt: jwt,
+                                              )),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Failed to update phone and email.')),
+                                    );
+                                  }
                                 }
+                              } catch (e) {
+                                errorDialog(context, e.toString());
                               }
                             },
                             child: const Text(

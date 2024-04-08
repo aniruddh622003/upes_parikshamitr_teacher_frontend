@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class PasswordField extends StatefulWidget {
@@ -40,10 +41,13 @@ class _PasswordFieldState extends State<PasswordField> {
             color: blue,
           ),
           onPressed: () {
-            // Update the state i.e. toogle the state of passwordVisible variable
-            setState(() {
-              _obscureText = !_obscureText;
-            });
+            try {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            } catch (e) {
+              errorDialog(context, e.toString());
+            }
           },
         ),
       ),

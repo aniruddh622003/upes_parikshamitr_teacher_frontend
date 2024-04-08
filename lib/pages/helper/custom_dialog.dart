@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void customDialog(BuildContext context, String title, String body) {
@@ -30,7 +31,11 @@ void customDialog(BuildContext context, String title, String body) {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          try {
+                            Navigator.pop(context);
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
                         },
                         child:
                             const Text("OK", textScaler: TextScaler.linear(1)),

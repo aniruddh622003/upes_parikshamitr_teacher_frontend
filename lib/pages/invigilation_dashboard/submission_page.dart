@@ -41,33 +41,32 @@ class SubmissionDetails extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Container(
-                // Set the width of the card Set the height of the card
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text("Submission Recieved",
-                            textScaler: TextScaler.linear(1),
-                            style: TextStyle(
-                                fontSize: fontLarge,
-                                fontWeight: FontWeight.bold,
-                                color: orange)),
-                        const SizedBox(height: 20),
-                        const Center(
-                            child: Text(
-                                'Your submission has been sent for authentication to the controller. Kindly wait.',
-                                textScaler: TextScaler.linear(1),
-                                style: TextStyle(fontSize: fontMedium))),
-                        const SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () async {
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text("Submission Recieved",
+                          textScaler: TextScaler.linear(1),
+                          style: TextStyle(
+                              fontSize: fontLarge,
+                              fontWeight: FontWeight.bold,
+                              color: orange)),
+                      const SizedBox(height: 20),
+                      const Center(
+                          child: Text(
+                              'Your submission has been sent for authentication to the controller. Kindly wait.',
+                              textScaler: TextScaler.linear(1),
+                              style: TextStyle(fontSize: fontMedium))),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            try {
                               const storage = FlutterSecureStorage();
                               final String? roomId =
                                   await storage.read(key: 'roomId');
@@ -84,8 +83,8 @@ class SubmissionDetails extends StatelessWidget {
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
+                                      backgroundColor: white,
+                                      textColor: black,
                                       fontSize: 16.0);
                                   await const FlutterSecureStorage()
                                       .delete(key: 'submission_state');
@@ -108,22 +107,24 @@ class SubmissionDetails extends StatelessWidget {
                                 errorDialog(context,
                                     "Submission not yet approved by the controller. Please wait.");
                               }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: orange,
-                              foregroundColor: white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text(
-                              'Check Status',
-                              textScaler: TextScaler.linear(1),
+                            } catch (e) {
+                              errorDialog(context, e.toString());
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: orange,
+                            foregroundColor: white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          child: const Text(
+                            'Check Status',
+                            textScaler: TextScaler.linear(1),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

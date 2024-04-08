@@ -12,7 +12,6 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void addPendingSuppliesPopup(BuildContext context) {
-  // int index = pendingSuppliesList.indexOf(supplyDetails);
   TextEditingController supplyName = TextEditingController();
   TextEditingController supplyNumber = TextEditingController();
   showDialog(
@@ -135,11 +134,10 @@ void addPendingSuppliesPopup(BuildContext context) {
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
+                              backgroundColor: white,
+                              textColor: black,
                               fontSize: 16.0);
                         } else {
-                          // print(jsonDecode(response.body)["message"]);
                           errorDialog(
                               context, jsonDecode(response.body)["message"]);
                         }
