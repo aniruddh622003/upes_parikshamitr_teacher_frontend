@@ -28,8 +28,8 @@ const RESOURCES = {"assets/android/assets/call.svg": "14148808733ca8c109f6b57dd2
 "assets/assets/upes_logo.png": "4759b8132b597891ee046700296f847a",
 "assets/assets/upes_logo.svg": "3854e71b0ce4d9e08b674828f19dd993",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "738dfc49e4e3596d46a715cb9a6042d1",
-"assets/NOTICES": "c1f798eaaa28f35271b1d1872897ded6",
+"assets/fonts/MaterialIcons-Regular.otf": "1e6f416c928156a8e91744d37d1a61b7",
+"assets/NOTICES": "d74d627f30447c0e25686541c1bfb34f",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "89ed8f4e49bcdfc0b5bfc9b24591e347",
 "assets/packages/fluttertoast/assets/toastify.css": "910ddaaf9712a0b0392cf7975a3b7fb5",
 "assets/packages/fluttertoast/assets/toastify.js": "18cfdd77033aa55d215e8a78c090ba89",
@@ -47,11 +47,11 @@ const RESOURCES = {"assets/android/assets/call.svg": "14148808733ca8c109f6b57dd2
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "95c64bf389756406d1b50b3d83d8c9b8",
-"/": "95c64bf389756406d1b50b3d83d8c9b8",
-"main.dart.js": "7fc9c98dc28f2fb6d000b863b6167d35",
+"index.html": "3ade1d56e92194b199ce7122ec47cf82",
+"/": "3ade1d56e92194b199ce7122ec47cf82",
+"main.dart.js": "0f24a782c53ace0fca0705f823e89c4b",
 "manifest.json": "ed50e8a954db89c20b3af3c2eeb2084c",
-"version.json": "337b83ab554bb120704b8ea4b6106dd1"};
+"version.json": "70ed0b55ccbe2347bf979521a9f2c47f"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
