@@ -64,15 +64,6 @@ class _UFMPageState extends State<UFMPage> {
         color: blue,
         child: Column(
           children: [
-            const Center(
-              child: Text("Room: 11013",
-                  textScaler: TextScaler.linear(1),
-                  style: TextStyle(
-                    color: white,
-                    fontSize: fontXLarge,
-                  )),
-            ),
-            const SizedBox(height: 20),
             Expanded(
               child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
