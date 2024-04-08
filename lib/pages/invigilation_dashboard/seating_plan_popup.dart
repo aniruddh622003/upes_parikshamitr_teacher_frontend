@@ -263,8 +263,7 @@ void seatingPlanPopup(
                       ),
                     ),
                     onPressed: studentDetails['attendance'] ||
-                            !(studentDetails['eligible'] == 'YES') ||
-                            isFlying
+                            !(studentDetails['eligible'] == 'YES')
                         ? null
                         : () async {
                             try {

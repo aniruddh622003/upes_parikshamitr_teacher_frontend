@@ -623,7 +623,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Container(
-                              width: 35,
+                              width: 75,
                               height: 35,
                               decoration: const BoxDecoration(
                                 color: blue,

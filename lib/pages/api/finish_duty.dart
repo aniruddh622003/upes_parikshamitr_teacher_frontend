@@ -15,7 +15,7 @@ Future<dynamic> finishDuty(String remarks) async {
       'Authorization': 'Bearer $jwt',
     },
     body: jsonEncode({
-      'remarks': remarks,
+      'final_remarks': remarks,
       'slot_id': slotId,
     }),
   );
