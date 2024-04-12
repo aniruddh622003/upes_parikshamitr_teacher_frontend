@@ -86,6 +86,7 @@ flutter:
     - android/assets/controller.svg
     - android/assets/supplementary.svg
     - android/assets/doubt.svg
+    - android/assets/leaveduty.svg
     - android/assets/qr.svg
     - android/assets/msg.svg
     - android/assets/call.svg
