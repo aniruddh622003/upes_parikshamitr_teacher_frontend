@@ -727,7 +727,7 @@ class _FlyingDashboardState extends State<FlyingDashboard> {
                                       }
                                     },
                                     child: SvgPicture.asset(
-                                        'android/assets/controller.svg')),
+                                        'android/assets/leaveduty.svg')),
                               ),
                             ],
                           ),
