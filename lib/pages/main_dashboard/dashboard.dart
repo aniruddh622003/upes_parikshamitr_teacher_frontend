@@ -141,11 +141,16 @@ class _DashboardState extends State<Dashboard> {
   void checkPhoneEmail() async {}
 
   List<Widget> makeBatchwiseBars(List<dynamic> batches) {
+    // print(batches);
     List<Widget> batchwiseBars = [];
-    for (Map<String, dynamic> batch in batches) {
+    for (var batch in batches) {
+      print(batch);
       String statusText = "";
       if (batch['status'] == 'SUBMITTED') {
         statusText = "Submitted";
+      } else if (batch['status'] == 'ALLOTTED' ||
+          batch['status'] == 'ALLOTED') {
+        statusText = "Alotted";
       } else if (batch['status'] == 'OVERDUE') {
         statusText = "${batch['due_in']}";
       } else if (batch['status'] == 'INPROGRESS') {
@@ -227,9 +232,9 @@ class _DashboardState extends State<Dashboard> {
       return sheetCards;
     }
 
-    for (Map<String, dynamic> sheetData in sheetsData) {
+    for (var sheetData in sheetsData) {
       int totalSheets = 0;
-      for (var copy in sheetData['copies'] as List<Map<String, dynamic>>) {
+      for (var copy in sheetData['copies']) {
         totalSheets += copy['no_of_students'] as int;
       }
       sheetCards.add(Container(
@@ -276,9 +281,7 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
           const Divider(color: gray),
-          Column(
-              children: makeBatchwiseBars(
-                  sheetData['copies'] as List<Map<String, dynamic>>)),
+          Column(children: makeBatchwiseBars(sheetData['copies'])),
         ]),
       ));
       sheetCards.add(const SizedBox(height: 10));
