@@ -50,7 +50,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
   Future<Map> getDetails() async {
     final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
-    room_no = await FlutterSecureStorage().read(key: 'room_no');
+    room_no = await const FlutterSecureStorage().read(key: 'room_no');
     var response = await http.get(
       Uri.parse('$serverUrl/teacher/getDetails'),
       headers: {
@@ -615,10 +615,10 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Room No.",
-                              textScaler: const TextScaler.linear(1),
-                              style: const TextStyle(
+                              textScaler: TextScaler.linear(1),
+                              style: TextStyle(
                                   fontSize: fontMedium,
                                   fontWeight: FontWeight.bold),
                             ),

@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/finish_duty.dart';
@@ -90,7 +87,6 @@ void finalRemarks(BuildContext context) {
                         } else {
                           errorDialog(context,
                               "An error occurred while submitting remarks. Please try again.");
-                          print(jsonDecode(response.body));
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());

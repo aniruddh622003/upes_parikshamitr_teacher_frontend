@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_bundle_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
@@ -38,6 +39,8 @@ class _DashboardState extends State<Dashboard> {
   int unreadNotificationsCount = 0;
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
+  int selectedFilter = 0;
+  List sheetsData = [];
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
@@ -126,10 +129,166 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  void getSheetsData() async {
+    dynamic response = await getBundleData();
+    if (response.statusCode == 200) {
+      setState(() {
+        sheetsData = jsonDecode(response.body)['data'];
+      });
+    }
+  }
+
   void checkPhoneEmail() async {}
+
+  List<Widget> makeBatchwiseBars(List<dynamic> batches) {
+    List<Widget> batchwiseBars = [];
+    for (Map<String, dynamic> batch in batches) {
+      String statusText = "";
+      if (batch['status'] == 'SUBMITTED') {
+        statusText = "Submitted";
+      } else if (batch['status'] == 'OVERDUE') {
+        statusText = "${batch['due_in']}";
+      } else if (batch['status'] == 'INPROGRESS') {
+        statusText = "${batch['due_in']}";
+      }
+      batchwiseBars.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${batch['program']}',
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                        fontSize: fontMedium,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(statusText),
+                  ],
+                ),
+                Container(
+                  width: 65,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  decoration: BoxDecoration(
+                    color: orange,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      batch['no_of_students'].toString(),
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                        color: white,
+                        fontSize: fontSmall + 3,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 5),
+            const Divider(color: gray),
+          ],
+        ),
+      );
+      batchwiseBars.add(const SizedBox(width: 10));
+    }
+    return batchwiseBars;
+  }
+
+  List<Widget> makeSheetCards(List<dynamic> sheetsData) {
+    List<Widget> sheetCards = [];
+    sheetCards.add(const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Evaluate Answer Sheets",
+            textScaler: TextScaler.linear(1),
+            style:
+                TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold)),
+      ],
+    ));
+
+    if (sheetsData.isEmpty) {
+      sheetCards.add(const SizedBox(height: 10));
+      sheetCards.add(
+        const Text(
+          "No sheets to evaluate",
+          textScaler: TextScaler.linear(1),
+          style: TextStyle(fontSize: fontMedium),
+        ),
+      );
+      return sheetCards;
+    }
+
+    for (Map<String, dynamic> sheetData in sheetsData) {
+      int totalSheets = 0;
+      for (var copy in sheetData['copies'] as List<Map<String, dynamic>>) {
+        totalSheets += copy['no_of_students'] as int;
+      }
+      sheetCards.add(Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: purpleXLight,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sheetData['subject_code'].toString(),
+                    textScaler: const TextScaler.linear(1),
+                  ),
+                  Text(
+                    sheetData['subject_name'].toString(),
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(
+                        fontSize: fontMedium, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Container(
+                width: 80,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                decoration: BoxDecoration(
+                  color: orange,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    '$totalSheets',
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(color: white, fontSize: fontMedium),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const Divider(color: gray),
+          Column(
+              children: makeBatchwiseBars(
+                  sheetData['copies'] as List<Map<String, dynamic>>)),
+        ]),
+      ));
+      sheetCards.add(const SizedBox(height: 10));
+    }
+    return sheetCards;
+  }
 
   @override
   void initState() {
+    getSheetsData();
     checkInvigilationState();
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
@@ -577,6 +736,8 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             const SizedBox(height: 10),
                             const Schedule(),
+                            const SizedBox(height: 10),
+                            ...makeSheetCards(sheetsData),
                             const SizedBox(height: 10),
                           ],
                         )),
