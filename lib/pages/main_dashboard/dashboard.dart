@@ -167,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${batch['program']}',
+                      '${batch['program']} ${batch['batch']}',
                       textScaler: const TextScaler.linear(1),
                       style: const TextStyle(
                         fontSize: fontMedium,
