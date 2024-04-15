@@ -30,7 +30,7 @@ class _HomeActivityState extends State<HomeActivity> {
             padding: EdgeInsets.symmetric(
                 horizontal: 16.0), // adjust the value as needed
             child: Center(
-              child: Text('UPES ParikshaMitr',
+              child: Text('ParikshaMitr',
                   textScaler: TextScaler.linear(1),
                   style: TextStyle(
                       fontSize: 32,
@@ -87,11 +87,11 @@ class _HomeActivityState extends State<HomeActivity> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Image.asset(
-              'assets/upes_logo.png',
-              width: 150,
-              height: 80.5,
-            ),
+            // child: Image.asset(
+            //   'assets/upes_logo.png',
+            //   width: 150,
+            //   height: 80.5,
+            // ),
           ),
           const SizedBox(
             height: 10,
