@@ -239,7 +239,7 @@ class _Schedule extends State<Schedule> {
         const Text(
           "Instructions",
           textScaler: TextScaler.linear(1),
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontMedium),
         ),
         Column(
           children: <Widget>[
