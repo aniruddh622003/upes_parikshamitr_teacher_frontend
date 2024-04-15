@@ -15,6 +15,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/accept_bundle_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
@@ -141,20 +142,25 @@ class _DashboardState extends State<Dashboard> {
   void checkPhoneEmail() async {}
 
   List<Widget> makeBatchwiseBars(List<dynamic> batches) {
-    // print(batches);
     List<Widget> batchwiseBars = [];
     for (var batch in batches) {
-      print(batch);
       String statusText = "";
+      Color bubbleColor = green;
       if (batch['status'] == 'SUBMITTED') {
         statusText = "Submitted";
       } else if (batch['status'] == 'ALLOTTED' ||
           batch['status'] == 'ALLOTED') {
-        statusText = "Alotted";
+        statusText = "Requesting Allocation";
+        bubbleColor = orange;
+      } else if (batch['status'] == 'AVAILABLE') {
+        statusText = "Sheets Available";
+        bubbleColor = Colors.purple;
       } else if (batch['status'] == 'OVERDUE') {
         statusText = "${batch['due_in']}";
+        bubbleColor = red;
       } else if (batch['status'] == 'INPROGRESS') {
         statusText = "${batch['due_in']}";
+        bubbleColor = blue;
       }
       batchwiseBars.add(
         Column(
@@ -182,7 +188,7 @@ class _DashboardState extends State<Dashboard> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   decoration: BoxDecoration(
-                    color: orange,
+                    color: bubbleColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
@@ -233,9 +239,12 @@ class _DashboardState extends State<Dashboard> {
     }
 
     for (var sheetData in sheetsData) {
-      int totalSheets = 0;
+      bool isEnabled = false;
       for (var copy in sheetData['copies']) {
-        totalSheets += copy['no_of_students'] as int;
+        if (copy['status'] == 'ALLOTTED') {
+          isEnabled = true;
+          break;
+        }
       }
       sheetCards.add(Container(
         padding: const EdgeInsets.all(10),
@@ -262,22 +271,36 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ],
               ),
-              Container(
-                width: 80,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                decoration: BoxDecoration(
-                  color: orange,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    '$totalSheets',
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(color: white, fontSize: fontMedium),
-                  ),
-                ),
-              )
+              isEnabled
+                  ? Container(
+                      width: 150,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: orange,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          try {
+                            acceptBundlePopup(context, sheetData);
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
+                        },
+                        child: const Center(
+                          child: Text(
+                            "Confirm Allotment",
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              color: white,
+                              fontSize: fontSmall - 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
           const Divider(color: gray),
@@ -296,6 +319,7 @@ class _DashboardState extends State<Dashboard> {
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
+      getSheetsData();
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
