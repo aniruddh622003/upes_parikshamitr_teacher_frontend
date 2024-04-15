@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/seating_plan_popup.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) {
       fetchData().then((value) {
         setState(() {
           seatingPlan = value;
@@ -87,8 +88,12 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                           textScaler: TextScaler.linear(1),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+                          try {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            errorDialog(context, e.toString());
+                          }
                         },
                       ),
                     ],
@@ -150,7 +155,11 @@ class _SeatingArrangementState extends State<SeatingArrangement> {
                   leading: IconButton(
                     icon: const Icon(Icons.arrow_back_ios, color: white),
                     onPressed: () {
-                      Navigator.pop(context);
+                      try {
+                        Navigator.pop(context);
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                   ),
                 ),

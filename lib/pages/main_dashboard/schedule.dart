@@ -9,6 +9,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:intl/intl.dart';
 // import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Schedule extends StatefulWidget {
@@ -238,7 +239,7 @@ class _Schedule extends State<Schedule> {
         const Text(
           "Instructions",
           textScaler: TextScaler.linear(1),
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontMedium),
         ),
         Column(
           children: <Widget>[
@@ -254,35 +255,39 @@ class _Schedule extends State<Schedule> {
                       double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
-                  // Load the PDF file from the assets
-                  ByteData data = await rootBundle.load(
-                      'assets/Examination Guidelines for Control Room Supervisors (CRS).pdf');
+                  try {
+                    // Load the PDF file from the assets
+                    ByteData data = await rootBundle.load(
+                        'assets/Examination Guidelines for Control Room Supervisors (CRS).pdf');
 
-                  // Get the application documents directory
-                  Directory appDocDir =
-                      await getApplicationDocumentsDirectory();
-                  String appDocPath = appDocDir.path;
+                    // Get the application documents directory
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
 
-                  // Write the file
-                  File file = File(
-                      '$appDocPath/Examination Guidelines for Control Room Supervisors (CRS).pdf');
-                  await file.writeAsBytes(data.buffer
-                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+                    // Write the file
+                    File file = File(
+                        '$appDocPath/Examination Guidelines for Control Room Supervisors (CRS).pdf');
+                    await file.writeAsBytes(data.buffer
+                        .asUint8List(data.offsetInBytes, data.lengthInBytes));
 
-                  // Open the file
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        appBar: AppBar(
-                            title: const Text("Control Room Guidlines",
-                                textScaler: TextScaler.linear(1))),
-                        body: PDFView(
-                          filePath: file.path,
+                    // Open the file
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                              title: const Text("Control Room Guidlines",
+                                  textScaler: TextScaler.linear(1))),
+                          body: PDFView(
+                            filePath: file.path,
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -322,37 +327,41 @@ class _Schedule extends State<Schedule> {
                       double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
-                  // Load the PDF file from the assets
-                  ByteData data = await rootBundle.load(
-                      'assets/Examination Guidelines for Flying Squad.pdf');
+                  try {
+                    // Load the PDF file from the assets
+                    ByteData data = await rootBundle.load(
+                        'assets/Examination Guidelines for Flying Squad.pdf');
 
-                  // Get the application documents directory
-                  Directory appDocDir =
-                      await getApplicationDocumentsDirectory();
-                  String appDocPath = appDocDir.path;
+                    // Get the application documents directory
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
 
-                  // Write the file
-                  File file = File(
-                      '$appDocPath/Examination Guidelines for Flying Squad.pdf');
-                  await file.writeAsBytes(data.buffer
-                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+                    // Write the file
+                    File file = File(
+                        '$appDocPath/Examination Guidelines for Flying Squad.pdf');
+                    await file.writeAsBytes(data.buffer
+                        .asUint8List(data.offsetInBytes, data.lengthInBytes));
 
-                  // Open the file
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        appBar: AppBar(
-                            title: const Text(
-                          "Flying Squad Guidlines",
-                          textScaler: TextScaler.linear(1),
-                        )),
-                        body: PDFView(
-                          filePath: file.path,
+                    // Open the file
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                              title: const Text(
+                            "Flying Squad Guidlines",
+                            textScaler: TextScaler.linear(1),
+                          )),
+                          body: PDFView(
+                            filePath: file.path,
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -392,37 +401,41 @@ class _Schedule extends State<Schedule> {
                       double.infinity, 60), // Set a minimum height here
                 ),
                 onPressed: () async {
-                  // Load the PDF file from the assets
-                  ByteData data = await rootBundle.load(
-                      'assets/Examination Guidelines for Invigilators.pdf');
+                  try {
+                    // Load the PDF file from the assets
+                    ByteData data = await rootBundle.load(
+                        'assets/Examination Guidelines for Invigilators.pdf');
 
-                  // Get the application documents directory
-                  Directory appDocDir =
-                      await getApplicationDocumentsDirectory();
-                  String appDocPath = appDocDir.path;
+                    // Get the application documents directory
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
 
-                  // Write the file
-                  File file = File(
-                      '$appDocPath/Examination Guidelines for Invigilators.pdf');
-                  await file.writeAsBytes(data.buffer
-                      .asUint8List(data.offsetInBytes, data.lengthInBytes));
+                    // Write the file
+                    File file = File(
+                        '$appDocPath/Examination Guidelines for Invigilators.pdf');
+                    await file.writeAsBytes(data.buffer
+                        .asUint8List(data.offsetInBytes, data.lengthInBytes));
 
-                  // Open the file
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        appBar: AppBar(
-                            title: const Text(
-                          "Invigilator Guidlines",
-                          textScaler: TextScaler.linear(1),
-                        )),
-                        body: PDFView(
-                          filePath: file.path,
+                    // Open the file
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                              title: const Text(
+                            "Invigilator Guidlines",
+                            textScaler: TextScaler.linear(1),
+                          )),
+                          body: PDFView(
+                            filePath: file.path,
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

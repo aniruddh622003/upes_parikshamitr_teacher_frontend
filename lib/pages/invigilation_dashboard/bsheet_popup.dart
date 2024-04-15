@@ -145,8 +145,8 @@ void bsheetPopup(BuildContext context) async {
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   timeInSecForIosWeb: 3,
-                                  backgroundColor: Colors.grey,
-                                  textColor: Colors.white,
+                                  backgroundColor: white,
+                                  textColor: black,
                                   fontSize: 16.0);
                             } else {
                               Navigator.of(context).pop();

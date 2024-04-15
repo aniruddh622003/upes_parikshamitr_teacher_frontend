@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/finish_duty.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -68,19 +68,26 @@ void finalRemarks(BuildContext context) {
                     ),
                     onPressed: () async {
                       try {
-                        await const FlutterSecureStorage()
-                            .delete(key: 'slotId');
-                        await const FlutterSecureStorage()
-                            .delete(key: 'roomId');
-                        String? jwt =
-                            await const FlutterSecureStorage().read(key: 'jwt');
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Dashboard(jwt: jwt)),
-                        );
+                        dynamic response =
+                            await finishDuty(controllerRemarks.text);
+                        if (response.statusCode == 201) {
+                          await const FlutterSecureStorage()
+                              .delete(key: 'slotId');
+                          await const FlutterSecureStorage()
+                              .delete(key: 'roomId');
+                          String? jwt = await const FlutterSecureStorage()
+                              .read(key: 'jwt');
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Dashboard(jwt: jwt)),
+                          );
+                        } else {
+                          errorDialog(context,
+                              "An error occurred while submitting remarks. Please try again.");
+                        }
                       } catch (e) {
                         errorDialog(context, e.toString());
                       }

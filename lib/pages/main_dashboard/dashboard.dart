@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_bundle_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
@@ -38,6 +39,8 @@ class _DashboardState extends State<Dashboard> {
   int unreadNotificationsCount = 0;
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
+  int selectedFilter = 0;
+  List sheetsData = [];
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
@@ -126,14 +129,173 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  void getSheetsData() async {
+    dynamic response = await getBundleData();
+    if (response.statusCode == 200) {
+      setState(() {
+        sheetsData = jsonDecode(response.body)['data'];
+      });
+    }
+  }
+
   void checkPhoneEmail() async {}
+
+  List<Widget> makeBatchwiseBars(List<dynamic> batches) {
+    // print(batches);
+    List<Widget> batchwiseBars = [];
+    for (var batch in batches) {
+      print(batch);
+      String statusText = "";
+      if (batch['status'] == 'SUBMITTED') {
+        statusText = "Submitted";
+      } else if (batch['status'] == 'ALLOTTED' ||
+          batch['status'] == 'ALLOTED') {
+        statusText = "Alotted";
+      } else if (batch['status'] == 'OVERDUE') {
+        statusText = "${batch['due_in']}";
+      } else if (batch['status'] == 'INPROGRESS') {
+        statusText = "${batch['due_in']}";
+      }
+      batchwiseBars.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${batch['program']} ${batch['batch']}',
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                        fontSize: fontMedium,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(statusText),
+                  ],
+                ),
+                Container(
+                  width: 65,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  decoration: BoxDecoration(
+                    color: orange,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      batch['no_of_students'].toString(),
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                        color: white,
+                        fontSize: fontSmall + 3,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 5),
+            const Divider(color: gray),
+          ],
+        ),
+      );
+      batchwiseBars.add(const SizedBox(width: 10));
+    }
+    return batchwiseBars;
+  }
+
+  List<Widget> makeSheetCards(List<dynamic> sheetsData) {
+    List<Widget> sheetCards = [];
+    sheetCards.add(const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Evaluate Answer Sheets",
+            textScaler: TextScaler.linear(1),
+            style:
+                TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold)),
+      ],
+    ));
+
+    if (sheetsData.isEmpty) {
+      sheetCards.add(const SizedBox(height: 10));
+      sheetCards.add(
+        const Text(
+          "No sheets to evaluate",
+          textScaler: TextScaler.linear(1),
+          style: TextStyle(fontSize: fontMedium),
+        ),
+      );
+      return sheetCards;
+    }
+
+    for (var sheetData in sheetsData) {
+      int totalSheets = 0;
+      for (var copy in sheetData['copies']) {
+        totalSheets += copy['no_of_students'] as int;
+      }
+      sheetCards.add(Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: purpleXLight,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sheetData['subject_code'].toString(),
+                    textScaler: const TextScaler.linear(1),
+                  ),
+                  Text(
+                    sheetData['subject_name'].toString(),
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(
+                        fontSize: fontMedium, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Container(
+                width: 80,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                decoration: BoxDecoration(
+                  color: orange,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    '$totalSheets',
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(color: white, fontSize: fontMedium),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const Divider(color: gray),
+          Column(children: makeBatchwiseBars(sheetData['copies'])),
+        ]),
+      ));
+      sheetCards.add(const SizedBox(height: 10));
+    }
+    return sheetCards;
+  }
 
   @override
   void initState() {
+    getSheetsData();
     checkInvigilationState();
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
@@ -171,7 +333,7 @@ class _DashboardState extends State<Dashboard> {
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 3,
-                backgroundColor: grayLight,
+                backgroundColor: white,
                 textColor: black,
                 fontSize: 16.0);
           }
@@ -243,8 +405,12 @@ class _DashboardState extends State<Dashboard> {
               textScaler: TextScaler.linear(1),
             ),
             onPressed: () {
-              confirm = false;
-              Navigator.of(context).pop();
+              try {
+                confirm = false;
+                Navigator.of(context).pop();
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
           TextButton(
@@ -254,12 +420,16 @@ class _DashboardState extends State<Dashboard> {
             ),
             onPressed: () async {
               confirm = true;
-              await storage.delete(key: 'notifications');
-              await storage.delete(key: 'roomId');
-              await storage.delete(key: 'unique_code');
-              await storage.delete(key: 'jwt');
-              await storage.delete(key: 'submission_state');
-              Navigator.of(context).pop();
+              try {
+                await storage.delete(key: 'notifications');
+                await storage.delete(key: 'roomId');
+                await storage.delete(key: 'unique_code');
+                await storage.delete(key: 'jwt');
+                await storage.delete(key: 'submission_state');
+                Navigator.of(context).pop();
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
         ],
@@ -311,7 +481,11 @@ class _DashboardState extends State<Dashboard> {
                         IconButton(
                           icon: const Icon(Icons.logout, color: white),
                           onPressed: () {
-                            signOut();
+                            try {
+                              signOut();
+                            } catch (e) {
+                              errorDialog(context, e.toString());
+                            }
                           },
                         ),
                         const Text(
@@ -324,11 +498,16 @@ class _DashboardState extends State<Dashboard> {
                     IconButton(
                       icon: const Icon(Icons.qr_code, color: white),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const StartInvigilation()),
-                        );
+                        try {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const StartInvigilation()),
+                          );
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
                       },
                     ),
                   ],
@@ -375,135 +554,142 @@ class _DashboardState extends State<Dashboard> {
                               child: ElevatedButton(
                                 onPressed: isButtonEnabled
                                     ? () async {
-                                        setState(() {
-                                          isButtonEnabled = false;
-                                        });
-                                        List notificationsLocal = [];
-                                        List<dynamic> today = [];
-                                        List<dynamic> yesterday = [];
-                                        List<dynamic> earlier = [];
-                                        List<bool> todayBool = [];
-                                        List<bool> yesterdayBool = [];
-                                        List<bool> earlierBool = [];
-                                        dynamic response =
-                                            await getNotifications();
-                                        if (response.statusCode == 200) {
-                                          List<dynamic> notificationsServer =
-                                              jsonDecode(response.body)['data']
-                                                  ['notifications'];
-                                          String? notifcationsData =
-                                              await const FlutterSecureStorage()
-                                                  .read(key: 'notifications');
-                                          if (notifcationsData != null) {
-                                            notificationsLocal =
-                                                jsonDecode(notifcationsData);
-                                            // sync notificationsLocal with notificationsServer and update notificationsLocal
-                                            for (var notification
-                                                in notificationsServer) {
-                                              bool found = false;
-                                              for (var localNotification
-                                                  in notificationsLocal) {
-                                                if (notification['_id'] ==
-                                                    localNotification[0]
-                                                        ['_id']) {
-                                                  found = true;
-                                                  break;
+                                        try {
+                                          setState(() {
+                                            isButtonEnabled = false;
+                                          });
+                                          List notificationsLocal = [];
+                                          List<dynamic> today = [];
+                                          List<dynamic> yesterday = [];
+                                          List<dynamic> earlier = [];
+                                          List<bool> todayBool = [];
+                                          List<bool> yesterdayBool = [];
+                                          List<bool> earlierBool = [];
+                                          dynamic response =
+                                              await getNotifications();
+                                          if (response.statusCode == 200) {
+                                            List<dynamic> notificationsServer =
+                                                jsonDecode(response.body)[
+                                                    'data']['notifications'];
+                                            String? notifcationsData =
+                                                await const FlutterSecureStorage()
+                                                    .read(key: 'notifications');
+                                            if (notifcationsData != null) {
+                                              notificationsLocal =
+                                                  jsonDecode(notifcationsData);
+                                              // sync notificationsLocal with notificationsServer and update notificationsLocal
+                                              for (var notification
+                                                  in notificationsServer) {
+                                                bool found = false;
+                                                for (var localNotification
+                                                    in notificationsLocal) {
+                                                  if (notification['_id'] ==
+                                                      localNotification[0]
+                                                          ['_id']) {
+                                                    found = true;
+                                                    break;
+                                                  }
+                                                }
+                                                if (!found) {
+                                                  List item = [];
+                                                  item.add(notification);
+                                                  item.add(false);
+                                                  notificationsLocal.add(item);
                                                 }
                                               }
-                                              if (!found) {
+                                              // Delete notifications from notificationsLocal that are not in notificationsServer
+                                              for (var localNotification
+                                                  in notificationsLocal) {
+                                                bool found = false;
+                                                for (var notification
+                                                    in notificationsServer) {
+                                                  if (notification['_id'] ==
+                                                      localNotification[0]
+                                                          ['_id']) {
+                                                    found = true;
+                                                    break;
+                                                  }
+                                                }
+                                                if (!found) {
+                                                  notificationsLocal.remove(
+                                                      localNotification);
+                                                }
+                                              }
+                                              await const FlutterSecureStorage()
+                                                  .write(
+                                                      key: 'notifications',
+                                                      value: jsonEncode(
+                                                          notificationsLocal));
+                                            } else {
+                                              for (var notification
+                                                  in notificationsServer) {
                                                 List item = [];
                                                 item.add(notification);
                                                 item.add(false);
                                                 notificationsLocal.add(item);
                                               }
+                                              await const FlutterSecureStorage()
+                                                  .write(
+                                                      key: 'notifications',
+                                                      value: jsonEncode(
+                                                          notificationsLocal));
                                             }
-                                            // Delete notifications from notificationsLocal that are not in notificationsServer
-                                            for (var localNotification
-                                                in notificationsLocal) {
-                                              bool found = false;
-                                              for (var notification
-                                                  in notificationsServer) {
-                                                if (notification['_id'] ==
-                                                    localNotification[0]
-                                                        ['_id']) {
-                                                  found = true;
-                                                  break;
-                                                }
-                                              }
-                                              if (!found) {
-                                                notificationsLocal
-                                                    .remove(localNotification);
-                                              }
-                                            }
-                                            await const FlutterSecureStorage()
-                                                .write(
-                                                    key: 'notifications',
-                                                    value: jsonEncode(
-                                                        notificationsLocal));
-                                          } else {
                                             for (var notification
-                                                in notificationsServer) {
-                                              List item = [];
-                                              item.add(notification);
-                                              item.add(false);
-                                              notificationsLocal.add(item);
+                                                in notificationsLocal) {
+                                              if (DateTime.parse(notification[0]
+                                                          ['createdAt'])
+                                                      .difference(
+                                                          DateTime.now())
+                                                      .inDays ==
+                                                  0) {
+                                                today.add(notification[0]);
+                                                todayBool.add(notification[1]);
+                                              } else if (DateTime.parse(
+                                                          notification[0]
+                                                              ['createdAt'])
+                                                      .difference(
+                                                          DateTime.now())
+                                                      .inDays ==
+                                                  -1) {
+                                                yesterday.add(notification[0]);
+                                                yesterdayBool
+                                                    .add(notification[1]);
+                                              } else {
+                                                earlier.add(notification[0]);
+                                                earlierBool
+                                                    .add(notification[1]);
+                                              }
                                             }
-                                            await const FlutterSecureStorage()
-                                                .write(
-                                                    key: 'notifications',
-                                                    value: jsonEncode(
-                                                        notificationsLocal));
-                                          }
-                                          for (var notification
-                                              in notificationsLocal) {
-                                            if (DateTime.parse(notification[0]
-                                                        ['createdAt'])
-                                                    .difference(DateTime.now())
-                                                    .inDays ==
-                                                0) {
-                                              today.add(notification[0]);
-                                              todayBool.add(notification[1]);
-                                            } else if (DateTime.parse(
-                                                        notification[0]
-                                                            ['createdAt'])
-                                                    .difference(DateTime.now())
-                                                    .inDays ==
-                                                -1) {
-                                              yesterday.add(notification[0]);
-                                              yesterdayBool
-                                                  .add(notification[1]);
-                                            } else {
-                                              earlier.add(notification[0]);
-                                              earlierBool.add(notification[1]);
-                                            }
-                                          }
 
-                                          setState(() {
-                                            getUnreadNotificationsCount();
-                                          });
-
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NotificationScreen(
-                                                        today: today,
-                                                        yesterday: yesterday,
-                                                        earlier: earlier,
-                                                        todayBool: todayBool,
-                                                        yesterdayBool:
-                                                            yesterdayBool,
-                                                        earlierBool:
-                                                            earlierBool)),
-                                          ).then((_) {
                                             setState(() {
-                                              isButtonEnabled = true;
                                               getUnreadNotificationsCount();
                                             });
-                                          });
-                                        } else {
-                                          errorDialog(context,
-                                              'Error occurred! Please try again later');
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NotificationScreen(
+                                                          today: today,
+                                                          yesterday: yesterday,
+                                                          earlier: earlier,
+                                                          todayBool: todayBool,
+                                                          yesterdayBool:
+                                                              yesterdayBool,
+                                                          earlierBool:
+                                                              earlierBool)),
+                                            ).then((_) {
+                                              setState(() {
+                                                isButtonEnabled = true;
+                                                getUnreadNotificationsCount();
+                                              });
+                                            });
+                                          } else {
+                                            errorDialog(context,
+                                                'Error occurred! Please try again later');
+                                          }
+                                        } catch (e) {
+                                          errorDialog(context, e.toString());
                                         }
                                       }
                                     : null,
@@ -553,6 +739,8 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             const SizedBox(height: 10),
                             const Schedule(),
+                            const SizedBox(height: 10),
+                            ...makeSheetCards(sheetsData),
                             const SizedBox(height: 10),
                           ],
                         )),

@@ -164,8 +164,8 @@ void pendingSuppliesPopup(BuildContext context,
                                 msg: "Success",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
-                                textColor: white,
-                                backgroundColor: green,
+                                backgroundColor: white,
+                                textColor: black,
                                 timeInSecForIosWeb: 3,
                                 fontSize: 16.0);
                           } else {

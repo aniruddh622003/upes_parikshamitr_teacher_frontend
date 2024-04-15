@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'dart:developer' as developer;
 
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -121,7 +122,11 @@ class _Step2CodeState extends State<Step2Code> {
                       ),
                     ),
                     onPressed: () {
-                      _validateEmail();
+                      try {
+                        _validateEmail();
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text(
                       'Verify',

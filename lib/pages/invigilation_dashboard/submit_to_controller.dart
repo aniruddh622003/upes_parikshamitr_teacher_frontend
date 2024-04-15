@@ -73,8 +73,8 @@ class _SubmitToControllerState extends State<SubmitToController> {
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 3,
-              backgroundColor: Colors.grey,
-              textColor: Colors.white,
+              backgroundColor: white,
+              textColor: black,
               fontSize: 16.0);
           await const FlutterSecureStorage().delete(key: 'submission_state');
           await const FlutterSecureStorage().delete(key: "unique_code");
@@ -114,7 +114,11 @@ class _SubmitToControllerState extends State<SubmitToController> {
                     textScaler: TextScaler.linear(1),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    try {
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      errorDialog(context, e.toString());
+                    }
                   },
                 ),
               ],
@@ -172,7 +176,11 @@ class _SubmitToControllerState extends State<SubmitToController> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: white),
             onPressed: () {
-              Navigator.pop(context);
+              try {
+                Navigator.pop(context);
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
         ),
@@ -221,140 +229,156 @@ class _SubmitToControllerState extends State<SubmitToController> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  if (!kIsWeb) {
-                    controller?.dispose();
-                  }
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Enter code',
-                          textScaler: TextScaler.linear(1),
-                        ),
-                        content: TextField(
-                          controller: submissionUniqueCode,
-                          decoration: const InputDecoration(
-                              hintText: "Enter your code here"),
-                        ),
-                        actions: <Widget>[
-                          ElevatedButton(
-                            child: const Text(
-                              'Back',
-                              textScaler: TextScaler.linear(1),
-                            ),
-                            onPressed: () {
-                              controller?.resumeCamera();
-                              Navigator.of(context).pop();
-                            },
+                  try {
+                    if (!kIsWeb) {
+                      controller?.dispose();
+                    }
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            'Enter code',
+                            textScaler: TextScaler.linear(1),
                           ),
-                          ElevatedButton(
-                            child: const Text(
-                              'Confirm',
-                              textScaler: TextScaler.linear(1),
-                            ),
-                            onPressed: () async {
-                              String uniqueCode = submissionUniqueCode.text;
-                              String? uniqueCodeLocal =
-                                  await const FlutterSecureStorage()
-                                      .read(key: "unique_code");
-                              if (uniqueCodeLocal != uniqueCode) {
-                                errorDialog(context, "Invalid Code");
-                                return;
-                              }
-                              Map data = {
-                                "unique_code": uniqueCode.toString(),
-                              };
-
-                              var response = await submissionToController(data);
-
-                              if (response.statusCode == 201) {
+                          content: TextField(
+                            controller: submissionUniqueCode,
+                            decoration: const InputDecoration(
+                                hintText: "Enter your code here"),
+                          ),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: const Text(
+                                'Back',
+                                textScaler: TextScaler.linear(1),
+                              ),
+                              onPressed: () {
                                 try {
-                                  await const FlutterSecureStorage()
-                                      .delete(key: "unique_code");
-                                  await const FlutterSecureStorage().write(
-                                      key: "submission_state",
-                                      value: "submitting");
-                                  await const FlutterSecureStorage()
-                                      .delete(key: "invigilation_state");
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SubmissionDetails(),
-                                    ),
-                                  );
-                                } catch (e) {
-                                  errorDialog(context,
-                                      '${e.toString()}, ${jsonDecode(response.body)['message']}');
-                                }
-                              } else if (response.statusCode == 202) {
-                                try {
-                                  Fluttertoast.showToast(
-                                      msg: "Submission Approved!",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 3,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                  const FlutterSecureStorage()
-                                      .delete(key: 'submission_state');
-                                  const FlutterSecureStorage()
-                                      .delete(key: 'invigilation_state');
-                                  String? jwt =
-                                      await const FlutterSecureStorage()
-                                          .read(key: 'jwt');
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Dashboard(jwt: jwt),
-                                    ),
-                                  );
+                                  controller?.resumeCamera();
+                                  Navigator.of(context).pop();
                                 } catch (e) {
                                   errorDialog(context, e.toString());
                                 }
-                              } else {
-                                var body = jsonDecode(response.body);
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        'Unique Code',
-                                        textScaler: TextScaler.linear(1),
+                              },
+                            ),
+                            ElevatedButton(
+                              child: const Text(
+                                'Confirm',
+                                textScaler: TextScaler.linear(1),
+                              ),
+                              onPressed: () async {
+                                String uniqueCode = submissionUniqueCode.text;
+                                String? uniqueCodeLocal =
+                                    await const FlutterSecureStorage()
+                                        .read(key: "unique_code");
+                                if (uniqueCodeLocal != uniqueCode) {
+                                  errorDialog(context, "Invalid Code");
+                                  return;
+                                }
+                                Map data = {
+                                  "unique_code": uniqueCode.toString(),
+                                };
+
+                                var response =
+                                    await submissionToController(data);
+
+                                if (response.statusCode == 201) {
+                                  try {
+                                    await const FlutterSecureStorage()
+                                        .delete(key: "unique_code");
+                                    await const FlutterSecureStorage().write(
+                                        key: "submission_state",
+                                        value: "submitting");
+                                    await const FlutterSecureStorage()
+                                        .delete(key: "invigilation_state");
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubmissionDetails(),
                                       ),
-                                      content: Text(
-                                        'Unique Code: $uniqueCode\nError: $body',
-                                        textScaler: const TextScaler.linear(1),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text(
-                                            'OK',
-                                            textScaler: TextScaler.linear(1),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
                                     );
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                                  } catch (e) {
+                                    errorDialog(context,
+                                        '${e.toString()}, ${jsonDecode(response.body)['message']}');
+                                  }
+                                } else if (response.statusCode == 202) {
+                                  try {
+                                    Fluttertoast.showToast(
+                                        msg: "Submission Approved!",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 3,
+                                        backgroundColor: white,
+                                        textColor: black,
+                                        fontSize: 16.0);
+                                    const FlutterSecureStorage()
+                                        .delete(key: 'submission_state');
+                                    const FlutterSecureStorage()
+                                        .delete(key: 'invigilation_state');
+                                    String? jwt =
+                                        await const FlutterSecureStorage()
+                                            .read(key: 'jwt');
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Dashboard(jwt: jwt),
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    errorDialog(context, e.toString());
+                                  }
+                                } else {
+                                  var body = jsonDecode(response.body);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          'Unique Code',
+                                          textScaler: TextScaler.linear(1),
+                                        ),
+                                        content: Text(
+                                          'Unique Code: $uniqueCode\nError: $body',
+                                          textScaler:
+                                              const TextScaler.linear(1),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text(
+                                              'OK',
+                                              textScaler: TextScaler.linear(1),
+                                            ),
+                                            onPressed: () {
+                                              try {
+                                                Navigator.of(context).pop();
+                                              } catch (e) {
+                                                errorDialog(
+                                                    context, e.toString());
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

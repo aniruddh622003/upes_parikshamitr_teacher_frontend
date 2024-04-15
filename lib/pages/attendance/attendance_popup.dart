@@ -8,18 +8,13 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.da
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_marked_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_barcode_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'dart:convert';
 
 void attendancePopup(BuildContext context) async {
   final controllerSAP = TextEditingController();
-  void onBarcodeButtonPressed() async {
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", true, ScanMode.BARCODE);
-    controllerSAP.text = barcodeScanRes.replaceFirst("]C1", "");
-  }
 
   showDialog(
     context: context,
@@ -55,29 +50,30 @@ void attendancePopup(BuildContext context) async {
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: GestureDetector(
-                          onTap: onBarcodeButtonPressed,
-                          child: kIsWeb
-                              ? const Center(
-                                  child: Text(
-                                      "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
-                              : Container(
-                                  color: gray,
-                                  child: const Center(
-                                      child: Text(
-                                    "Scan Barcode",
-                                    textScaler: TextScaler.linear(1),
-                                  )),
+                kIsWeb
+                    ? const Center(
+                        child: Text(
+                            "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                    : Center(
+                        child: Container(
+                          height: 300,
+                          width: 300,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('assets/home_art.png'),
+                            fit: BoxFit.contain,
+                          )),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GestureDetector(
+                                child: CustomBarcodeScanner(
+                                  onBarcodeScanned: (displayValue) {
+                                    controllerSAP.text = displayValue;
+                                  },
                                 ),
-                        )),
-                  ),
-                ),
+                              )),
+                        ),
+                      ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
@@ -125,6 +121,10 @@ void attendancePopup(BuildContext context) async {
                     ),
                     onPressed: () async {
                       try {
+                        if (controllerSAP.text.isEmpty) {
+                          errorDialog(context, 'Please enter SAP ID!');
+                          return;
+                        }
                         const storage = FlutterSecureStorage();
                         String? roomId = await storage.read(key: 'roomId');
                         dynamic data = await getRoomDetails(roomId.toString());
@@ -135,13 +135,10 @@ void attendancePopup(BuildContext context) async {
                                 .indexWhere((student) =>
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
-                            // print(roomDetails['data']['seating_plan'][indexData]
-                            //     ['ans_sheet_number']);
                             if (indexData != -1) {
                               if (roomDetails['data']['seating_plan'][indexData]
                                       ['attendance'] ==
                                   true) {
-                                // Navigator.of(context).pop();
                                 attendancePresentErrorDialog(context);
                               } else if (roomDetails['data']['seating_plan']
                                       [indexData]['eligible'] ==
@@ -149,7 +146,6 @@ void attendancePopup(BuildContext context) async {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
-                                // Navigator.of(context).pop();
                                 controllerSAP.clear();
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => AttendancePage(
@@ -163,27 +159,23 @@ void attendancePopup(BuildContext context) async {
                                   roomDetails['data']['seating_plan'][indexData]
                                           ['eligible'] ==
                                       'R_HOLD') {
-                                // Navigator.of(context).pop();
                                 attendanceErrorDialog(context);
                               } else {
-                                // Navigator.of(context).pop();
                                 errorDialog(context, 'Student not found!');
                               }
                             } else {
-                              // Navigator.pop(context);
                               errorDialog(context, 'Student not found!');
                             }
                           } else {
-                            // Navigator.pop(context);
-                            errorDialog(context, "An error occured!");
+                            errorDialog(context,
+                                "An error occured while fetching room details!");
                           }
                         } else {
-                          // Navigator.pop(context);
-                          errorDialog(context, "An error occured!");
+                          errorDialog(context,
+                              "An error occured while fetching room details!");
                         }
                       } catch (e) {
-                        // Navigator.pop(context);
-                        errorDialog(context, "e.toString()");
+                        errorDialog(context, e.toString());
                       }
                     },
                     child: const Text('Mark Attendance',

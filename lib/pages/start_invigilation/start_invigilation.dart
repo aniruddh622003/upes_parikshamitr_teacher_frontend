@@ -53,7 +53,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
 
       if (response.statusCode == 201) {
         try {
-          Map data = jsonDecode(response.body)['data'];
+          Map data = jsonDecode(response.body);
           if (data['message'] == "Flying Squad member assigned") {
             String slotId = data["data"]['slot'];
             const storage = FlutterSecureStorage();
@@ -75,6 +75,8 @@ class _StartInvigilationState extends State<StartInvigilation> {
             await storage.write(key: 'roomId', value: roomId);
             await storage.write(
                 key: 'unique_code', value: uniqueCode.toString());
+            await storage.write(
+                key: 'room_no', value: data['room']['room_no'].toString());
             Navigator.pop(context);
             Navigator.pop(context);
             Navigator.push(
@@ -142,7 +144,11 @@ class _StartInvigilationState extends State<StartInvigilation> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: white),
             onPressed: () {
-              Navigator.pop(context);
+              try {
+                Navigator.pop(context);
+              } catch (e) {
+                errorDialog(context, e.toString());
+              }
             },
           ),
         ),
@@ -191,136 +197,160 @@ class _StartInvigilationState extends State<StartInvigilation> {
               width: MediaQuery.of(context).size.width * 1,
               child: ElevatedButton(
                 onPressed: () {
-                  if (!kIsWeb) {
-                    controller?.resumeCamera();
-                  }
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Enter code',
-                          textScaler: TextScaler.linear(1),
-                        ),
-                        content: TextField(
-                          controller: controllerUniqueCode,
-                          decoration: const InputDecoration(
-                              hintText: "Enter your code here"),
-                        ),
-                        actions: <Widget>[
-                          ElevatedButton(
-                            child: const Text(
-                              'Back',
-                              textScaler: TextScaler.linear(1),
-                            ),
-                            onPressed: () {
-                              controller?.resumeCamera();
-                              Navigator.of(context).pop();
-                            },
+                  try {
+                    if (!kIsWeb) {
+                      controller?.resumeCamera();
+                    }
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            'Enter code',
+                            textScaler: TextScaler.linear(1),
                           ),
-                          ElevatedButton(
-                            child: const Text(
-                              'Confirm',
-                              textScaler: TextScaler.linear(1),
-                            ),
-                            onPressed: () async {
-                              String? uniqueCode =
-                                  controllerUniqueCode.text.toString();
-
-                              // Prepare the data to send to the API
-                              Map data = {
-                                'unique_code': uniqueCode.toString(),
-                                // Add other data if needed
-                              };
-
-                              // Call the API function
-                              var response = await assignInvigilator(data);
-                              // Check if the request was successful
-
-                              if (response.statusCode == 201) {
+                          content: TextField(
+                            controller: controllerUniqueCode,
+                            decoration: const InputDecoration(
+                                hintText: "Enter your code here"),
+                          ),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: const Text(
+                                'Back',
+                                textScaler: TextScaler.linear(1),
+                              ),
+                              onPressed: () {
                                 try {
-                                  Map data = jsonDecode(response.body);
-                                  if (data['message'] ==
-                                      "Flying Squad member assigned") {
-                                    String slotId = data["data"]["slot"];
-                                    const storage = FlutterSecureStorage();
-                                    await storage.write(
-                                        key: 'slotId', value: slotId);
-                                    await storage.write(
-                                        key: 'unique_code',
-                                        value: uniqueCode.toString());
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => FlyingDashboard(
-                                              roomData: data["data"]
-                                                  ["room_data"]),
-                                        ));
-                                  } else {
-                                    data = data['data'];
-                                    String roomId = data['room']['_id'];
-                                    const storage = FlutterSecureStorage();
-                                    await storage.write(
-                                        key: 'roomId', value: roomId);
-                                    await storage.write(
-                                        key: 'unique_code',
-                                        value: uniqueCode.toString());
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              InvigilationDetails(
-                                                  data: jsonDecode(
-                                                      response.body)['data']),
-                                        ));
-                                  }
+                                  controller?.resumeCamera();
+                                  Navigator.of(context).pop();
                                 } catch (e) {
-                                  errorDialog(context,
-                                      '${e.toString()}, ${jsonDecode(response.body)['message']}');
+                                  errorDialog(context, e.toString());
                                 }
-                              } else {
-                                // If that response was not OK, throw an error.
-                                // throw Exception('Failed to load text key');
-                                var body = jsonDecode(response.body);
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        'Unique Code',
-                                        textScaler: TextScaler.linear(1),
-                                      ),
-                                      content: Text(
-                                        'Unique Code: $uniqueCode\nError: $body',
-                                        textScaler: const TextScaler.linear(1),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text(
-                                            'OK',
+                              },
+                            ),
+                            ElevatedButton(
+                              child: const Text(
+                                'Confirm',
+                                textScaler: TextScaler.linear(1),
+                              ),
+                              onPressed: () async {
+                                try {
+                                  String? uniqueCode =
+                                      controllerUniqueCode.text.toString();
+
+                                  // Prepare the data to send to the API
+                                  Map data = {
+                                    'unique_code': uniqueCode.toString(),
+                                    // Add other data if needed
+                                  };
+
+                                  // Call the API function
+                                  var response = await assignInvigilator(data);
+                                  // Check if the request was successful
+
+                                  if (response.statusCode == 201) {
+                                    try {
+                                      Map data = jsonDecode(response.body);
+                                      if (data['message'] ==
+                                          "Flying Squad member assigned") {
+                                        String slotId = data["data"]["slot"];
+                                        const storage = FlutterSecureStorage();
+                                        await storage.write(
+                                            key: 'slotId', value: slotId);
+                                        await storage.write(
+                                            key: 'unique_code',
+                                            value: uniqueCode.toString());
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FlyingDashboard(
+                                                      roomData: data["data"]
+                                                          ["room_data"]),
+                                            ));
+                                      } else {
+                                        data = data['data'];
+                                        String roomId = data['room']['_id'];
+                                        const storage = FlutterSecureStorage();
+                                        await storage.write(
+                                            key: 'roomId', value: roomId);
+                                        await storage.write(
+                                            key: 'room_no',
+                                            value: data['room']['room_no']
+                                                .toString());
+                                        await storage.write(
+                                            key: 'unique_code',
+                                            value: uniqueCode.toString());
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InvigilationDetails(
+                                                      data: jsonDecode(response
+                                                          .body)['data']),
+                                            ));
+                                      }
+                                    } catch (e) {
+                                      errorDialog(context,
+                                          '${e.toString()}, ${jsonDecode(response.body)['message']}');
+                                    }
+                                  } else {
+                                    // If that response was not OK, throw an error.
+                                    // throw Exception('Failed to load text key');
+                                    var body = jsonDecode(response.body);
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                            'Unique Code',
                                             textScaler: TextScaler.linear(1),
                                           ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
+                                          content: Text(
+                                            'Unique Code: $uniqueCode\nError: $body',
+                                            textScaler:
+                                                const TextScaler.linear(1),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text(
+                                                'OK',
+                                                textScaler:
+                                                    TextScaler.linear(1),
+                                              ),
+                                              onPressed: () {
+                                                try {
+                                                  Navigator.of(context).pop();
+                                                } catch (e) {
+                                                  errorDialog(
+                                                      context, e.toString());
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                                  }
+                                } catch (e) {
+                                  errorDialog(context, e.toString());
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

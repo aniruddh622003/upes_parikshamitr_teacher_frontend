@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 class Step1Email extends StatefulWidget {
@@ -122,7 +123,11 @@ class _Step1EmailState extends State<Step1Email> {
                       ),
                     ),
                     onPressed: () {
-                      _validateEmail();
+                      try {
+                        _validateEmail();
+                      } catch (e) {
+                        errorDialog(context, e.toString());
+                      }
                     },
                     child: const Text(
                       'Send Verification Code',
