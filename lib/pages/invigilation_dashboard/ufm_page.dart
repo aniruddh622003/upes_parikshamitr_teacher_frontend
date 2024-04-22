@@ -2,6 +2,8 @@
 
 // import 'dart:convert';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -1093,9 +1095,10 @@ class _UFMPageState extends State<UFMPage> {
                                         customDialog(context, "Success",
                                             "UFM Slip has been issued successfully!");
                                       } else {
-                                        // print(jsonDecode(response.body));
-                                        errorDialog(
-                                            context, "An error occured!");
+                                        String message =
+                                            jsonDecode(response.body)['message']
+                                                .toString();
+                                        errorDialog(context, message);
                                       }
                                     } else {
                                       errorDialog(context, "An error occured!");
