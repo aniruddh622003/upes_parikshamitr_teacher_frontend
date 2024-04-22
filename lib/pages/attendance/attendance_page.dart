@@ -285,11 +285,12 @@ class _AttendancePageState extends State<AttendancePage> {
                                       fontSize: 16.0,
                                     );
                                   } else {
-                                    String msg =
-                                        jsonDecode(response.body)['msg']
-                                            .toString();
+                                    String msg = jsonDecode(
+                                            response.body)['msg']
+                                        .toString(); // this is returning null
                                     Fluttertoast.showToast(
-                                      msg: msg,
+                                      msg:
+                                          "Answer Sheet Number already exists!",
                                       toastLength: Toast.LENGTH_SHORT,
                                       timeInSecForIosWeb: 3,
                                       gravity: ToastGravity.BOTTOM,
