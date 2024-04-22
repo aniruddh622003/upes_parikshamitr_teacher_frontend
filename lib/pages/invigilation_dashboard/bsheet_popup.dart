@@ -129,11 +129,19 @@ void bsheetPopup(BuildContext context) async {
                                   student['sap_id'] ==
                                   int.parse(controllerSAP.text));
                           if (indexData != -1) {
+                            if (roomData['data']['seating_plan'][indexData]
+                                    ['attendance'] !=
+                                true) {
+                              Navigator.pop(context);
+                              errorDialog(context, 'Student not present!');
+                              return;
+                            }
+
                             String seatNo = roomData['data']['seating_plan']
                                 [indexData]['seat_no'];
 
                             Map<String, dynamic> dataStu = {
-                              'room_id': '65ba84665bfb4b58d77d0184',
+                              'room_id': roomId,
                               'seat_no': seatNo.toString(),
                               'count': 1,
                             };

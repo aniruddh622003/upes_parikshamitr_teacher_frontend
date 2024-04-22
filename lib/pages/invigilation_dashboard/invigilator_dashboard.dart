@@ -15,6 +15,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_sec
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/details_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/add_pending_supplies_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/bsheet_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_visit_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
@@ -839,15 +840,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Expanded(
                           child: GestureDetector(
                               onTap: () {
-                                Fluttertoast.showToast(
-                                    msg:
-                                        "This feature is only valid for end-sem exams.",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 3,
-                                    backgroundColor: white,
-                                    textColor: black,
-                                    fontSize: 16.0);
+                                bsheetPopup(context);
                               },
                               // bsheetPopup(context),
                               child: SvgPicture.asset(
