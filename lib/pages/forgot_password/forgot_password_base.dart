@@ -21,7 +21,7 @@ class ForgotPassword extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            'UPES Pariksha Mitr - Teachers',
+            'Pariksha Mitr - Teachers',
             textScaler: TextScaler.linear(1),
             style: TextStyle(
               fontSize: fontMedium,

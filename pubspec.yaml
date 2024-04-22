@@ -93,6 +93,8 @@ flutter:
     - android/assets/refresh.svg
     - android/assets/sheetsubmit.svg
     - android/assets/seatingplan.svg
+    - android/assets/attendancereport.svg
+    - android/assets/studentlookup.svg
     - assets/upes_logo.svg
     - assets/upes_logo.png
     - assets/home_art.png
