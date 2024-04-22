@@ -103,7 +103,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 textScaler: TextScaler.linear(1),
               ),
               content: Text(
-                'Unique Code: $uniqueCode\nError: $body',
+                '${body['statusCode']} ${body['message'].toString()}',
                 textScaler: const TextScaler.linear(1),
               ),
               actions: [
