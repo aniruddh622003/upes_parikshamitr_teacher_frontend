@@ -15,6 +15,13 @@ void seatingPlanPopup(
   bool isFlying =
       await const FlutterSecureStorage().read(key: 'slotId') != null;
 
+  String btnText = "";
+  if (isFlying) {
+    btnText = "Give UFM";
+  } else {
+    btnText = "Mark Attendance";
+  }
+
   if (studentDetails['eligible'] == 'YES') {
     eligibleColor = green;
     eligibleText = "YES";
@@ -285,30 +292,33 @@ void seatingPlanPopup(
                         : studentDetails['attendance'] ||
                                 !(studentDetails['eligible'] == 'YES')
                             ? null
-                            : () async {
-                                try {
-                                  if (studentDetails['eligible'] == 'YES') {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AttendancePage(
-                                                    studentDetails:
-                                                        studentDetails)));
-                                  } else if (studentDetails['eligible'] ==
-                                          'F_HOLD' ||
-                                      studentDetails['eligible'] ==
-                                          'DEBARRED' ||
-                                      studentDetails['eligible'] == 'R_HOLD') {
-                                    attendanceErrorDialog(context);
+                            : !isFlying
+                                ? () async {
+                                    try {
+                                      if (studentDetails['eligible'] == 'YES') {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AttendancePage(
+                                                        studentDetails:
+                                                            studentDetails)));
+                                      } else if (studentDetails['eligible'] ==
+                                              'F_HOLD' ||
+                                          studentDetails['eligible'] ==
+                                              'DEBARRED' ||
+                                          studentDetails['eligible'] ==
+                                              'R_HOLD') {
+                                        attendanceErrorDialog(context);
+                                      }
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
                                   }
-                                } catch (e) {
-                                  errorDialog(context, e.toString());
-                                }
-                              },
-                    child: const Text('Mark Attendance',
-                        textScaler: TextScaler.linear(1),
-                        style: TextStyle(fontSize: fontSmall)),
+                                : null,
+                    child: Text(btnText,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(fontSize: fontSmall)),
                   ),
                 ),
               ],
