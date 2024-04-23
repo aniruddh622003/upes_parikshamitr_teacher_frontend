@@ -7,7 +7,7 @@ import Foundation
 
 import flutter_secure_storage_macos
 import mobile_scanner
-import path_provider_foundation
+import path_provider_macos
 import shared_preferences_foundation
 import url_launcher_macos
 

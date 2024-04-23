@@ -41,7 +41,7 @@ class InvigilatorDashboard extends StatefulWidget {
 }
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
-  String? room_no = "";
+  String? roomNo = "";
   Map data = {};
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
@@ -51,7 +51,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
   Future<Map> getDetails() async {
     final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
-    room_no = await const FlutterSecureStorage().read(key: 'room_no');
+    roomNo = await const FlutterSecureStorage().read(key: 'room_no');
     var response = await http.get(
       Uri.parse('$serverUrl/teacher/getDetails'),
       headers: {
@@ -634,7 +634,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               ),
                               child: Center(
                                 child: Text(
-                                  room_no.toString(),
+                                  roomNo.toString(),
                                   textScaler: const TextScaler.linear(1),
                                   style: const TextStyle(
                                     color: white,
