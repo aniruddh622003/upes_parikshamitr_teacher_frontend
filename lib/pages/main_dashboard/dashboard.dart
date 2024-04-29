@@ -6,8 +6,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_bundle_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
@@ -15,10 +15,10 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/accept_bundle_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +41,6 @@ class _DashboardState extends State<Dashboard> {
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
   int selectedFilter = 0;
-  List sheetsData = [];
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
@@ -130,196 +129,18 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  void getSheetsData() async {
-    dynamic response = await getBundleData();
-    if (response.statusCode == 200) {
-      setState(() {
-        sheetsData = jsonDecode(response.body)['data'];
-      });
-    }
-  }
-
   void checkPhoneEmail() async {}
 
-  List<Widget> makeBatchwiseBars(List<dynamic> batches) {
-    List<Widget> batchwiseBars = [];
-    for (var batch in batches) {
-      String statusText = "";
-      Color bubbleColor = green;
-      if (batch['status'] == 'SUBMITTED') {
-        statusText = "Submitted";
-      } else if (batch['status'] == 'ALLOTTED' ||
-          batch['status'] == 'ALLOTED') {
-        statusText = "Requesting Allocation";
-        bubbleColor = orange;
-      } else if (batch['status'] == 'AVAILABLE') {
-        statusText = "Sheets Available";
-        bubbleColor = Colors.purple;
-      } else if (batch['status'] == 'OVERDUE') {
-        statusText = "${batch['due_in']}";
-        bubbleColor = red;
-      } else if (batch['status'] == 'INPROGRESS') {
-        statusText = "${batch['due_in']}";
-        bubbleColor = blue;
-      }
-      batchwiseBars.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${batch['program']} ${batch['batch']}',
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        fontSize: fontMedium,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(statusText),
-                  ],
-                ),
-                Container(
-                  width: 65,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  decoration: BoxDecoration(
-                    color: bubbleColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      batch['no_of_students'].toString(),
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        color: white,
-                        fontSize: fontSmall + 3,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 5),
-            const Divider(color: gray),
-          ],
-        ),
-      );
-      batchwiseBars.add(const SizedBox(width: 10));
-    }
-    return batchwiseBars;
-  }
+ 
 
-  List<Widget> makeSheetCards(List<dynamic> sheetsData) {
-    List<Widget> sheetCards = [];
-    sheetCards.add(const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Evaluate Answer Sheets",
-            textScaler: TextScaler.linear(1),
-            style:
-                TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold)),
-      ],
-    ));
-
-    if (sheetsData.isEmpty) {
-      sheetCards.add(const SizedBox(height: 10));
-      sheetCards.add(
-        const Text(
-          "No sheets to evaluate",
-          textScaler: TextScaler.linear(1),
-          style: TextStyle(fontSize: fontMedium),
-        ),
-      );
-      return sheetCards;
-    }
-
-    for (var sheetData in sheetsData) {
-      bool isEnabled = false;
-      for (var copy in sheetData['copies']) {
-        if (copy['status'] == 'ALLOTTED') {
-          isEnabled = true;
-          break;
-        }
-      }
-      sheetCards.add(Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: purpleXLight,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    sheetData['subject_code'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                  ),
-                  Text(
-                    sheetData['subject_name'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                        fontSize: fontMedium, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              isEnabled
-                  ? Container(
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: orange,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          try {
-                            acceptBundlePopup(context, sheetData);
-                          } catch (e) {
-                            errorDialog(context, e.toString());
-                          }
-                        },
-                        child: const Center(
-                          child: Text(
-                            "Confirm Allotment",
-                            textScaler: TextScaler.linear(1),
-                            style: TextStyle(
-                              color: white,
-                              fontSize: fontSmall - 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
-          const Divider(color: gray),
-          Column(children: makeBatchwiseBars(sheetData['copies'])),
-        ]),
-      ));
-      sheetCards.add(const SizedBox(height: 10));
-    }
-    return sheetCards;
-  }
+  
 
   @override
   void initState() {
-    getSheetsData();
     checkInvigilationState();
     getDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
-      getSheetsData();
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
@@ -519,21 +340,21 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.qr_code, color: white),
-                      onPressed: () {
-                        try {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const StartInvigilation()),
-                          );
-                        } catch (e) {
-                          errorDialog(context, e.toString());
-                        }
-                      },
-                    ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.qr_code, color: white),
+                    //   onPressed: () {
+                    //     try {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) =>
+                    //                 const StartInvigilation()),
+                    //       );
+                    //     } catch (e) {
+                    //       errorDialog(context, e.toString());
+                    //     }
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -762,9 +583,82 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            const Schedule(),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const StartInvigilation()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child:
+                                      SvgPicture.asset('assets/start_exam.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () => {},
+                                  child:
+                                      SvgPicture.asset('assets/view_duty.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(
+                                      'assets/missing_sheet.svg'),
+                                )),
+                              ],
+                            ),
                             const SizedBox(height: 10),
-                            ...makeSheetCards(sheetsData),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () => {},
+                                  child: SvgPicture.asset(
+                                      'assets/student_search.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HelpPage()),
+                                    )
+                                  },
+                                  child: SvgPicture.asset('assets/help.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EvaluationPage()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child:
+                                      SvgPicture.asset('assets/evaluation.svg'),
+                                )),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
                             const SizedBox(height: 10),
                           ],
                         )),

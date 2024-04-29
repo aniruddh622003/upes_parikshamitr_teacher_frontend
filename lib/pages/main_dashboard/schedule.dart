@@ -5,9 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-// import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
@@ -210,31 +208,15 @@ class _Schedule extends State<Schedule> {
         //   style: TextStyle(fontWeight: FontWeight.bold),
         // ),
 
-        Container(
-          padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: blue,
-          ),
-          child: const Column(
-            children: [
-              Text(
-                "Welcome to UPES ParikshaMitr Teacher",
-                textScaler: TextScaler.linear(1),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 30, color: white),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Please Scan the QR by pressing the button on the top-right corner to start invigilation.",
-                textScaler: TextScaler.linear(1),
-                style: TextStyle(fontSize: 20, color: white),
-              ),
-            ],
-          ),
+        const Column(
+          children: [
+            Text(
+              "Please find the Guidelines below for each role.",
+              textScaler: TextScaler.linear(1),
+              style: TextStyle(fontSize: 20, color: black),
+            ),
+            SizedBox(height: 20),
+          ],
         ),
         const Text(
           "Instructions",
@@ -452,6 +434,80 @@ class _Schedule extends State<Schedule> {
                         margin: const EdgeInsets.only(
                             left: 10), // Add left margin here
                         child: const Text('Invigilator instructions',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: white,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: const Size(
+                      double.infinity, 60), // Set a minimum height here
+                ),
+                onPressed: () async {
+                  try {
+                    // Load the PDF file from the assets
+                    ByteData data = await rootBundle
+                        .load('assets/Answer Sheet Submission Guidelines.pdf');
+
+                    // Get the application documents directory
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
+
+                    // Write the file
+                    File file = File(
+                        '$appDocPath/Answer Sheet Submission Guidelines.pdf');
+                    await file.writeAsBytes(data.buffer
+                        .asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                    // Open the file
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                              title: const Text(
+                            "Answer Sheet Submission Guidelines",
+                            textScaler: TextScaler.linear(1),
+                          )),
+                          body: PDFView(
+                            filePath: file.path,
+                          ),
+                        ),
+                      ),
+                    );
+                  } catch (e) {
+                    errorDialog(context, e.toString());
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const Icon(
+                      Icons.picture_as_pdf,
+                      size: 50,
+                      color: white,
+                    ), // Add your icon here
+                    const SizedBox(width: 10),
+                    // Add some spacing between the icon and text
+                    Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                            left: 10), // Add left margin here
+                        child: const Text('Answer Sheet Submission',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
                               fontSize: 20,
