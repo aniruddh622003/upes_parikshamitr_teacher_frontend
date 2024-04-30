@@ -21,6 +21,7 @@ class EvaluationPage extends StatefulWidget {
 class _EvaluationPageState extends State<EvaluationPage> {
   List sheetsData = [];
   Timer? timer;
+  bool isPageLoaded = false;
 
   @override
   void dispose() {
@@ -31,8 +32,10 @@ class _EvaluationPageState extends State<EvaluationPage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(
-        Duration(seconds: timerDuration), (Timer t) => getSheetsData());
+    timer = Timer.periodic(Duration(seconds: timerDuration), (Timer t) async {
+      await getSheetsData();
+      setState(() {});
+    });
   }
 
   Future<List> getSheetsData() async {
@@ -231,12 +234,14 @@ class _EvaluationPageState extends State<EvaluationPage> {
       body: FutureBuilder(
         future: getSheetsData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting &&
+              !isPageLoaded) {
             return const Center(child: CircularProgressIndicator());
           } else {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
+              isPageLoaded = true;
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

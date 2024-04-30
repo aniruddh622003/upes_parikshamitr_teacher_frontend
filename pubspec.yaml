@@ -1,7 +1,7 @@
 name: upes_parikshamitr_teacher_frontend
 description: "ParikshaMitr Teacher App."
 publish_to: "none" 
-version: 1.0.1+7
+version: 1.0.1+9
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
@@ -22,7 +22,7 @@ dependencies:
   universal_html: any
   mobile_scanner: 4.0.1
   change_app_package_name: 1.1.0
-
+  in_app_update: 4.2.2
   cupertino_icons: 1.0.2
   flutter_svg: 2.0.5
   carousel_slider: 4.0.0

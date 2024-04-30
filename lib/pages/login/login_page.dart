@@ -31,12 +31,6 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   void dispose() {
-    // controllerName.dispose();
-    // controllerEmail.dispose();
-    // controllerSAP.dispose();
-    // controllerPass1.dispose();
-    // controllerPass2.dispose();
-    // controllerPhone.dispose();
     super.dispose();
   }
 
@@ -219,8 +213,8 @@ class _LogInPageState extends State<LogInPage> {
                       //   border: Border.all(color: gray),
                       //   borderRadius: BorderRadius.circular(10),
                       // ),
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 10),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         // vertical: 5,
@@ -344,6 +338,7 @@ class _LogInPageState extends State<LogInPage> {
                                   'password': controllerPass1.text,
                                   'phone': controllerPhone.text,
                                   'email': controllerEmail.text,
+                                  'school': schoolValue,
                                 };
                                 setState(() {
                                   _registerFuture = sendPostRequest(data);
