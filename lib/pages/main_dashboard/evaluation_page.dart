@@ -76,19 +76,21 @@ class _EvaluationPageState extends State<EvaluationPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${batch['program']} ${batch['batch']}',
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        fontSize: fontMedium,
-                        fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${batch['program']} ${batch['batch']}',
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(
+                          fontSize: fontMedium,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(statusText),
-                  ],
+                      Text(statusText),
+                    ],
+                  ),
                 ),
                 Container(
                   width: 65,
@@ -163,24 +165,26 @@ class _EvaluationPageState extends State<EvaluationPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    sheetData['subject_code'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                  ),
-                  Text(
-                    sheetData['subject_school'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                  ),
-                  Text(
-                    sheetData['subject_name'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                        fontSize: fontMedium, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      sheetData['subject_code'].toString(),
+                      textScaler: const TextScaler.linear(1),
+                    ),
+                    Text(
+                      sheetData['subject_school'].toString(),
+                      textScaler: const TextScaler.linear(1),
+                    ),
+                    Text(
+                      sheetData['subject_name'].toString(),
+                      textScaler: const TextScaler.linear(1),
+                      style: const TextStyle(
+                          fontSize: fontMedium, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
               isEnabled
                   ? Container(
