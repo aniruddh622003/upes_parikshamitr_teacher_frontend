@@ -57,11 +57,11 @@ const RESOURCES = {"assets/android/assets/attendancereport.svg": "b96bae534a340d
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "ea040b7d03d48b57eff1bbc7dbdcaeb7",
-"/": "ea040b7d03d48b57eff1bbc7dbdcaeb7",
-"main.dart.js": "4ed4937d703aebc52abd15c88f97a020",
+"index.html": "4e6c14ba9874e76c860aa1417636c689",
+"/": "4e6c14ba9874e76c860aa1417636c689",
+"main.dart.js": "6015f2f11f84c760f2286896bc985b8d",
 "manifest.json": "ed50e8a954db89c20b3af3c2eeb2084c",
-"version.json": "c89f1b7fea8fee31fde0e90a4d342727"};
+"version.json": "c68edae2007854fc4af43724bbd88612"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
