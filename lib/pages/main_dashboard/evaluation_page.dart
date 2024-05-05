@@ -127,19 +127,14 @@ class _EvaluationPageState extends State<EvaluationPage> {
     List<Widget> sheetCards = [];
     sheetCards.add(const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Evaluate Answer Sheets",
-            textScaler: TextScaler.linear(1),
-            style:
-                TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold)),
-      ],
+      children: [],
     ));
 
     if (sheetsData.isEmpty) {
       sheetCards.add(const SizedBox(height: 10));
       sheetCards.add(
         const Text(
-          "No sheets to evaluate",
+          "No sheets to evaluate!",
           textScaler: TextScaler.linear(1),
           style: TextStyle(fontSize: fontMedium),
         ),

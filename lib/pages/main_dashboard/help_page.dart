@@ -34,7 +34,7 @@ class _HelpPageState extends State<HelpPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Guidelines',
+              'Examination Guidelines',
               textScaler: TextScaler.linear(1),
               style: TextStyle(color: white),
             )

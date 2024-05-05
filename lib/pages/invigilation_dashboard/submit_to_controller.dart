@@ -76,10 +76,23 @@ class _SubmitToControllerState extends State<SubmitToController> {
               backgroundColor: white,
               textColor: black,
               fontSize: 16.0);
-          await const FlutterSecureStorage().delete(key: 'submission_state');
-          await const FlutterSecureStorage().delete(key: "unique_code");
-          await const FlutterSecureStorage().delete(key: "roomId");
-          String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
+
+          const storage = FlutterSecureStorage();
+
+          // Read and store 'jwt' and 'notifications'
+          String? jwt = await storage.read(key: 'jwt');
+          String? notifications = await storage.read(key: 'notifications');
+
+          // Delete all data
+          await storage.deleteAll();
+
+          // Write back 'jwt' and 'notifications' if they were not null
+          if (jwt != null) {
+            await storage.write(key: 'jwt', value: jwt);
+          }
+          if (notifications != null) {
+            await storage.write(key: 'notifications', value: notifications);
+          }
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.push(
@@ -315,13 +328,28 @@ class _SubmitToControllerState extends State<SubmitToController> {
                                         backgroundColor: white,
                                         textColor: black,
                                         fontSize: 16.0);
-                                    const FlutterSecureStorage()
-                                        .delete(key: 'submission_state');
-                                    const FlutterSecureStorage()
-                                        .delete(key: 'invigilation_state');
+
+                                    const storage = FlutterSecureStorage();
+
+                                    // Read and store 'jwt' and 'notifications'
                                     String? jwt =
-                                        await const FlutterSecureStorage()
-                                            .read(key: 'jwt');
+                                        await storage.read(key: 'jwt');
+                                    String? notifications = await storage.read(
+                                        key: 'notifications');
+
+                                    // Delete all data
+                                    await storage.deleteAll();
+
+                                    // Write back 'jwt' and 'notifications' if they were not null
+                                    if (jwt != null) {
+                                      await storage.write(
+                                          key: 'jwt', value: jwt);
+                                    }
+                                    if (notifications != null) {
+                                      await storage.write(
+                                          key: 'notifications',
+                                          value: notifications);
+                                    }
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     Navigator.pop(context);

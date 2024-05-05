@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_supplies.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -45,7 +46,12 @@ class InvigilationDetails extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
+                    Loader.show(context,
+                        isAppbarOverlay: true,
+                        isBottomBarOverlay: true,
+                        progressIndicator: const CircularProgressIndicator());
                     dynamic response = await getSupplies();
+                    Loader.hide();
                     if (response.statusCode == 200) {
                       Navigator.of(context).pop();
                       Navigator.push(

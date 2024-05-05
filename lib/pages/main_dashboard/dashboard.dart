@@ -18,12 +18,12 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
@@ -44,9 +44,9 @@ class _DashboardState extends State<Dashboard> {
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
-  Future<Map> getDetails({token}) async {
+  Future<Map> getTeacherDetails({token}) async {
     var response = await http.get(
-      Uri.parse('$serverUrl/teacher/getDetails'),
+      Uri.parse('$serverUrl/teacher/getTeacherDetails'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -55,15 +55,6 @@ class _DashboardState extends State<Dashboard> {
 
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
-      int? phone = data['phone'];
-      String? email = data['email'];
-      if (phone == null || email == null) {
-        Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const CheckPhoneEmail()),
-        );
-      }
     } else {
       errorDialog(context, 'Error occurred! Please try again later');
       Navigator.pop(context);
@@ -131,14 +122,10 @@ class _DashboardState extends State<Dashboard> {
 
   void checkPhoneEmail() async {}
 
- 
-
-  
-
   @override
   void initState() {
     checkInvigilationState();
-    getDetails(token: widget.jwt);
+    getTeacherDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
       List notificationsLocal = [];
@@ -183,24 +170,28 @@ class _DashboardState extends State<Dashboard> {
                 fontSize: 16.0);
           }
           // Delete notifications from notificationsLocal that are not in notificationsServer
-          List toRemove = [];
+          // List toRemove = [];
 
-          for (var localNotification in notificationsLocal) {
-            bool found = false;
-            for (var notification in notificationsServer) {
-              if (notification['_id'] == localNotification[0]['_id']) {
-                found = true;
-                break;
-              }
-            }
-            if (!found) {
-              toRemove.add(localNotification);
-            }
-          }
+          // for (var localNotification in notificationsLocal) {
+          //   bool found = false;
+          //   for (var notification in notificationsServer) {
+          //     if (notification['_id'] == localNotification[0]['_id']) {
+          //       found = true;
+          //       break;
+          //     }
+          //   }
+          //   if (!found) {
+          //     toRemove.add(localNotification);
+          //   }
+          // }
 
-          for (var item in toRemove) {
-            notificationsLocal.remove(item);
-          }
+          // for (var item in toRemove) {
+          //   notificationsLocal.remove(item);
+          // }
+
+          notificationsLocal.removeWhere((localNotification) =>
+              !notificationsServer.any((notification) =>
+                  notification['_id'] == localNotification[0]['_id']));
 
           await const FlutterSecureStorage().write(
               key: 'notifications', value: jsonEncode(notificationsLocal));
@@ -266,11 +257,7 @@ class _DashboardState extends State<Dashboard> {
             onPressed: () async {
               confirm = true;
               try {
-                await storage.delete(key: 'notifications');
-                await storage.delete(key: 'roomId');
-                await storage.delete(key: 'unique_code');
-                await storage.delete(key: 'jwt');
-                await storage.delete(key: 'submission_state');
+                await storage.deleteAll();
                 Navigator.of(context).pop();
               } catch (e) {
                 errorDialog(context, e.toString());
@@ -293,7 +280,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getDetails(token: widget.jwt),
+      future: getTeacherDetails(token: widget.jwt),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting &&
             !isPageLoaded) {
@@ -318,43 +305,103 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                title: const Text(
+                  'Dashboard',
+                  textScaler: TextScaler.linear(1),
+                  style: TextStyle(color: white),
+                ),
+              ),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.logout, color: white),
-                          onPressed: () {
-                            try {
-                              signOut();
-                            } catch (e) {
-                              errorDialog(context, e.toString());
-                            }
-                          },
-                        ),
-                        const Text(
-                          'Dashboard',
-                          textScaler: TextScaler.linear(1),
-                          style: TextStyle(color: white),
-                        ),
-                      ],
+                    ListTile(
+                      contentPadding: EdgeInsets.fromLTRB(
+                          15,
+                          MediaQuery.of(context).padding.top,
+                          15,
+                          10), // 10 padding
+                      tileColor: blue,
+                      textColor: white,
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${data.containsKey('name') ? data['name'] : 'Default'}',
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              color: white,
+                              fontSize: fontLarge,
+                            ),
+                          ),
+                          Text(
+                            '${data.containsKey('sap_id') ? data['sap_id'] : 'Default'}',
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              color: white,
+                              fontSize: fontMedium,
+                            ),
+                          ),
+                          Text(
+                            '${data.containsKey('school') ? data['school'] : 'Default'}',
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              color: white,
+                              fontSize: fontMedium,
+                            ),
+                          ),
+                          Text(
+                            data.containsKey('phone')
+                                ? data['phone'].toString()
+                                : 'Default',
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              color: white,
+                              fontSize: fontMedium,
+                            ),
+                          ),
+                          Text(
+                            '${data.containsKey('email') ? data['email'] : 'Default'}',
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              color: white,
+                              fontSize: fontMedium,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    // IconButton(
-                    //   icon: const Icon(Icons.qr_code, color: white),
-                    //   onPressed: () {
-                    //     try {
-                    //       Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) =>
-                    //                 const StartInvigilation()),
-                    //       );
-                    //     } catch (e) {
-                    //       errorDialog(context, e.toString());
-                    //     }
-                    //   },
-                    // ),
+                    ListTile(
+                      title: const Text(
+                        'Help',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
+                        try {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HelpPage()),
+                          );
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'Sign Out',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
+                        try {
+                          signOut();
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -362,7 +409,7 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 10),
                     child: Text(
                       formattedDate,
                       textScaler: const TextScaler.linear(1),
@@ -372,7 +419,7 @@ class _DashboardState extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      'Hi, ${data['name']}!',
+                      'Hi, ${data.containsKey('name') ? data['name'] : 'Default'}!',
                       textScaler: const TextScaler.linear(1),
                       style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
@@ -403,6 +450,9 @@ class _DashboardState extends State<Dashboard> {
                                           setState(() {
                                             isButtonEnabled = false;
                                           });
+                                          Loader.show(context,
+                                              progressIndicator:
+                                                  const CircularProgressIndicator());
                                           List notificationsLocal = [];
                                           List<dynamic> today = [];
                                           List<dynamic> yesterday = [];
@@ -443,23 +493,14 @@ class _DashboardState extends State<Dashboard> {
                                                 }
                                               }
                                               // Delete notifications from notificationsLocal that are not in notificationsServer
-                                              for (var localNotification
-                                                  in notificationsLocal) {
-                                                bool found = false;
-                                                for (var notification
-                                                    in notificationsServer) {
-                                                  if (notification['_id'] ==
-                                                      localNotification[0]
-                                                          ['_id']) {
-                                                    found = true;
-                                                    break;
-                                                  }
-                                                }
-                                                if (!found) {
-                                                  notificationsLocal.remove(
-                                                      localNotification);
-                                                }
-                                              }
+                                              notificationsLocal.removeWhere(
+                                                  (localNotification) =>
+                                                      !notificationsServer.any(
+                                                          (notification) =>
+                                                              notification[
+                                                                  '_id'] ==
+                                                              localNotification[
+                                                                  0]['_id']));
                                               await const FlutterSecureStorage()
                                                   .write(
                                                       key: 'notifications',
@@ -529,11 +570,14 @@ class _DashboardState extends State<Dashboard> {
                                                 getUnreadNotificationsCount();
                                               });
                                             });
+                                            Loader.hide();
                                           } else {
+                                            Loader.hide();
                                             errorDialog(context,
                                                 'Error occurred! Please try again later');
                                           }
                                         } catch (e) {
+                                          Loader.hide();
                                           errorDialog(context, e.toString());
                                         }
                                       }
@@ -588,7 +632,7 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Expanded(
                                     child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     try {
                                       Navigator.push(
                                         context,

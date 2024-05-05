@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/finish_duty.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
@@ -68,15 +69,32 @@ void finalRemarks(BuildContext context) {
                     ),
                     onPressed: () async {
                       try {
+                        Loader.show(context,
+                            isAppbarOverlay: true,
+                            isBottomBarOverlay: true,
+                            progressIndicator:
+                                const CircularProgressIndicator());
                         dynamic response =
                             await finishDuty(controllerRemarks.text);
                         if (response.statusCode == 201) {
-                          await const FlutterSecureStorage()
-                              .delete(key: 'slotId');
-                          await const FlutterSecureStorage()
-                              .delete(key: 'roomId');
-                          String? jwt = await const FlutterSecureStorage()
-                              .read(key: 'jwt');
+                          const storage = FlutterSecureStorage();
+
+                          // Read and store 'jwt' and 'notifications'
+                          String? jwt = await storage.read(key: 'jwt');
+                          String? notifications =
+                              await storage.read(key: 'notifications');
+
+                          // Delete all data
+                          await storage.deleteAll();
+
+                          // Write back 'jwt' and 'notifications' if they were not null
+                          if (jwt != null) {
+                            await storage.write(key: 'jwt', value: jwt);
+                          }
+                          if (notifications != null) {
+                            await storage.write(
+                                key: 'notifications', value: notifications);
+                          }
                           Navigator.pop(context);
                           Navigator.pop(context);
                           Navigator.push(
@@ -84,12 +102,16 @@ void finalRemarks(BuildContext context) {
                             MaterialPageRoute(
                                 builder: (context) => Dashboard(jwt: jwt)),
                           );
+                          Loader.hide();
                         } else {
+                          Loader.hide();
                           errorDialog(context,
                               "An error occurred while submitting remarks. Please try again.");
                         }
                       } catch (e) {
                         errorDialog(context, e.toString());
+                      } finally {
+                        Loader.hide();
                       }
                     },
                     child: const Text('Submit Remarks',
