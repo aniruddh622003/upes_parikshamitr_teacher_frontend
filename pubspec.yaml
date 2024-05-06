@@ -1,6 +1,6 @@
 name: upes_parikshamitr_teacher_frontend
 description: "ParikshaMitr Teacher App."
-publish_to: "none" 
+publish_to: "none"
 version: 1.0.2+10
 
 environment:
@@ -70,6 +70,8 @@ flutter:
     - assets/start_exam.svg
     - assets/student_search.svg
     - assets/view_duty.svg
+    - assets/profile.svg
+    - assets/avatar.png
 
 flutter_native_splash:
   color: "ffffff"

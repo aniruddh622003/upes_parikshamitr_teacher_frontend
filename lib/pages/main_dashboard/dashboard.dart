@@ -17,6 +17,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/my_profile.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/search_sheet.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/student_attendance.dart';
@@ -327,45 +328,11 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${data.containsKey('name') ? data['name'] : 'Default'}',
+                            "Menu",
                             textScaler: const TextScaler.linear(1),
                             style: const TextStyle(
                               color: white,
                               fontSize: fontLarge,
-                            ),
-                          ),
-                          Text(
-                            '${data.containsKey('sap_id') ? data['sap_id'] : 'Default'}',
-                            textScaler: const TextScaler.linear(1),
-                            style: const TextStyle(
-                              color: white,
-                              fontSize: fontMedium,
-                            ),
-                          ),
-                          Text(
-                            '${data.containsKey('school') ? data['school'] : 'Default'}',
-                            textScaler: const TextScaler.linear(1),
-                            style: const TextStyle(
-                              color: white,
-                              fontSize: fontMedium,
-                            ),
-                          ),
-                          Text(
-                            data.containsKey('phone')
-                                ? data['phone'].toString()
-                                : 'Default',
-                            textScaler: const TextScaler.linear(1),
-                            style: const TextStyle(
-                              color: white,
-                              fontSize: fontMedium,
-                            ),
-                          ),
-                          Text(
-                            '${data.containsKey('email') ? data['email'] : 'Default'}',
-                            textScaler: const TextScaler.linear(1),
-                            style: const TextStyle(
-                              color: white,
-                              fontSize: fontMedium,
                             ),
                           ),
                         ],
@@ -724,6 +691,28 @@ class _DashboardState extends State<Dashboard> {
                                 )),
                               ],
                             ),
+                            const SizedBox(height: 10),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      try {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyProfile()),
+                                        );
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      }
+                                    },
+                                    child:
+                                        SvgPicture.asset('assets/profile.svg'),
+                                  )),
+                                ]),
                             const SizedBox(height: 10),
                             const SizedBox(height: 10),
                           ],

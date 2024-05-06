@@ -39,12 +39,16 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                   children: [
                     Text(
                       'Date: ${roomData['date']}',
+                      textScaler: TextScaler.linear(1),
                       style: const TextStyle(
                           fontSize: fontMedium, fontWeight: FontWeight.bold),
                     ),
-                    Text('Time Slot: ${roomData['timeSlot']}'),
-                    Text('Room No: ${roomData['room_no']}'),
-                    Text('Subject Code: ${roomData['subject_code']}'),
+                    Text('Time Slot: ${roomData['timeSlot']}',
+                        textScaler: TextScaler.linear(1)),
+                    Text('Room No: ${roomData['room_no']}',
+                        textScaler: TextScaler.linear(1)),
+                    Text('Subject Code: ${roomData['subject_code']}',
+                        textScaler: TextScaler.linear(1)),
                   ],
                 ),
               ),
@@ -86,8 +90,9 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          'Check Student Attendance',
-          style: TextStyle(color: white),
+          'Check Attendance',
+          textScaler: TextScaler.linear(1),
+          style: TextStyle(color: white, fontSize: fontMedium),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: white),
@@ -177,12 +182,33 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                                 fontSize: fontMedium,
                                 fontWeight: FontWeight.bold)),
                         const SizedBox(height: 4),
-                        Text('SAP ID: ${data['sap_id']}',
-                            style: const TextStyle(fontSize: fontMedium)),
-                        Text('Roll No: ${data['roll_no']}',
-                            style: const TextStyle(fontSize: fontMedium)),
-                        Text('Name: ${data['name']}',
-                            style: const TextStyle(fontSize: fontMedium)),
+                        Text('SAP ID',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                                fontSize: fontSmall,
+                                color: blue,
+                                fontWeight: FontWeight.bold)),
+                        Text(
+                          "${data['sap_id']}",
+                        ),
+                        Text('Roll Number',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                                fontSize: fontSmall,
+                                color: blue,
+                                fontWeight: FontWeight.bold)),
+                        Text(
+                          "${data['roll_no']}",
+                        ),
+                        Text('Name',
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                                fontSize: fontSmall,
+                                color: blue,
+                                fontWeight: FontWeight.bold)),
+                        Text(
+                          "${data['name']}",
+                        ),
                         const SizedBox(height: 20),
                         ...makeCards(data),
                       ],
