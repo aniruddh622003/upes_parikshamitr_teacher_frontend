@@ -18,6 +18,8 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/search_sheet.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/student_attendance.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +37,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late Map data;
+  Map data = {};
   late Timer _timer;
   int unreadNotificationsCount = 0;
   bool isPageLoaded = false;
@@ -206,9 +208,7 @@ class _DashboardState extends State<Dashboard> {
               key: 'notifications', value: jsonEncode(notificationsLocal));
         }
       }
-      setState(() {
-        getUnreadNotificationsCount();
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -655,7 +655,18 @@ class _DashboardState extends State<Dashboard> {
                                 )),
                                 Expanded(
                                     child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchSheet()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
                                   child: SvgPicture.asset(
                                       'assets/missing_sheet.svg'),
                                 )),
@@ -667,7 +678,18 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Expanded(
                                     child: GestureDetector(
-                                  onTap: () => {},
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const StudentAttendanceSearch()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
                                   child: SvgPicture.asset(
                                       'assets/student_search.svg'),
                                 )),
