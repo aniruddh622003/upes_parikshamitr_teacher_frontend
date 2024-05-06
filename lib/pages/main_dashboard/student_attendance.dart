@@ -134,7 +134,7 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                                 fillColor: white,
                                 contentPadding: const EdgeInsets.all(10),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(color: blue),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -149,19 +149,23 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                                   10), // Spacing between the text field and the button
                           ElevatedButton(
                             onPressed: () async {
-                              try {
-                                dynamic response = await studentSearch(
-                                  int.parse(sapIdController.text),
-                                );
-                                if (response.statusCode == 200) {
-                                  setState(() {
-                                    data = jsonDecode(response.body)['data'];
-                                  });
-                                } else {
-                                  errorDialog(context, "Student not found!");
+                              if (sapIdController.text.isEmpty) {
+                                errorDialog(context, "Please enter SAP ID!");
+                              } else {
+                                try {
+                                  dynamic response = await studentSearch(
+                                    int.parse(sapIdController.text),
+                                  );
+                                  if (response.statusCode == 200) {
+                                    setState(() {
+                                      data = jsonDecode(response.body)['data'];
+                                    });
+                                  } else {
+                                    errorDialog(context, "Student not found!");
+                                  }
+                                } catch (e) {
+                                  errorDialog(context, e.toString());
                                 }
-                              } catch (e) {
-                                errorDialog(context, e.toString());
                               }
                             },
                             style: ElevatedButton.styleFrom(
