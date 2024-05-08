@@ -28,7 +28,10 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
     for (Map roomData in data['rooms']) {
       cards.add(Container(
         width: double.infinity,
-        color: blue50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: blue50,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -40,16 +43,19 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                   children: [
                     Text(
                       'Date: ${roomData['date']}',
-                      textScaler: TextScaler.linear(1),
+                      textScaler: const TextScaler.linear(1),
                       style: const TextStyle(
                           fontSize: fontMedium, fontWeight: FontWeight.bold),
                     ),
                     Text('Time Slot: ${roomData['timeSlot']}',
-                        textScaler: TextScaler.linear(1)),
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(fontSize: fontSmall)),
                     Text('Room No: ${roomData['room_no']}',
-                        textScaler: TextScaler.linear(1)),
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(fontSize: fontSmall)),
                     Text('Subject Code: ${roomData['subject_code']}',
-                        textScaler: TextScaler.linear(1)),
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(fontSize: fontSmall)),
                   ],
                 ),
               ),
@@ -63,10 +69,11 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                 child: Center(
                   child: Text(
                     roomData['attendance'] ? 'P' : 'A',
+                    textScaler: const TextScaler.linear(1),
                     style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 12), // Adjust font size as needed
+                        fontSize: 20), // Adjust font size as needed
                   ),
                 ),
               ),
@@ -187,34 +194,40 @@ class _StudentAttendanceSearchState extends State<StudentAttendanceSearch> {
                                 fontSize: fontMedium,
                                 fontWeight: FontWeight.bold)),
                         const SizedBox(height: 4),
-                        Text('SAP ID',
+                        const Text('SAP ID',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
-                                fontSize: fontSmall,
+                                fontSize: fontMedium,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(
-                          "${data['sap_id']}",
-                        ),
-                        Text('Roll Number',
+                        Text("${data['sap_id']}",
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              fontSize: fontMedium,
+                            )),
+                        const Text('Roll Number',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
-                                fontSize: fontSmall,
+                                fontSize: fontMedium,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(
-                          "${data['roll_no']}",
-                        ),
-                        Text('Name',
+                        Text("${data['roll_no']}",
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              fontSize: fontMedium,
+                            )),
+                        const Text('Name',
                             textScaler: TextScaler.linear(1),
                             style: TextStyle(
-                                fontSize: fontSmall,
+                                fontSize: fontMedium,
                                 color: blue,
                                 fontWeight: FontWeight.bold)),
-                        Text(
-                          "${data['name']}",
-                        ),
-                        const SizedBox(height: 20),
+                        Text("${data['name']}",
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                              fontSize: fontMedium,
+                            )),
+                        const SizedBox(height: 10),
                         ...makeCards(data),
                       ],
                     ],

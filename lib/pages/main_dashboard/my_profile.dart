@@ -5,11 +5,12 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_teacher_details
 import 'dart:convert';
 
 class MyProfile extends StatefulWidget {
+  const MyProfile({super.key});
   @override
-  _MyProfileState createState() => _MyProfileState();
+  MyProfileState createState() => MyProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class MyProfileState extends State<MyProfile> {
   Future<Map<String, dynamic>> getTeacherData() async {
     final response = await getTeacherDetails();
     final body = jsonDecode(response.body);
@@ -37,7 +38,7 @@ class _MyProfileState extends State<MyProfile> {
           future: getTeacherData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -45,26 +46,24 @@ class _MyProfileState extends State<MyProfile> {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/avatar.png'), // replace with your asset image
-                              radius: 30,
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              '${data?['data']['name']}', // use the 'name' field from the data
-                              textScaler: const TextScaler.linear(1),
-                              style: const TextStyle(
-                                  color: white, fontSize: fontLarge),
-                            ),
-                          ],
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage: AssetImage(
+                                'assets/avatar.png'), // replace with your asset image
+                            radius: 30,
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                            '${data?['data']['name']}', // use the 'name' field from the data
+                            textScaler: const TextScaler.linear(1),
+                            style: const TextStyle(
+                                color: white, fontSize: fontLarge),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -81,10 +80,10 @@ class _MyProfileState extends State<MyProfile> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'School',
-                                    textScaler: const TextScaler.linear(1),
-                                    style: const TextStyle(
+                                    textScaler: TextScaler.linear(1),
+                                    style: TextStyle(
                                         color: blue,
                                         fontSize: fontMedium,
                                         fontWeight: FontWeight.bold),
@@ -96,11 +95,11 @@ class _MyProfileState extends State<MyProfile> {
                                       fontSize: fontMedium,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
+                                  const SizedBox(height: 10),
+                                  const Text(
                                     'SAP ID',
-                                    textScaler: const TextScaler.linear(1),
-                                    style: const TextStyle(
+                                    textScaler: TextScaler.linear(1),
+                                    style: TextStyle(
                                         color: blue,
                                         fontSize: fontMedium,
                                         fontWeight: FontWeight.bold),
@@ -112,11 +111,11 @@ class _MyProfileState extends State<MyProfile> {
                                       fontSize: fontMedium,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
+                                  const SizedBox(height: 10),
+                                  const Text(
                                     'Phone',
-                                    textScaler: const TextScaler.linear(1),
-                                    style: const TextStyle(
+                                    textScaler: TextScaler.linear(1),
+                                    style: TextStyle(
                                         color: blue,
                                         fontSize: fontMedium,
                                         fontWeight: FontWeight.bold),
@@ -128,11 +127,11 @@ class _MyProfileState extends State<MyProfile> {
                                       fontSize: fontMedium,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
+                                  const SizedBox(height: 10),
+                                  const Text(
                                     'Email',
-                                    textScaler: const TextScaler.linear(1),
-                                    style: const TextStyle(
+                                    textScaler: TextScaler.linear(1),
+                                    style: TextStyle(
                                         color: blue,
                                         fontSize: fontMedium,
                                         fontWeight: FontWeight.bold),

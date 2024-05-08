@@ -338,16 +338,17 @@ class _SearchSheetState extends State<SearchSheet> {
                                       style: const TextStyle(
                                         fontSize: fontMedium,
                                       )),
-                                  // const Text('Eligible',
-                                  //     textScaler: TextScaler.linear(1),
-                                  //     style: TextStyle(
-                                  //         fontSize: fontSmall,
-                                  //         color: blue,
-                                  //         fontWeight: FontWeight.bold)),
-                                  // Text(eligibleText,
-                                  //     textScaler: const TextScaler.linear(1),
-                                  //     style:
-                                  //         TextStyle(fontSize: fontMedium, color: eligibleColor)),
+                                  const Text('UFM',
+                                      textScaler: TextScaler.linear(1),
+                                      style: TextStyle(
+                                          fontSize: fontSmall,
+                                          color: blue,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(data['UFM'] == null ? 'No' : 'Yes',
+                                      textScaler: const TextScaler.linear(1),
+                                      style: const TextStyle(
+                                        fontSize: fontMedium,
+                                      )),
                                 ],
                               )
                             : Container(),

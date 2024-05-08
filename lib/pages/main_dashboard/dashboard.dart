@@ -321,18 +321,18 @@ class _DashboardState extends State<Dashboard> {
                     ListTile(
                       contentPadding: EdgeInsets.fromLTRB(
                           15,
-                          MediaQuery.of(context).padding.top,
+                          MediaQuery.of(context).padding.top + 5,
                           15,
-                          10), // 10 padding
+                          5), // 10 padding
                       tileColor: blue,
                       textColor: white,
-                      title: Column(
+                      title: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Menu",
-                            textScaler: const TextScaler.linear(1),
-                            style: const TextStyle(
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
                               color: white,
                               fontSize: fontLarge,
                             ),
@@ -729,7 +729,7 @@ class _DashboardState extends State<Dashboard> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  MyProfile()),
+                                                  const MyProfile()),
                                         );
                                       } catch (e) {
                                         errorDialog(context, e.toString());

@@ -11,20 +11,6 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // This line removes the debug banner
-      title: 'Project Mentor',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProjectMentorPage(),
-    );
-  }
-}
-
-class ProjectMentorPage extends StatelessWidget {
   final mentor = {
     'name': 'Virender Kadyan',
     'title': 'Associate Professor\nUPES Dehradun',
@@ -73,7 +59,7 @@ class ProjectMentorPage extends StatelessWidget {
           statusBarColor: white,
           statusBarIconBrightness: Brightness.dark,
         ),
-        title: Text(
+        title: const Text(
           'Our Team',
           textScaler: TextScaler.linear(1),
           style: TextStyle(color: white),
@@ -93,9 +79,9 @@ class ProjectMentorPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Mentor details
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Project Mentor",
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -104,13 +90,14 @@ class ProjectMentorPage extends StatelessWidget {
             ListTile(
               title: Text(
                 mentor['name'] ?? "Null",
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 '${mentor['title'] ?? 'Null'}\n${mentor['email'] ?? 'Null'}\n${mentor['designation'] ?? 'Null'}',
               ),
               trailing: IconButton(
-                icon: Icon(Icons.phone),
+                icon: const Icon(Icons.phone),
                 onPressed: () async {
                   var phone = mentor['phone'];
                   if (phone != null) {
@@ -125,8 +112,8 @@ class ProjectMentorPage extends StatelessWidget {
               ),
             ),
             // Team members
-            Padding(
-              padding: const EdgeInsets.only(top: 0.0, left: 16.0, right: 16.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 0.0, left: 16.0, right: 16.0),
               child: Text(
                 'Team Members',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -134,7 +121,8 @@ class ProjectMentorPage extends StatelessWidget {
             ),
             ListView.builder(
               shrinkWrap: true, // Prevent excessive scrolling
-              physics: NeverScrollableScrollPhysics(), // Disable scrolling
+              physics:
+                  const NeverScrollableScrollPhysics(), // Disable scrolling
               itemCount: teamMembers.length, // Calculate number of rows
               itemBuilder: (context, index) {
                 return ListTile(
@@ -142,7 +130,7 @@ class ProjectMentorPage extends StatelessWidget {
                   subtitle: Text(
                       '${teamMembers[index]['title'] ?? 'Null'}\n${teamMembers[index]['qualification'] ?? 'Null'}\n${teamMembers[index]['email'] ?? 'Null'}'),
                   trailing: IconButton(
-                    icon: Icon(Icons.phone),
+                    icon: const Icon(Icons.phone),
                     onPressed: () async {
                       var phone = teamMembers[index]['phone'];
                       if (phone != null) {
