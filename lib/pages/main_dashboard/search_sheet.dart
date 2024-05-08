@@ -86,7 +86,7 @@ class _SearchSheetState extends State<SearchSheet> {
                                   fillColor: white,
                                   contentPadding: const EdgeInsets.all(10),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                    borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide(color: blue),
                                   ),
                                   focusedBorder: OutlineInputBorder(
@@ -101,21 +101,27 @@ class _SearchSheetState extends State<SearchSheet> {
                                     10), // Spacing between the text field and the button
                             ElevatedButton(
                               onPressed: () async {
-                                try {
-                                  dynamic response = await ansSheetSearch(
-                                    int.parse(
-                                      sheetController.text,
-                                    ),
-                                  );
-                                  if (response.statusCode == 200) {
-                                    setState(() {
-                                      data = jsonDecode(response.body)['data'];
-                                    });
-                                  } else {
-                                    errorDialog(context, "Sheet not found!");
+                                if (sheetController.text.isEmpty) {
+                                  errorDialog(
+                                      context, "Please enter Sheet Number!");
+                                } else {
+                                  try {
+                                    dynamic response = await ansSheetSearch(
+                                      int.parse(
+                                        sheetController.text,
+                                      ),
+                                    );
+                                    if (response.statusCode == 200) {
+                                      setState(() {
+                                        data =
+                                            jsonDecode(response.body)['data'];
+                                      });
+                                    } else {
+                                      errorDialog(context, "Sheet not found!");
+                                    }
+                                  } catch (e) {
+                                    errorDialog(context, e.toString());
                                   }
-                                } catch (e) {
-                                  errorDialog(context, e.toString());
                                 }
                               },
                               style: ElevatedButton.styleFrom(
