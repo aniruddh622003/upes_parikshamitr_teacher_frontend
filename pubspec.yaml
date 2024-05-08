@@ -1,7 +1,7 @@
 name: upes_parikshamitr_teacher_frontend
 description: "ParikshaMitr Teacher App."
 publish_to: "none"
-version: 1.0.2+10
+version: 1.0.4+11
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
