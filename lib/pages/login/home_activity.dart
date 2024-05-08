@@ -85,8 +85,8 @@ class _HomeActivityState extends State<HomeActivity> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25),
             // child: Image.asset(
             //   'assets/upes_logo.png',
             //   width: 150,

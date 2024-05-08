@@ -1,29 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
-// import 'dart:convert';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/issue_bsheet.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_room_details.dart';
-
+import 'package:upes_parikshamitr_teacher_frontend/pages/helper/custom_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void bsheetPopup(BuildContext context) async {
-  final qrKey = GlobalKey(debugLabel: 'QR');
   final controllerSAP = TextEditingController();
-  void onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      controllerSAP.text = scanData.code.toString();
-      controller.dispose();
-    });
-  }
 
   showDialog(
     context: context,
@@ -59,19 +49,30 @@ void bsheetPopup(BuildContext context) async {
                   textScaler: TextScaler.linear(1),
                 ),
                 const SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: QRView(
-                        key: qrKey,
-                        onQRViewCreated: onQRViewCreated,
+                kIsWeb
+                    ? const Center(
+                        child: Text(
+                            "Barcode Scanner is currently not supported on Web. Please type the code to proceed."))
+                    : Center(
+                        child: Container(
+                          height: 300,
+                          width: 300,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('assets/home_art.png'),
+                            fit: BoxFit.contain,
+                          )),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GestureDetector(
+                                child: CustomBarcodeScanner(
+                                  onBarcodeScanned: (displayValue) {
+                                    controllerSAP.text = displayValue;
+                                  },
+                                ),
+                              )),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 10),
                 const Center(
                     child: Text('OR',
@@ -129,11 +130,19 @@ void bsheetPopup(BuildContext context) async {
                                   student['sap_id'] ==
                                   int.parse(controllerSAP.text));
                           if (indexData != -1) {
+                            if (roomData['data']['seating_plan'][indexData]
+                                    ['attendance'] !=
+                                true) {
+                              Navigator.pop(context);
+                              errorDialog(context, 'Student not present!');
+                              return;
+                            }
+
                             String seatNo = roomData['data']['seating_plan']
                                 [indexData]['seat_no'];
 
                             Map<String, dynamic> dataStu = {
-                              'room_id': '65ba84665bfb4b58d77d0184',
+                              'room_id': roomId,
                               'seat_no': seatNo.toString(),
                               'count': 1,
                             };

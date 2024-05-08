@@ -136,11 +136,11 @@ void ufmPopup(BuildContext context) {
                                     student['sap_id'] ==
                                     int.parse(controllerSAP.text));
                             if (indexData != -1) {
-                              if ((roomDetails['data']['seating_plan']
-                                          [indexData]['eligible'] ==
-                                      'YES' &&
+                              if (roomDetails['data']['seating_plan'][indexData]
+                                      ['attendance'] ||
                                   roomDetails['data']['seating_plan'][indexData]
-                                      ['attendance'])) {
+                                          ['eligible'] ==
+                                      'UFM') {
                                 Map<dynamic, dynamic> studentDetails =
                                     roomDetails['data']['seating_plan']
                                         [indexData];
@@ -161,12 +161,6 @@ void ufmPopup(BuildContext context) {
                                 Navigator.pop(context);
                                 errorDialog(
                                     context, 'Student not marked present!');
-                              } else if (roomDetails['data']['seating_plan']
-                                      [indexData]['eligible'] ==
-                                  'UFM') {
-                                Navigator.pop(context);
-                                errorDialog(
-                                    context, 'Student already issued UFM!');
                               }
                             } else {
                               Navigator.pop(context);

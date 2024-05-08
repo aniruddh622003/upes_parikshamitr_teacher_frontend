@@ -86,7 +86,6 @@ void acceptBundlePopup(BuildContext context, Map sheetData) {
                             };
                             dynamic response = await acceptBundle(data);
                             if (response.statusCode == 200) {
-                              print(response.body);
                               Navigator.pop(context);
                               Fluttertoast.showToast(
                                   msg:

@@ -3,5 +3,6 @@
 // String serverUrl = "http://10.0.2.2:3001";
 String serverUrl = "https://backend.parikshamitr.tech";
 // String serverUrl = "https://backend2.parikshamitr.tech";
+// String serverUrl = "https://test.aniruddhremote.online";
 
 int timerDuration = 10;

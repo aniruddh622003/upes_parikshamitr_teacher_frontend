@@ -22,19 +22,15 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController schoolSelect = TextEditingController();
   final TextEditingController controllerPhone = TextEditingController();
   final TextEditingController controllerSAP = TextEditingController();
   final TextEditingController controllerPass1 = TextEditingController();
   final TextEditingController controllerPass2 = TextEditingController();
+  String schoolValue = 'SOHST';
 
   @override
   void dispose() {
-    // controllerName.dispose();
-    // controllerEmail.dispose();
-    // controllerSAP.dispose();
-    // controllerPass1.dispose();
-    // controllerPass2.dispose();
-    // controllerPhone.dispose();
     super.dispose();
   }
 
@@ -201,6 +197,48 @@ class _LogInPageState extends State<LogInPage> {
                         ),
                       ),
                     ),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal:
+                              25), // Make the Container take up all available horizontal space
+                      child: const Text(
+                        "Select School Name",
+                        textAlign: TextAlign.left,
+                        textScaler: TextScaler.linear(1),
+                      ),
+                    ),
+                    Container(
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(color: gray),
+                      //   borderRadius: BorderRadius.circular(10),
+                      // ),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        // vertical: 5,
+                      ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: const Text('Select Option'),
+                        value: schoolValue,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            schoolValue = newValue.toString();
+                            schoolSelect.text =
+                                schoolValue; // Update the controller's value
+                          });
+                        },
+                        items: <String>['SOHST', 'SOCS', 'SOE', 'SOD']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                       child: CustomTextField(
@@ -300,6 +338,7 @@ class _LogInPageState extends State<LogInPage> {
                                   'password': controllerPass1.text,
                                   'phone': controllerPhone.text,
                                   'email': controllerEmail.text,
+                                  'school': schoolValue,
                                 };
                                 setState(() {
                                   _registerFuture = sendPostRequest(data);

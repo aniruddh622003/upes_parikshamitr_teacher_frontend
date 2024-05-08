@@ -186,6 +186,7 @@ class _NotificationBoxState extends State<NotificationBox> {
     super.initState();
     isRead = widget.isRead;
     DateTime dateTime = DateTime.parse(widget.dateTime);
+    dateTime = dateTime.add(const Duration(hours: 5, minutes: 30));
     formattedTime = intl.DateFormat.jm().format(dateTime);
     formattedDate = intl.DateFormat.yMMMMd().format(dateTime);
   }

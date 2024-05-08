@@ -6,8 +6,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_bundle_data.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_notifications.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/config.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/flying_dashboard.dart';
@@ -15,15 +15,20 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/accept_bundle_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/about_us.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/my_profile.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/phone_email_input.dart';
-import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/schedule.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/search_sheet.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/student_attendance.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/view_duty_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class Dashboard extends StatefulWidget {
   final String? jwt;
@@ -35,19 +40,18 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late Map data;
+  Map data = {};
   late Timer _timer;
   int unreadNotificationsCount = 0;
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
   int selectedFilter = 0;
-  List sheetsData = [];
 
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
 
-  Future<Map> getDetails({token}) async {
+  Future<Map> getTeacherDetails({token}) async {
     var response = await http.get(
-      Uri.parse('$serverUrl/teacher/getDetails'),
+      Uri.parse('$serverUrl/teacher/getTeacherDetails'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -56,15 +60,6 @@ class _DashboardState extends State<Dashboard> {
 
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
-      int? phone = data['phone'];
-      String? email = data['email'];
-      if (phone == null || email == null) {
-        Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const CheckPhoneEmail()),
-        );
-      }
     } else {
       errorDialog(context, 'Error occurred! Please try again later');
       Navigator.pop(context);
@@ -130,196 +125,14 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  void getSheetsData() async {
-    dynamic response = await getBundleData();
-    if (response.statusCode == 200) {
-      setState(() {
-        sheetsData = jsonDecode(response.body)['data'];
-      });
-    }
-  }
-
   void checkPhoneEmail() async {}
-
-  List<Widget> makeBatchwiseBars(List<dynamic> batches) {
-    List<Widget> batchwiseBars = [];
-    for (var batch in batches) {
-      String statusText = "";
-      Color bubbleColor = green;
-      if (batch['status'] == 'SUBMITTED') {
-        statusText = "Submitted";
-      } else if (batch['status'] == 'ALLOTTED' ||
-          batch['status'] == 'ALLOTED') {
-        statusText = "Requesting Allocation";
-        bubbleColor = orange;
-      } else if (batch['status'] == 'AVAILABLE') {
-        statusText = "Sheets Available";
-        bubbleColor = Colors.purple;
-      } else if (batch['status'] == 'OVERDUE') {
-        statusText = "${batch['due_in']}";
-        bubbleColor = red;
-      } else if (batch['status'] == 'INPROGRESS') {
-        statusText = "${batch['due_in']}";
-        bubbleColor = blue;
-      }
-      batchwiseBars.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${batch['program']} ${batch['batch']}',
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        fontSize: fontMedium,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(statusText),
-                  ],
-                ),
-                Container(
-                  width: 65,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  decoration: BoxDecoration(
-                    color: bubbleColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      batch['no_of_students'].toString(),
-                      textScaler: const TextScaler.linear(1),
-                      style: const TextStyle(
-                        color: white,
-                        fontSize: fontSmall + 3,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 5),
-            const Divider(color: gray),
-          ],
-        ),
-      );
-      batchwiseBars.add(const SizedBox(width: 10));
-    }
-    return batchwiseBars;
-  }
-
-  List<Widget> makeSheetCards(List<dynamic> sheetsData) {
-    List<Widget> sheetCards = [];
-    sheetCards.add(const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Evaluate Answer Sheets",
-            textScaler: TextScaler.linear(1),
-            style:
-                TextStyle(fontSize: fontMedium, fontWeight: FontWeight.bold)),
-      ],
-    ));
-
-    if (sheetsData.isEmpty) {
-      sheetCards.add(const SizedBox(height: 10));
-      sheetCards.add(
-        const Text(
-          "No sheets to evaluate",
-          textScaler: TextScaler.linear(1),
-          style: TextStyle(fontSize: fontMedium),
-        ),
-      );
-      return sheetCards;
-    }
-
-    for (var sheetData in sheetsData) {
-      bool isEnabled = false;
-      for (var copy in sheetData['copies']) {
-        if (copy['status'] == 'ALLOTTED') {
-          isEnabled = true;
-          break;
-        }
-      }
-      sheetCards.add(Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: purpleXLight,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    sheetData['subject_code'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                  ),
-                  Text(
-                    sheetData['subject_name'].toString(),
-                    textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(
-                        fontSize: fontMedium, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              isEnabled
-                  ? Container(
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: orange,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          try {
-                            acceptBundlePopup(context, sheetData);
-                          } catch (e) {
-                            errorDialog(context, e.toString());
-                          }
-                        },
-                        child: const Center(
-                          child: Text(
-                            "Confirm Allotment",
-                            textScaler: TextScaler.linear(1),
-                            style: TextStyle(
-                              color: white,
-                              fontSize: fontSmall - 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
-          const Divider(color: gray),
-          Column(children: makeBatchwiseBars(sheetData['copies'])),
-        ]),
-      ));
-      sheetCards.add(const SizedBox(height: 10));
-    }
-    return sheetCards;
-  }
 
   @override
   void initState() {
-    getSheetsData();
     checkInvigilationState();
-    getDetails(token: widget.jwt);
+    getTeacherDetails(token: widget.jwt);
     getUnreadNotificationsCount();
     _timer = Timer.periodic(Duration(seconds: timerDuration), (timer) async {
-      getSheetsData();
       List notificationsLocal = [];
       dynamic response = await getNotifications();
       if (response.statusCode == 200) {
@@ -362,24 +175,28 @@ class _DashboardState extends State<Dashboard> {
                 fontSize: 16.0);
           }
           // Delete notifications from notificationsLocal that are not in notificationsServer
-          List toRemove = [];
+          // List toRemove = [];
 
-          for (var localNotification in notificationsLocal) {
-            bool found = false;
-            for (var notification in notificationsServer) {
-              if (notification['_id'] == localNotification[0]['_id']) {
-                found = true;
-                break;
-              }
-            }
-            if (!found) {
-              toRemove.add(localNotification);
-            }
-          }
+          // for (var localNotification in notificationsLocal) {
+          //   bool found = false;
+          //   for (var notification in notificationsServer) {
+          //     if (notification['_id'] == localNotification[0]['_id']) {
+          //       found = true;
+          //       break;
+          //     }
+          //   }
+          //   if (!found) {
+          //     toRemove.add(localNotification);
+          //   }
+          // }
 
-          for (var item in toRemove) {
-            notificationsLocal.remove(item);
-          }
+          // for (var item in toRemove) {
+          //   notificationsLocal.remove(item);
+          // }
+
+          notificationsLocal.removeWhere((localNotification) =>
+              !notificationsServer.any((notification) =>
+                  notification['_id'] == localNotification[0]['_id']));
 
           await const FlutterSecureStorage().write(
               key: 'notifications', value: jsonEncode(notificationsLocal));
@@ -394,9 +211,7 @@ class _DashboardState extends State<Dashboard> {
               key: 'notifications', value: jsonEncode(notificationsLocal));
         }
       }
-      setState(() {
-        getUnreadNotificationsCount();
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -445,11 +260,7 @@ class _DashboardState extends State<Dashboard> {
             onPressed: () async {
               confirm = true;
               try {
-                await storage.delete(key: 'notifications');
-                await storage.delete(key: 'roomId');
-                await storage.delete(key: 'unique_code');
-                await storage.delete(key: 'jwt');
-                await storage.delete(key: 'submission_state');
+                await storage.deleteAll();
                 Navigator.of(context).pop();
               } catch (e) {
                 errorDialog(context, e.toString());
@@ -472,7 +283,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getDetails(token: widget.jwt),
+      future: getTeacherDetails(token: widget.jwt),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting &&
             !isPageLoaded) {
@@ -497,38 +308,81 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                title: const Text(
+                  'Dashboard',
+                  textScaler: TextScaler.linear(1),
+                  style: TextStyle(color: white),
+                ),
+              ),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.logout, color: white),
-                          onPressed: () {
-                            try {
-                              signOut();
-                            } catch (e) {
-                              errorDialog(context, e.toString());
-                            }
-                          },
-                        ),
-                        const Text(
-                          'Dashboard',
-                          textScaler: TextScaler.linear(1),
-                          style: TextStyle(color: white),
-                        ),
-                      ],
+                    ListTile(
+                      contentPadding: EdgeInsets.fromLTRB(
+                          15,
+                          MediaQuery.of(context).padding.top + 5,
+                          15,
+                          5), // 10 padding
+                      tileColor: blue,
+                      textColor: white,
+                      title: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Menu",
+                            textScaler: TextScaler.linear(1),
+                            style: TextStyle(
+                              color: white,
+                              fontSize: fontLarge,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.qr_code, color: white),
-                      onPressed: () {
+                    ListTile(
+                      title: const Text(
+                        'Help',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
+                        try {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HelpPage()),
+                          );
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'About us',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
                         try {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const StartInvigilation()),
+                                builder: (context) => const AboutUs()),
                           );
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'Sign Out',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
+                        try {
+                          signOut();
                         } catch (e) {
                           errorDialog(context, e.toString());
                         }
@@ -541,7 +395,7 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 10),
                     child: Text(
                       formattedDate,
                       textScaler: const TextScaler.linear(1),
@@ -551,7 +405,7 @@ class _DashboardState extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      'Hi, ${data['name']}!',
+                      'Hi, ${data.containsKey('name') ? data['name'] : 'Default'}!',
                       textScaler: const TextScaler.linear(1),
                       style: const TextStyle(color: white, fontSize: fontLarge),
                     ),
@@ -582,6 +436,9 @@ class _DashboardState extends State<Dashboard> {
                                           setState(() {
                                             isButtonEnabled = false;
                                           });
+                                          Loader.show(context,
+                                              progressIndicator:
+                                                  const CircularProgressIndicator());
                                           List notificationsLocal = [];
                                           List<dynamic> today = [];
                                           List<dynamic> yesterday = [];
@@ -622,23 +479,14 @@ class _DashboardState extends State<Dashboard> {
                                                 }
                                               }
                                               // Delete notifications from notificationsLocal that are not in notificationsServer
-                                              for (var localNotification
-                                                  in notificationsLocal) {
-                                                bool found = false;
-                                                for (var notification
-                                                    in notificationsServer) {
-                                                  if (notification['_id'] ==
-                                                      localNotification[0]
-                                                          ['_id']) {
-                                                    found = true;
-                                                    break;
-                                                  }
-                                                }
-                                                if (!found) {
-                                                  notificationsLocal.remove(
-                                                      localNotification);
-                                                }
-                                              }
+                                              notificationsLocal.removeWhere(
+                                                  (localNotification) =>
+                                                      !notificationsServer.any(
+                                                          (notification) =>
+                                                              notification[
+                                                                  '_id'] ==
+                                                              localNotification[
+                                                                  0]['_id']));
                                               await const FlutterSecureStorage()
                                                   .write(
                                                       key: 'notifications',
@@ -708,11 +556,14 @@ class _DashboardState extends State<Dashboard> {
                                                 getUnreadNotificationsCount();
                                               });
                                             });
+                                            Loader.hide();
                                           } else {
+                                            Loader.hide();
                                             errorDialog(context,
                                                 'Error occurred! Please try again later');
                                           }
                                         } catch (e) {
+                                          Loader.hide();
                                           errorDialog(context, e.toString());
                                         }
                                       }
@@ -762,9 +613,133 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            const Schedule(),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () async {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const StartInvigilation()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child:
+                                      SvgPicture.asset('assets/start_exam.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ViewDutyPage()),
+                                    )
+                                  },
+                                  child:
+                                      SvgPicture.asset('assets/view_duty.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchSheet()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/missing_sheet.svg'),
+                                )),
+                              ],
+                            ),
                             const SizedBox(height: 10),
-                            ...makeSheetCards(sheetsData),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const StudentAttendanceSearch()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/student_search.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HelpPage()),
+                                    )
+                                  },
+                                  child: SvgPicture.asset('assets/help.svg'),
+                                )),
+                                Expanded(
+                                    child: GestureDetector(
+                                  onTap: () {
+                                    try {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EvaluationPage()),
+                                      );
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  },
+                                  child:
+                                      SvgPicture.asset('assets/evaluation.svg'),
+                                )),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      try {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MyProfile()),
+                                        );
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      }
+                                    },
+                                    child:
+                                        SvgPicture.asset('assets/profile.svg'),
+                                  )),
+                                ]),
+                            const SizedBox(height: 10),
                             const SizedBox(height: 10),
                           ],
                         )),

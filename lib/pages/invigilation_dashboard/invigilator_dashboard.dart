@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/check_room_status.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/api/get_flying_data.dart';
@@ -15,6 +16,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/doubt_section/doubt_sec
 import 'package:upes_parikshamitr_teacher_frontend/pages/flying_dashboard/details_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/add_pending_supplies_popup.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/bsheet_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/exam_sumary.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/flying_visit_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/pending_supplies_popup.dart';
@@ -40,7 +42,7 @@ class InvigilatorDashboard extends StatefulWidget {
 }
 
 class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
-  String? room_no = "";
+  String? roomNo = "";
   Map data = {};
   bool isPageLoaded = false;
   bool isButtonEnabled = true;
@@ -50,7 +52,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
   String formattedDate = DateFormat('EEEE, d MMMM, y').format(DateTime.now());
   Future<Map> getDetails() async {
     final String? jwt = await const FlutterSecureStorage().read(key: 'jwt');
-    room_no = await const FlutterSecureStorage().read(key: 'room_no');
+    roomNo = await const FlutterSecureStorage().read(key: 'room_no');
     var response = await http.get(
       Uri.parse('$serverUrl/teacher/getDetails'),
       headers: {
@@ -633,7 +635,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                               ),
                               child: Center(
                                 child: Text(
-                                  room_no.toString(),
+                                  roomNo.toString(),
                                   textScaler: const TextScaler.linear(1),
                                   style: const TextStyle(
                                     color: white,
@@ -659,6 +661,11 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                   setState(() {
                                     isButtonEnabled = false;
                                   });
+                                  Loader.show(context,
+                                      // isAppbarOverlay: true,
+                                      // isBottomBarOverlay: true,
+                                      progressIndicator:
+                                          const CircularProgressIndicator());
                                   List notificationsLocal = [];
                                   List<dynamic> today = [];
                                   List<dynamic> yesterday = [];
@@ -773,12 +780,16 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                                         getUnreadNotificationsCount();
                                       });
                                     });
+                                    Loader.hide();
                                   } else {
+                                    Loader.hide();
                                     errorDialog(context,
                                         'Error occurred! Please try again later');
                                   }
                                 } catch (e) {
                                   errorDialog(context, e.toString());
+                                } finally {
+                                  Loader.hide();
                                 }
                               }
                             : null,
@@ -839,15 +850,7 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         Expanded(
                           child: GestureDetector(
                               onTap: () {
-                                Fluttertoast.showToast(
-                                    msg:
-                                        "This feature is only valid for end-sem exams.",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 3,
-                                    backgroundColor: white,
-                                    textColor: black,
-                                    fontSize: 16.0);
+                                bsheetPopup(context);
                               },
                               // bsheetPopup(context),
                               child: SvgPicture.asset(
@@ -855,62 +858,99 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                              onTap: () async {
-                                try {
-                                  dynamic responseSupp = await getSupplies();
-                                  List<dynamic> suppliesList =
-                                      jsonDecode(responseSupp.body)['data'];
-                                  for (Map item in suppliesList) {
-                                    if (item['quantity'] != 0) {
-                                      errorDialog(context,
-                                          "Please clear all the pending supplies");
-                                      return;
+                              onTap: isButtonEnabled
+                                  ? () async {
+                                      try {
+                                        setState(() {
+                                          isButtonEnabled = false;
+                                        });
+                                        Loader.show(context,
+                                            progressIndicator:
+                                                const CircularProgressIndicator());
+                                        dynamic responseSupp =
+                                            await getSupplies();
+                                        List<dynamic> suppliesList = jsonDecode(
+                                            responseSupp.body)['data'];
+                                        for (Map item in suppliesList) {
+                                          if (item['quantity'] != 0) {
+                                            errorDialog(context,
+                                                "Please clear all the pending supplies");
+                                            return;
+                                          }
+                                        }
+                                        const storage = FlutterSecureStorage();
+                                        final String? roomId =
+                                            await storage.read(key: 'roomId');
+                                        dynamic response =
+                                            await checkRoomStatus(
+                                                roomId.toString());
+                                        if (response.statusCode == 200) {
+                                          if (jsonDecode(
+                                                  response.body)['data'] ==
+                                              "COMPLETED") {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Invigilation Completed Successfully!",
+                                                toastLength: Toast.LENGTH_LONG,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 3,
+                                                backgroundColor: white,
+                                                textColor: black,
+                                                fontSize: 16.0);
+
+                                            const storage =
+                                                FlutterSecureStorage();
+
+                                            // Read and store 'jwt' and 'notifications'
+                                            String? jwt =
+                                                await storage.read(key: 'jwt');
+                                            String? notifications =
+                                                await storage.read(
+                                                    key: 'notifications');
+
+                                            // Delete all data
+                                            await storage.deleteAll();
+
+                                            // Write back 'jwt' and 'notifications' if they were not null
+                                            if (jwt != null) {
+                                              await storage.write(
+                                                  key: 'jwt', value: jwt);
+                                            }
+                                            if (notifications != null) {
+                                              await storage.write(
+                                                  key: 'notifications',
+                                                  value: notifications);
+                                            }
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Dashboard(jwt: jwt),
+                                              ),
+                                            );
+                                            Loader.hide();
+                                            return;
+                                          }
+                                        }
+                                        Loader.hide();
+                                        Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const SubmitToController()))
+                                            .then((value) => setState(() {
+                                                  isButtonEnabled = true;
+                                                }));
+                                      } catch (e) {
+                                        errorDialog(context, e.toString());
+                                      } finally {
+                                        Loader.hide();
+                                      }
                                     }
-                                  }
-                                  const storage = FlutterSecureStorage();
-                                  final String? roomId =
-                                      await storage.read(key: 'roomId');
-                                  dynamic response =
-                                      await checkRoomStatus(roomId.toString());
-                                  if (response.statusCode == 200) {
-                                    if (jsonDecode(response.body)['data'] ==
-                                        "COMPLETED") {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "Invigilation Completed Successfully!",
-                                          toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 3,
-                                          backgroundColor: white,
-                                          textColor: black,
-                                          fontSize: 16.0);
-                                      const FlutterSecureStorage()
-                                          .delete(key: 'roomId');
-                                      const FlutterSecureStorage()
-                                          .delete(key: 'room_no');
-                                      String? jwt =
-                                          await const FlutterSecureStorage()
-                                              .read(key: 'jwt');
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              Dashboard(jwt: jwt),
-                                        ),
-                                      );
-                                      return;
-                                    }
-                                  }
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SubmitToController()));
-                                } catch (e) {
-                                  errorDialog(context, e.toString());
-                                }
-                              },
+                                  : null,
+                              // onDoubleTap: () {},
+
                               child: SvgPicture.asset(
                                   'android/assets/controller.svg')),
                         ),
@@ -966,43 +1006,58 @@ class _InvigilatorDashboardState extends State<InvigilatorDashboard> {
                             child: GestureDetector(
                           onTap: isExamSummaryEnabled
                               ? () async {
-                                  setState(() {
-                                    isExamSummaryEnabled = false;
-                                  });
-                                  String? roomId =
-                                      await const FlutterSecureStorage()
-                                          .read(key: 'roomId');
-                                  dynamic response =
-                                      await getRoomDetails(roomId.toString());
-                                  if (response.statusCode == 200) {
-                                    Map roomDetails = jsonDecode(response.body);
-                                    dynamic responseInvigilators =
-                                        await getInvigilators();
-                                    if (responseInvigilators.statusCode ==
-                                        200) {
-                                      Map invigilators =
-                                          jsonDecode(responseInvigilators.body);
-                                      roomDetails['invigilators'] =
-                                          invigilators['data'];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => ExamSummary(
-                                                  roomDetails:
-                                                      roomDetails))).then((_) {
-                                        setState(() {
-                                          isExamSummaryEnabled = true;
+                                  try {
+                                    setState(() {
+                                      isExamSummaryEnabled = false;
+                                    });
+                                    Loader.show(context,
+                                        isAppbarOverlay: true,
+                                        isBottomBarOverlay: true,
+                                        progressIndicator:
+                                            const CircularProgressIndicator());
+                                    String? roomId =
+                                        await const FlutterSecureStorage()
+                                            .read(key: 'roomId');
+                                    dynamic response =
+                                        await getRoomDetails(roomId.toString());
+                                    if (response.statusCode == 200) {
+                                      Map roomDetails =
+                                          jsonDecode(response.body);
+                                      dynamic responseInvigilators =
+                                          await getInvigilators();
+                                      if (responseInvigilators.statusCode ==
+                                          200) {
+                                        Map invigilators = jsonDecode(
+                                            responseInvigilators.body);
+                                        roomDetails['invigilators'] =
+                                            invigilators['data'];
+                                        Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ExamSummary(
+                                                            roomDetails:
+                                                                roomDetails)))
+                                            .then((_) {
+                                          setState(() {
+                                            isExamSummaryEnabled = true;
+                                          });
                                         });
-                                      });
+                                      } else {
+                                        errorDialog(context,
+                                            "An error occurred while fetching invigilator details.");
+                                        isExamSummaryEnabled = true;
+                                      }
                                     } else {
                                       errorDialog(context,
-                                          "An error occurred while fetching invigilator details.");
+                                          "An error occurred while fetching room details.");
                                       isExamSummaryEnabled = true;
                                     }
-                                  } else {
-                                    errorDialog(context,
-                                        "An error occurred while fetching room details.");
-                                    isExamSummaryEnabled = true;
+                                    Loader.hide();
+                                  } catch (e) {
+                                    errorDialog(context, e.toString());
+                                  } finally {
+                                    Loader.hide();
                                   }
                                 }
                               : null,

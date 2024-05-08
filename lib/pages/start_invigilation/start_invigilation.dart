@@ -11,6 +11,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/api/assign_invigilator.
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class StartInvigilation extends StatefulWidget {
   const StartInvigilation({super.key});
@@ -25,8 +26,6 @@ class _StartInvigilationState extends State<StartInvigilation> {
   QRViewController? controller;
   @override
   void dispose() {
-    // controller?.dispose();
-    // controllerUniqueCode.dispose();
     super.dispose();
   }
 
@@ -47,13 +46,17 @@ class _StartInvigilationState extends State<StartInvigilation> {
       };
 
       // Call the API function
+      Loader.show(context,
+          progressIndicator: const CircularProgressIndicator());
       var response = await assignInvigilator(data);
-
+      Loader.hide();
       // Check if the request was successful
 
       if (response.statusCode == 201) {
         try {
           Map data = jsonDecode(response.body);
+          Loader.show(context,
+              progressIndicator: const CircularProgressIndicator());
           if (data['message'] == "Flying Squad member assigned") {
             String slotId = data["data"]['slot'];
             const storage = FlutterSecureStorage();
@@ -68,6 +71,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   builder: (context) =>
                       FlyingDashboard(roomData: data["data"]["room_data"]),
                 ));
+            Loader.hide();
           } else {
             data = data['data'];
             String roomId = data['room']['_id'];
@@ -85,10 +89,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
                   builder: (context) => InvigilationDetails(
                       data: jsonDecode(response.body)['data']),
                 ));
+            Loader.hide();
           }
         } catch (e) {
           errorDialog(context,
               '${e.toString()}, ${jsonDecode(response.body)['message']}');
+        } finally {
+          Loader.hide();
         }
       } else {
         // If that response was not OK, throw an error.
@@ -103,7 +110,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                 textScaler: TextScaler.linear(1),
               ),
               content: Text(
-                'Unique Code: $uniqueCode\nError: $body',
+                '${body['statusCode']} ${body['message'].toString()}',
                 textScaler: const TextScaler.linear(1),
               ),
               actions: [
@@ -244,13 +251,18 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                     'unique_code': uniqueCode.toString(),
                                     // Add other data if needed
                                   };
-
+                                  Loader.show(context,
+                                      progressIndicator:
+                                          const CircularProgressIndicator());
                                   // Call the API function
                                   var response = await assignInvigilator(data);
                                   // Check if the request was successful
-
+                                  Loader.hide();
                                   if (response.statusCode == 201) {
                                     try {
+                                      Loader.show(context,
+                                          progressIndicator:
+                                              const CircularProgressIndicator());
                                       Map data = jsonDecode(response.body);
                                       if (data['message'] ==
                                           "Flying Squad member assigned") {
@@ -272,6 +284,7 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                                       roomData: data["data"]
                                                           ["room_data"]),
                                             ));
+                                        Loader.hide();
                                       } else {
                                         data = data['data'];
                                         String roomId = data['room']['_id'];
@@ -296,10 +309,13 @@ class _StartInvigilationState extends State<StartInvigilation> {
                                                       data: jsonDecode(response
                                                           .body)['data']),
                                             ));
+                                        Loader.hide();
                                       }
                                     } catch (e) {
                                       errorDialog(context,
                                           '${e.toString()}, ${jsonDecode(response.body)['message']}');
+                                    } finally {
+                                      Loader.hide();
                                     }
                                   } else {
                                     // If that response was not OK, throw an error.

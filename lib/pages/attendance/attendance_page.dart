@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -268,18 +270,34 @@ class _AttendancePageState extends State<AttendancePage> {
                                     'ans_sheet_number':
                                         int.parse(controllerSheetNo.text),
                                   };
-                                  await markAttendance(data);
-                                  Navigator.pop(context);
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        "Updating Attendance, please wait for around 10 seconds!",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    timeInSecForIosWeb: 3,
-                                    gravity: ToastGravity.BOTTOM,
-                                    backgroundColor: white,
-                                    textColor: black,
-                                    fontSize: 16.0,
-                                  );
+                                  dynamic response = await markAttendance(data);
+                                  if (response.statusCode >= 200 &&
+                                      response.statusCode < 210) {
+                                    Navigator.pop(context);
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          "Updating Attendance, please wait for around 10 seconds!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      timeInSecForIosWeb: 3,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: white,
+                                      textColor: black,
+                                      fontSize: 16.0,
+                                    );
+                                  } else {
+                                    String msg =
+                                        jsonDecode(response.body)['message']
+                                            .toString();
+                                    Fluttertoast.showToast(
+                                      msg: msg,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      timeInSecForIosWeb: 3,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: white,
+                                      textColor: black,
+                                      fontSize: 16.0,
+                                    );
+                                  }
                                   FocusScope.of(context).unfocus();
                                 }
                               } catch (e) {

@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_debarred_popup.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/attendance/attendance_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/ufm_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 
 void seatingPlanPopup(
@@ -13,6 +14,13 @@ void seatingPlanPopup(
   String eligibleText = "";
   bool isFlying =
       await const FlutterSecureStorage().read(key: 'slotId') != null;
+
+  String btnText = "";
+  if (isFlying) {
+    btnText = "Give UFM";
+  } else {
+    btnText = "Mark Attendance";
+  }
 
   if (studentDetails['eligible'] == 'YES') {
     eligibleColor = green;
@@ -262,29 +270,55 @@ void seatingPlanPopup(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: studentDetails['attendance'] ||
-                            !(studentDetails['eligible'] == 'YES')
-                        ? null
-                        : () async {
+                    onPressed: isFlying && studentDetails['attendance']
+                        ? () async {
                             try {
-                              if (studentDetails['eligible'] == 'YES') {
+                              if (studentDetails['eligible'] == 'YES' ||
+                                  studentDetails['eligible'] == 'UFM') {
                                 Navigator.of(context).pop();
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => AttendancePage(
+                                    builder: (context) => UFMPage(
                                         studentDetails: studentDetails)));
                               } else if (studentDetails['eligible'] ==
                                       'F_HOLD' ||
                                   studentDetails['eligible'] == 'DEBARRED' ||
                                   studentDetails['eligible'] == 'R_HOLD') {
-                                attendanceErrorDialog(context);
+                                errorDialog(context, "Student is not eligible");
                               }
                             } catch (e) {
-                              errorDialog(context, "e.toString()");
+                              errorDialog(context, e.toString());
                             }
-                          },
-                    child: const Text('Mark Attendance',
-                        textScaler: TextScaler.linear(1),
-                        style: TextStyle(fontSize: fontSmall)),
+                          }
+                        : studentDetails['attendance'] ||
+                                !(studentDetails['eligible'] == 'YES')
+                            ? null
+                            : !isFlying
+                                ? () async {
+                                    try {
+                                      if (studentDetails['eligible'] == 'YES') {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AttendancePage(
+                                                        studentDetails:
+                                                            studentDetails)));
+                                      } else if (studentDetails['eligible'] ==
+                                              'F_HOLD' ||
+                                          studentDetails['eligible'] ==
+                                              'DEBARRED' ||
+                                          studentDetails['eligible'] ==
+                                              'R_HOLD') {
+                                        attendanceErrorDialog(context);
+                                      }
+                                    } catch (e) {
+                                      errorDialog(context, e.toString());
+                                    }
+                                  }
+                                : null,
+                    child: Text(btnText,
+                        textScaler: const TextScaler.linear(1),
+                        style: const TextStyle(fontSize: fontSmall)),
                   ),
                 ),
               ],
