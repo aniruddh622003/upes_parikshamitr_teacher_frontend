@@ -235,16 +235,8 @@ class _ViewDutyPageState extends State<ViewDutyPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "Filter: ",
-                                    textScaler: TextScaler.linear(1),
-                                    style: TextStyle(
-                                      color: blue,
-                                      fontSize: fontMedium,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
                                   const Text("Month: ",
                                       textScaler: TextScaler.linear(1),
                                       style: TextStyle(
