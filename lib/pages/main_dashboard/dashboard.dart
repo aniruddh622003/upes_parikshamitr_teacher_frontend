@@ -20,6 +20,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_pag
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/notification_screen.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/search_sheet.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/student_attendance.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/view_duty_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/start_invigilation/start_invigilation.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/theme.dart';
 import 'package:http/http.dart' as http;
@@ -649,7 +650,14 @@ class _DashboardState extends State<Dashboard> {
                                 )),
                                 Expanded(
                                     child: GestureDetector(
-                                  onTap: () => {},
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ViewDutyPage()),
+                                    )
+                                  },
                                   child:
                                       SvgPicture.asset('assets/view_duty.svg'),
                                 )),
