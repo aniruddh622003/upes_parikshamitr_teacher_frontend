@@ -15,6 +15,7 @@ import 'package:upes_parikshamitr_teacher_frontend/pages/helper/error_dialog.dar
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/invigilator_dashboard.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/invigilation_dashboard/submission_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/login/home_activity.dart';
+import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/about_us.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/evaluation_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/help_page.dart';
 import 'package:upes_parikshamitr_teacher_frontend/pages/main_dashboard/my_profile.dart';
@@ -350,6 +351,23 @@ class _DashboardState extends State<Dashboard> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const HelpPage()),
+                          );
+                        } catch (e) {
+                          errorDialog(context, e.toString());
+                        }
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'About us',
+                        textScaler: TextScaler.linear(1),
+                      ),
+                      onTap: () {
+                        try {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AboutUs()),
                           );
                         } catch (e) {
                           errorDialog(context, e.toString());
